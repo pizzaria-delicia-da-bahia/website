@@ -1,6 +1,6 @@
 import { createGlobalStyle } from "styled-components";
 import BackgroundImage from "../assets/images/pizzas_pattern.svg";
-import Filter from "../assets/images/filter.png";
+import Filter from "../assets/images/filter.svg";
 import { breakpointsMQ } from "./mediaQueries";
 import { colors } from "./colors";
 

@@ -30,7 +30,7 @@ export default class MyDocument extends Document {
   }
   render() {
     return (
-      <Html lang="en">
+      <Html lang="pt-br">
         <Head>
           <link
             rel="preload"
