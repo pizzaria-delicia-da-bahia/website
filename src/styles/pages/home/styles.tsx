@@ -21,7 +21,7 @@ export const HomeStyle = styled.main.attrs(
   flex-direction: column;
   grid-template-columns: 0.6fr 1fr;
   padding: 4.8rem 0.5rem;
-  overflow: visible;
+  overflow: -moz-hidden-unscrollable;
 
   .left {
     display: flex;
