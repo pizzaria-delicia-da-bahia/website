@@ -21,7 +21,7 @@ export const HomeStyle = styled.main.attrs(
   flex-direction: column;
   grid-template-columns: 0.6fr 1fr;
   padding: 4.8rem 0.5rem;
-  overflow: -moz-hidden-unscrollable;
+  inset: 0;
 
   .left {
     display: flex;
@@ -71,8 +71,10 @@ export const HomeStyle = styled.main.attrs(
       position: absolute;
       left: 0;
       width: 100vw;
-      top: 50vmax;
-      transform: scale(90%) translateY(-50%);
+      top: 0;
+      margin-top: calc((50vh + ${sizes.header}px) - 4.8rem);
+      /* margin-top: 50vh; */
+      transform: translateY(-50%);
     }
   }
 
@@ -103,6 +105,8 @@ export const HomeStyle = styled.main.attrs(
           display: none;
         }
       `}
+    .right {
+    }
   }
   @media ${breakpointsMQ.desktopSmUp} {
     padding: 6rem 3rem;

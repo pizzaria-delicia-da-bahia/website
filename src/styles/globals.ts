@@ -19,6 +19,9 @@ body{
   height: 100vh;
   width: 100vw;
   display: flex;
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
 
   &:after {
     content: '';
