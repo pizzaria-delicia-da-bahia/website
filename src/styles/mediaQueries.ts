@@ -7,13 +7,19 @@ const t = (min: String, max: String) =>
 export const breakpointsMQ = {
   mobile: t("0px", breakpoints.tablet),
   mobileUp: t("0px", null),
-  tablet: t(breakpoints.tablet, breakpoints.desktop),
+  tablet: t(breakpoints.tablet, breakpoints.desktopSm),
   tabletUp: t(breakpoints.tablet, null),
-  desktop: t(breakpoints.desktop, breakpoints.desktopLg),
-  desktopUp: t(breakpoints.desktop, null),
-  desktopLg: t(breakpoints.desktopLg, breakpoints.tv),
+  desktopSm: t(breakpoints.desktopSm, breakpoints.desktopMd),
+  desktopSmUp: t(breakpoints.desktopSm, null),
+  desktopMd: t(breakpoints.desktopMd, breakpoints.desktopLg),
+  desktopMdUp: t(breakpoints.desktopMd, null),
+  desktopLg: t(breakpoints.desktopLg, breakpoints.tvSm),
   desktopLgUp: t(breakpoints.desktopLg, null),
-  tv: t(breakpoints.tv, null),
+  tvSm: t(breakpoints.tvSm, breakpoints.tvMd),
+  tvSmUp: t(breakpoints.tvSm, null),
+  tvMd: t(breakpoints.tvMd, breakpoints.tvLg),
+  tvMdUp: t(breakpoints.tvMd, null),
+  tvLg: t(breakpoints.tvLg, null),
 };
 
 export const hover = `@media (hover: hover) and (pointer: fine)`;

@@ -1,0 +1,20 @@
+{
+    "tamanhos": [
+        {
+            "nome": "PEQUENA",
+            "fatias": 4
+        },
+        {
+            "nome": "MÉDIA",
+            "fatias": 6
+        },
+        {
+            "nome": "GRANDE",
+            "fatias": 8
+        },
+        {
+            "nome": "FAMÍLIA",
+            "fatias": 12
+        }
+    ]
+}

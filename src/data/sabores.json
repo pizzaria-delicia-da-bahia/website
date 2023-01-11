@@ -1,0 +1,46 @@
+{
+    "TRADICIONAIS": [
+        {
+            "nome": "PRESUNTO",
+            "valores": [
+                {
+                    "tamanho": "PEQUENA",
+                    "valor": 15
+                },
+                {
+                    "tamanho": "MÉDIA",
+                    "valor": 27
+                },
+                {
+                    "tamanho": "GRANDE",
+                    "valor": 33
+                },
+                {
+                    "tamanho": "FAMÍLIA",
+                    "valor": 39
+                }
+            ]
+        },
+        {
+            "nome": "PRESUNTO",
+            "valores": [
+                {
+                    "tamanho": "PEQUENA",
+                    "valor": 15
+                },
+                {
+                    "tamanho": "MÉDIA",
+                    "valor": 27
+                },
+                {
+                    "tamanho": "GRANDE",
+                    "valor": 33
+                },
+                {
+                    "tamanho": "FAMÍLIA",
+                    "valor": 39
+                }
+            ]
+        }
+    ]
+}

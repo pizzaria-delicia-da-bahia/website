@@ -23,7 +23,7 @@ export const FooterStyle = styled.footer`
   @media ${breakpointsMQ.tablet} {
     background-image: url(${TabletShape.src});
   }
-  @media ${breakpointsMQ.desktopUp} {
+  @media ${breakpointsMQ.desktopSmUp} {
     background-image: url(${DesktopShape.src});
   }
 
@@ -44,13 +44,10 @@ export const FooterStyle = styled.footer`
     @media ${breakpointsMQ.tablet} {
       bottom: 1px;
     }
-    @media ${breakpointsMQ.desktop} {
+    @media ${breakpointsMQ.desktopSmUp} {
       bottom: 3px;
     }
-    @media ${breakpointsMQ.desktopLg} {
-      bottom: 3px;
-    }
-    @media ${breakpointsMQ.tv} {
+    @media ${breakpointsMQ.tvSmUp} {
       bottom: 0px;
     }
 
@@ -73,7 +70,7 @@ export const FooterStyle = styled.footer`
         font-size: clamp(5vmin, 50%, 2rem);
       }
     }
-    @media ${breakpointsMQ.desktopUp} {
+    @media ${breakpointsMQ.desktopSmUp} {
       transform: rotate(4deg);
       /* bottom: 10px; */
 

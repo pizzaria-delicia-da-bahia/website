@@ -10,6 +10,7 @@ export default function App({ Component, pageProps }) {
       <Head>
         <link rel="shortcut icon" href={Favicon.src} />
         <title>Pizzaria Delicia da Bahia - a melhor de Salvador</title>
+        <meta charSet="UTF-8" />
         <meta
           name="description"
           content={`Pizzaria Delicia da Bahia, 

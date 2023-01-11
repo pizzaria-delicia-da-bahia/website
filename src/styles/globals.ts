@@ -53,10 +53,10 @@ body{
       @media ${breakpointsMQ.tablet}{
         background-size: 40%;
       }
-      @media ${breakpointsMQ.desktopUp}{
+      @media ${breakpointsMQ.desktopSmUp}{
         background-size: 30%;
       }
-      @media ${breakpointsMQ.tv}{
+      @media ${breakpointsMQ.tvSmUp}{
         background-size: 20%;
       }
     }

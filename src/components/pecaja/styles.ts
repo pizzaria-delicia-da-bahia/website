@@ -38,7 +38,7 @@ export const PecaJaButtonStyle = styled.button`
     @media ${breakpointsMQ.tabletUp} {
       padding: 0.7rem 4rem;
     }
-    @media ${breakpointsMQ.desktopUp} {
+    @media ${breakpointsMQ.desktopSmUp} {
       .title {
         font-size: 2.5rem;
       }
@@ -46,7 +46,7 @@ export const PecaJaButtonStyle = styled.button`
         font-size: 3rem;
       }
     }
-    @media ${breakpointsMQ.tv} {
+    @media ${breakpointsMQ.tvSmUp} {
       .title {
         font-size: 4rem;
       }

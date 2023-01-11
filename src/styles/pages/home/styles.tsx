@@ -35,12 +35,12 @@ export const HomeStyle = styled.main.attrs(
     }
 
     h3 {
-      font-size: 1.8rem;
+      font-size: min(1.8rem, 5vw);
       font-weight: 100;
       letter-spacing: 1rem;
     }
     h1 {
-      font-size: 4.2rem;
+      font-size: min(4.2rem, 15vw);
       letter-spacing: 0.3rem;
     }
 
@@ -103,8 +103,8 @@ export const HomeStyle = styled.main.attrs(
         }
       `}
   }
-  @media ${breakpointsMQ.desktopUp} {
-    padding: 6.5rem 3.3rem;
+  @media ${breakpointsMQ.desktopSmUp} {
+    padding: 6rem 3rem;
     background-position: 50% 100%;
     background-image: url(${desktopShape.src});
     display: grid;
@@ -125,16 +125,31 @@ export const HomeStyle = styled.main.attrs(
       height: 100px;
       align-items: flex-start;
       .image-wrapper {
-        width: 25rem;
+        width: 23rem;
+        flex-grow: 1;
         position: absolute;
         top: 0;
-        transform: translateY(40%) scale(140%);
-        .pizza-image {
-          padding: 2rem;
-          flex-grow: 0;
-          width: 100px;
-          height: 100px;
-        }
+        transform: translateY(45%) scale(150%);
+      }
+    }
+  }
+  @media ${breakpointsMQ.desktopMdUp} {
+    padding: 6.5rem 3.3rem;
+    .left {
+      align-items: flex-start;
+      h3 {
+        font-size: 1.8rem;
+        letter-spacing: 1.7rem;
+      }
+      h1 {
+        font-size: 5.5rem;
+        letter-spacing: 0.3rem;
+      }
+    }
+    .right {
+      .image-wrapper {
+        width: 25rem;
+        transform: translateY(35%) scale(140%);
       }
     }
   }
@@ -158,17 +173,53 @@ export const HomeStyle = styled.main.attrs(
       }
     }
   }
-  @media ${breakpointsMQ.tv} {
+  @media ${breakpointsMQ.tvSmUp} {
+    padding: 8rem 4rem;
+    background-position: 50% 100%;
+    .left {
+      h3 {
+        font-size: 2.5rem;
+        letter-spacing: 2.9rem;
+      }
+      h1 {
+        font-size: 7.7rem;
+        letter-spacing: 1rem;
+      }
+    }
+
+    .right {
+      .image-wrapper {
+        transform: translateY(40%) scale(160%);
+      }
+    }
+  }
+  @media ${breakpointsMQ.tvMdUp} {
+    padding: 8rem 4rem;
+    background-position: 50% 100%;
+    .left {
+      h3 {
+        font-size: 3rem;
+      }
+      h1 {
+        font-size: 8.5rem;
+      }
+    }
+
+    .right {
+      .image-wrapper {
+        transform: translateY(40%) scale(160%);
+      }
+    }
+  }
+  @media ${breakpointsMQ.tvLg} {
     padding: 8rem 4rem;
     background-position: 50% 100%;
     .left {
       h3 {
         font-size: 4rem;
-        letter-spacing: 2.9rem;
       }
       h1 {
         font-size: 10rem;
-        letter-spacing: 1rem;
       }
     }
 

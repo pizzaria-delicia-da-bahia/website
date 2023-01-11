@@ -52,10 +52,10 @@ export const NavigationStyle = styled.nav.attrs(
               @media ${breakpointsMQ.tablet} {
                 background-size: 40%;
               }
-              @media ${breakpointsMQ.desktopUp} {
+              @media ${breakpointsMQ.desktopSmUp} {
                 background-size: 30%;
               }
-              @media ${breakpointsMQ.tv} {
+              @media ${breakpointsMQ.tvSmUp} {
                 background-size: 20%;
               }
             }
@@ -80,7 +80,7 @@ export const NavigationStyle = styled.nav.attrs(
           }
         `}
 
-  @media ${breakpointsMQ.desktopUp} {
+  @media ${breakpointsMQ.desktopSmUp} {
     ul {
       font-size: 1rem;
       color: #fff;

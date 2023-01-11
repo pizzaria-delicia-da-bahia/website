@@ -12,7 +12,7 @@ export const BurgerButtonStyle = styled.button`
   cursor: pointer;
   color: white;
 
-  @media ${breakpointsMQ.desktopUp} {
+  @media ${breakpointsMQ.desktopSmUp} {
     display: none;
   }
 `;
