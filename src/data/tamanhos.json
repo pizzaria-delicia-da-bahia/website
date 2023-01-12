@@ -1,20 +1,34 @@
 {
     "tamanhos": [
         {
-            "nome": "PEQUENA",
-            "fatias": 4
+            "nome": "Brotão",
+            "fatias": 4,
+            "tamanhoAprox": 15,
+            "visivel": false
         },
         {
-            "nome": "MÉDIA",
-            "fatias": 6
+            "nome": "Pequena",
+            "fatias": 4,
+            "tamanhoAprox": 25,
+            "visivel": true
         },
         {
-            "nome": "GRANDE",
-            "fatias": 8
+            "nome": "Média",
+            "fatias": 6,
+            "tamanhoAprox": 30,
+            "visivel": true
         },
         {
-            "nome": "FAMÍLIA",
-            "fatias": 12
+            "nome": "Grande",
+            "fatias": 8,
+            "tamanhoAprox": 35,
+            "visivel": true
+        },
+        {
+            "nome": "Família",
+            "fatias": 12,
+            "tamanhoAprox": 40,
+            "visivel": true
         }
     ]
 }
