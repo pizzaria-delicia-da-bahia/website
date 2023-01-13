@@ -4,31 +4,36 @@
             "nome": "Brotão",
             "fatias": 4,
             "tamanhoAprox": 15,
-            "visivel": false
+            "visivel": false,
+            "maxSabores": 1
         },
         {
             "nome": "Pequena",
             "fatias": 4,
             "tamanhoAprox": 25,
-            "visivel": true
+            "visivel": true,
+            "maxSabores": 1
         },
         {
             "nome": "Média",
             "fatias": 6,
             "tamanhoAprox": 30,
-            "visivel": true
+            "visivel": true,
+            "maxSabores": 2
         },
         {
             "nome": "Grande",
             "fatias": 8,
             "tamanhoAprox": 35,
-            "visivel": true
+            "visivel": true,
+            "maxSabores": 3
         },
         {
             "nome": "Família",
             "fatias": 12,
             "tamanhoAprox": 40,
-            "visivel": true
+            "visivel": true,
+            "maxSabores": 4
         }
     ]
 }

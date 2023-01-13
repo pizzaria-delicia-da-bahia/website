@@ -14,62 +14,120 @@ export const CardapioStyle = styled.main`
   display: flex;
   flex-direction: column;
   padding: 5rem 0.3rem;
+  position: relative;
 
-  .left {
+  .sizes {
+    position: fixed;
+    background-color: ${colors.background};
+    z-index: 1;
+    width: min(400px, 50%);
+    padding: 0.5rem;
+    display: flex;
+    top: ${sizes.header}px;
+    right: 20px;
+
+    /* .sizes-select {
+      * {
+        color: black;
+      }
+      width: 100%;
+      font-size: 0.9rem;
+    } */
+    select {
+      width: 100%;
+      height: 100%;
+      flex-grow: 1;
+      font-size: 1rem;
+      padding: 0.5rem;
+    }
+  }
+
+  .groups-left {
     position: relative;
   }
-  .left:after {
-    content: "";
-    background-color: ${colors.elements};
-    width: 2px;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: calc(100% - 4px);
-  }
 
-  .grupo {
+  .group {
     display: flex;
     flex-direction: column;
+    align-items: stretch;
     margin: 1px;
-    .grupo-nome {
+    width: 100%;
+    .group-name {
       align-self: center;
       font-size: 2em;
+      color: ${colors.elements};
     }
-    .grupo-sabores {
+    .group-flavours {
+      /* background-color: blue; */
       display: flex;
       flex-direction: column;
+      padding: 0.5em;
+      justify-content: center;
 
-      /* justify-content: center; */
+      .flavour {
+        margin-bottom: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        user-select: none;
+        cursor: pointer;
 
-      .sabor {
-        margin: 0.2rem;
-        margin: 0.2rem 100px;
-        .sabor-nome {
-          font-size: 1.2rem;
+        &:hover {
+          transform: scale(102%);
         }
-        .sabor-ingredientes {
+        /* background-color: green; */
+
+        .flavour-name {
+          font-size: 1.2rem;
+          margin-bottom: 5px;
+        }
+        .flavour-ingredients {
+          font-size: 0.8rem;
+          display: block;
+          width: 100%;
+          opacity: 0.8;
+        }
+        .flavour-values {
+          font-size: 0.8rem;
         }
       }
     }
   }
 
   @media ${breakpointsMQ.tabletUp} {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-auto-rows: auto;
-    grid-auto-flow: row dense;
-    /* display: inline-flex;
-      flex-direction: row;
-      flex-wrap: wrap;
-      */
-    aside {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
+    .groups {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-auto-rows: auto;
+      grid-auto-flow: row dense;
+      .groups-left:after {
+        content: "";
+        background-color: ${colors.elements};
+        width: 2px;
+        height: 92%;
+        position: absolute;
+        top: 2%;
+        left: calc(90% - 4px);
+      }
+      .groups-left .group {
+        .flavour {
+          margin-left: 80px;
+        }
+      }
+      .groups-right .group {
+        .flavour {
+          margin-left: 20px;
+        }
+      }
 
-      .grupo {
-        grid-row: span auto;
+      aside {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+
+        .group {
+          grid-row: span auto;
+        }
       }
     }
   }
