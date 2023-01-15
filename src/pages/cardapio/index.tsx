@@ -33,6 +33,27 @@ interface ICardapio {
   groupsRight: Array<ISabor>;
 }
 
+interface IGrupo {
+  nome: string;
+  sabores: Array<ISabor>;
+}
+
+const FlagemojiToPNG = (flag: string) => {
+  var reg = /[\uD83C][\uDDE6-\uDDFF][\uD83C][\uDDE6-\uDDFF]/;
+  if (reg.test(flag)) {
+    var countryCode = Array.from(flag, (codeUnit: any) =>
+      codeUnit.codePointAt()
+    )
+      .map((char) => String.fromCharCode(char - 127397).toLowerCase())
+      .join("");
+    return (
+      <img src={`https://flagcdn.com/24x18/${countryCode}.png`} alt="flag" />
+    );
+  } else {
+    return flag;
+  }
+};
+
 const Cardapio: NextPage<ICardapio> = ({ sizes, groupsLeft, groupsRight }) => {
   const [currentSize, setCurrentSize] = useState(null);
 
@@ -47,13 +68,16 @@ const Cardapio: NextPage<ICardapio> = ({ sizes, groupsLeft, groupsRight }) => {
       ? getValueString(s.valores.find((x) => x.tamanho === currentSize))
       : s.valores.map((v) => getValueString(v)).join(", ");
   };
-  const getGroups = (g) => (
-    <div className="group">
+  const getGroups = (g: IGrupo) => (
+    <div className="group" key={g.nome}>
       <h2 className="group-name">{g.nome}</h2>
       <div className="group-flavours">
         {g.sabores.map((s) => (
-          <div className="flavour">
-            <h5 className="flavour-name">{s.nome}</h5>
+          <div className="flavour" key={s.nome}>
+            <p className="flavour-name">
+              <h5>{`${s.nome.split(" ").slice(0, -1).join(" ")}`}</h5>
+              <h5>{FlagemojiToPNG(s.nome.split(" ").pop())}</h5>
+            </p>
             <p className="flavour-ingredients">{s.ingredientes.join(", ")}</p>
             <p className="flavour-values">{getAllValues(s)}</p>
           </div>
@@ -64,29 +88,6 @@ const Cardapio: NextPage<ICardapio> = ({ sizes, groupsLeft, groupsRight }) => {
 
   return (
     <CardapioStyle>
-      <div className="sizes">
-        <select
-          className="sizes-group"
-          defaultValue={currentSize}
-          onChange={(e) => setCurrentSize(e.target.value)}
-        >
-          <option value={null} label="--Selecione" />
-          {sizes.map((s) => (
-            <option value={s.nome} label={`${s.nome} - ${s.fatias} fatias`} />
-          ))}
-        </select>
-
-        {/* <ReactSelect
-      
-          value={currentSize}
-          onChange={(e) => setCurrentSize(e.value)}
-          className="sizes-select"
-          options={sizes.map((s) => ({
-            value: s.nome,
-            label: `${s.nome} - ${s.fatias} fatias`,
-          }))}
-        /> */}
-      </div>
       <div className="groups">
         <aside className="groups-left">
           {groupsLeft.map((g) => getGroups(g))}

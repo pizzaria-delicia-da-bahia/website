@@ -3,15 +3,37 @@ import BackgroundImage from "../assets/images/pizzas_pattern.svg";
 import Filter from "../assets/images/filter.svg";
 import { breakpointsMQ } from "./mediaQueries";
 import { colors } from "./colors";
+// import InterFont from '../../public/fonts/Inter.ttf';
 
 const Globals = createGlobalStyle`
 
 @font-face {
   font-family: 'Inter';
-  src: url('/fonts/Inter.ttf') format('ttf');
+  /* src: url('/fonts/Inter.ttf') format('ttf'); */
+  src: url('/fonts/Inter.ttf') format('truetype');
   font-style: normal;
   font-weight: 400;
   font-display: swap;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: ${colors.background}; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: ${colors.elements}; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #fff; 
 }
 
 body{
@@ -74,7 +96,7 @@ body{
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Inter', sans-serif;
+      font-family: 'Inter';
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       outline: none;

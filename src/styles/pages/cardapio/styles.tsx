@@ -58,7 +58,6 @@ export const CardapioStyle = styled.main`
       color: ${colors.elements};
     }
     .group-flavours {
-      /* background-color: blue; */
       display: flex;
       flex-direction: column;
       padding: 0.5em;
@@ -80,6 +79,9 @@ export const CardapioStyle = styled.main`
         .flavour-name {
           font-size: 1.2rem;
           margin-bottom: 5px;
+          display: flex;
+          gap: 5px;
+          align-items: flex-start;
         }
         .flavour-ingredients {
           font-size: 0.8rem;
@@ -107,7 +109,7 @@ export const CardapioStyle = styled.main`
         height: 92%;
         position: absolute;
         top: 2%;
-        left: calc(90% - 4px);
+        left: 95%;
       }
       .groups-left .group {
         .flavour {
@@ -116,7 +118,7 @@ export const CardapioStyle = styled.main`
       }
       .groups-right .group {
         .flavour {
-          margin-left: 20px;
+          margin-left: 80px;
         }
       }
 

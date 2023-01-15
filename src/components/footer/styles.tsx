@@ -17,6 +17,7 @@ export const FooterStyle = styled.footer`
   flex-shrink: 0;
   background-image: url(${MobileShape.src});
   background-repeat: no-repeat;
+  background-color: transparent;
   background-size: cover;
   background-position: 0% 0%;
 

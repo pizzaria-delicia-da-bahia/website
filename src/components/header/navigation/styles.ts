@@ -12,6 +12,9 @@ export const NavigationStyle = styled.nav.attrs(
   gap: 3rem;
   ul {
     list-style: none;
+    .peca-ja-button {
+      display: none;
+    }
   }
 
   ${(props) =>
@@ -34,6 +37,10 @@ export const NavigationStyle = styled.nav.attrs(
             min-height: 10px;
             background-color: ${colors.background};
             animation: slideDown 0.5s ease-in-out;
+
+            .peca-ja-button {
+              display: block;
+            }
 
             &:after {
               content: "";

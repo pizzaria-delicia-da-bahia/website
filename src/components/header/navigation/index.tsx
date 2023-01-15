@@ -14,6 +14,7 @@ export const Navigation: FC = () => {
         {navigationItems.map((navigationItem) => (
           <NaviItem key={navigationItem.route} item={navigationItem} />
         ))}
+        <PecaJaButton key={"pecaja"} style="minimal" />
       </ul>
       <BurgerButton setMenuOpen={setMenuOpen} />
     </NavigationStyle>

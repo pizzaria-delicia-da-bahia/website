@@ -9,7 +9,7 @@ export const PecaJaButtonStyle = styled.button`
   flex-grow: 0;
   background-color: ${colors.elements};
   cursor: pointer;
-  transition: all 0.3s ease-in-out;
+  /* transition: all 0.3s ease-in-out; */
   display: inline-flex;
   justify-content: center;
   align-items: center;
