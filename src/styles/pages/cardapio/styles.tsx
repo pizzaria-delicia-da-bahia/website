@@ -16,32 +16,6 @@ export const CardapioStyle = styled.main`
   padding: 5rem 0.3rem;
   position: relative;
 
-  .sizes {
-    position: fixed;
-    background-color: ${colors.background};
-    z-index: 1;
-    width: min(400px, 50%);
-    padding: 0.5rem;
-    display: flex;
-    top: ${sizes.header}px;
-    right: 20px;
-
-    /* .sizes-select {
-      * {
-        color: black;
-      }
-      width: 100%;
-      font-size: 0.9rem;
-    } */
-    select {
-      width: 100%;
-      height: 100%;
-      flex-grow: 1;
-      font-size: 1rem;
-      padding: 0.5rem;
-    }
-  }
-
   .groups-left {
     position: relative;
   }
@@ -64,9 +38,10 @@ export const CardapioStyle = styled.main`
       justify-content: center;
 
       .flavour {
-        margin-bottom: 10px;
+        margin-bottom: 1.5rem;
         display: flex;
         flex-direction: column;
+        gap: 0.3rem;
         align-items: stretch;
         user-select: none;
         cursor: pointer;
@@ -77,8 +52,7 @@ export const CardapioStyle = styled.main`
         /* background-color: green; */
 
         .flavour-name {
-          font-size: 1.2rem;
-          margin-bottom: 5px;
+          font-size: 1.8rem;
           display: flex;
           gap: 5px;
           align-items: flex-start;
@@ -102,6 +76,7 @@ export const CardapioStyle = styled.main`
       grid-template-columns: 1fr 1fr;
       grid-auto-rows: auto;
       grid-auto-flow: row dense;
+
       .groups-left:after {
         content: "";
         background-color: ${colors.elements};
@@ -109,6 +84,14 @@ export const CardapioStyle = styled.main`
         height: 92%;
         position: absolute;
         top: 2%;
+        left: calc(100% - 1px);
+      }
+    }
+  }
+
+  @media ${breakpointsMQ.desktopSmUp} {
+    .groups {
+      .groups-left:after {
         left: 95%;
       }
       .groups-left .group {
