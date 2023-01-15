@@ -29,8 +29,8 @@ interface ISabor {
 
 interface ICardapio {
   sizes: Array<ITamanho>;
-  groupsLeft: Array<ISabor>;
-  groupsRight: Array<ISabor>;
+  groupsLeft: Array<IGrupo>;
+  groupsRight: Array<IGrupo>;
 }
 
 interface IGrupo {
