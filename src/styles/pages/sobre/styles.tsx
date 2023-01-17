@@ -74,4 +74,41 @@ export const SobreStyle = styled.main`
       transform: scale(80%) rotate(-7deg);
     }
   }
+  @media ${breakpointsMQ.desktopSmUp} {
+    padding: 16rem 2rem;
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    align-self: center;
+    height: 100%;
+    iframe {
+      transform: scale(60%) rotate(-7deg);
+    }
+  }
+  @media ${breakpointsMQ.tvSmUp} {
+    padding: 16rem 6rem;
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    align-self: center;
+    height: 100%;
+    .frame {
+      iframe {
+        transform: scale(100%) rotate(-7deg);
+      }
+    }
+    .text {
+      justify-content: center;
+      padding: 10px;
+      box-sizing: content-box;
+      flex-grow: 0;
+      flex-shrink: 1;
+      max-height: 60vh;
+      overflow: scroll;
+
+      p {
+        font-size: min(1.6rem, 1.5vw);
+      }
+    }
+  }
 `;
