@@ -7,12 +7,13 @@ export const BadgeStyle = styled.span`
   padding: 0.5rem 0.5rem;
   height: 30px;
   width: 30px;
-  font-size: smaller;
-  font-weight: 800px;
   color: ${colors.background};
   border-radius: 50%;
   top: -7px;
   right: -7px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   &.hidden {
     display: none;

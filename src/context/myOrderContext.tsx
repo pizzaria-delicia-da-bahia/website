@@ -21,7 +21,6 @@ const MyOrderProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
   useEffect(() => {
     setMyOrder((JSON.parse(localStorage.getItem("myOrder")) as IOrder) ?? null);
-    console.log("order: ", myOrder);
   }, []);
 
   return (

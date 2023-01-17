@@ -8,7 +8,7 @@ interface BadgeProps {
 
 export const Badge: FC<BadgeProps> = ({ number }) => {
   return (
-    <BadgeStyle className={`dot ${number > 0 ? "hidden" : ""}`}>
+    <BadgeStyle className={`dot ${number > 0 ? "" : "hidden"}`}>
       {number}
     </BadgeStyle>
   );
