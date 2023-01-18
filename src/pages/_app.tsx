@@ -3,6 +3,7 @@ import Layout from "../components/layout";
 import NavigationProvider from "../context/navigationContext";
 import Globals from "../styles/globals";
 import Favicon from "../../public/favicon.ico";
+import MyOrderProvider from "../context/myOrderContext";
 
 export default function App({ Component, pageProps }) {
   return (
@@ -19,9 +20,11 @@ export default function App({ Component, pageProps }) {
         />
       </Head>
       <NavigationProvider>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+        <MyOrderProvider>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </MyOrderProvider>
       </NavigationProvider>
       <Globals />
     </>

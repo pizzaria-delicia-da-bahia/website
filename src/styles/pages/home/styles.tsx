@@ -32,6 +32,7 @@ export const HomeStyle = styled.main.attrs(
     h1,
     h3 {
       white-space: nowrap;
+      line-height: 100%;
     }
 
     h3 {

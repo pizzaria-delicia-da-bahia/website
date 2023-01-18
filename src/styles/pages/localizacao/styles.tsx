@@ -44,6 +44,8 @@ export const LocalizacaoStyle = styled.main`
     iframe {
       width: 70vw;
       height: min(350px, 70vw);
+      border: 0.5rem solid ${colors.elements};
+      border-radius: 1rem;
     }
   }
 
@@ -65,6 +67,33 @@ export const LocalizacaoStyle = styled.main`
     }
   }
   @media ${breakpointsMQ.desktopSmUp} {
-    padding: 5rem 2rem;
+    padding: 3rem 2rem;
+    .frame {
+      iframe {
+        width: 70vw;
+        height: min(290px, 70vw);
+        border: 0.3rem solid ${colors.elements};
+      }
+    }
+  }
+  @media ${breakpointsMQ.desktopLgUp} {
+    padding: 2rem;
+    .frame {
+      iframe {
+        width: 80vw;
+        height: min(300px, 70vw);
+        border: 0.3rem solid ${colors.elements};
+      }
+    }
+  }
+  @media ${breakpointsMQ.tvSmUp} {
+    padding: 2rem;
+    .frame {
+      iframe {
+        width: 80vw;
+        height: min(800px, 65vh);
+        border: 0.3rem solid ${colors.elements};
+      }
+    }
   }
 `;
