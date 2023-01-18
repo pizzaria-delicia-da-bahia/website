@@ -1,10 +1,10 @@
 import styled, { css } from "styled-components";
 import { colors } from "../colors";
-import { hover } from "../mediaQueries";
+import { breakpointsMQ, hover } from "../mediaQueries";
 
 export const Button = styled.button`
-  padding: 1rem 1.5rem;
-  font-size: 1rem;
+  padding: 0.8rem 1rem;
+  font-size: 0.9rem;
   margin: 0 0.5rem;
   border-radius: 2rem;
   font-weight: bold;
@@ -24,13 +24,18 @@ export const Button = styled.button`
     user-select: none;
     opacity: 0.6;
   }
+
+  @media ${breakpointsMQ.tabletUp} {
+    font-size: 1rem;
+    padding: 1rem 1.5rem;
+  }
 `;
 
 export const ButtonPrimary = styled(Button)`
   position: relative;
   background-color: ${colors.elements};
   color: ${colors.background};
-  border: 5px solid ${colors.background};
+  border: 5px solid ${colors.elements};
 `;
 
 export const ButtonSecondary = styled(Button)`
@@ -46,11 +51,11 @@ export const ButtonBackForward = styled(ButtonPrimary).attrs(
   position: relative;
   flex-grow: 0;
   flex-shrink: 0;
-  width: 90px;
-  height: 90px;
+  width: 50px;
+  height: 50px;
   border: 2px solid #000;
   border-radius: 50%;
-  font-size: 2rem;
+  font-size: 1.3rem;
 
   padding: 0;
   &::before {
@@ -69,5 +74,11 @@ export const ButtonBackForward = styled(ButtonPrimary).attrs(
     left: 0;
     margin: 50% 0 0 50%;
     transform: translate(-50%, -50%);
+  }
+
+  @media ${breakpointsMQ.tabletUp} {
+    font-size: 2rem;
+    width: 90px;
+    height: 90px;
   }
 `;

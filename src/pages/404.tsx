@@ -1,20 +1,19 @@
 import { NextPage } from "next";
-import Link from "next/link";
-import type { FC } from "react";
+import { useRouter } from "next/router";
 import Page from "../components/page";
 import { FourZeroFourStyles } from "../styles/pages/404/styles";
 
-interface FourZeroFourProps {}
+const FourZeroFour: NextPage = () => {
+  const router = useRouter();
 
-const FourZeroFour: NextPage = ({}) => {
   return (
     <Page>
       <FourZeroFourStyles>
         <h1 className="icon">⚠️</h1>
         <h1 className="title">Página não encontrada!</h1>
-        <Link href={"/home"} passHref>
-          <a className="link">Voltar</a>
-        </Link>
+        <a href="#" onClick={() => router.back()} className="link">
+          Voltar
+        </a>
       </FourZeroFourStyles>
     </Page>
   );

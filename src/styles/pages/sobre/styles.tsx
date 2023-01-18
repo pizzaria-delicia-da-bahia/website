@@ -8,11 +8,14 @@ export const SobreStyle = styled.main`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding-bottom: calc(${sizes.footer}px + ${sizes.header}px);
 
   .text {
     display: flex;
     flex-direction: column;
-    /* justify-content: stretch; */
+    justify-content: center;
+    flex-grow: 0;
+    flex-shrink: 1;
     h1 {
       color: ${colors.elements};
     }
@@ -32,8 +35,6 @@ export const SobreStyle = styled.main`
   }
 
   @media ${breakpointsMQ.mobile} {
-    padding-bottom: calc(${sizes.footer}px + ${sizes.header}px);
-    max-height: calc(100vh);
     .frame {
       width: 100%;
       flex-grow: 0;
@@ -53,18 +54,18 @@ export const SobreStyle = styled.main`
       }
     }
     .text {
-      justify-content: center;
-      padding: 10px;
-      box-sizing: content-box;
-      flex-grow: 0;
-      flex-shrink: 1;
-      max-height: 60vh;
-      overflow: scroll;
+      transform: translateY(-3rem);
+      h1 {
+        text-align: center;
+      }
+      p {
+        padding: 3rem 1rem;
+        height: 38vh;
+      }
     }
   }
 
   @media ${breakpointsMQ.tabletUp} {
-    padding: 19rem 2rem;
     display: flex;
     flex-direction: row;
     gap: 1rem;
@@ -104,10 +105,10 @@ export const SobreStyle = styled.main`
       flex-grow: 0;
       flex-shrink: 1;
       max-height: 60vh;
-      overflow: scroll;
 
       p {
         font-size: min(1.6rem, 1.5vw);
+        height: 100%;
       }
     }
   }

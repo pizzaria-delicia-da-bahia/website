@@ -46,7 +46,7 @@ const CarouselComponent: FC<{ children: ReactElement[] }> = ({ children }) => {
     <CarouselStyle>
       <ul>{children}</ul>
 
-      <div>
+      <div className="buttons-back-forward">
         <ButtonBackForward
           to="back"
           disabled={selectedIndex === 0}

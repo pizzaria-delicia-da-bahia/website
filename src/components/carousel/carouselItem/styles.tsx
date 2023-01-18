@@ -1,5 +1,6 @@
 import styled, { css } from "styled-components";
 import { colors } from "../../../styles/colors";
+import { breakpointsMQ } from "../../../styles/mediaQueries";
 
 const selected = "&.selected";
 const previous = "&:has(~ li.selected)";
@@ -21,16 +22,17 @@ export const CarouselItemStyle = styled.li.attrs(
     box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.5);
     border-radius: 1rem;
     cursor: pointer;
+    transition: all 0.1s linear;
   }
 
   ${previous}, ${next} {
     pointer-events: none;
     opacity: 0.8;
-    padding: 1.5rem 1rem;
+    padding: 0.6rem 0.5rem;
     * {
-      transform: scale(80%);
+      transform: scale(70%);
     }
-    min-width: 9rem;
+    min-width: 8rem;
   }
   ${next} {
     top: 50%;
@@ -42,11 +44,9 @@ export const CarouselItemStyle = styled.li.attrs(
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    padding: 3rem 2rem;
+    padding: 1rem 0.7rem;
     z-index: 1;
-    min-width: 11rem;
-    /* min-height: 15.5rem;
-    min-width: 13.5rem; */
+    min-width: 9rem;
   }
   ${previous} {
     top: 50%;
@@ -55,5 +55,17 @@ export const CarouselItemStyle = styled.li.attrs(
   }
   ${hidden} {
     display: none;
+  }
+
+  @media ${breakpointsMQ.tabletUp} {
+    ${selected} {
+      padding: 3rem 2rem;
+      min-width: 11rem;
+    }
+
+    ${previous}, ${next} {
+      padding: 1.5rem 1rem;
+      min-width: 9rem;
+    }
   }
 `;
