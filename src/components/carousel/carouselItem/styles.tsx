@@ -26,10 +26,11 @@ export const CarouselItemStyle = styled.li.attrs(
   ${previous}, ${next} {
     pointer-events: none;
     opacity: 0.8;
-    padding: 1.5rem 1.1rem;
+    padding: 1.5rem 1rem;
     * {
       transform: scale(80%);
     }
+    min-width: 9rem;
   }
   ${next} {
     top: 50%;
@@ -43,6 +44,7 @@ export const CarouselItemStyle = styled.li.attrs(
     transform: translate(-50%, -50%);
     padding: 3rem 2rem;
     z-index: 1;
+    min-width: 11rem;
     /* min-height: 15.5rem;
     min-width: 13.5rem; */
   }
