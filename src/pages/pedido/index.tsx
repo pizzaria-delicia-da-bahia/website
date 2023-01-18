@@ -3,6 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { createRef, ReactElement, useEffect, useRef, useState } from "react";
 import { Badge } from "../../components/badge";
+import Carousel from "../../components/carousel";
+import CarouselItem from "../../components/carousel/carouselItem";
 import { useMyOrder } from "../../context/myOrderContext";
 import {
   ButtonBackForward,
@@ -45,30 +47,16 @@ const Pedido: NextPage = () => {
         <h4>ADICIONE UM ITEM</h4>
       </div>
       <div className="menu">
-        <ButtonBackForward
-          to="back"
-          disabled={selected === 0}
-          onClick={() => setSelected((prev) => prev - 1)}
-        />
-        <ul className="menu-items">
+        <Carousel length={items.length}>
           {items.map((item, index) => (
-            <Link href={`/pedido/${item.route}`} passHref key={item.name}>
-              <li
-                className={`item ${getSelected(index)} ${getPosition(index)}`}
-                ref={(ref) => (scrollRef.current[item.name] = ref)}
-                onMouseEnter={() => setSelected(index)}
-              >
-                <Image src={item.image} width={100} height={100} alt="" />
-                <h2>{item.name}</h2>
-              </li>
-            </Link>
+            <CarouselItem
+              image={{ src: item.image, w: 100, h: 100 }}
+              title={item.name}
+              route={item.route}
+              index={index}
+            />
           ))}
-        </ul>
-        <ButtonBackForward
-          to="forward"
-          disabled={selected === items.length - 1}
-          onClick={() => setSelected((prev) => prev + 1)}
-        />
+        </Carousel>
       </div>
       <nav className="bottom-controls">
         <ButtonSecondary disabled={(myOrder?.items?.length ?? 0) < 1}>

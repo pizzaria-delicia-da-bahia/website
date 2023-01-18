@@ -33,15 +33,7 @@ export const PedidoStyle = styled.main`
     padding: 0 1rem;
     max-width: 800px;
 
-    .tab-items {
-      height: 40px;
-      width: 40px;
-      flex-shrink: 0;
-      background-color: ${colors.elements};
-      border-radius: 50%;
-      margin: 0 20px;
-    }
-    ul {
+    ul.porra {
       /* display: flex; */
       position: relative;
       width: 100%;
@@ -152,7 +144,7 @@ export const PedidoStyle = styled.main`
     .menu {
       height: 40vh;
 
-      ul {
+      ul.porra {
         li {
           padding: 2rem 2rem;
 
