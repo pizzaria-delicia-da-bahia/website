@@ -14,6 +14,7 @@ import { CarouselStyle } from "./styles";
 
 interface ICarouselProvider {
   length: number;
+  defaultSelectedIndex?: number;
   children: ReactElement[];
 }
 interface ICarouselContext {
@@ -24,8 +25,14 @@ interface ICarouselContext {
 
 const CarouselContext = createContext<ICarouselContext>({} as ICarouselContext);
 
-const Carousel: FC<ICarouselProvider> = ({ children, length }) => {
-  const [selectedIndex, setSelectedIndex] = useState<number>(1);
+const Carousel: FC<ICarouselProvider> = ({
+  children,
+  length,
+  defaultSelectedIndex,
+}) => {
+  const [selectedIndex, setSelectedIndex] = useState<number>(
+    defaultSelectedIndex ?? 1
+  );
 
   return (
     <CarouselContext.Provider

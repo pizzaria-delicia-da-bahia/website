@@ -16,6 +16,7 @@ export const CarouselItemStyle = styled.li.attrs(
   ${selected}, ${previous}, ${next} {
     display: flex;
     background-color: ${colors.elements};
+    border: 2px solid blue;
     justify-content: space-between;
     align-items: center;
     flex-direction: column;
@@ -55,6 +56,17 @@ export const CarouselItemStyle = styled.li.attrs(
   }
   ${hidden} {
     display: none;
+  }
+
+  .image-wrapper {
+    flex-grow: 1;
+    text-align: center;
+  }
+
+  .bottom-elements {
+    display: flex;
+    gap: 2.5em;
+    flex-grow: 0;
   }
 
   @media ${breakpointsMQ.tabletUp} {

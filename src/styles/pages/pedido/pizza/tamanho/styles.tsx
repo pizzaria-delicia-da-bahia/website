@@ -33,15 +33,7 @@ export const TamanhoStyle = styled.main`
     padding: 0 1rem;
     max-width: 800px;
 
-    .tab-items {
-      height: 40px;
-      width: 40px;
-      flex-shrink: 0;
-      background-color: ${colors.elements};
-      border-radius: 50%;
-      margin: 0 20px;
-    }
-    ul {
+    ul.porra {
       /* display: flex; */
       position: relative;
       width: 100%;
@@ -135,6 +127,18 @@ export const TamanhoStyle = styled.main`
     }
   }
 
+  .bottom-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem 0.2rem;
+
+    b {
+      font-size: 1.5rem;
+    }
+  }
+
   @media ${breakpointsMQ.mobile} {
     padding-bottom: calc(${sizes.footer}px + ${sizes.header}px);
     max-height: calc(100vh);
@@ -152,7 +156,7 @@ export const TamanhoStyle = styled.main`
     .menu {
       height: 40vh;
 
-      ul {
+      ul.porra {
         li {
           padding: 2rem 2rem;
 
@@ -232,7 +236,7 @@ export const TamanhoStyle = styled.main`
     height: 100%;
     padding: 4rem 0.5rem;
 
-    .bottom-controls {
+    .bottom-controls.porra {
       button {
         padding: 1rem 2rem;
         font-size: 1.5rem;

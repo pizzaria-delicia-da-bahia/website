@@ -14,13 +14,21 @@ import { PedidoStyle } from "../../styles/pages/pedido/styles";
 
 const Pedido: NextPage = () => {
   const items = [
-    { name: "LANCHES", route: "lanche", image: "/images/pedido-lanche.svg" },
+    {
+      name: "LANCHES",
+      route: "pedido/lanche",
+      image: "/images/pedido-lanche.svg",
+    },
     {
       name: "PIZZAS",
-      route: "pizza/tamanho",
+      route: "pedido/pizza/tamanho",
       image: "/images/pedido-pizza.svg",
     },
-    { name: "BEBIDAS", route: "bebida", image: "/images/pedido-bebida.svg" },
+    {
+      name: "BEBIDAS",
+      route: "pedido/bebida",
+      image: "/images/pedido-bebida.svg",
+    },
   ];
   const { myOrder } = useMyOrder();
 
@@ -34,7 +42,8 @@ const Pedido: NextPage = () => {
         <Carousel length={items.length}>
           {items.map((item, index) => (
             <CarouselItem
-              image={{ src: item.image, w: 100, h: 100 }}
+              key={item.name}
+              image={{ src: item.image, w: 100 }}
               title={item.name}
               route={item.route}
               index={index}

@@ -1,17 +1,24 @@
 import Image from "next/image";
 import Link from "next/link";
-import type { FC } from "react";
+import type { FC, ReactElement } from "react";
 import { useCarousel } from "..";
 import { CarouselItemStyle } from "./styles";
 
 interface ICarouselItem {
   route: string;
   title: string;
-  image: { src: string; w: number; h: number };
+  image: { src: string; w: number; h?: number };
   index: number;
+  children?: ReactElement[];
 }
 
-const CarouselItem: FC<ICarouselItem> = ({ route, title, image, index }) => {
+const CarouselItem: FC<ICarouselItem> = ({
+  route,
+  title,
+  image,
+  index,
+  children,
+}) => {
   const { selectedIndex, length } = useCarousel();
 
   return (
@@ -24,8 +31,16 @@ const CarouselItem: FC<ICarouselItem> = ({ route, title, image, index }) => {
         selectedIndex={selectedIndex}
         length={length}
       >
-        <Image src={image.src} width={image.w} height={image.h} alt="" />
+        <div className="image-wrapper">
+          <Image
+            src={image.src}
+            width={image.w}
+            height={image.h ?? image.w}
+            alt=""
+          />
+        </div>
         <h2>{title}</h2>
+        {children && <div className="bottom-elements">{children}</div>}
       </CarouselItemStyle>
     </Link>
   );

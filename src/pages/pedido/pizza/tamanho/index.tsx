@@ -9,35 +9,63 @@ import {
 } from "../../../../styles/components/buttons";
 import { TamanhoStyle } from "../../../../styles/pages/pedido/pizza/tamanho/styles";
 import tamanhos from "../../../../data/tamanhos.json";
+import { useRouter } from "next/router";
+import Carousel from "../../../../components/carousel";
+import CarouselItem from "../../../../components/carousel/carouselItem";
 const Tamanho: NextPage = () => {
-  const [selected, setSelected] = useState<number>(1);
-  const scrollRef = useRef<Array<ReactElement>>([]);
   const { myOrder } = useMyOrder();
+  const router = useRouter();
 
-  const getPosition = (index) =>
-    index === 0 ? "first" : index === 1 ? "second" : "third";
-
-  const getSelected = (index) =>
-    selected === index
-      ? "selected"
-      : index === 0
-      ? "previous"
-      : (index === 2 && selected === 1) || index === 1
-      ? "next"
-      : "";
-
+  const getImageSize = (index) =>
+    Math.ceil((100 / tamanhos.tamanhos.length) * (index + 1));
   return (
     <TamanhoStyle>
       <div className="text">
         <h1>TAMANHO</h1>
       </div>
       <div className="menu">
-        <ButtonBackForward
-          to="back"
-          disabled={selected === 0}
-          onClick={() => setSelected((prev) => prev - 1)}
-        />
-        <ul className="menu-items">
+        <Carousel
+          length={tamanhos.tamanhos.length}
+          defaultSelectedIndex={tamanhos.tamanhos.length - 2}
+        >
+          {tamanhos.tamanhos.map((item, index) => (
+            <CarouselItem
+              key={item.nome}
+              title={item.nome}
+              image={{
+                src: "/images/pedido-pizza.svg",
+                w: getImageSize(index),
+              }}
+              index={index}
+              route={`/pedido/pizza/${item.nome}`}
+            >
+              <div className="bottom-info slices">
+                <Image
+                  src="/images/tamanho-slices.svg"
+                  width={30}
+                  height={30}
+                />
+                <b>{item.fatias}</b>
+                <span>FATIAS</span>
+              </div>
+              <div className="bottom-info flavours">
+                <Image
+                  src="/images/tamanho-flavours.svg"
+                  width={30}
+                  height={30}
+                />
+                <b>{item.maxSabores}</b>
+                <span>{`SABOR${item.maxSabores > 1 ? "ES" : ""}`}</span>
+              </div>
+              <div className="bottom-info size">
+                <Image src="/images/tamanho-size.svg" width={30} height={30} />
+                <b>{item.tamanhoAprox}</b>
+                <span>CM</span>
+              </div>
+            </CarouselItem>
+          ))}
+        </Carousel>
+        {/* <ul className="menu-items">
           {tamanhos.tamanhos.map((item, index) => (
             <Link
               href={`/pedido/pizza/sabores&tamanho=${item.nome.toLowerCase()}`}
@@ -63,15 +91,10 @@ const Tamanho: NextPage = () => {
               </li>
             </Link>
           ))}
-        </ul>
-        <ButtonBackForward
-          to="forward"
-          disabled={selected === tamanhos.tamanhos.length - 1}
-          onClick={() => setSelected((prev) => prev + 1)}
-        />
+        </ul> */}
       </div>
       <nav className="bottom-controls">
-        <ButtonSecondary disabled={(myOrder?.items?.length ?? 0) < 1}>
+        <ButtonSecondary onClick={() => router.back()}>
           <p>VOLTAR</p>
         </ButtonSecondary>
       </nav>
