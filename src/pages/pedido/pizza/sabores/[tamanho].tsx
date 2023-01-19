@@ -15,12 +15,13 @@ import { SaboresStyle } from "../../../../styles/pages/pedido/pizza/sabores/styl
 import { useMyOrder } from "../../../../context/myOrderContext";
 import { prepareServerlessUrl } from "next/dist/server/base-server";
 import { FloatButton } from "../../../../styles/components/buttons";
+import { v4 as uuidv4 } from "uuid";
 
 const Sabores: NextPage<ICardapio> = () => {
   const router = useRouter();
   const [tamanho, setTamanho] = useState<ITamanho | null>(null);
   const [checkedList, setCheckedList] = useState<ISabor[]>([]);
-  const { myOrder, setMyOrder } = useMyOrder();
+  const { addItem } = useMyOrder();
   const groupsLeft = sabores.grupos.filter((g, i) => i % 2 === 0);
   const groupsRight = sabores.grupos.filter((g, i) => i % 2 > 0);
   if (!router.query["tamanho"]) router.back();
@@ -94,20 +95,15 @@ const Sabores: NextPage<ICardapio> = () => {
       <FloatButton
         className={`${checkedList.length === 0 ? "hidden" : undefined}`}
         onClick={() => {
-          setMyOrder({
-            ...myOrder,
-            items: [
-              ...myOrder.items,
-              {
-                valor: checkedList.reduce(
-                  (max, curr) => getSaborValor(curr) + max,
-                  0
-                ),
-                sabores: checkedList,
-                tamanho,
-              } as IPizza,
-            ],
-          });
+          addItem({
+            valor: checkedList.reduce(
+              (max, curr) => getSaborValor(curr) + max,
+              0
+            ),
+            sabores: checkedList,
+            tamanho,
+            id: uuidv4(),
+          } as IPizza);
           router.push("/pedido");
         }}
       >

@@ -8,12 +8,15 @@ import {
   useEffect,
   useState,
 } from "react";
+import { IItem } from "../types/item";
 
 import { IOrder } from "../types/order";
 
 const MyOrderContext = createContext<{
   myOrder: IOrder;
   setMyOrder: (newOrder: IOrder) => void; // Dispatch<SetStateAction<IOrder | null>>;
+  addItem: (item: IItem) => void;
+  removeItem: (itemId: string) => void;
 }>(null);
 
 const MyOrderProvider: FC<{ children: ReactNode }> = ({ children }) => {
@@ -37,6 +40,20 @@ const MyOrderProvider: FC<{ children: ReactNode }> = ({ children }) => {
     }
   }, []);
 
+  const addItem = (item: IItem) => {
+    saveMyOrderLocalAndState({
+      ...myOrder,
+      items: [...myOrder.items, item],
+    });
+  };
+
+  const removeItem = (itemId: string) => {
+    saveMyOrderLocalAndState({
+      ...myOrder,
+      items: myOrder.items.filter((i) => i.id !== itemId),
+    });
+  };
+
   const saveMyOrderLocalAndState = (newOrder: IOrder) => {
     localStorage.setItem("myOrder", JSON.stringify(newOrder));
     setMyOrder(newOrder);
@@ -44,7 +61,12 @@ const MyOrderProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
   return (
     <MyOrderContext.Provider
-      value={{ myOrder, setMyOrder: saveMyOrderLocalAndState }}
+      value={{
+        myOrder,
+        setMyOrder: saveMyOrderLocalAndState,
+        addItem,
+        removeItem,
+      }}
     >
       {children}
     </MyOrderContext.Provider>
