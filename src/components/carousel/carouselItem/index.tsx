@@ -32,7 +32,7 @@ const CarouselItem: FC<ICarouselItem> = ({
         length={length}
       >
         <div className="image-wrapper">
-          <Image
+          <img
             src={image.src}
             width={image.w}
             height={image.h ?? image.w}

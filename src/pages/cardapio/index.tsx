@@ -1,86 +1,30 @@
-import { GetServerSideProps, GetStaticProps, NextPage } from "next";
-import Image from "next/image";
-import { PecaJaButton } from "../../components/pecaja";
+import { GetStaticProps, NextPage } from "next";
 import { CardapioStyle } from "../../styles/pages/cardapio/styles";
-import PizzaImage from "../../assets/pages/home/pizza_1.png";
-import { useNavigation } from "../../context/navigationContext";
-import tamanhos from "../../data/tamanhos.json";
+import { tamanhos } from "../../data/tamanhos.json";
 import sabores from "../../data/sabores.json";
-import { useEffect, useState } from "react";
-import Select from "react-select";
-import ReactSelect from "react-select";
+import { useState } from "react";
+import { FlagEmojiToPNG } from "../../utitl/functions/conversion";
+import { ICardapio, IGrupo } from "../../types/cardapio";
+import { ISabor } from "../../types/item";
+import { getValueString } from "../../utitl/functions/format";
+import { Sabor } from "../../components/cardapio/sabor";
 
-interface ITamanho {
-  nome: string;
-  fatias: number;
-  tamanhoAprox: number;
-  visivel: boolean;
-}
-interface IValor {
-  tamanho: string;
-  valor: number;
-}
-interface ISabor {
-  nome: string;
-  ativo: boolean;
-  ingredientes: Array<string>;
-  valores: Array<IValor>;
-}
-
-interface ICardapio {
-  sizes: Array<ITamanho>;
-  groupsLeft: Array<IGrupo>;
-  groupsRight: Array<IGrupo>;
-}
-
-interface IGrupo {
-  nome: string;
-  sabores: Array<ISabor>;
-}
-
-const FlagemojiToPNG = (flag: string) => {
-  var reg = /[\uD83C][\uDDE6-\uDDFF][\uD83C][\uDDE6-\uDDFF]/;
-  if (reg.test(flag)) {
-    var countryCode = Array.from(flag, (codeUnit: any) =>
-      codeUnit.codePointAt()
-    )
-      .map((char) => String.fromCharCode(char - 127397).toLowerCase())
-      .join("");
-    return (
-      <img src={`https://flagcdn.com/24x18/${countryCode}.png`} alt="flag" />
-    );
-  } else {
-    return flag;
-  }
-};
-
-const Cardapio: NextPage<ICardapio> = ({ sizes, groupsLeft, groupsRight }) => {
-  const [currentSize, setCurrentSize] = useState(null);
-
+const Cardapio: NextPage<ICardapio> = ({ groupsLeft, groupsRight }) => {
   const getAllValues = (s: ISabor) => {
-    const getValueString = (v) =>
-      `${v.tamanho}: ${Number(v.valor).toLocaleString("pt-BR", {
-        style: "currency",
-        currency: "BRL",
-      })}`;
-
-    return currentSize
-      ? getValueString(s.valores.find((x) => x.tamanho === currentSize))
-      : s.valores.map((v) => getValueString(v)).join(", ");
+    return s.valores.map((v) => getValueString(v)).join(", ");
   };
+
   const getGroups = (g: IGrupo) => (
     <div className="group" key={g.nome}>
       <h2 className="group-name">{g.nome}</h2>
       <div className="group-flavours">
         {g.sabores.map((s) => (
-          <div className="flavour" key={s.nome}>
-            <p className="flavour-name">
-              <h5>{`${s.nome.split(" ").slice(0, -1).join(" ")}`}</h5>
-              <h5>{FlagemojiToPNG(s.nome.split(" ").pop())}</h5>
-            </p>
-            <p className="flavour-ingredients">{s.ingredientes.join(", ")}</p>
-            <p className="flavour-values">{getAllValues(s)}</p>
-          </div>
+          <Sabor
+            key={s.nome}
+            nome={s.nome}
+            ingredientes={s.ingredientes}
+            valuesString={getAllValues(s)}
+          />
         ))}
       </div>
     </div>
@@ -114,7 +58,7 @@ export const getStaticProps: GetStaticProps = async () => {
 
   return {
     props: {
-      sizes: tamanhos.tamanhos,
+      sizes: tamanhos,
       groupsLeft,
       groupsRight,
     },

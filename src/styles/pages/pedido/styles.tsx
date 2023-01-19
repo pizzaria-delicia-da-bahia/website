@@ -9,7 +9,7 @@ export const PedidoStyle = styled.main`
   align-items: center;
   justify-content: center;
   padding: 4rem 0.5rem calc(${sizes.footer}px + ${sizes.header}px + 2rem) 0.5rem;
-  gap: 1.5rem;
+  gap: 2.5rem;
   overflow: hidden;
 
   .text {
@@ -23,10 +23,11 @@ export const PedidoStyle = styled.main`
 
     h1 {
       color: ${colors.elements};
+      font-size: min(2rem, 9vw);
     }
     h4 {
       color: #fff;
-      font-size: 1.4rem;
+      font-size: min(1.4rem, 6vw);
       letter-spacing: 0.42rem;
     }
   }
@@ -61,10 +62,10 @@ export const PedidoStyle = styled.main`
     /* gap: 0.1rem; */
     padding: 1rem 0.5rem 9rem 0.5rem;
     height: calc(100vh - ${sizes.header}px + ${sizes.footer}px);
-
+    gap: 0.1rem;
     .menu {
       ul {
-        transform: scale(80%);
+        transform: scale(90%);
       }
     }
   }

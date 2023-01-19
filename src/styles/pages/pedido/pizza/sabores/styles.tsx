@@ -1,13 +1,8 @@
-import styled, { css } from "styled-components";
-import { breakpointsMQ } from "../../mediaQueries";
-import mobileShape from "../../../assets/pages/home/home-shape-center-mobile.svg";
-import tabletShape from "../../../assets/pages/home/home-shape-center-tablet.svg";
-import desktopShape from "../../../assets/pages/home/home-shape-center-desktop.svg";
-import { sizes } from "../../sizes";
-import { animations } from "../../animations";
-import { colors } from "../../colors";
+import styled from "styled-components";
+import { breakpointsMQ } from "../../../../mediaQueries";
+import { colors } from "../../../../colors";
 
-export const CardapioStyle = styled.main`
+export const SaboresStyle = styled.main`
   color: #fff;
   height: 100%;
   overflow: auto;
@@ -15,6 +10,22 @@ export const CardapioStyle = styled.main`
   flex-direction: column;
   padding: 5rem 0.3rem;
   position: relative;
+  gap: 2rem;
+
+  .text {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    h1 {
+      color: ${colors.elements};
+      font-size: min(3rem, 9vw);
+    }
+    h4 {
+      color: #fff;
+      font-size: min(1.2rem, 6vw);
+      letter-spacing: 0.2rem;
+    }
+  }
 
   .groups-left {
     position: relative;

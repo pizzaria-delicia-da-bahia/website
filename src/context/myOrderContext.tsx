@@ -17,10 +17,17 @@ const MyOrderContext = createContext<{
 }>(null);
 
 const MyOrderProvider: FC<{ children: ReactNode }> = ({ children }) => {
-  const [myOrder, setMyOrder] = useState<IOrder | null>();
+  const [myOrder, setMyOrder] = useState<IOrder | null>(null);
 
   useEffect(() => {
-    setMyOrder((JSON.parse(localStorage.getItem("myOrder")) as IOrder) ?? null);
+    setMyOrder(
+      (JSON.parse(localStorage.getItem("myOrder")) as IOrder) ?? {
+        items: [],
+        address: { neighborhood: "", streetName: "" },
+        consumer: { name: "", whatsapp: "" },
+        date: Date.now(),
+      }
+    );
   }, []);
 
   return (

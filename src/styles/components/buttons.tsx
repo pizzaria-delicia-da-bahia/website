@@ -4,7 +4,7 @@ import { breakpointsMQ, hover } from "../mediaQueries";
 
 export const Button = styled.button`
   padding: 0.8rem 1rem;
-  font-size: 0.9rem;
+  font-size: min(0.9rem, 4vw);
   margin: 0 0.5rem;
   border-radius: 2rem;
   font-weight: bold;
@@ -78,7 +78,7 @@ export const ButtonBackForward = styled(ButtonPrimary).attrs(
 
   @media ${breakpointsMQ.tabletUp} {
     font-size: 2rem;
-    width: 90px;
-    height: 90px;
+    width: 40px;
+    height: 40px;
   }
 `;

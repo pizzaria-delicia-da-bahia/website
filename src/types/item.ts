@@ -1,8 +1,24 @@
 export interface IItem {
-  price: number;
+  valor: number;
 }
-
 export interface IPizza extends IItem {
-  size: string;
-  flavours: Array<{ name: string; ingredients: Array<string> }>;
+  tamanho: ITamanho;
+  sabores: Array<ISabor>;
+}
+export interface ITamanho {
+  nome: string;
+  fatias: number;
+  tamanhoAprox: number;
+  maxSabores: number;
+  visivel: boolean;
+}
+export interface IValor {
+  tamanho: string;
+  valor: number;
+}
+export interface ISabor {
+  nome: string;
+  ativo: boolean;
+  ingredientes: Array<string>;
+  valores: Array<IValor>;
 }

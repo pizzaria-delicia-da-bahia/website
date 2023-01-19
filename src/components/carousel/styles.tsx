@@ -2,28 +2,24 @@ import styled from "styled-components";
 import { breakpointsMQ } from "../../styles/mediaQueries";
 
 export const CarouselStyle = styled.div`
-  width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: stretch;
+  justify-content: center;
+  /* gap: 0.5rem; */
+  height: 45vh;
+  overflow: hidden;
+  flex-grow: 0;
+  flex-shrink: 0;
+  padding-bottom: 1rem;
 
   ul {
-    flex-grow: 1;
-    position: relative;
-    width: 100%;
-    height: 100%;
+    display: flex;
+    justify-content: center;
+    height: 80%;
   }
 
   .buttons-back-forward {
     display: flex;
     justify-content: center;
-    margin-top: 2rem;
-  }
-
-  @media ${breakpointsMQ.desktopLg} {
-    .buttons-back-forward {
-      transform: scale(70%) !important;
-    }
   }
 `;

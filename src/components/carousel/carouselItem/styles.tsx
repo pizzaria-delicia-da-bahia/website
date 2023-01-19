@@ -11,13 +11,13 @@ export const CarouselItemStyle = styled.li.attrs(
   (props: { index: number; length: number; selectedIndex: number }) => props
 )`
   display: none;
-  position: absolute;
+  user-select: none;
+  /* position: absolute; */
 
   ${selected}, ${previous}, ${next} {
     display: flex;
     background-color: ${colors.elements};
-    border: 2px solid blue;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     flex-direction: column;
     box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.5);
@@ -30,46 +30,41 @@ export const CarouselItemStyle = styled.li.attrs(
     pointer-events: none;
     opacity: 0.8;
     padding: 0.6rem 0.5rem;
-    * {
-      transform: scale(70%);
-    }
-    min-width: 8rem;
-  }
-  ${next} {
-    top: 50%;
-    right: 50%;
-    transform: translate(100%, -50%);
+    transform: scale(60%);
+
+    min-width: 1rem;
   }
 
   ${selected} {
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    padding: 1rem 0.7rem;
+    transform: scale(80%);
+    padding: 0.1rem 3rem;
     z-index: 1;
-    min-width: 9rem;
-  }
-  ${previous} {
-    top: 50%;
-    left: 50%;
-    transform: translate(-100%, -50%);
+    min-width: 7rem;
   }
   ${hidden} {
     display: none;
   }
-
   .image-wrapper {
-    flex-grow: 1;
-    text-align: center;
-  }
+    overflow: hidden;
+    /* height: 100%; */
+    max-height: 35%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    /* width: 100%; */
 
+    img {
+      /* display: none; */
+      height: 100%;
+      /* transform: scale(calc(15% * ${(props) => props.index + 1})); */
+    }
+  }
   .bottom-elements {
     display: flex;
-    gap: 2.5em;
-    flex-grow: 0;
+    gap: 1rem;
   }
 
-  @media ${breakpointsMQ.tabletUp} {
+  /* @media ${breakpointsMQ.tabletUp} {
     ${selected} {
       padding: 3rem 2rem;
       min-width: 11rem;
@@ -78,6 +73,15 @@ export const CarouselItemStyle = styled.li.attrs(
     ${previous}, ${next} {
       padding: 1.5rem 1rem;
       min-width: 9rem;
+    }
+  } */
+
+  @media ${breakpointsMQ.desktopSmUp} {
+    ${previous}, ${next} {
+      min-width: 15rem;
+    }
+    ${selected} {
+      min-width: 20rem;
     }
   }
 `;
