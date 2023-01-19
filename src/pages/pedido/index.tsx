@@ -52,10 +52,12 @@ const Pedido: NextPage = () => {
         </Carousel>
       </div>
       <nav className="bottom-controls">
-        <ButtonSecondary disabled={(myOrder?.items?.length ?? 0) < 1}>
-          <p>MEUS ITENS</p>
-          <Badge number={myOrder?.items?.length ?? 0} />
-        </ButtonSecondary>
+        <Link href={"/pedido/itens"} passHref>
+          <ButtonSecondary disabled={(myOrder?.items?.length ?? 0) < 1}>
+            <p>MEUS ITENS</p>
+            <Badge number={myOrder?.items?.length ?? 0} />
+          </ButtonSecondary>
+        </Link>
         <ButtonPrimary disabled={(myOrder?.items?.length ?? 0) < 1}>
           PEDIDO PRONTO!
         </ButtonPrimary>

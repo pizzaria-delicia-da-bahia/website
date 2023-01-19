@@ -11,16 +11,16 @@ import {
   getValueString,
 } from "../../../../utitl/functions/format";
 import { Sabor } from "../../../../components/cardapio/sabor";
-import { FloatButton } from "../../../../components/floatButton/styles";
 import { SaboresStyle } from "../../../../styles/pages/pedido/pizza/sabores/styles";
 import { useMyOrder } from "../../../../context/myOrderContext";
 import { prepareServerlessUrl } from "next/dist/server/base-server";
+import { FloatButton } from "../../../../styles/components/buttons";
 
 const Sabores: NextPage<ICardapio> = () => {
   const router = useRouter();
   const [tamanho, setTamanho] = useState<ITamanho | null>(null);
   const [checkedList, setCheckedList] = useState<ISabor[]>([]);
-  const { setMyOrder } = useMyOrder();
+  const { myOrder, setMyOrder } = useMyOrder();
   const groupsLeft = sabores.grupos.filter((g, i) => i % 2 === 0);
   const groupsRight = sabores.grupos.filter((g, i) => i % 2 > 0);
   if (!router.query["tamanho"]) router.back();
@@ -94,10 +94,10 @@ const Sabores: NextPage<ICardapio> = () => {
       <FloatButton
         className={`${checkedList.length === 0 ? "hidden" : undefined}`}
         onClick={() => {
-          setMyOrder((prev) => ({
-            ...prev,
+          setMyOrder({
+            ...myOrder,
             items: [
-              ...prev.items,
+              ...myOrder.items,
               {
                 valor: checkedList.reduce(
                   (max, curr) => getSaborValor(curr) + max,
@@ -107,7 +107,7 @@ const Sabores: NextPage<ICardapio> = () => {
                 tamanho,
               } as IPizza,
             ],
-          }));
+          });
           router.push("/pedido");
         }}
       >

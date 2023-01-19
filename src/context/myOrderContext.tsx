@@ -13,25 +13,39 @@ import { IOrder } from "../types/order";
 
 const MyOrderContext = createContext<{
   myOrder: IOrder;
-  setMyOrder: Dispatch<SetStateAction<IOrder | null>>;
+  setMyOrder: (newOrder: IOrder) => void; // Dispatch<SetStateAction<IOrder | null>>;
 }>(null);
 
 const MyOrderProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [myOrder, setMyOrder] = useState<IOrder | null>(null);
 
+  const EmptyOrder: IOrder = {
+    items: [],
+    address: { neighborhood: "", streetName: "" },
+    consumer: { name: "", whatsapp: "" },
+    date: new Date(),
+  };
+
   useEffect(() => {
-    setMyOrder(
-      (JSON.parse(localStorage.getItem("myOrder")) as IOrder) ?? {
-        items: [],
-        address: { neighborhood: "", streetName: "" },
-        consumer: { name: "", whatsapp: "" },
-        date: Date.now(),
-      }
-    );
+    const fromLocal = JSON.parse(localStorage.getItem("myOrder")) as IOrder;
+    const getTimeDiffInHours = (date: Date) =>
+      (new Date().getTime() - date.getTime()) / 1000 / 60 / 60;
+    if (!fromLocal || getTimeDiffInHours(new Date(fromLocal?.date)) > 1) {
+      setMyOrder(EmptyOrder);
+    } else {
+      setMyOrder((fromLocal as IOrder) ?? EmptyOrder);
+    }
   }, []);
 
+  const saveMyOrderLocalAndState = (newOrder: IOrder) => {
+    localStorage.setItem("myOrder", JSON.stringify(newOrder));
+    setMyOrder(newOrder);
+  };
+
   return (
-    <MyOrderContext.Provider value={{ myOrder, setMyOrder }}>
+    <MyOrderContext.Provider
+      value={{ myOrder, setMyOrder: saveMyOrderLocalAndState }}
+    >
       {children}
     </MyOrderContext.Provider>
   );

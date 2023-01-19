@@ -1,4 +1,5 @@
 export interface IItem {
+  id: number;
   valor: number;
 }
 export interface IPizza extends IItem {

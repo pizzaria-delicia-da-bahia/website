@@ -31,10 +31,10 @@ export const Sabor = ({
       </div>
     )}
     <div className="right">
-      <p className="flavour-name">
+      <span className="flavour-name">
         <h5>{`${nome.split(" ").slice(0, -1).join(" ")}`}</h5>
         <h5>{FlagEmojiToPNG(nome.split(" ").pop())}</h5>
-      </p>
+      </span>
       <p className="flavour-ingredients">{ingredientes.join(", ")}</p>
       <p className="flavour-values">{valuesString}</p>
     </div>
