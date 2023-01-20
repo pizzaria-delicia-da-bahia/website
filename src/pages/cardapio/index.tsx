@@ -19,6 +19,7 @@ const Cardapio: NextPage<ICardapio> = ({ groupsLeft, groupsRight }) => {
             key={s.nome}
             nome={s.nome}
             ingredientes={s.ingredientes}
+            active={s.disponivel}
             valuesString={getAllValues(s)}
           />
         ))}
