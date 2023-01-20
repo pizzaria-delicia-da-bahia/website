@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { breakpointsMQ } from "../../../../mediaQueries";
 import { colors } from "../../../../colors";
+import { sizes } from "../../../../sizes";
 
 export const SaboresStyle = styled.main`
   color: #fff;
@@ -8,7 +9,7 @@ export const SaboresStyle = styled.main`
   overflow: auto;
   display: flex;
   flex-direction: column;
-  padding: 5rem 0.3rem;
+  padding: 5rem 0.3rem 15rem 0.3rem;
   position: relative;
   gap: 2rem;
 
@@ -47,6 +48,36 @@ export const SaboresStyle = styled.main`
       flex-direction: column;
       padding: 0.5em;
       justify-content: center;
+    }
+  }
+
+  .bottom-info {
+    position: fixed;
+    bottom: 0;
+    height: calc(${sizes.footer}px + 60px);
+    /* margin-bottom: 1rem; */
+    background-color: ${colors.background};
+    padding: 1rem;
+    display: flex;
+    /* justify-content: center; */
+    width: 100%;
+
+    .selected-flavours {
+      font-size: min(1.5rem, 2.8vw);
+      b {
+        color: ${colors.elements};
+      }
+    }
+  }
+
+  & > .bottom-controls {
+    padding: 10px 0 0 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
+    button {
+      max-height: 60px;
     }
   }
 

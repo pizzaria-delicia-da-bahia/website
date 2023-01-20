@@ -1,11 +1,8 @@
-import { GetServerSideProps, GetStaticProps, NextPage } from "next";
-import { CardapioStyle } from "../../../../styles/pages/cardapio/styles";
-import { tamanhos } from "../../../../data/tamanhos.json";
-import sabores from "../../../../data/sabores.json";
-import { useEffect, useState } from "react";
+import { GetServerSideProps, NextPage } from "next";
+import { useState } from "react";
 import { useRouter } from "next/router";
 import { IGrupo, ICardapio } from "../../../../types/cardapio";
-import { IPizza, ISabor, ITamanho, IValor } from "../../../../types/item";
+import { IPizza, ISabor, IValor } from "../../../../types/item";
 import {
   formatCurrency,
   getValueString,
@@ -13,30 +10,25 @@ import {
 import { Sabor } from "../../../../components/cardapio/sabor";
 import { SaboresStyle } from "../../../../styles/pages/pedido/pizza/sabores/styles";
 import { useMyOrder } from "../../../../context/myOrderContext";
-import { prepareServerlessUrl } from "next/dist/server/base-server";
-import { FloatButton } from "../../../../styles/components/buttons";
+import {
+  ButtonSecondary,
+  FloatButton,
+} from "../../../../styles/components/buttons";
 import { v4 as uuidv4 } from "uuid";
 
-const Sabores: NextPage<ICardapio> = () => {
+const Sabores: NextPage<ICardapio> = ({ size, groupsLeft, groupsRight }) => {
   const router = useRouter();
-  const [tamanho, setTamanho] = useState<ITamanho | null>(null);
   const [checkedList, setCheckedList] = useState<ISabor[]>([]);
   const { addItem } = useMyOrder();
-  const groupsLeft = sabores.grupos.filter((g, i) => i % 2 === 0);
-  const groupsRight = sabores.grupos.filter((g, i) => i % 2 > 0);
-  if (!router.query["tamanho"]) router.back();
 
-  useEffect(() => {
-    const a = tamanhos.find((x) => x.nome === router.query["tamanho"]);
-    setTamanho(a ?? null);
-  }, []);
+  if (!size) router.back();
 
   const getAllValues = (valores: IValor[]) => {
     return (
-      tamanho &&
+      size &&
       getValueString(
         valores.find(
-          (x) => x.tamanho.toUpperCase() === tamanho.nome.toUpperCase()
+          (x) => x.tamanho.toUpperCase() === size.nome.toUpperCase()
         ) ??
           null ??
           null
@@ -55,10 +47,11 @@ const Sabores: NextPage<ICardapio> = () => {
             ingredientes={s.ingredientes}
             valuesString={getAllValues(s.valores)}
             showCheckBox={true}
+            active={s.disponivel}
             checked={!!checkedList.find((x) => x.nome === s.nome)}
             setChecked={(value) => {
               value
-                ? tamanho.maxSabores > checkedList.length &&
+                ? size.maxSabores > checkedList.length &&
                   setCheckedList((prev) => [...prev, s])
                 : setCheckedList((prev) => {
                     console.log(prev);
@@ -71,9 +64,8 @@ const Sabores: NextPage<ICardapio> = () => {
     </div>
   );
   const getSaborValor = (s) =>
-    s.valores.find(
-      (v) => v.tamanho.toUpperCase() === tamanho.nome.toUpperCase()
-    ).valor;
+    s.valores.find((v) => v.tamanho.toUpperCase() === size.nome.toUpperCase())
+      .valor;
 
   const getValorFormatted = (v: number) =>
     formatCurrency(v / checkedList.length);
@@ -81,9 +73,8 @@ const Sabores: NextPage<ICardapio> = () => {
     <SaboresStyle>
       <div className="text">
         <h1>SABORES</h1>
-        {tamanho && <h4>SELECIONE ATÉ {tamanho.maxSabores}</h4>}
+        {size && <h4>SELECIONE ATÉ {size.maxSabores}</h4>}
       </div>
-      <div className="menu"></div>
       <div className="groups">
         <aside className="groups-left">
           {groupsLeft.map((g) => getGroups(g))}
@@ -91,6 +82,17 @@ const Sabores: NextPage<ICardapio> = () => {
         <aside className="groups-right">
           {groupsRight.map((g) => getGroups(g))}
         </aside>
+      </div>
+      <nav className="bottom-controls">
+        <ButtonSecondary onClick={() => router.back()}>VOLTAR</ButtonSecondary>
+      </nav>
+      <div className="bottom-info">
+        <h3 className="selected-flavours">
+          <b>Selecionados: </b>
+          {checkedList
+            .map((s) => s.nome.split(" ").slice(0, -1).join(" "))
+            .join(", ")}
+        </h3>
       </div>
       <FloatButton
         className={`${checkedList.length === 0 ? "hidden" : undefined}`}
@@ -101,7 +103,7 @@ const Sabores: NextPage<ICardapio> = () => {
               0
             ),
             sabores: checkedList,
-            tamanho,
+            tamanho: size,
             id: uuidv4(),
           } as IPizza);
           router.push("/pedido");
@@ -119,3 +121,30 @@ const Sabores: NextPage<ICardapio> = () => {
 };
 
 export default Sabores;
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { tamanhos } = await (
+    await fetch(`${process.env.API_URL}/pizzas/tamanhos`)
+  ).json();
+
+  const size = tamanhos.find((x) => x.nome === ctx.query["tamanho"]) ?? null;
+
+  const { grupos } = await (
+    await fetch(`${process.env.API_URL}/pizzas/sabores`)
+  ).json();
+
+  const groupsLeft = [];
+  const groupsRight = [];
+
+  grupos.forEach((g) => {
+    grupos.indexOf(g) % 2 === 0 ? groupsLeft.push(g) : groupsRight.push(g);
+  });
+
+  return {
+    props: {
+      size,
+      groupsLeft,
+      groupsRight,
+    },
+  };
+};

@@ -6,6 +6,11 @@ export interface IPizza extends IItem {
   tamanho: ITamanho;
   sabores: Array<ISabor>;
 }
+export interface IBebidaOutro extends IItem {
+  nome: string;
+  disponivel: boolean;
+  imagemUrl: string;
+}
 export interface ITamanho {
   nome: string;
   fatias: number;
@@ -19,7 +24,7 @@ export interface IValor {
 }
 export interface ISabor {
   nome: string;
-  ativo: boolean;
+  disponivel: boolean;
   ingredientes: Array<string>;
   valores: Array<IValor>;
 }

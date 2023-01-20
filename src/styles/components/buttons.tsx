@@ -88,9 +88,9 @@ export const FloatButton = styled(ButtonPrimary)`
   position: fixed;
   bottom: ${sizes.footer}px;
   right: 0;
-  margin: 0 1rem 1rem 0%;
-  width: min(9em);
-  height: min(9em);
+  margin: 0 4rem 4rem 0%;
+  width: min(9em, 25vw);
+  height: min(9em, 25vw);
   flex-grow: 0;
   flex-shrink: 0;
   border-radius: 50%;
@@ -98,10 +98,10 @@ export const FloatButton = styled(ButtonPrimary)`
   padding: 0;
 
   p {
-    font-size: 0.9rem;
+    font-size: min(0.9rem, 2.5vw);
   }
   b {
-    font-size: 1.5rem;
+    font-size: min(1.5rem, 4vw);
     font-weight: 800;
   }
 

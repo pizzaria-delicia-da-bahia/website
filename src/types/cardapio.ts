@@ -1,7 +1,7 @@
-import { ITamanho } from "./item";
+import { ISabor, ITamanho } from "./item";
 
 export interface ICardapio {
-  sizes: Array<ITamanho>;
+  size?: ITamanho | null;
   groupsLeft: Array<IGrupo>;
   groupsRight: Array<IGrupo>;
 }

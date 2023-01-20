@@ -3,7 +3,7 @@ import { colors } from "../../../colors";
 import { breakpointsMQ, hover } from "../../../mediaQueries";
 import { sizes } from "../../../sizes";
 
-export const BebidaStyle = styled.main`
+export const LancheStyle = styled.main`
   height: 100%;
   overflow: auto;
   display: flex;

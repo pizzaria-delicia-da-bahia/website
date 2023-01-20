@@ -77,6 +77,21 @@ export const ItensStyle = styled.main`
             cursor: pointer;
           }
         }
+        .subdiv {
+          display: flex;
+          gap: 0.5rem;
+          align-items: center;
+
+          .subleft {
+            img {
+              border: 2px solid #000;
+              background-color: #fff;
+              object-fit: scale-down;
+              border-radius: 6px;
+              padding: 0.2rem;
+            }
+          }
+        }
       }
     }
   }

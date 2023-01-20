@@ -1,9 +1,5 @@
 import { GetStaticProps, NextPage } from "next";
 import { CardapioStyle } from "../../styles/pages/cardapio/styles";
-import { tamanhos } from "../../data/tamanhos.json";
-import sabores from "../../data/sabores.json";
-import { useState } from "react";
-import { FlagEmojiToPNG } from "../../utitl/functions/conversion";
 import { ICardapio, IGrupo } from "../../types/cardapio";
 import { ISabor } from "../../types/item";
 import { getValueString } from "../../utitl/functions/format";
@@ -47,18 +43,19 @@ const Cardapio: NextPage<ICardapio> = ({ groupsLeft, groupsRight }) => {
 export default Cardapio;
 
 export const getStaticProps: GetStaticProps = async () => {
+  const { grupos } = await (
+    await fetch(`${process.env.API_URL}/pizzas/sabores`)
+  ).json();
+
   const groupsLeft = [];
   const groupsRight = [];
 
-  sabores.grupos.forEach((g) => {
-    sabores.grupos.indexOf(g) % 2 === 0
-      ? groupsLeft.push(g)
-      : groupsRight.push(g);
+  grupos.forEach((g) => {
+    grupos.indexOf(g) % 2 === 0 ? groupsLeft.push(g) : groupsRight.push(g);
   });
 
   return {
     props: {
-      sizes: tamanhos,
       groupsLeft,
       groupsRight,
     },

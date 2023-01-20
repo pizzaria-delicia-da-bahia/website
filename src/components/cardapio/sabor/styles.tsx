@@ -7,6 +7,10 @@ export const SaborStyle = styled.li.attrs(
   display: flex;
   margin-bottom: 1.5rem;
 
+  * {
+    pointer-events: none;
+  }
+
   .right {
     display: flex;
     flex-direction: column;
@@ -58,6 +62,7 @@ export const SaborStyle = styled.li.attrs(
           border-radius: 50%;
           overflow: hidden;
           transition: all 0.2s ease-in-out;
+          pointer-events: visible;
 
           &:hover {
             transform: scale(120%);

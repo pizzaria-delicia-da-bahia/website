@@ -16,7 +16,7 @@ import {
   ButtonSecondary,
 } from "../../../styles/components/buttons";
 import { useRouter } from "next/router";
-import { IPizza } from "../../../types/item";
+import { IBebidaOutro, IPizza } from "../../../types/item";
 import { formatCurrency } from "../../../utitl/functions/format";
 
 const Itens: NextPage = () => {
@@ -42,21 +42,50 @@ const Itens: NextPage = () => {
             <li key={item.id}>
               {item.hasOwnProperty("sabores") ? (
                 <div className="left">
-                  <h3 className="item-title">
-                    Pizza {(item as IPizza).tamanho.nome}
-                  </h3>
-                  <h5 className="item-subtitle">
-                    Sabores:{" "}
-                    {(item as IPizza).sabores
-                      .map((s) => s.nome.split(" ").slice(0, -1).join(" "))
-                      .join(", ")}
-                  </h5>
-                  <h5 className="item-info">
-                    Preço: {formatCurrency(item.valor)}
-                  </h5>
+                  <div className="subdiv">
+                    <div className="subleft">
+                      <img
+                        src={"/images/pedido-pizza.svg"}
+                        width={40}
+                        height={40}
+                      />
+                    </div>
+                    <div className="subright">
+                      <h3 className="item-title">
+                        Pizza {(item as IPizza).tamanho.nome}
+                      </h3>
+                      <h5 className="item-subtitle">
+                        Sabores:{" "}
+                        {(item as IPizza).sabores
+                          .map((s) => s.nome.split(" ").slice(0, -1).join(" "))
+                          .join(", ")}
+                      </h5>
+                      <h5 className="item-info">
+                        Preço: {formatCurrency(item.valor)}
+                      </h5>
+                    </div>
+                  </div>
                 </div>
               ) : (
-                <h1>{item["nome"]}</h1>
+                <div className="left">
+                  <div className="subdiv">
+                    <span className="subleft">
+                      <img
+                        src={(item as IBebidaOutro).imagemUrl}
+                        width={40}
+                        height={40}
+                      />
+                    </span>
+                    <span className="subright">
+                      <h3 className="item-title">
+                        {(item as IBebidaOutro).nome.toUpperCase()}
+                      </h3>
+                      <h5 className="item-info">
+                        Preço: {formatCurrency(item.valor)}
+                      </h5>
+                    </span>
+                  </div>
+                </div>
               )}
               <div className="right">
                 <button

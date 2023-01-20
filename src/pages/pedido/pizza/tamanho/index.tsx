@@ -1,24 +1,11 @@
-import { NextPage } from "next";
-import Image from "next/image";
-import Link from "next/link";
-import {
-  createRef,
-  FC,
-  ReactElement,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
-import { useMyOrder } from "../../../../context/myOrderContext";
-import {
-  ButtonBackForward,
-  ButtonSecondary,
-} from "../../../../styles/components/buttons";
+import { GetServerSideProps, NextPage } from "next";
+import { FC } from "react";
+import { ButtonSecondary } from "../../../../styles/components/buttons";
 import { TamanhoStyle } from "../../../../styles/pages/pedido/pizza/tamanho/styles";
-import { tamanhos } from "../../../../data/tamanhos.json";
 import { useRouter } from "next/router";
 import Carousel from "../../../../components/carousel";
 import CarouselItem from "../../../../components/carousel/carouselItem";
+import { ITamanho } from "../../../../types/item";
 
 const BottomInfo: FC<{
   name: string;
@@ -32,23 +19,18 @@ const BottomInfo: FC<{
   </div>
 );
 
-const Tamanho: NextPage = () => {
-  const { myOrder } = useMyOrder();
+const Tamanho: NextPage<{ sizes: Array<ITamanho> }> = ({ sizes }) => {
   const router = useRouter();
 
-  const getImageSize = (index) =>
-    Math.ceil((100 / tamanhos.length) * (index + 1));
+  const getImageSize = (index) => Math.ceil((100 / sizes.length) * (index + 1));
   return (
     <TamanhoStyle>
       <div className="text">
         <h1>TAMANHO</h1>
       </div>
       <div className="menu">
-        <Carousel
-          length={tamanhos.length}
-          defaultSelectedIndex={tamanhos.length - 2}
-        >
-          {tamanhos.map((item, index) => (
+        <Carousel length={sizes.length} defaultSelectedIndex={sizes.length - 2}>
+          {sizes.map((item, index) => (
             <CarouselItem
               key={item.nome}
               title={item.nome}
@@ -88,3 +70,15 @@ const Tamanho: NextPage = () => {
 };
 
 export default Tamanho;
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  const { tamanhos } = await (
+    await fetch(`${process.env.API_URL}/pizzas/tamanhos`)
+  ).json();
+
+  return {
+    props: {
+      sizes: tamanhos.filter((x) => x.visivel),
+    },
+  };
+};

@@ -15,7 +15,7 @@ import { IOrder } from "../types/order";
 const MyOrderContext = createContext<{
   myOrder: IOrder;
   setMyOrder: (newOrder: IOrder) => void; // Dispatch<SetStateAction<IOrder | null>>;
-  addItem: (item: IItem) => void;
+  addItem: (item: IItem | IItem[]) => void;
   removeItem: (itemId: string) => void;
 }>(null);
 
@@ -40,14 +40,16 @@ const MyOrderProvider: FC<{ children: ReactNode }> = ({ children }) => {
     }
   }, []);
 
-  const addItem = (item: IItem) => {
+  const addItem = (item: IItem | IItem[]) => {
+    const itens = Array.isArray(item) ? item : [item];
     saveMyOrderLocalAndState({
       ...myOrder,
-      items: [...myOrder.items, item],
+      items: [...myOrder.items, ...itens],
     });
   };
 
   const removeItem = (itemId: string) => {
+    console.log("item id", itemId);
     saveMyOrderLocalAndState({
       ...myOrder,
       items: myOrder.items.filter((i) => i.id !== itemId),

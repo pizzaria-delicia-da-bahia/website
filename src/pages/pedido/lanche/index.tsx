@@ -1,11 +1,8 @@
 import { GetServerSideProps, NextPage } from "next";
 import { useState } from "react";
-import { BebidaStyle } from "../../../styles/pages/pedido/bebida/styles";
+import { LancheStyle } from "../../../styles/pages/pedido/lanche/styles";
 import { useMyOrder } from "../../../context/myOrderContext";
-import {
-  ButtonPrimary,
-  ButtonSecondary,
-} from "../../../styles/components/buttons";
+import { ButtonSecondary } from "../../../styles/components/buttons";
 import { IBebidaOutro } from "../../../types/item";
 import ItemQuantityModal from "../../../components/itemQuantityModal";
 import { formatCurrency } from "../../../utitl/functions/format";
@@ -13,7 +10,7 @@ import { useRouter } from "next/router";
 import { v4 as uuidv4 } from "uuid";
 import { sleep } from "../../../utitl/functions/misc";
 
-const Bebida: NextPage<{ bebidas: Array<IBebidaOutro> }> = ({ bebidas }) => {
+const Lanche: NextPage<{ lanches: Array<IBebidaOutro> }> = ({ lanches }) => {
   const { myOrder, addItem } = useMyOrder();
   const [selectedItem, setSelectedItem] = useState<IBebidaOutro | null>(null);
   const [quantity, setQuantity] = useState<number>(1);
@@ -37,25 +34,25 @@ const Bebida: NextPage<{ bebidas: Array<IBebidaOutro> }> = ({ bebidas }) => {
     selectItem(null);
   };
   return (
-    <BebidaStyle>
+    <LancheStyle>
       <div className="text">
-        <h1>BEBIDA</h1>
+        <h1>LANCHE</h1>
       </div>
       <div className="menu">
         <ul>
-          {bebidas.map((bebida) => (
+          {lanches.map((lanche) => (
             <li
-              key={bebida.nome}
-              className={`${!bebida.disponivel ? "disabled" : undefined}`}
-              onClick={() => selectItem(bebida)}
+              key={lanche.nome}
+              className={`${!lanche.disponivel ? "disabled" : undefined}`}
+              onClick={() => selectItem(lanche)}
             >
               <div className="left">
-                <img src={bebida.imagemUrl} width={40} height={40} />
+                <img src={lanche.imagemUrl} width={40} height={40} />
               </div>
 
               <div className="right">
-                <h5 className="title">{bebida.nome.toUpperCase()}</h5>
-                <p className="value">{formatCurrency(bebida.valor)}</p>
+                <h5 className="title">{lanche.nome.toUpperCase()}</h5>
+                <p className="value">{formatCurrency(lanche.valor)}</p>
               </div>
             </li>
           ))}
@@ -72,19 +69,19 @@ const Bebida: NextPage<{ bebidas: Array<IBebidaOutro> }> = ({ bebidas }) => {
       <nav className="bottom-controls">
         <ButtonSecondary onClick={() => router.back()}>VOLTAR</ButtonSecondary>
       </nav>
-    </BebidaStyle>
+    </LancheStyle>
   );
 };
 
-export default Bebida;
+export default Lanche;
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { bebidas } = await (
-    await fetch(`${process.env.API_URL}/bebidas`)
+export const getServerSideProps: GetServerSideProps = async () => {
+  const { lanches } = await (
+    await fetch(`${process.env.API_URL}/lanches`)
   ).json();
   return {
     props: {
-      bebidas,
+      lanches,
     },
   };
 };
