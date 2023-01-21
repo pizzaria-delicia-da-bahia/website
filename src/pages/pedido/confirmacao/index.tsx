@@ -64,29 +64,30 @@ ${
 }`
       : "";
 
-  const address = myOrder?.customer?.address?.street
-    ? `---ENTREGA---
+  const address =
+    myOrder.type === EOrderType.delivery && myOrder?.customer?.address?.street
+      ? `---ENTREGA---
 ENDEREÇO: ${myOrder.customer.address.street.toUpperCase()}${
-        myOrder.customer.address.number?.length > 0
-          ? `, ${myOrder.customer.address.number}`
-          : ""
-      }${
-        myOrder.customer.address.cep?.length > 0
-          ? `
+          myOrder.customer.address.number?.length > 0
+            ? `, ${myOrder.customer.address.number}`
+            : ""
+        }${
+          myOrder.customer.address.cep?.length > 0
+            ? `
 CEP: ${myOrder.customer.address.cep}`
-          : ""
-      }${
-        myOrder.customer.address.place?.length > 0
-          ? `
+            : ""
+        }${
+          myOrder.customer.address.place?.length > 0
+            ? `
 LOCAL: ${myOrder.customer.address.place.toUpperCase()}`
-          : ""
-      }${
-        myOrder.customer.address.reference?.length > 0
-          ? `
+            : ""
+        }${
+          myOrder.customer.address.reference?.length > 0
+            ? `
 PONTO DE REFERÊNCIA: ${myOrder.customer.address.reference.toUpperCase()}`
-          : ""
-      }`
-    : "";
+            : ""
+        }`
+      : "";
 
   const items =
     myOrder?.items?.length > 0
