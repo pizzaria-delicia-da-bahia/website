@@ -51,6 +51,7 @@ export const InformacoesAdicionaisStyle = styled.main`
       &.disabled {
         * {
           pointer-events: none;
+          user-select: none;
           opacity: 0.8;
         }
 

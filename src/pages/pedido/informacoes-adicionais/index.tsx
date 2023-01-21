@@ -111,6 +111,9 @@ const InformacoesAdicionais: NextPage = () => {
           >
             <div className={`input-group cep-endereco-n`}>
               <MyInput
+                tabIndex={
+                  !data || data.type != EOrderType.delivery ? -1 : undefined
+                }
                 name="CEP"
                 type="text"
                 placeholder="EX: 40000-000"
@@ -129,6 +132,9 @@ const InformacoesAdicionais: NextPage = () => {
                 }
               />
               <MyInput
+                tabIndex={
+                  !data || data.type != EOrderType.delivery ? -1 : undefined
+                }
                 name="ENDEREÇO (RUA/AVENIDA) *"
                 placeholder="EX: AVENIDA ANITA GARIBALDI"
                 type="address"
@@ -147,6 +153,9 @@ const InformacoesAdicionais: NextPage = () => {
                 }
               />
               <MyInput
+                tabIndex={
+                  !data || data.type != EOrderType.delivery ? -1 : undefined
+                }
                 name="Nº"
                 placeholder="EX: 427-B"
                 type="text"
@@ -167,6 +176,9 @@ const InformacoesAdicionais: NextPage = () => {
             </div>
             <div className={`input-group local-referencia`}>
               <MyInput
+                tabIndex={
+                  !data || data.type != EOrderType.delivery ? -1 : undefined
+                }
                 name="LOCAL DE ENTREGA"
                 placeholder="EX: COND. ONDINA TOP, EDF. FLORES, AP. 101"
                 type="text"
@@ -185,6 +197,9 @@ const InformacoesAdicionais: NextPage = () => {
                 }
               />
               <MyInput
+                tabIndex={
+                  !data || data.type != EOrderType.delivery ? -1 : undefined
+                }
                 name="PONTO DE REFERÊNCIA"
                 placeholder="EX: EM FRENTE AO MERCADO NOVA ESPERANÇA"
                 type="text"

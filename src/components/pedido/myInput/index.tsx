@@ -7,6 +7,7 @@ export const MyInput: FC<{
   placeholder?: string;
   type: "text" | "name" | "address" | "phoneNumber" | "number";
   value: string | number;
+  tabIndex?: number;
   setValue: (value: string | number) => void;
   min?: number;
   max?: number;
@@ -15,6 +16,7 @@ export const MyInput: FC<{
   name,
   type,
   placeholder,
+  tabIndex,
   value,
   min,
   max,
@@ -28,6 +30,7 @@ export const MyInput: FC<{
         id={name}
         disabled={disabled}
         placeholder={placeholder}
+        tabIndex={tabIndex}
         type={
           type === "phoneNumber" ? "tel" : type === "address" ? "search" : type
         }
@@ -49,11 +52,12 @@ export const MyInput: FC<{
           const onlyNumbers = e.key.match(/[^\d-)(\s]/g);
           const cutOrCopy = (e.key === "c" || e.key === "v") && e.ctrlKey;
           // !["Control", "Alt", 'Shift'].includes(e.key)
+          console.log(e.key);
           if (
             type === "phoneNumber" &&
             onlyNumbers &&
             !cutOrCopy &&
-            !["Backspace", "Delete"].includes(e.key)
+            !["Backspace", "Delete", "Tab"].includes(e.key)
           )
             e.preventDefault();
         }}
