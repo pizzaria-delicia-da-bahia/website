@@ -24,9 +24,15 @@ const CarouselItem: FC<ICarouselItem> = ({
   return (
     <Link href={route} passHref key={title} style={{ display: "none" }}>
       <CarouselItemStyle
-        className={`${selectedIndex === index ? "selected" : ""}${
-          index < selectedIndex - 1 ? "hidden" : ""
-        }`}
+        className={`${
+          selectedIndex === index
+            ? " selected"
+            : selectedIndex + 1 === index
+            ? " next"
+            : selectedIndex - 1 === index
+            ? " previous"
+            : ""
+        }${index < selectedIndex - 1 ? " hidden" : ""}`}
         index={index}
         selectedIndex={selectedIndex}
         length={length}

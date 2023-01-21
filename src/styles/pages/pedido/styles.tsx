@@ -48,6 +48,12 @@ export const PedidoStyle = styled.main`
     justify-content: center;
   }
 
+  @media ${breakpointsMQ.mobile} {
+    .menu {
+      transform: scale(80%);
+    }
+  }
+
   @media ${breakpointsMQ.tabletUp} {
     gap: 2rem;
     height: calc(100vh - ${sizes.header}px);

@@ -20,6 +20,9 @@ const Globals = createGlobalStyle`
 ::-webkit-scrollbar {
   width: 10px;
 }
+::-moz-scrollbar {
+  width: 10px;
+}
 
 /* Track */
 ::-webkit-scrollbar-track {
@@ -46,7 +49,7 @@ body{
   overflow: hidden;
 
   &:after {
-    content: '';
+    /* content: '';
     position: absolute;
     top: 0;
     left: 0;
@@ -56,10 +59,15 @@ body{
     opacity: 100%;
     z-index: 999;
     background-size: cover;
-    background-blend-mode: normal;
-    mix-blend-mode: multiply;
+    opacity: 0;
+    
     background-image: url(${Filter.src});
     background-repeat: no-repeat;
+
+    @supports ((mix-blend-mode: multiply)) {
+      opacity: 1;
+      mix-blend-mode: multiply;
+    }; */
   }
   
   &:before {
@@ -72,7 +80,6 @@ body{
     pointer-events: none;
     opacity: 15%;
     z-index: -1;
-    mix-blend-mode: color;
     background-image: url(${BackgroundImage.src});
     background-size: 60%;
       @media ${breakpointsMQ.tablet}{

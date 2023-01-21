@@ -46,7 +46,7 @@ const Confirmacao: NextPage = () => {
   const Info = ({ name, value }: { name: string; value: string }) => {
     return (
       <InfoStyle>
-        <h5 className="title">{name}</h5>
+        {/* <h5 className="title">{name}</h5> */}
         <h4 className="value">{value}</h4>
       </InfoStyle>
     );
@@ -58,7 +58,7 @@ const Confirmacao: NextPage = () => {
 NOME: ${myOrder.customer.name.toUpperCase()}
 WHATSAPP: ${myOrder.customer.whatsapp}
 ${
-  myOrder.type === EOrderType.delivery
+  myOrder.type === EOrderType.withdraw
     ? "VOU RETIRAR NA PIZZARIA"
     : "QUERO O DELIVERY"
 }`

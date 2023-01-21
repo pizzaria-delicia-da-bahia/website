@@ -2,15 +2,18 @@ import styled, { css } from "styled-components";
 import { colors } from "../../../styles/colors";
 import { breakpointsMQ } from "../../../styles/mediaQueries";
 
-const selected = "&.selected";
-const previous = "&:has(~ li.selected)";
-const next = "&.selected + li";
+const selected = "&.selected.selected";
+// const previous = "&:has(~ li.selected)";
+// const next = "&.selected + li";
+const previous = "&.previous.previous";
+const next = "&.next.next";
 const hidden = "&.hidden.hidden";
 
 export const CarouselItemStyle = styled.li.attrs(
   (props: { index: number; length: number; selectedIndex: number }) => props
 )`
   display: none;
+  -moz-user-select: none;
   user-select: none;
   /* position: absolute; */
 
@@ -30,13 +33,13 @@ export const CarouselItemStyle = styled.li.attrs(
     pointer-events: none;
     opacity: 0.8;
     padding: 0.6rem 0.5rem;
-    transform: scale(60%);
+    transform: scale(70%);
 
-    min-width: 1rem;
+    min-width: 15rem;
   }
 
   ${selected} {
-    transform: scale(80%);
+    transform: scale(90%);
     padding: 0.1rem 3rem;
     z-index: 1;
     min-width: 7rem;
