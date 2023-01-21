@@ -101,9 +101,11 @@ const Itens: NextPage = () => {
       </div>
       <nav className="bottom-controls">
         <ButtonSecondary onClick={() => router.back()}>VOLTAR</ButtonSecondary>
-        <ButtonPrimary disabled={(myOrder?.items?.length ?? 0) < 1}>
-          PEDIDO PRONTO!
-        </ButtonPrimary>
+        <Link href="/pedido/informacoes-adicionais" passHref>
+          <ButtonPrimary disabled={(myOrder?.items?.length ?? 0) < 1}>
+            PEDIDO PRONTO!
+          </ButtonPrimary>
+        </Link>
       </nav>
     </ItensStyle>
   );
