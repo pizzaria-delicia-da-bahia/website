@@ -54,7 +54,6 @@ const Sabores: NextPage<ICardapio> = ({ size, groupsLeft, groupsRight }) => {
                 ? size.maxSabores > checkedList.length &&
                   setCheckedList((prev) => [...prev, s])
                 : setCheckedList((prev) => {
-                    console.log(prev);
                     return prev.filter((x) => x.nome !== s.nome);
                   });
             }}
@@ -98,10 +97,9 @@ const Sabores: NextPage<ICardapio> = ({ size, groupsLeft, groupsRight }) => {
         className={`${checkedList.length === 0 ? "hidden" : undefined}`}
         onClick={() => {
           addItem({
-            valor: checkedList.reduce(
-              (max, curr) => getSaborValor(curr) + max,
-              0
-            ),
+            valor:
+              checkedList.reduce((max, curr) => getSaborValor(curr) + max, 0) /
+              checkedList.length,
             sabores: checkedList,
             tamanho: size,
             id: uuidv4(),

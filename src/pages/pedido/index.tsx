@@ -58,9 +58,11 @@ const Pedido: NextPage = () => {
             <Badge number={myOrder?.items?.length ?? 0} />
           </ButtonSecondary>
         </Link>
-        <ButtonPrimary disabled={(myOrder?.items?.length ?? 0) < 1}>
-          PEDIDO PRONTO!
-        </ButtonPrimary>
+        <Link href="/pedido/informacoes-adicionais" passHref>
+          <ButtonPrimary disabled={(myOrder?.items?.length ?? 0) < 1}>
+            PEDIDO PRONTO!
+          </ButtonPrimary>
+        </Link>
       </nav>
     </PedidoStyle>
   );
