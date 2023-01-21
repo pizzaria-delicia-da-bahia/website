@@ -249,7 +249,7 @@ const InformacoesAdicionais: NextPage = () => {
                       data.customer.address?.cep?.replace(/[^\d]/g, "") ||
                       data.customer.address.street
                     }`
-                  : ""
+                  : "/address="
               }`
             );
           }}
