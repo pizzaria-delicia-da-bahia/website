@@ -22,7 +22,7 @@ const CarouselItem: FC<ICarouselItem> = ({
   const { selectedIndex, length } = useCarousel();
 
   return (
-    <Link href={route} passHref key={title} style={{ display: "none" }}>
+    <Link href={route} passHref key={title}>
       <CarouselItemStyle
         className={`${
           selectedIndex === index
