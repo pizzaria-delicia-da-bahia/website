@@ -78,10 +78,16 @@ const Pagamento: NextPage = ({ fee }: { fee: number }) => {
         <h1>PAGAMENTO</h1>
         <h4>
           VALOR TOTAL <b>{formatCurrency(data.value)}</b>
-          {myOrder.fee > 0 && myOrder.type === EOrderType.delivery && (
-            <span>{` (ITENS + TAXA DE ENTREGA)`}</span>
-          )}
         </h4>
+        {myOrder.type === EOrderType.delivery && (
+          <p>
+            {fee > 0 ? (
+              <span>{`(ITENS + TAXA DE ENTREGA)`}</span>
+            ) : (
+              <span>{`(SEU ENDEREÇO NÃO FOI ENCONTRADO, FALTA INCLUIR A TAXA DE ENTREGA)`}</span>
+            )}
+          </p>
+        )}
       </div>
       <div className="menu">
         <div className="inputs-changes-methods">
@@ -129,7 +135,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     try {
       const url = `${process.env.API_URL}/taxa/?${address}`;
       const { taxa } = await (await fetch(url)).json();
-
       return {
         props: {
           fee: taxa,

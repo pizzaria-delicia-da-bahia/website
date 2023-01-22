@@ -51,8 +51,6 @@ export const MyInput: FC<{
         onKeyDown={(e) => {
           const onlyNumbers = e.key.match(/[^\d-)(\s]/g);
           const cutOrCopy = (e.key === "c" || e.key === "v") && e.ctrlKey;
-          // !["Control", "Alt", 'Shift'].includes(e.key)
-          console.log(e.key);
           if (
             type === "phoneNumber" &&
             onlyNumbers &&
