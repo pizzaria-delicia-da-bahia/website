@@ -26,7 +26,7 @@ const MyOrderContext = createContext<{
   removeItem: (itemId: string) => void;
   removePayment: (PaymentId: string) => void;
   removeAllPayments: () => void;
-  setInfo: (customer: ICustomer, type: EOrderType) => void;
+  setInfo: (customer: ICustomer, type: EOrderType, fee: number) => void;
   setFee: (fee: number) => void;
 }>(null);
 
@@ -51,6 +51,8 @@ const MyOrderProvider: FC<{ children: ReactNode }> = ({ children }) => {
   };
 
   useEffect(() => {
+    // localStorage.removeItem("customer");
+    // localStorage.removeItem("myOrder");
     const fromLocal = JSON.parse(localStorage.getItem("myOrder")) as IOrder;
     const getTimeDiffInHours = (date: Date) =>
       (new Date().getTime() - date.getTime()) / 1000 / 60 / 60;
@@ -95,11 +97,11 @@ const MyOrderProvider: FC<{ children: ReactNode }> = ({ children }) => {
     setMyOrder(newOrder);
   };
 
-  const setInfo = (customer: ICustomer, type: EOrderType) => {
+  const setInfo = (customer: ICustomer, type: EOrderType, fee: number) => {
     const localCustomer =
       (JSON.parse(localStorage.getItem("customer")) as ICustomer) ?? null;
     const newLocalCustomer: ICustomer = {
-      name: (customer.name = "" ? localCustomer?.name ?? "" : customer.name),
+      name: customer.name === "" ? localCustomer?.name ?? "" : customer.name,
       address:
         customer.address.street === ""
           ? localCustomer?.address ?? EmptyAddress
@@ -116,7 +118,7 @@ const MyOrderProvider: FC<{ children: ReactNode }> = ({ children }) => {
       ...myOrder,
       customer,
       type,
-      fee: 0,
+      fee,
     });
   };
 

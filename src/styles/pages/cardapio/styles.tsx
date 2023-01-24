@@ -16,6 +16,33 @@ export const CardapioStyle = styled.main`
   padding: 5rem 0.3rem;
   position: relative;
 
+  .sizes {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    margin-bottom: 2rem;
+    padding: 0 min(2rem, 2vw);
+    li {
+      border-radius: 10px;
+      padding: 1rem;
+      box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+      color: ${colors.background};
+      background-color: ${colors.elements};
+      flex-grow: 1;
+      & > label {
+        font-weight: bolder;
+        font-size: min(1.5rem, 3vw);
+      }
+      .info {
+        display: flex;
+        gap: 0.5rem;
+        font-size: min(1rem, 2.5vw);
+      }
+    }
+  }
+
   .groups-left {
     position: relative;
   }

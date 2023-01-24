@@ -14,7 +14,7 @@ import { PaymentMethod } from "../../../components/pedido/paymentMethod";
 import { ButtonBankNote } from "../../../components/pedido/bankNoteButton";
 import { sleep } from "../../../utitl/functions/misc";
 
-const Pagamento: NextPage = ({ fee }: { fee: number }) => {
+const Pagamento: NextPage = () => {
   const { myOrder, setFee, addPayment, removeAllPayments } = useMyOrder();
   const router = useRouter();
   const [data, setData] = useState<{
@@ -24,7 +24,7 @@ const Pagamento: NextPage = ({ fee }: { fee: number }) => {
   }>({
     value:
       myOrder && myOrder.items?.length
-        ? myOrder.items.reduce((acc, item) => acc + item.valor, 0) + fee
+        ? myOrder.items.reduce((acc, item) => acc + item.valor, 0) + myOrder.fee
         : 0,
     changeFor: 0,
     type: null,
@@ -41,7 +41,7 @@ const Pagamento: NextPage = ({ fee }: { fee: number }) => {
     ) {
       router.push("/pedido");
     } else {
-      setFee(fee);
+      // setFee(fee);
       removeAllPayments();
     }
   }, []);
@@ -81,7 +81,7 @@ const Pagamento: NextPage = ({ fee }: { fee: number }) => {
         </h4>
         {myOrder.type === EOrderType.delivery && (
           <p>
-            {fee > 0 ? (
+            {myOrder.fee > 0 ? (
               <span>{`(ITENS + TAXA DE ENTREGA)`}</span>
             ) : (
               <span>{`(SEU ENDEREÇO NÃO FOI ENCONTRADO, FALTA INCLUIR A TAXA DE ENTREGA)`}</span>
@@ -91,20 +91,24 @@ const Pagamento: NextPage = ({ fee }: { fee: number }) => {
       </div>
       <div className="menu">
         <div className="inputs-changes-methods">
-          <span className="input-label">SELECIONE UM MÉTODO:</span>
           <div className="methods">
-            {["cash", "card", "pix"].map((x) => (
-              <MakePaymentMethod key={x} type={x as "cash" | "card" | "pix"} />
-            ))}
+            <span className="input-label">SELECIONE UM MÉTODO:</span>
+            <ul>
+              {["cash", "card", "pix"].map((x) => (
+                <MakePaymentMethod
+                  key={x}
+                  type={x as "cash" | "card" | "pix"}
+                />
+              ))}
+            </ul>
           </div>
-          <div className="inputs">
-            <div className="changes">
-              <span className="input-label">TROCO PARA:</span>
-              <div className="changes-wrapper">
-                {[5, 10, 20, 50, 100, 200].map((x) => (
-                  <MakeButtonBankNote key={x} value={x} />
-                ))}
-              </div>
+
+          <div className="changes">
+            <span className="input-label">TROCO PARA:</span>
+            <div className="changes-wrapper">
+              {[5, 10, 20, 50, 100, 200].map((x) => (
+                <MakeButtonBankNote key={x} value={x} />
+              ))}
             </div>
           </div>
         </div>
@@ -127,27 +131,27 @@ const Pagamento: NextPage = ({ fee }: { fee: number }) => {
 };
 
 export default Pagamento;
+// [address]
+// export const getServerSideProps: GetServerSideProps = async (ctx) => {
+//   const { address } = ctx.query;
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { address } = ctx.query;
-
-  if (address) {
-    try {
-      const url = `${process.env.API_URL}/taxa/?${address}`;
-      const { taxa } = await (await fetch(url)).json();
-      return {
-        props: {
-          fee: taxa,
-        },
-      };
-    } catch (e) {
-      return {
-        props: { fee: 0 },
-      };
-    }
-  } else {
-    return {
-      props: { fee: 0 },
-    };
-  }
-};
+//   if (address) {
+//     try {
+//       const url = `${process.env.API_URL}/taxa/?${address}`;
+//       const { taxa } = await (await fetch(url)).json();
+//       return {
+//         props: {
+//           fee: taxa,
+//         },
+//       };
+//     } catch (e) {
+//       return {
+//         props: { fee: 0 },
+//       };
+//     }
+//   } else {
+//     return {
+//       props: { fee: 0 },
+//     };
+//   }
+// };

@@ -118,7 +118,7 @@ ${myOrder.payments.map(
         ? "EM ESPÉCIE"
         : "NO PIX"
     }${
-      payment.changeFor > payment.value
+      myOrder.type === EOrderType.delivery && payment.changeFor > payment.value
         ? `
 TROCO PARA ${payment.changeFor}`
         : ""

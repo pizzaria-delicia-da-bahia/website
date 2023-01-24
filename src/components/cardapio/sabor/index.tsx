@@ -23,7 +23,9 @@ export const Sabor = ({
     style={!active ? { opacity: 0.4, pointerEvents: "none" } : {}}
     showCheckBox={showCheckBox}
     className={`${!active ? "disabled" : undefined}`}
-    onClick={(e) => e.target === e.currentTarget && setChecked(!checked)}
+    onClick={(e) =>
+      showCheckBox && e.target === e.currentTarget && setChecked(!checked)
+    }
   >
     {showCheckBox && (
       <div className="left">

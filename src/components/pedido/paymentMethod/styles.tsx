@@ -3,18 +3,17 @@ import { colors } from "../../../styles/colors";
 import { breakpointsMQ, hover } from "../../../styles/mediaQueries";
 
 export const PaymentMethodStyle = styled.button`
-  font-size: min(1.5rem, 3.5vw);
-  padding: 1rem;
-  border: 3px solid #000;
-  /* border-width: 3px; */
-  border-radius: 10px;
+  position: relative;
+  display: flex;
+  align-items: center;
   font-weight: 800;
+  border: none;
+  background-color: transparent;
   cursor: pointer;
   transition: all 0.2s ease-out;
   position: relative;
-  height: 100%;
-  -webkit-text-stroke: 0.5px black;
-  text-shadow: 0px 2px 10px rgba(0, 0, 0, 0.8);
+  height: 100px;
+
   ${hover} {
     &:hover {
       transform: scale(105%);

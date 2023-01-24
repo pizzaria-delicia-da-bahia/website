@@ -1,4 +1,4 @@
-import { NextPage } from "next";
+import { GetServerSideProps, NextPage } from "next";
 import { useEffect, useState } from "react";
 import { InformacoesAdicionaisStyle } from "../../../styles/pages/pedido/informacoes-adicionais/styles";
 import { useMyOrder } from "../../../context/myOrderContext";
@@ -17,8 +17,8 @@ interface IData {
   type: EOrderType;
 }
 
-const InformacoesAdicionais: NextPage = () => {
-  const { myOrder, setInfo } = useMyOrder();
+const InformacoesAdicionais: NextPage<{ api_url: string }> = ({ api_url }) => {
+  const { myOrder, setInfo, setFee } = useMyOrder();
   const [data, setData] = useState<IData | null>(null);
   const router = useRouter();
 
@@ -44,6 +44,28 @@ const InformacoesAdicionais: NextPage = () => {
   useEffect(() => {
     getCustomerFromLocalStorage();
   }, []);
+
+  const next = async () => {
+    try {
+      const { taxa } = await (
+        await fetch(`${api_url}`, {
+          method: "POST",
+          body: JSON.stringify(data.customer.address),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+      ).json();
+
+      setInfo(data.customer, data.type, Number(taxa));
+      sleep();
+
+      router.push(`/pedido/pagamento`);
+    } catch (err) {
+      console.error(err, err.stack);
+      alert("Erro ❌");
+    }
+  };
 
   return (
     <InformacoesAdicionaisStyle>
@@ -238,21 +260,7 @@ const InformacoesAdicionais: NextPage = () => {
             (data.type === EOrderType.delivery &&
               (data.customer.address?.street?.length ?? 0) < 5)
           }
-          onClick={() => {
-            setInfo(data.customer, data.type);
-            sleep();
-            router.push(
-              `/pedido/pagamento${
-                data.type === EOrderType.delivery &&
-                data.customer.address.street.length > 0
-                  ? `/address=${
-                      data.customer.address?.cep?.replace(/[^\d]/g, "") ||
-                      data.customer.address.street
-                    }`
-                  : "/address="
-              }`
-            );
-          }}
+          onClick={() => next()}
         >
           PRÓXIMO PASSO
         </ButtonPrimary>
@@ -262,3 +270,11 @@ const InformacoesAdicionais: NextPage = () => {
 };
 
 export default InformacoesAdicionais;
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  return {
+    props: {
+      api_url: `${process.env.API_URL}/taxa`,
+    },
+  };
+};

@@ -5,7 +5,7 @@ import { ISabor } from "../../types/item";
 import { getValueString } from "../../utitl/functions/format";
 import { Sabor } from "../../components/cardapio/sabor";
 
-const Cardapio: NextPage<ICardapio> = ({ groupsLeft, groupsRight }) => {
+const Cardapio: NextPage<ICardapio> = ({ sizes, groupsLeft, groupsRight }) => {
   const getAllValues = (s: ISabor) => {
     return s.valores.map((v) => getValueString(v)).join(", ");
   };
@@ -29,6 +29,23 @@ const Cardapio: NextPage<ICardapio> = ({ groupsLeft, groupsRight }) => {
 
   return (
     <CardapioStyle>
+      <div className="sizes">
+        {sizes
+          .filter((x) => x.visivel)
+          .map((s) => (
+            <li key={s.nome} className="size">
+              <label>
+                {s.nome} - {s.fatias} Fatias
+              </label>
+              <div className="info">
+                <label>
+                  Até {s.maxSabores} sabor{s.maxSabores > 1 && "es"}
+                </label>
+                <label>Aprox. {s.tamanhoAprox}cm</label>
+              </div>
+            </li>
+          ))}
+      </div>
       <div className="groups">
         <aside className="groups-left">
           {groupsLeft.map((g) => getGroups(g))}
@@ -44,6 +61,10 @@ const Cardapio: NextPage<ICardapio> = ({ groupsLeft, groupsRight }) => {
 export default Cardapio;
 
 export const getStaticProps: GetStaticProps = async () => {
+  const { tamanhos: sizes } = await (
+    await fetch(`${process.env.API_URL}/pizzas/tamanhos`)
+  ).json();
+
   const { grupos } = await (
     await fetch(`${process.env.API_URL}/pizzas/sabores`)
   ).json();
@@ -57,6 +78,7 @@ export const getStaticProps: GetStaticProps = async () => {
 
   return {
     props: {
+      sizes,
       groupsLeft,
       groupsRight,
     },

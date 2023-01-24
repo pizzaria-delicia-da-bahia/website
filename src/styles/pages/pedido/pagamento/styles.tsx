@@ -46,27 +46,29 @@ export const PagamentoStyle = styled.main`
     }
 
     .inputs-changes-methods {
-      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
       padding: 0 0.5rem;
 
       .methods {
-        padding: 0.5rem 0.5rem;
-        width: 100%;
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 1rem;
-        align-items: center;
-        justify-content: space-evenly;
-        /* height: rem; */
+        ul {
+          padding: 0.5rem 0.5rem;
+          width: 100%;
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          /* gap: 1rem; */
+          align-items: center;
+          justify-content: center;
+        }
       }
-      .inputs {
-        .changes {
-          .changes-wrapper {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 0.3rem;
-          }
+
+      .changes {
+        .changes-wrapper {
+          display: flex;
+          justify-content: center;
+          flex-wrap: wrap;
+          gap: 0.3rem;
         }
       }
     }
@@ -92,7 +94,9 @@ export const PagamentoStyle = styled.main`
     .menu {
       .inputs-changes-methods {
         .methods {
-          padding: 1rem 2rem;
+          ul {
+            padding: 1rem 2rem;
+          }
         }
         .inputs {
           .changes {
