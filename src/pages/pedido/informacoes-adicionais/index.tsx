@@ -1,26 +1,35 @@
 import { GetServerSideProps, NextPage } from "next";
 import { useEffect, useState } from "react";
-import { InformacoesAdicionaisStyle } from "../../../styles/pages/pedido/informacoes-adicionais/styles";
+import {
+  BairroSelect,
+  InformacoesAdicionaisStyle,
+} from "../../../styles/pages/pedido/informacoes-adicionais/styles";
 import { useMyOrder } from "../../../context/myOrderContext";
+import { queryString } from "js-query-string-object";
 import {
   ButtonPrimary,
   ButtonSecondary,
 } from "../../../styles/components/buttons";
 import { formatCurrency } from "../../../utitl/functions/format";
 import { useRouter } from "next/router";
-import { EOrderType, ICustomer } from "../../../types/order";
+import { EOrderType, ICustomer, INeighbourhood } from "../../../types/order";
 import { sleep } from "../../../utitl/functions/misc";
 import { MyInput } from "../../../components/pedido/myInput";
+import { useNotification } from "../../../components/notification";
 
 interface IData {
   customer: ICustomer;
   type: EOrderType;
 }
 
-const InformacoesAdicionais: NextPage<{ api_url: string }> = ({ api_url }) => {
+const InformacoesAdicionais: NextPage<{
+  api_url: string;
+  neighbourhoods: INeighbourhood[];
+}> = ({ api_url, neighbourhoods }) => {
   const { myOrder, setInfo, setFee } = useMyOrder();
   const [data, setData] = useState<IData | null>(null);
   const router = useRouter();
+  const { notification } = useNotification();
 
   const getCustomerFromLocalStorage = () => {
     const customer =
@@ -35,6 +44,7 @@ const InformacoesAdicionais: NextPage<{ api_url: string }> = ({ api_url }) => {
           number: "",
           place: "",
           reference: "",
+          neighbourhood: { id: null, name: "" },
           cep: "",
         },
       },
@@ -47,17 +57,21 @@ const InformacoesAdicionais: NextPage<{ api_url: string }> = ({ api_url }) => {
 
   const next = async () => {
     try {
+      const query = queryString({
+        ...data.customer.address,
+        neighbourhood: data.customer.address.neighbourhood.id,
+      });
+
       const { taxa } = await (
-        await fetch(`${api_url}`, {
-          method: "POST",
-          body: JSON.stringify(data.customer.address),
+        await fetch(`${api_url}/taxa${query}`, {
+          method: "GET",
           headers: {
             "Content-Type": "application/json",
           },
         })
       ).json();
 
-      setInfo(data.customer, data.type, Number(taxa));
+      setInfo(data.customer, data.type, Number(taxa ?? 0));
       sleep();
 
       router.push(`/pedido/pagamento`);
@@ -67,10 +81,44 @@ const InformacoesAdicionais: NextPage<{ api_url: string }> = ({ api_url }) => {
     }
   };
 
+  const searchCEP = async () => {
+    const { enderecos } = (await (
+      await fetch(`${api_url}/enderecos?cep=${data.customer.address.cep}`, {
+        headers: { "Content-Type": "application/json" },
+      })
+    ).json()) as {
+      enderecos: Array<{
+        bairro: { id: number; nome: string };
+        cep: string;
+        id: number;
+        rua: string;
+        taxa: number;
+      }>;
+    };
+
+    if (!enderecos) {
+      notification("❌ Endereço não localizado!");
+      return;
+    }
+    const e = enderecos[0];
+    setData((prev) => ({
+      ...prev,
+      customer: {
+        ...prev.customer,
+        address: {
+          ...prev.customer.address,
+          neighbourhood: { id: e.bairro.id, name: e.bairro.nome },
+          street: e.rua,
+        },
+      },
+    }));
+  };
+
   return (
     <InformacoesAdicionaisStyle>
       <div className="text">
         <h1>INFORMAÇÕES ADICIONAIS</h1>
+        <p>OS CAMPOS COM * (ASTERISCO) SÃO OBRIGATÓRIOS</p>
       </div>
       <form className="menu">
         <section className="ordertype">
@@ -125,34 +173,44 @@ const InformacoesAdicionais: NextPage<{ api_url: string }> = ({ api_url }) => {
             }
           />
           <section
-            className={`address-info ${
-              !data || data.type !== EOrderType.delivery
-                ? "disabled"
-                : undefined
+            className={`address-info${
+              !data || data.type !== EOrderType.delivery ? " disabled" : ""
             }`}
           >
             <div className={`input-group cep-endereco-n`}>
-              <MyInput
-                tabIndex={
-                  !data || data.type != EOrderType.delivery ? -1 : undefined
-                }
-                name="CEP"
-                type="text"
-                placeholder="EX: 40000-000"
-                value={(data && data.customer.address.cep) ?? ""}
-                setValue={(value) =>
-                  setData((prev) => ({
-                    ...prev,
-                    customer: {
-                      ...prev.customer,
-                      address: {
-                        ...prev.customer.address,
-                        cep: value as string,
+              <div className="cep">
+                <MyInput
+                  tabIndex={
+                    !data || data.type != EOrderType.delivery ? -1 : undefined
+                  }
+                  name="CEP"
+                  type="phoneNumber"
+                  placeholder="EX: 40000-000"
+                  value={(data && data.customer.address.cep) ?? ""}
+                  setValue={(value) =>
+                    setData((prev) => ({
+                      ...prev,
+                      customer: {
+                        ...prev.customer,
+                        address: {
+                          ...prev.customer.address,
+                          cep: value as string,
+                        },
                       },
-                    },
-                  }))
-                }
-              />
+                    }))
+                  }
+                />
+                <button
+                  type="button"
+                  disabled={
+                    String(data?.customer?.address?.cep).replace(/[^0-9]/g, "")
+                      .length !== 8
+                  }
+                  onClick={searchCEP}
+                >
+                  🔎
+                </button>
+              </div>
               <MyInput
                 tabIndex={
                   !data || data.type != EOrderType.delivery ? -1 : undefined
@@ -196,7 +254,37 @@ const InformacoesAdicionais: NextPage<{ api_url: string }> = ({ api_url }) => {
                 }
               />
             </div>
-            <div className={`input-group local-referencia`}>
+            <div className={`input-group bairro-local-referencia`}>
+              <BairroSelect>
+                <label htmlFor="bairro-select">BAIRRO *</label>
+                <select
+                  name="bairro-select"
+                  value={data?.customer?.address?.neighbourhood?.id}
+                  onChange={(e) =>
+                    setData((prev) => ({
+                      ...prev,
+                      customer: {
+                        ...prev.customer,
+                        address: {
+                          ...prev.customer.address,
+                          neighbourhood: {
+                            id: Number(e.target.value),
+                            name: e.target.innerText,
+                          },
+                        },
+                      },
+                    }))
+                  }
+                >
+                  <option value={null}>--Selecione--</option>
+                  {neighbourhoods.map((n) => (
+                    <option value={n.id} key={n.id}>
+                      {n.nome}
+                    </option>
+                  ))}
+                </select>
+              </BairroSelect>
+
               <MyInput
                 tabIndex={
                   !data || data.type != EOrderType.delivery ? -1 : undefined
@@ -241,8 +329,6 @@ const InformacoesAdicionais: NextPage<{ api_url: string }> = ({ api_url }) => {
               />
             </div>
           </section>
-
-          <div className="place-type"></div>
         </section>
       </form>
       <nav className="bottom-controls">
@@ -258,7 +344,9 @@ const InformacoesAdicionais: NextPage<{ api_url: string }> = ({ api_url }) => {
             data.customer.name.length < 2 ||
             data.customer.whatsapp.length < 8 ||
             (data.type === EOrderType.delivery &&
-              (data.customer.address?.street?.length ?? 0) < 5)
+              (data.customer.address?.street?.length ?? 0) < 5) ||
+            (data.type === EOrderType.delivery &&
+              !data.customer.address?.neighbourhood?.id)
           }
           onClick={() => next()}
         >
@@ -272,9 +360,14 @@ const InformacoesAdicionais: NextPage<{ api_url: string }> = ({ api_url }) => {
 export default InformacoesAdicionais;
 
 export const getServerSideProps: GetServerSideProps = async () => {
+  const { bairros } = await (
+    await fetch(`${process.env.API_URL}/bairros`)
+  ).json();
+
   return {
     props: {
-      api_url: `${process.env.API_URL}/taxa`,
+      api_url: `${process.env.API_URL}`,
+      neighbourhoods: bairros,
     },
   };
 };

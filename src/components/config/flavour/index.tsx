@@ -11,7 +11,6 @@ export const Flavour: FC<{
   const [myGroup, setMyGroup] = useState<string | null>(null);
 
   const saveFlavour = async (flavour: ISabor) => {
-    console.log(JSON.stringify(flavour));
     const response = await fetch(`${api_url}/pizzas/sabores`, {
       method: sabor.nome.length > 0 ? "PATCH" : "POST",
       body: JSON.stringify(
@@ -21,6 +20,7 @@ export const Flavour: FC<{
     });
     if (response.status === 200) {
       alert("Sabor alterado ✅");
+      !sabor.nome.length && setMyValue(sabor);
     }
   };
 

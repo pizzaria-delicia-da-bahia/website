@@ -12,7 +12,7 @@ import { IItem } from "../types/item";
 
 import {
   EOrderType,
-  IAddress,
+  ICustomerAddress,
   ICustomer,
   IOrder,
   IPayment,
@@ -33,7 +33,7 @@ const MyOrderContext = createContext<{
 const MyOrderProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [myOrder, setMyOrder] = useState<IOrder | null>(null);
 
-  const EmptyAddress: IAddress = {
+  const EmptyAddress: ICustomerAddress = {
     number: "",
     street: "",
     cep: "",

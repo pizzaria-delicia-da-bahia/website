@@ -23,13 +23,22 @@ export enum EOrderType {
 export interface ICustomer {
   name: string;
   whatsapp: string;
-  address: IAddress;
+  address: ICustomerAddress;
 }
 
-export interface IAddress {
-  street: string;
+export interface ICustomerAddress extends Omit<IAddress, "fee" | "cep"> {
   number: string;
   place?: string;
   reference?: string;
   cep?: string;
+}
+export interface IAddress {
+  street: string;
+  cep: string;
+  neighbourhood: { id: number; name: string };
+  fee: number;
+}
+export interface INeighbourhood {
+  id: number;
+  nome: string;
 }

@@ -4,6 +4,7 @@ import NavigationProvider from "../context/navigationContext";
 import Globals from "../styles/globals";
 import Favicon from "../../public/favicon.ico";
 import MyOrderProvider from "../context/myOrderContext";
+import NotificationProvider from "../components/notification";
 
 export default function App({ Component, pageProps }) {
   return (
@@ -19,13 +20,15 @@ export default function App({ Component, pageProps }) {
             deliciosas de Salvador!`}
         />
       </Head>
-      <NavigationProvider>
-        <MyOrderProvider>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-        </MyOrderProvider>
-      </NavigationProvider>
+      <NotificationProvider>
+        <NavigationProvider>
+          <MyOrderProvider>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </MyOrderProvider>
+        </NavigationProvider>
+      </NotificationProvider>
       <Globals />
     </>
   );

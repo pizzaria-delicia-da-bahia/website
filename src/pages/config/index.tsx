@@ -1,22 +1,19 @@
 import { GetServerSideProps, GetStaticProps, NextPage } from "next";
-import { CardapioStyle } from "../../styles/pages/cardapio/styles";
-import { ICardapio, IGrupo } from "../../types/cardapio";
 import { IBebidaOutro, ISabor, ITamanho } from "../../types/item";
-import { getValueString } from "../../utitl/functions/format";
-import { Sabor } from "../../components/cardapio/sabor";
 import { ConfigStyle } from "../../styles/pages/config/styles";
-import { IAddress } from "../../types/order";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Flavour } from "../../components/config/flavour";
 import { Size } from "../../components/config/size";
 import { Other } from "../../components/config/other";
+import { Address } from "../../components/config/address";
+import { IEndereco } from "../../types/endereco";
 
 interface IConfig {
   sabores: Array<ISabor>;
   tamanhos: Array<ITamanho>;
   bebidas: Array<IBebidaOutro>;
   lanches: Array<IBebidaOutro>;
-  enderecos: Array<IAddress>;
+  enderecos: Array<IEndereco>;
   grupos: Array<string>;
   api_url: string;
 }
@@ -35,6 +32,9 @@ const Config: NextPage<IConfig> = ({
   >("flavours");
 
   const [showNew, setShowNew] = useState<boolean>(false);
+  const [isAuth, setIsAuth] = useState<boolean>(false);
+  const [pageCount, setPageCount] = useState<number>(1);
+  const itemsPerPage = 12;
 
   const emptyFlavour: ISabor = {
     disponivel: true,
@@ -58,12 +58,38 @@ const Config: NextPage<IConfig> = ({
     valor: 0,
   };
 
-  console.log(grupos);
-  return (
+  const getAuth = async () => {
+    try {
+      const pw = window.prompt("Insira a senha de acesso:", "");
+      if (pw) {
+        const response = await fetch(`${api_url}/auth`, {
+          method: "POST",
+          body: JSON.stringify({ pw: Buffer.from(pw) }),
+          headers: { "Content-Type": "application/json" },
+        });
+
+        // console.log(JSON.stringify({ pw: Buffer.from(pw) }));
+        if (response.status === 200) {
+          alert("Bem vindo");
+          setIsAuth(true);
+        }
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  return isAuth ? (
     <ConfigStyle>
       <div className="controller">
         <label>Mostrar:</label>
-        <select value={show} onChange={(e) => setShow(e.target.value)}>
+        <select
+          value={show}
+          onChange={(e) => {
+            setShow(e.target.value);
+            setPageCount(1);
+          }}
+        >
           <option value={"flavours"}>SABORES</option>
           <option value={"sizes"}>TAMANHOS</option>
           <option value={"drinks"}>BEBIDAS</option>
@@ -93,29 +119,99 @@ const Config: NextPage<IConfig> = ({
           )}
         </div>
       )}
+      <div className="page-control">
+        <button
+          type="button"
+          disabled={pageCount <= 1}
+          onClick={() =>
+            setPageCount((prev) => {
+              console.log(prev, itemsPerPage);
+              return prev - itemsPerPage;
+            })
+          }
+        >
+          {"<"}
+        </button>
+        <button
+          disabled={
+            (show === "flavours" &&
+              pageCount + itemsPerPage > sabores.length) ||
+            (show === "sizes" && pageCount + itemsPerPage > tamanhos.length) ||
+            (show === "drinks" && pageCount + itemsPerPage > bebidas.length) ||
+            (show === "snacks" && pageCount + itemsPerPage > lanches.length) ||
+            (show === "addresses" &&
+              pageCount + itemsPerPage > enderecos.length)
+          }
+          type="button"
+          onClick={() => setPageCount((prev) => prev - 1 + itemsPerPage + 1)}
+        >
+          {">"}
+        </button>
+      </div>
       <ul className={`flavours ${show !== "flavours" && "hidden"}`}>
-        {sabores.map((sabor) => (
-          <Flavour api_url={api_url} sabor={sabor} key={sabor.nome} />
-        ))}
+        {sabores
+          .slice(pageCount - 1, pageCount + itemsPerPage - 1)
+          .map((sabor) => (
+            <Flavour api_url={api_url} sabor={sabor} key={sabor.nome} />
+          ))}
       </ul>
 
       <ul className={`sizes ${show !== "sizes" && "hidden"}`}>
-        {tamanhos.map((size) => (
-          <Size api_url={api_url} tamanho={size} key={size.nome} />
-        ))}
+        {tamanhos
+          .slice(pageCount - 1, pageCount + itemsPerPage - 1)
+          .map((size) => (
+            <Size api_url={api_url} tamanho={size} key={size.nome} />
+          ))}
       </ul>
 
       <ul className={`drinks ${show !== "drinks" && "hidden"}`}>
-        {bebidas.map((i) => (
+        {bebidas.slice(pageCount - 1, pageCount + itemsPerPage - 1).map((i) => (
           <Other api_url={`${api_url}/bebidas`} item={i} key={i.nome} />
         ))}
       </ul>
 
       <ul className={`snacks ${show !== "snacks" && "hidden"}`}>
-        {lanches.map((i) => (
+        {lanches.slice(pageCount - 1, pageCount + itemsPerPage - 1).map((i) => (
           <Other api_url={`${api_url}/lanches`} item={i} key={i.nome} />
         ))}
       </ul>
+
+      {/* <ul className={`addresses ${show !== "addresses" && "hidden"}`}>
+        {enderecos
+          .slice(pageCount - 1, pageCount + itemsPerPage - 1)
+          .map((i) => (
+            <Address
+              api_url={`${api_url}/enderecos`}
+              endereco={i}
+              key={i.cep}
+            />
+          ))}
+      </ul> */}
+    </ConfigStyle>
+  ) : (
+    <ConfigStyle
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        gap: 10,
+      }}
+    >
+      <h1 style={{ textAlign: "center" }}>
+        ❌ Você não tem permissão para visualizar esta página ❌
+      </h1>
+      <button
+        style={{
+          height: 50,
+          width: 250,
+          padding: "10px",
+          fontSize: "1.2rem",
+        }}
+        type="button"
+        onClick={getAuth}
+      >
+        Entrar
+      </button>
     </ConfigStyle>
   );
 };

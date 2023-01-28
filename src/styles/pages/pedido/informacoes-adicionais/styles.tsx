@@ -1,6 +1,7 @@
 import styled from "styled-components";
+import { MyInputStyle } from "../../../../components/pedido/myInput/styles";
 import { colors } from "../../../colors";
-import { breakpointsMQ } from "../../../mediaQueries";
+import { breakpointsMQ, hover } from "../../../mediaQueries";
 import { sizes } from "../../../sizes";
 
 export const InformacoesAdicionaisStyle = styled.main`
@@ -20,6 +21,9 @@ export const InformacoesAdicionaisStyle = styled.main`
     h1 {
       color: ${colors.elements};
       font-size: min(1.8rem, 5vw);
+    }
+    p {
+      font-size: min(1rem, 3vw);
     }
   }
 
@@ -48,6 +52,31 @@ export const InformacoesAdicionaisStyle = styled.main`
     }
 
     .address-info {
+      .input-group {
+        &.cep-endereco-n {
+          .cep {
+            display: grid;
+            grid-template-columns: 1fr 50px;
+            padding-right: 2rem;
+            & > div {
+              flex-grow: 1;
+            }
+            & > button {
+              cursor: pointer;
+              background-color: transparent;
+              border: none;
+              font-size: 2rem;
+              transition: all 0.1s;
+              ${hover} {
+                &:hover {
+                  font-size: 2.2rem;
+                }
+              }
+            }
+          }
+        }
+      }
+
       &.disabled {
         * {
           pointer-events: none;
@@ -57,6 +86,8 @@ export const InformacoesAdicionaisStyle = styled.main`
 
         .input-group {
           &.cep-endereco-n {
+          }
+          &.bairro-local-referencia {
           }
         }
       }
@@ -103,16 +134,28 @@ export const InformacoesAdicionaisStyle = styled.main`
 
       .address-info {
         .input-group {
+          display: grid;
           &.cep-endereco-n {
-            display: grid;
             grid-template-columns: 0.3fr 1fr 0.3fr;
           }
-          &.local-referencia {
-            display: grid;
+          &.bairro-local-referencia {
             grid-template-columns: 1fr 1fr;
+            grid-auto-rows: max-content;
+
+            & > :last-child {
+              grid-column: span 2;
+            }
           }
         }
       }
+    }
+  }
+`;
+
+export const BairroSelect = styled(MyInputStyle)`
+  select {
+    * {
+      color: #000 !important;
     }
   }
 `;

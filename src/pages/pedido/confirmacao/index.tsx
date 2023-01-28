@@ -152,7 +152,7 @@ TROCO PARA ${payment.changeFor}`
         <ButtonSecondary onClick={() => router.back()}>VOLTAR</ButtonSecondary>
         <Link
           href={encodeURI(
-            `https://api.whatsapp.com/send?phone=+5571988726927&text=
+            `https://api.whatsapp.com/send?phone=+557188726927&text=
                 ${`
 
 ${customer}`}${

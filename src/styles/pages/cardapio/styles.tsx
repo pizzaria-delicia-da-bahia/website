@@ -1,11 +1,7 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { breakpointsMQ } from "../../mediaQueries";
-import mobileShape from "../../../assets/pages/home/home-shape-center-mobile.svg";
-import tabletShape from "../../../assets/pages/home/home-shape-center-tablet.svg";
-import desktopShape from "../../../assets/pages/home/home-shape-center-desktop.svg";
-import { sizes } from "../../sizes";
-import { animations } from "../../animations";
 import { colors } from "../../colors";
+import { animations } from "../../animations";
 
 export const CardapioStyle = styled.main`
   color: #fff;
@@ -40,6 +36,17 @@ export const CardapioStyle = styled.main`
         gap: 0.5rem;
         font-size: min(1rem, 2.5vw);
       }
+    }
+  }
+
+  .value-detail {
+    text-align: center;
+    letter-spacing: 0.12rem;
+    margin: 0.5rem 0 2rem 0;
+    font-size: min(1.4rem, 3.8vw);
+    animation: ${animations.floatingSkew} infinite 5s ease-in-out;
+    b {
+      color: ${colors.elements};
     }
   }
 

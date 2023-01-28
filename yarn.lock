@@ -650,6 +650,11 @@ is-core-module@^2.9.0:
   dependencies:
     has "^1.0.3"
 
+js-query-string-object@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/js-query-string-object/-/js-query-string-object-0.0.1.tgz#1ac909baa9943edd04feb96f91b163a9aa742402"
+  integrity sha512-8iVSULeAHNiWKWMmns7bCVwZYvoZ7X3GaoaAVYeNCYIjJvpMK5q4NANRBrVISPibnV3kkIkYKJhptoUTWd+uvg==
+
 "js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
   version "4.0.0"
   resolved "https://registry.npmjs.org/js-tokens/-/js-tokens-4.0.0.tgz"

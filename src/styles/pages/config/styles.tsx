@@ -65,6 +65,29 @@ export const ConfigStyle = styled.main`
       }
     }
   }
+
+  .page-control {
+    display: flex;
+    width: 100%;
+    padding: 0.5rem;
+    justify-content: center;
+    gap: 1rem;
+    button {
+      padding: 1rem;
+      font-size: 2rem;
+      border-radius: 50%;
+      background-color: ${colors.elements};
+      flex-shrink: 0;
+      flex-grow: 0;
+      width: 4rem;
+      height: 4rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+    }
+  }
+
   .flavours,
   .sizes,
   .drinks,

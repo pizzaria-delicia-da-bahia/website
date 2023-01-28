@@ -10,7 +10,8 @@ export const MyInputStyle = styled.div`
   label {
     font-size: 0.8rem;
   }
-  input {
+  input,
+  select {
     text-transform: uppercase;
     font-size: 1.2rem;
     padding: 0.3rem;

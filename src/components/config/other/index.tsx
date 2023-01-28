@@ -10,12 +10,13 @@ export const Other: FC<{ item: IBebidaOutro; api_url: string }> = ({
 
   const saveOther = async () => {
     const response = await fetch(`${api_url}`, {
-      method: "PATCH",
+      method: item.nome === "" ? "POST" : "PATCH",
       body: JSON.stringify(myValue),
       headers: { "Content-Type": "application/json" },
     });
     if (response.status === 200) {
       alert("Item alterado ✅");
+      !item.nome.length && setMyValue(item);
     } else {
       alert("Erro ❌");
     }
@@ -25,7 +26,19 @@ export const Other: FC<{ item: IBebidaOutro; api_url: string }> = ({
     <OtherStyle>
       <div className="name">
         <img src={myValue.imagemUrl} width={50} height={50} />
-        <label>{item.nome}</label>
+        {item && <label>{item.nome}</label>}
+        {item.nome === "" && (
+          <section className="section-data">
+            <label>Nome:</label>
+            <input
+              type="text"
+              value={myValue.nome}
+              onChange={(e) =>
+                setMyValue((prev) => ({ ...prev, nome: e.target.value }))
+              }
+            />
+          </section>
+        )}
         <input
           type="checkbox"
           checked={myValue.disponivel}
@@ -34,7 +47,7 @@ export const Other: FC<{ item: IBebidaOutro; api_url: string }> = ({
           }
         />
       </div>
-      <section>
+      <section className="section-data">
         <label>Valor:</label>
         <input
           type="number"
@@ -47,7 +60,7 @@ export const Other: FC<{ item: IBebidaOutro; api_url: string }> = ({
           }
         />
       </section>
-      <section>
+      <section className="section-data">
         <label>Imagem:</label>
         <input
           type="url"

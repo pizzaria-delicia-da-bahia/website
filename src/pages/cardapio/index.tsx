@@ -46,6 +46,10 @@ const Cardapio: NextPage<ICardapio> = ({ sizes, groupsLeft, groupsRight }) => {
             </li>
           ))}
       </div>
+      <p className="value-detail">
+        * O valor da pizza será calculado pelo <b>valor médio</b> dos sabores
+        escolhidos*
+      </p>
       <div className="groups">
         <aside className="groups-left">
           {groupsLeft.map((g) => getGroups(g))}
@@ -72,7 +76,7 @@ export const getStaticProps: GetStaticProps = async () => {
   const groupsLeft = [];
   const groupsRight = [];
 
-  grupos.forEach((g) => {
+  grupos.forEach((g: IGrupo) => {
     grupos.indexOf(g) % 2 === 0 ? groupsLeft.push(g) : groupsRight.push(g);
   });
 

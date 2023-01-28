@@ -43,9 +43,10 @@ export const BebidaStyle = styled.main`
         img {
           border: 2px solid #000;
           background-color: #fff;
-          object-fit: scale-down;
+          object-fit: cover;
           border-radius: 6px;
           padding: 0.2rem;
+          height: 80px;
         }
 
         ${hover} {

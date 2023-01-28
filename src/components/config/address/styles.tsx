@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { colors } from "../../../styles/colors";
 
-export const OtherStyle = styled.li`
+export const AddressStyle = styled.li`
   border: 1px solid #000;
   background-color: rgba(0, 0, 0, 0.3);
   padding: 0.5rem;
@@ -26,7 +26,7 @@ export const OtherStyle = styled.li`
       padding: 0.1rem;
     }
 
-    input[type="checkbox"] {
+    input {
       accent-color: #03f703;
       width: 20px;
       height: 20px;
@@ -34,16 +34,14 @@ export const OtherStyle = styled.li`
     }
   }
 
-  .section-data {
+  section {
     display: flex;
     flex-direction: column;
-    flex-grow: 1;
 
     label {
       font-size: min(0.8rem, 2vw);
     }
     input {
-      flex-grow: 1;
       padding: 0.3rem;
     }
   }
