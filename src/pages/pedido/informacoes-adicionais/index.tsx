@@ -59,7 +59,7 @@ const InformacoesAdicionais: NextPage<{
     try {
       const query = queryString({
         ...data.customer.address,
-        neighbourhood: data.customer.address.neighbourhood.id,
+        neighbourhood: data.customer.address?.neighbourhood?.id ?? null,
       });
 
       const { taxa } = await (

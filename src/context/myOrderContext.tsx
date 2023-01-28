@@ -39,6 +39,7 @@ const MyOrderProvider: FC<{ children: ReactNode }> = ({ children }) => {
     cep: "",
     place: "",
     reference: "",
+    neighbourhood: { id: null, name: "" },
   };
 
   const EmptyOrder: IOrder = {
