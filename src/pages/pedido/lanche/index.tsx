@@ -1,5 +1,5 @@
 import { GetServerSideProps, NextPage } from "next";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { LancheStyle } from "../../../styles/pages/pedido/lanche/styles";
 import { useMyOrder } from "../../../context/myOrderContext";
 import { ButtonSecondary } from "../../../styles/components/buttons";
@@ -9,13 +9,33 @@ import { formatCurrency } from "../../../utitl/functions/format";
 import { useRouter } from "next/router";
 import { v4 as uuidv4 } from "uuid";
 import { sleep } from "../../../utitl/functions/misc";
+import Loading from "../../../components/loading";
+import Image from "next/image";
 
-const Lanche: NextPage<{ lanches: Array<IOutro> }> = ({ lanches }) => {
-  const { myOrder, addItem } = useMyOrder();
+const Lanche: NextPage<{ api_url: string }> = ({ api_url }) => {
+  const { addItem } = useMyOrder();
   const [selectedItem, setSelectedItem] = useState<IOutro | null>(null);
   const [quantity, setQuantity] = useState<number>(1);
   const [showQuantityModal, setShowQuantityModal] = useState<boolean>(false);
   const router = useRouter();
+
+  const [lanches, setLanches] = useState<IOutro[]>([]);
+
+  const loadItems = async () => {
+    try {
+      const lanchesFromBackend = (await (
+        await fetch(`${api_url}/lanches`)
+      ).json()) as IOutro[];
+      console.log(lanchesFromBackend);
+      setLanches(lanchesFromBackend);
+    } catch (err) {
+      console.error((err as Error).message, (err as Error).stack);
+    }
+  };
+
+  useEffect(() => {
+    loadItems();
+  }, []);
 
   const selectItem = (item: IOutro) => {
     setSelectedItem(item);
@@ -33,42 +53,58 @@ const Lanche: NextPage<{ lanches: Array<IOutro> }> = ({ lanches }) => {
   const cancelQuantity = () => {
     selectItem(null);
   };
+
   return (
     <LancheStyle>
-      <div className="text">
-        <h1>LANCHE</h1>
-      </div>
-      <div className="menu">
-        <ul>
-          {lanches.map((lanche) => (
-            <li
-              key={lanche.nome}
-              className={`${!lanche.disponivel ? "disabled" : undefined}`}
-              onClick={() => selectItem(lanche)}
-            >
-              <div className="left">
-                <img src={lanche.imagemUrl} width={40} height={40} />
-              </div>
+      {lanches.length ? (
+        <>
+          <div className="text">
+            <h1>LANCHE</h1>
+          </div>
+          <div className="menu">
+            <ul>
+              {lanches.map((lanche) => (
+                <li
+                  key={lanche.nome}
+                  className={`${!lanche.disponivel ? "disabled" : undefined}`}
+                  onClick={() => selectItem(lanche)}
+                >
+                  <div className="left">
+                    {/* <img src={lanche.imagemUrl} width={40} height={40} /> */}
+                    <Image
+                      loader={() => lanche.imagemUrl}
+                      src={lanche.imagemUrl}
+                      width={110}
+                      height={90}
+                      objectFit={"cover"}
+                    />
+                  </div>
 
-              <div className="right">
-                <h5 className="title">{lanche.nome.toUpperCase()}</h5>
-                <p className="value">{formatCurrency(lanche.valor)}</p>
-              </div>
-            </li>
-          ))}
-        </ul>
-        <ItemQuantityModal
-          item={selectedItem}
-          value={quantity}
-          setValue={setQuantity}
-          showModal={showQuantityModal}
-          confirm={() => confirmQuantity(selectedItem)}
-          cancel={cancelQuantity}
-        />
-      </div>
-      <nav className="bottom-controls">
-        <ButtonSecondary onClick={() => router.back()}>VOLTAR</ButtonSecondary>
-      </nav>
+                  <div className="right">
+                    <h5 className="title">{lanche.nome.toUpperCase()}</h5>
+                    <p className="value">{formatCurrency(lanche.valor)}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+            <ItemQuantityModal
+              item={selectedItem}
+              value={quantity}
+              setValue={setQuantity}
+              showModal={showQuantityModal}
+              confirm={() => confirmQuantity(selectedItem)}
+              cancel={cancelQuantity}
+            />
+          </div>
+          <nav className="bottom-controls">
+            <ButtonSecondary onClick={() => router.back()}>
+              VOLTAR
+            </ButtonSecondary>
+          </nav>
+        </>
+      ) : (
+        <Loading />
+      )}
     </LancheStyle>
   );
 };
@@ -76,10 +112,9 @@ const Lanche: NextPage<{ lanches: Array<IOutro> }> = ({ lanches }) => {
 export default Lanche;
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const lanches = await (await fetch(`${process.env.API_URL}/lanches`)).json();
   return {
     props: {
-      lanches,
+      api_url: process.env.API_URL,
     },
   };
 };

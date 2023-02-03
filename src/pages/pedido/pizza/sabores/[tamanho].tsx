@@ -1,11 +1,11 @@
 import { GetServerSideProps, NextPage } from "next";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { ICardapio } from "../../../../types/cardapio";
 import {
   IPizzaSabor,
   IPizzaGrupo,
   IPizzaSaborValor,
+  IPizzaTamanho,
 } from "../../../../types/pizza";
 import { IPizza } from "../../../../types/item";
 import {
@@ -20,13 +20,50 @@ import {
   FloatButton,
 } from "../../../../styles/components/buttons";
 import { v4 as uuidv4 } from "uuid";
+import Loading from "../../../../components/loading";
 
-const Sabores: NextPage<ICardapio> = ({ size, groupsLeft, groupsRight }) => {
+const Sabores: NextPage<{ tamanhoId: string; api_url: string }> = ({
+  tamanhoId,
+  api_url,
+}) => {
   const router = useRouter();
   const [checkedList, setCheckedList] = useState<IPizzaSabor[]>([]);
   const { addItem } = useMyOrder();
+  const [size, setSize] = useState<IPizzaTamanho | null>(null);
+  const [groups, setGroups] = useState<Array<IPizzaGrupo[]>>([]);
 
-  if (!size) router.back();
+  const loadAll = async () => {
+    try {
+      const sizesFromBackend = (await (
+        await fetch(`${api_url}/pizzas/tamanhos?id=${tamanhoId}`)
+      ).json()) as IPizzaTamanho[];
+
+      if (!sizesFromBackend[0]) throw new Error("Tamanho inválido");
+      setSize(sizesFromBackend[0]);
+
+      const groupsFromBackend = (await (
+        await fetch(`${api_url}/pizzas/sabores`)
+      ).json()) as IPizzaGrupo[];
+
+      const groupsLeft: IPizzaGrupo[] = [];
+      const groupsRight: IPizzaGrupo[] = [];
+
+      groupsFromBackend.forEach((g) => {
+        groupsFromBackend.indexOf(g) % 2 === 0
+          ? groupsLeft.push(g)
+          : groupsRight.push(g);
+      });
+
+      setGroups([groupsLeft, groupsRight]);
+    } catch (e) {
+      console.error((e as Error).message, (e as Error).stack);
+      router.back();
+    }
+  };
+
+  useEffect(() => {
+    loadAll();
+  }, []);
 
   const getAllValues = (valores: IPizzaSaborValor[]) => {
     return (
@@ -74,50 +111,60 @@ const Sabores: NextPage<ICardapio> = ({ size, groupsLeft, groupsRight }) => {
     formatCurrency(v / checkedList.length);
   return (
     <SaboresStyle>
-      <div className="text">
-        <h1>SABORES</h1>
-        {size && <h4>SELECIONE ATÉ {size.maxSabores}</h4>}
-      </div>
-      <div className="groups">
-        <aside className="groups-left">
-          {groupsLeft.map((g) => getGroups(g))}
-        </aside>
-        <aside className="groups-right">
-          {groupsRight.map((g) => getGroups(g))}
-        </aside>
-      </div>
-      <nav className="bottom-controls">
-        <ButtonSecondary onClick={() => router.back()}>VOLTAR</ButtonSecondary>
-      </nav>
-      <div className="bottom-info">
-        <h3 className="selected-flavours">
-          <b>Selecionados: </b>
-          {checkedList
-            .map((s) => s.nome.split(" ").slice(0, -1).join(" "))
-            .join(", ")}
-        </h3>
-      </div>
-      <FloatButton
-        className={`${checkedList.length === 0 ? "hidden" : undefined}`}
-        onClick={() => {
-          addItem({
-            valor:
-              checkedList.reduce((max, curr) => getSaborValor(curr) + max, 0) /
-              checkedList.length,
-            sabores: checkedList,
-            tamanho: size,
-            id: uuidv4(),
-          } as IPizza);
-          router.push("/pedido");
-        }}
-      >
-        <p>Pronto! {">>"}</p>
-        <b>
-          {getValorFormatted(
-            checkedList.reduce((max, curr) => getSaborValor(curr) + max, 0)
-          )}
-        </b>
-      </FloatButton>
+      {groups.length && size ? (
+        <>
+          <div className="text">
+            <h1>SABORES</h1>
+            {size && <h4>SELECIONE ATÉ {size.maxSabores}</h4>}
+          </div>
+          <div className="groups">
+            <aside className="groups-left">
+              {groups[0].map((g) => getGroups(g))}
+            </aside>
+            <aside className="groups-right">
+              {groups[1].map((g) => getGroups(g))}
+            </aside>
+          </div>
+          <nav className="bottom-controls">
+            <ButtonSecondary onClick={() => router.back()}>
+              VOLTAR
+            </ButtonSecondary>
+          </nav>
+          <div className="bottom-info">
+            <h3 className="selected-flavours">
+              <b>Selecionados: </b>
+              {checkedList
+                .map((s) => s.nome.split(" ").slice(0, -1).join(" "))
+                .join(", ")}
+            </h3>
+          </div>
+          <FloatButton
+            className={`${checkedList.length === 0 ? "hidden" : undefined}`}
+            onClick={() => {
+              addItem({
+                valor:
+                  checkedList.reduce(
+                    (max, curr) => getSaborValor(curr) + max,
+                    0
+                  ) / checkedList.length,
+                sabores: checkedList,
+                tamanho: size,
+                id: uuidv4(),
+              } as IPizza);
+              router.push("/pedido");
+            }}
+          >
+            <p>Pronto! {">>"}</p>
+            <b>
+              {getValorFormatted(
+                checkedList.reduce((max, curr) => getSaborValor(curr) + max, 0)
+              )}
+            </b>
+          </FloatButton>
+        </>
+      ) : (
+        <Loading />
+      )}
     </SaboresStyle>
   );
 };
@@ -125,28 +172,10 @@ const Sabores: NextPage<ICardapio> = ({ size, groupsLeft, groupsRight }) => {
 export default Sabores;
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const tamanhos = await (
-    await fetch(`${process.env.API_URL}/pizzas/tamanhos`)
-  ).json();
-
-  const size = tamanhos.find((x) => x.id === ctx.query["tamanho"]) ?? null;
-
-  const grupos = await (
-    await fetch(`${process.env.API_URL}/pizzas/sabores`)
-  ).json();
-
-  const groupsLeft = [];
-  const groupsRight = [];
-
-  grupos.forEach((g) => {
-    grupos.indexOf(g) % 2 === 0 ? groupsLeft.push(g) : groupsRight.push(g);
-  });
-
   return {
     props: {
-      size,
-      groupsLeft,
-      groupsRight,
+      api_url: process.env.API_URL,
+      tamanhoId: ctx.query["tamanho"],
     },
   };
 };
