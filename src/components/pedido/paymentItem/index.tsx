@@ -9,7 +9,7 @@ export const PaymentItem: FC<{ payment: IPagamento }> = ({ payment }) => {
       <h5 className="title">{`${formatCurrency(payment.valor)} (${
         payment.tipo === "especie"
           ? "EM ESPÉCIE"
-          : payment.tipo === "card"
+          : payment.tipo === "cartao"
           ? "NO CARTÃO"
           : "NO PIX"
       }${
