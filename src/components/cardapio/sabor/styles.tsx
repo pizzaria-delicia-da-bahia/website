@@ -11,6 +11,17 @@ export const SaborStyle = styled.li.attrs(
     pointer-events: none;
   }
 
+  &.disabled {
+    .left {
+      .checkbox {
+        pointer-events: none;
+        &:hover {
+          transform: scale(100%);
+        }
+      }
+    }
+  }
+
   .right {
     display: flex;
     flex-direction: column;
@@ -63,6 +74,7 @@ export const SaborStyle = styled.li.attrs(
           overflow: hidden;
           transition: all 0.2s ease-in-out;
           pointer-events: visible;
+          cursor: pointer;
 
           &:hover {
             transform: scale(120%);

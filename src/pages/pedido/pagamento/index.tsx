@@ -1,4 +1,4 @@
-import { GetServerSideProps, NextPage } from "next";
+import { NextPage } from "next";
 import { useEffect, useState } from "react";
 import { useMyOrder } from "../../../context/myOrderContext";
 import {
@@ -7,7 +7,6 @@ import {
 } from "../../../styles/components/buttons";
 import { formatCurrency } from "../../../utitl/functions/format";
 import { useRouter } from "next/router";
-import { EOrderType } from "../../../types/order";
 import { PagamentoStyle } from "../../../styles/pages/pedido/pagamento/styles";
 import { v4 as uuidv4 } from "uuid";
 import { PaymentMethod } from "../../../components/pedido/paymentMethod";
@@ -15,29 +14,29 @@ import { ButtonBankNote } from "../../../components/pedido/bankNoteButton";
 import { sleep } from "../../../utitl/functions/misc";
 
 const Pagamento: NextPage = () => {
-  const { myOrder, setFee, addPayment, removeAllPayments } = useMyOrder();
+  const { myOrder, addPayment, removeAllPayments } = useMyOrder();
   const router = useRouter();
   const [data, setData] = useState<{
-    value: number;
-    changeFor: number;
-    type: "cash" | "card" | "pix";
+    valor: number;
+    trocoPara: number;
+    tipo: "especie" | "cartao" | "pix";
   }>({
-    value:
-      myOrder && myOrder.items?.length
-        ? myOrder.items.reduce((acc, item) => acc + item.valor, 0) + myOrder.fee
+    valor:
+      myOrder && myOrder.itens?.length
+        ? myOrder.itens.reduce((acc, item) => acc + item.valor, 0) +
+          myOrder.taxaEntrega
         : 0,
-    changeFor: 0,
-    type: null,
+    trocoPara: 0,
+    tipo: null,
   });
 
   useEffect(() => {
     if (
       !myOrder ||
-      (myOrder.items?.length ?? []) < 1 ||
-      (myOrder.customer?.name ?? "") === "" ||
-      (myOrder.customer?.whatsapp ?? "") === "" ||
-      (myOrder.type === EOrderType.delivery &&
-        (myOrder.customer?.address ?? "") === "")
+      (myOrder.itens?.length ?? []) < 1 ||
+      (myOrder.cliente?.nome ?? "") === "" ||
+      (myOrder.cliente?.whatsapp ?? "") === "" ||
+      (myOrder.tipo === "entrega" && (myOrder.cliente?.endereco ?? "") === "")
     ) {
       router.push("/pedido");
     } else {
@@ -49,25 +48,31 @@ const Pagamento: NextPage = () => {
   const setSelectedBankNote = (value: number) => {
     setData((prev) => ({
       ...prev,
-      changeFor: prev.changeFor === value ? 0 : value,
+      trocoPara: prev.trocoPara === value ? 0 : value,
     }));
   };
-  const setSelectedPaymentMethod = (value: "cash" | "card" | "pix") => {
-    setData((prev) => ({ ...prev, type: prev.type === value ? null : value }));
+  const setSelectedPaymentMethod = (value: "especie" | "cartao" | "pix") => {
+    setData((prev) => ({ ...prev, tipo: prev.tipo === value ? null : value }));
   };
 
-  const MakeButtonBankNote = ({ value }: { value: number }) => (
-    <ButtonBankNote
-      value={value}
-      disabled={data.type !== "cash" || data.value >= value}
-      selected={data.type === "cash" && data.changeFor === value}
-      click={setSelectedBankNote}
-    />
-  );
-  const MakePaymentMethod = ({ type }: { type: "cash" | "card" | "pix" }) => (
+  const MakeButtonBankNote = ({ value }: { value: number }) => {
+    return (
+      <ButtonBankNote
+        value={value}
+        disabled={data.tipo !== "especie" || data.valor >= value}
+        selected={data.tipo === "especie" && data.trocoPara === value}
+        click={setSelectedBankNote}
+      />
+    );
+  };
+  const MakePaymentMethod = ({
+    type,
+  }: {
+    type: "especie" | "cartao" | "pix";
+  }) => (
     <PaymentMethod
       type={type}
-      selected={data.type === type}
+      selected={data.tipo === type}
       click={setSelectedPaymentMethod}
     />
   );
@@ -77,11 +82,11 @@ const Pagamento: NextPage = () => {
       <div className="text">
         <h1>PAGAMENTO</h1>
         <h4>
-          VALOR TOTAL <b>{formatCurrency(data.value)}</b>
+          VALOR TOTAL <b>{formatCurrency(data.valor)}</b>
         </h4>
-        {myOrder.type === EOrderType.delivery && (
+        {myOrder.tipo === "entrega" && (
           <p>
-            {myOrder.fee > 0 ? (
+            {myOrder.taxaEntrega > 0 ? (
               <span>{`(ITENS + TAXA DE ENTREGA)`}</span>
             ) : (
               <span>{`(SEU ENDEREÇO NÃO FOI ENCONTRADO, FALTA INCLUIR A TAXA DE ENTREGA)`}</span>
@@ -94,10 +99,10 @@ const Pagamento: NextPage = () => {
           <div className="methods">
             <span className="input-label">SELECIONE UM MÉTODO:</span>
             <ul>
-              {["cash", "card", "pix"].map((x) => (
+              {["especie", "cartao", "pix"].map((x) => (
                 <MakePaymentMethod
                   key={x}
-                  type={x as "cash" | "card" | "pix"}
+                  type={x as "especie" | "cartao" | "pix"}
                 />
               ))}
             </ul>
@@ -116,11 +121,13 @@ const Pagamento: NextPage = () => {
       <nav className="controls">
         <ButtonSecondary onClick={() => router.back()}>VOLTAR</ButtonSecondary>
         <ButtonPrimary
-          disabled={!data || !data.type}
+          disabled={!data || !data.tipo}
           onClick={() => {
             addPayment({ id: uuidv4(), ...data });
             sleep();
-            router.push("/pedido/confirmacao");
+            router.push(
+              `/pedido/confirmacao/${myOrder.cliente.endereco.bairroId}`
+            );
           }}
         >
           PRÓXIMO PASSO
@@ -131,27 +138,3 @@ const Pagamento: NextPage = () => {
 };
 
 export default Pagamento;
-// [address]
-// export const getServerSideProps: GetServerSideProps = async (ctx) => {
-//   const { address } = ctx.query;
-
-//   if (address) {
-//     try {
-//       const url = `${process.env.API_URL}/taxa/?${address}`;
-//       const { taxa } = await (await fetch(url)).json();
-//       return {
-//         props: {
-//           fee: taxa,
-//         },
-//       };
-//     } catch (e) {
-//       return {
-//         props: { fee: 0 },
-//       };
-//     }
-//   } else {
-//     return {
-//       props: { fee: 0 },
-//     };
-//   }
-// };

@@ -1,16 +1,23 @@
 import { GetStaticProps, NextPage } from "next";
 import { CardapioStyle } from "../../styles/pages/cardapio/styles";
-import { ICardapio, IGrupo } from "../../types/cardapio";
-import { ISabor } from "../../types/item";
+import { ICardapio } from "../../types/cardapio";
+import { IPizzaSabor, IPizzaGrupo } from "../../types/pizza";
 import { getValueString } from "../../utitl/functions/format";
 import { Sabor } from "../../components/cardapio/sabor";
 
 const Cardapio: NextPage<ICardapio> = ({ sizes, groupsLeft, groupsRight }) => {
-  const getAllValues = (s: ISabor) => {
-    return s.valores.map((v) => getValueString(v)).join(", ");
+  const getAllValues = (s: IPizzaSabor) => {
+    return s.valores
+      .map((v) =>
+        getValueString({
+          ...v,
+          tamanhoId: sizes.find((x) => x.id === v.tamanhoId).nome,
+        })
+      )
+      .join(", ");
   };
 
-  const getGroups = (g: IGrupo) => (
+  const getGroups = (g: IPizzaGrupo) => (
     <div className="group" key={g.nome}>
       <h2 className="group-name">{g.nome}</h2>
       <div className="group-flavours">
@@ -65,18 +72,18 @@ const Cardapio: NextPage<ICardapio> = ({ sizes, groupsLeft, groupsRight }) => {
 export default Cardapio;
 
 export const getStaticProps: GetStaticProps = async () => {
-  const { tamanhos: sizes } = await (
+  const sizes = await (
     await fetch(`${process.env.API_URL}/pizzas/tamanhos`)
   ).json();
 
-  const { grupos } = await (
+  const grupos = await (
     await fetch(`${process.env.API_URL}/pizzas/sabores`)
   ).json();
 
   const groupsLeft = [];
   const groupsRight = [];
 
-  grupos.forEach((g: IGrupo) => {
+  grupos.forEach((g: IPizzaGrupo) => {
     grupos.indexOf(g) % 2 === 0 ? groupsLeft.push(g) : groupsRight.push(g);
   });
 

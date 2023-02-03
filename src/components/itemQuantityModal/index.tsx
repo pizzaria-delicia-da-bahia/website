@@ -12,11 +12,11 @@ import {
   ButtonPrimary,
   ButtonSecondary,
 } from "../../styles/components/buttons";
-import { IBebidaOutro } from "../../types/item";
+import { IOutro } from "../../types/outro";
 import { ItemQuantityModalStyle } from "./styles";
 
 const ItemQuantityModal: FC<{
-  item: IBebidaOutro;
+  item: IOutro;
   showModal: boolean;
   confirm: () => void;
   cancel: () => void;

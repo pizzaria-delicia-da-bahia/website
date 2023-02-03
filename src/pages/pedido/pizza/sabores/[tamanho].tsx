@@ -1,8 +1,13 @@
 import { GetServerSideProps, NextPage } from "next";
 import { useState } from "react";
 import { useRouter } from "next/router";
-import { IGrupo, ICardapio } from "../../../../types/cardapio";
-import { IPizza, ISabor, IValor } from "../../../../types/item";
+import { ICardapio } from "../../../../types/cardapio";
+import {
+  IPizzaSabor,
+  IPizzaGrupo,
+  IPizzaSaborValor,
+} from "../../../../types/pizza";
+import { IPizza } from "../../../../types/item";
 import {
   formatCurrency,
   getValueString,
@@ -18,17 +23,17 @@ import { v4 as uuidv4 } from "uuid";
 
 const Sabores: NextPage<ICardapio> = ({ size, groupsLeft, groupsRight }) => {
   const router = useRouter();
-  const [checkedList, setCheckedList] = useState<ISabor[]>([]);
+  const [checkedList, setCheckedList] = useState<IPizzaSabor[]>([]);
   const { addItem } = useMyOrder();
 
   if (!size) router.back();
 
-  const getAllValues = (valores: IValor[]) => {
+  const getAllValues = (valores: IPizzaSaborValor[]) => {
     return (
       size &&
       getValueString(
         valores.find(
-          (x) => x.tamanho.toUpperCase() === size.nome.toUpperCase()
+          (x) => x.tamanhoId.toUpperCase() === size.nome.toUpperCase()
         ) ??
           null ??
           null
@@ -36,13 +41,13 @@ const Sabores: NextPage<ICardapio> = ({ size, groupsLeft, groupsRight }) => {
     );
   };
 
-  const getGroups = (g: IGrupo) => (
+  const getGroups = (g: IPizzaGrupo) => (
     <div className="group" key={g.nome}>
       <h2 className="group-name">{g.nome}</h2>
       <div className="group-flavours">
         {g.sabores.map((s) => (
           <Sabor
-            key={s.nome}
+            key={s.id}
             nome={s.nome}
             ingredientes={s.ingredientes}
             valuesString={getAllValues(s.valores)}
@@ -63,8 +68,7 @@ const Sabores: NextPage<ICardapio> = ({ size, groupsLeft, groupsRight }) => {
     </div>
   );
   const getSaborValor = (s) =>
-    s.valores.find((v) => v.tamanho.toUpperCase() === size.nome.toUpperCase())
-      .valor;
+    s.valores.find((v) => v.tamanhoId === size.id).valor;
 
   const getValorFormatted = (v: number) =>
     formatCurrency(v / checkedList.length);
@@ -121,13 +125,13 @@ const Sabores: NextPage<ICardapio> = ({ size, groupsLeft, groupsRight }) => {
 export default Sabores;
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { tamanhos } = await (
+  const tamanhos = await (
     await fetch(`${process.env.API_URL}/pizzas/tamanhos`)
   ).json();
 
-  const size = tamanhos.find((x) => x.nome === ctx.query["tamanho"]) ?? null;
+  const size = tamanhos.find((x) => x.id === ctx.query["tamanho"]) ?? null;
 
-  const { grupos } = await (
+  const grupos = await (
     await fetch(`${process.env.API_URL}/pizzas/sabores`)
   ).json();
 

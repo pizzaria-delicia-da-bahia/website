@@ -9,15 +9,15 @@ import {
   useState,
 } from "react";
 
-import { IOrder } from "../types/order";
+import { IPedido } from "../types/order";
 
 const StorageContext = createContext<{
-  myOrder: IOrder;
-  setMyOrder: Dispatch<SetStateAction<IOrder | null>>;
+  myOrder: IPedido;
+  setMyOrder: Dispatch<SetStateAction<IPedido | null>>;
 }>(null);
 
 const StorageProvider: FC<{ children: ReactNode }> = ({ children }) => {
-  const [myOrder, setMyOrder] = useState<IOrder | null>();
+  const [myOrder, setMyOrder] = useState<IPedido | null>();
 
   useEffect(() => {
     const order = localStorage.getItem("myOrder");

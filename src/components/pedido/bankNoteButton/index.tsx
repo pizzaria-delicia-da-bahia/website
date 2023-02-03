@@ -18,7 +18,7 @@ export const ButtonBankNote = ({
       className={`change c${value}${selected && " selected"}`}
       onClick={() => click(value)}
     >
-      <Image src={`/images/c${value}.jpg`} layout={"fill"} />
+      <Image src={`/images/c${value}.ico`} layout={"fill"} />
     </ButtonBankNoteStyle>
   );
 };

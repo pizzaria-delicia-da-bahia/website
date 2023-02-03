@@ -10,45 +10,45 @@ import {
   ButtonPrimary,
   ButtonSecondary,
 } from "../../../styles/components/buttons";
-import { formatCurrency } from "../../../utitl/functions/format";
 import { useRouter } from "next/router";
-import { EOrderType, ICustomer, INeighbourhood } from "../../../types/order";
+import { ICLiente } from "../../../types/order";
 import { sleep } from "../../../utitl/functions/misc";
 import { MyInput } from "../../../components/pedido/myInput";
 import { useNotification } from "../../../components/notification";
+import { IEndereco, IBairro } from "../../../types/endereco";
 
 interface IData {
-  customer: ICustomer;
-  type: EOrderType;
+  cliente: ICLiente;
+  tipo: "retirada" | "entrega" | null;
 }
 
 const InformacoesAdicionais: NextPage<{
   api_url: string;
-  neighbourhoods: INeighbourhood[];
+  neighbourhoods: IBairro[];
 }> = ({ api_url, neighbourhoods }) => {
-  const { myOrder, setInfo, setFee } = useMyOrder();
+  const { setInfo } = useMyOrder();
   const [data, setData] = useState<IData | null>(null);
   const router = useRouter();
   const { notification } = useNotification();
 
   const getCustomerFromLocalStorage = () => {
     const customer =
-      (JSON.parse(localStorage.getItem("customer")) as ICustomer) ?? null;
+      (JSON.parse(localStorage.getItem("customer")) as ICLiente) ?? null;
 
     setData({
-      customer: {
-        name: customer?.name ?? "",
+      cliente: {
+        nome: customer?.nome ?? "",
         whatsapp: customer?.whatsapp ?? "",
-        address: customer?.address ?? {
-          street: "",
-          number: "",
-          place: "",
-          reference: "",
-          neighbourhood: { id: null, name: "" },
+        endereco: customer?.endereco ?? {
+          rua: "",
+          numero: "",
+          localDeEntrega: "",
+          pontoDeReferencia: "",
+          bairroId: "",
           cep: "",
         },
       },
-      type: null,
+      tipo: null,
     });
   };
   useEffect(() => {
@@ -58,11 +58,11 @@ const InformacoesAdicionais: NextPage<{
   const next = async () => {
     try {
       const query = queryString({
-        ...data.customer.address,
-        neighbourhood: data.customer.address?.neighbourhood?.id ?? null,
+        ...data.cliente.endereco,
+        neighbourhood: data.cliente.endereco?.bairroId ?? null,
       });
 
-      const { taxa } = await (
+      const taxa = await (
         await fetch(`${api_url}/taxa${query}`, {
           method: "GET",
           headers: {
@@ -71,7 +71,7 @@ const InformacoesAdicionais: NextPage<{
         })
       ).json();
 
-      setInfo(data.customer, data.type, Number(taxa ?? 0));
+      setInfo(data.cliente, data.tipo, Number(taxa ?? 0));
       sleep();
 
       router.push(`/pedido/pagamento`);
@@ -82,13 +82,13 @@ const InformacoesAdicionais: NextPage<{
   };
 
   const searchCEP = async () => {
-    const { enderecos } = (await (
-      await fetch(`${api_url}/enderecos?cep=${data.customer.address.cep}`, {
+    const enderecos = (await (
+      await fetch(`${api_url}/enderecos?cep=${data.cliente.endereco.cep}`, {
         headers: { "Content-Type": "application/json" },
       })
     ).json()) as {
       enderecos: Array<{
-        bairro: { id: number; nome: string };
+        bairroId: string;
         cep: string;
         id: number;
         rua: string;
@@ -101,14 +101,15 @@ const InformacoesAdicionais: NextPage<{
       return;
     }
     const e = enderecos[0];
+
     setData((prev) => ({
       ...prev,
-      customer: {
-        ...prev.customer,
-        address: {
-          ...prev.customer.address,
-          neighbourhood: { id: e.bairro.id, name: e.bairro.nome },
-          street: e.rua,
+      cliente: {
+        ...prev.cliente,
+        endereco: {
+          ...prev.cliente.endereco,
+          bairroId: e.bairroId,
+          rua: e.rua,
         },
       },
     }));
@@ -127,10 +128,10 @@ const InformacoesAdicionais: NextPage<{
               name="ordertype"
               id="delivery"
               type={"radio"}
-              checked={(data && data.type === EOrderType.delivery) ?? false}
+              checked={(data && data.tipo === "entrega") ?? false}
               onChange={(e) =>
                 e.target.checked &&
-                setData((prev) => ({ ...prev, type: EOrderType.delivery }))
+                setData((prev) => ({ ...prev, tipo: "entrega" }))
               }
             />
             <label htmlFor="delivery">QUERO DELIVERY</label>
@@ -140,10 +141,10 @@ const InformacoesAdicionais: NextPage<{
               name="ordertype"
               id="withdraw"
               type={"radio"}
-              checked={(data && data.type === EOrderType.withdraw) ?? false}
+              checked={(data && data.tipo === "retirada") ?? false}
               onChange={(e) =>
                 e.target.checked &&
-                setData((prev) => ({ ...prev, type: EOrderType.withdraw }))
+                setData((prev) => ({ ...prev, tipo: "retirada" }))
               }
             />
             <label htmlFor="withdraw">VOU BUSCAR</label>
@@ -153,47 +154,45 @@ const InformacoesAdicionais: NextPage<{
           <MyInput
             name="NOME *"
             type="name"
-            value={(data && data.customer.name) ?? ""}
+            value={(data && data.cliente.nome) ?? ""}
             setValue={(value) =>
               setData((prev) => ({
                 ...prev,
-                customer: { ...prev.customer, name: value as string },
+                cliente: { ...prev.cliente, nome: value as string },
               }))
             }
           />
           <MyInput
             name="WHATSAPP *"
             type="phoneNumber"
-            value={(data && data.customer.whatsapp) ?? ""}
+            value={(data && data.cliente.whatsapp) ?? ""}
             setValue={(value) =>
               setData((prev) => ({
                 ...prev,
-                customer: { ...prev.customer, whatsapp: value as string },
+                cliente: { ...prev.cliente, whatsapp: value as string },
               }))
             }
           />
           <section
             className={`address-info${
-              !data || data.type !== EOrderType.delivery ? " disabled" : ""
+              !data || data.tipo !== "entrega" ? " disabled" : ""
             }`}
           >
             <div className={`input-group cep-endereco-n`}>
               <div className="cep">
                 <MyInput
-                  tabIndex={
-                    !data || data.type != EOrderType.delivery ? -1 : undefined
-                  }
+                  tabIndex={!data || data.tipo != "entrega" ? -1 : undefined}
                   name="CEP"
-                  type="phoneNumber"
+                  type="zipCode"
                   placeholder="EX: 40000-000"
-                  value={(data && data.customer.address.cep) ?? ""}
+                  value={(data && data.cliente.endereco.cep) ?? ""}
                   setValue={(value) =>
                     setData((prev) => ({
                       ...prev,
-                      customer: {
-                        ...prev.customer,
-                        address: {
-                          ...prev.customer.address,
+                      cliente: {
+                        ...prev.cliente,
+                        endereco: {
+                          ...prev.cliente.endereco,
                           cep: value as string,
                         },
                       },
@@ -203,7 +202,7 @@ const InformacoesAdicionais: NextPage<{
                 <button
                   type="button"
                   disabled={
-                    String(data?.customer?.address?.cep).replace(/[^0-9]/g, "")
+                    String(data?.cliente?.endereco?.cep).replace(/[^0-9]/g, "")
                       .length !== 8
                   }
                   onClick={searchCEP}
@@ -212,42 +211,38 @@ const InformacoesAdicionais: NextPage<{
                 </button>
               </div>
               <MyInput
-                tabIndex={
-                  !data || data.type != EOrderType.delivery ? -1 : undefined
-                }
+                tabIndex={!data || data.tipo != "entrega" ? -1 : undefined}
                 name="ENDEREÇO (RUA/AVENIDA) *"
                 placeholder="EX: AVENIDA ANITA GARIBALDI"
                 type="address"
-                value={(data && data.customer.address.street) ?? ""}
+                value={(data && data.cliente.endereco.rua) ?? ""}
                 setValue={(value) =>
                   setData((prev) => ({
                     ...prev,
-                    customer: {
-                      ...prev.customer,
-                      address: {
-                        ...prev.customer.address,
-                        street: value as string,
+                    cliente: {
+                      ...prev.cliente,
+                      endereco: {
+                        ...prev.cliente.endereco,
+                        rua: value as string,
                       },
                     },
                   }))
                 }
               />
               <MyInput
-                tabIndex={
-                  !data || data.type != EOrderType.delivery ? -1 : undefined
-                }
+                tabIndex={!data || data.tipo != "entrega" ? -1 : undefined}
                 name="Nº"
                 placeholder="EX: 427-B"
                 type="text"
-                value={(data && data.customer.address.number) ?? ""}
+                value={(data && data.cliente.endereco.numero) ?? ""}
                 setValue={(value) =>
                   setData((prev) => ({
                     ...prev,
-                    customer: {
-                      ...prev.customer,
-                      address: {
-                        ...prev.customer.address,
-                        number: value as string,
+                    cliente: {
+                      ...prev.cliente,
+                      endereco: {
+                        ...prev.cliente.endereco,
+                        numero: value as string,
                       },
                     },
                   }))
@@ -259,18 +254,15 @@ const InformacoesAdicionais: NextPage<{
                 <label htmlFor="bairro-select">BAIRRO *</label>
                 <select
                   name="bairro-select"
-                  value={data?.customer?.address?.neighbourhood?.id}
+                  value={data?.cliente?.endereco?.bairroId ?? null}
                   onChange={(e) =>
                     setData((prev) => ({
                       ...prev,
-                      customer: {
-                        ...prev.customer,
-                        address: {
-                          ...prev.customer.address,
-                          neighbourhood: {
-                            id: Number(e.target.value),
-                            name: e.target.innerText,
-                          },
+                      cliente: {
+                        ...prev.cliente,
+                        endereco: {
+                          ...prev.cliente.endereco,
+                          bairroId: e.target.value,
                         },
                       },
                     }))
@@ -286,42 +278,38 @@ const InformacoesAdicionais: NextPage<{
               </BairroSelect>
 
               <MyInput
-                tabIndex={
-                  !data || data.type != EOrderType.delivery ? -1 : undefined
-                }
+                tabIndex={!data || data.tipo != "entrega" ? -1 : undefined}
                 name="LOCAL DE ENTREGA"
                 placeholder="EX: COND. ONDINA TOP, EDF. FLORES, AP. 101"
                 type="text"
-                value={(data && data.customer.address.place) ?? ""}
+                value={(data && data.cliente.endereco.localDeEntrega) ?? ""}
                 setValue={(value) =>
                   setData((prev) => ({
                     ...prev,
-                    customer: {
-                      ...prev.customer,
-                      address: {
-                        ...prev.customer.address,
-                        place: value as string,
+                    cliente: {
+                      ...prev.cliente,
+                      endereco: {
+                        ...prev.cliente.endereco,
+                        localDeEntrega: value as string,
                       },
                     },
                   }))
                 }
               />
               <MyInput
-                tabIndex={
-                  !data || data.type != EOrderType.delivery ? -1 : undefined
-                }
+                tabIndex={!data || data.tipo != "entrega" ? -1 : undefined}
                 name="PONTO DE REFERÊNCIA"
                 placeholder="EX: EM FRENTE AO MERCADO NOVA ESPERANÇA"
                 type="text"
-                value={(data && data.customer.address.reference) ?? ""}
+                value={(data && data.cliente.endereco.pontoDeReferencia) ?? ""}
                 setValue={(value) =>
                   setData((prev) => ({
                     ...prev,
-                    customer: {
-                      ...prev.customer,
-                      address: {
-                        ...prev.customer.address,
-                        reference: value as string,
+                    cliente: {
+                      ...prev.cliente,
+                      endereco: {
+                        ...prev.cliente.endereco,
+                        pontoDeReferencia: value as string,
                       },
                     },
                   }))
@@ -336,17 +324,15 @@ const InformacoesAdicionais: NextPage<{
         <ButtonPrimary
           disabled={
             !data ||
-            data.type === null ||
-            data.customer.name === "" ||
-            data.customer.whatsapp === "" ||
-            (data.type === EOrderType.delivery &&
-              data.customer.address.street === "") ||
-            data.customer.name.length < 2 ||
-            data.customer.whatsapp.length < 8 ||
-            (data.type === EOrderType.delivery &&
-              (data.customer.address?.street?.length ?? 0) < 5) ||
-            (data.type === EOrderType.delivery &&
-              !data.customer.address?.neighbourhood?.id)
+            data.tipo === null ||
+            data.cliente.nome === "" ||
+            data.cliente.whatsapp === "" ||
+            (data.tipo === "entrega" && data.cliente.endereco.rua === "") ||
+            data.cliente.nome.length < 2 ||
+            data.cliente.whatsapp.length < 8 ||
+            (data.tipo === "entrega" &&
+              (data.cliente.endereco?.rua?.length ?? 0) < 5) ||
+            (data.tipo === "entrega" && !data.cliente.endereco?.bairroId)
           }
           onClick={() => next()}
         >
@@ -360,9 +346,7 @@ const InformacoesAdicionais: NextPage<{
 export default InformacoesAdicionais;
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const { bairros } = await (
-    await fetch(`${process.env.API_URL}/bairros`)
-  ).json();
+  const bairros = await (await fetch(`${process.env.API_URL}/bairros`)).json();
 
   return {
     props: {

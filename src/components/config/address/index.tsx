@@ -9,7 +9,7 @@ export const Address: FC<{ endereco: IEndereco; api_url: string }> = ({
   const [myValue, setMyValue] = useState<IEndereco>(endereco);
 
   const saveOther = async () => {
-    const response = await fetch(`${api_url}/enderecos`, {
+    const response = await fetch(`${api_url}/enderecos?id=${myValue.id}`, {
       method: "PATCH",
       body: JSON.stringify(myValue),
       headers: { "Content-Type": "application/json" },
@@ -46,7 +46,7 @@ export const Address: FC<{ endereco: IEndereco; api_url: string }> = ({
           list="my-select-list"
           type="text"
           placeholder="Bairro/Comunidade"
-          value={myValue.bairro}
+          value={myValue.bairroId}
           onChange={(e) =>
             setMyValue((prev) => ({ ...prev, bairro: e.target.value }))
           }

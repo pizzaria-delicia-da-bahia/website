@@ -6,26 +6,26 @@ export const PaymentMethod = ({
   click,
   selected,
 }: {
-  type: "cash" | "card" | "pix";
+  type: "especie" | "cartao" | "pix";
   selected: boolean;
-  click: (type: "cash" | "card" | "pix") => void;
+  click: (type: "especie" | "cartao" | "pix") => void;
 }) => {
   // {
   //   backgroundColor:
-  //     type === "card" ? "#FFBE18" : type === "cash" ? "#2AD000" : "#00B2FF",
+  //     type === "cartao" ? "#FFBE18" : type === "especie" ? "#2AD000" : "#00B2FF",
   // }
   return (
     <PaymentMethodStyle
       className={`${selected ? "selected" : undefined}`}
       onClick={() => click(type)}
     >
-      {type === "card" ? (
+      {type === "cartao" ? (
         <Image
           src={"/images/pay-card.svg"}
           layout={"fill"}
           alt="PAGAMENTO NO CARTÃO"
         />
-      ) : type === "cash" ? (
+      ) : type === "especie" ? (
         <Image
           src={"/images/pay-cash.svg"}
           layout={"fill"}

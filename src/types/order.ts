@@ -1,44 +1,32 @@
+import { IEndereco } from "./endereco";
 import { IItem } from "./item";
 
-export interface IOrder {
-  date: Date;
-  customer: ICustomer;
-  fee: number;
-  type: EOrderType | null;
-  items: Array<IItem>;
-  payments: Array<IPayment>;
+export interface IPedido {
+  data: Date;
+  cliente: ICLiente;
+  taxaEntrega: number;
+  tipo: "retirada" | "entrega" | null;
+  itens: Array<IItem>;
+  pagamentos: Array<IPagamento>;
 }
 
-export interface IPayment {
+export interface IPagamento {
   id: string;
-  type: "cash" | "pix" | "card";
-  value: number;
-  changeFor: number;
+  tipo: "especie" | "pix" | "cartao";
+  valor: number;
+  trocoPara: number;
 }
 
-export enum EOrderType {
-  "withdraw",
-  "delivery",
-}
-export interface ICustomer {
-  name: string;
-  whatsapp: string;
-  address: ICustomerAddress;
-}
-
-export interface ICustomerAddress extends Omit<IAddress, "fee" | "cep"> {
-  number: string;
-  place?: string;
-  reference?: string;
-  cep?: string;
-}
-export interface IAddress {
-  street: string;
-  cep: string;
-  neighbourhood: { id: number; name: string };
-  fee: number;
-}
-export interface INeighbourhood {
-  id: number;
+export interface ICLiente {
   nome: string;
+  whatsapp: string;
+  endereco: IEnderecoCliente;
+}
+
+export interface IEnderecoCliente
+  extends Omit<IEndereco, "taxa" | "cep" | "id"> {
+  numero: string;
+  localDeEntrega?: string;
+  pontoDeReferencia?: string;
+  cep?: string;
 }

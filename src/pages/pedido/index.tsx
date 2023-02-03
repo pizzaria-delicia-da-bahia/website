@@ -53,13 +53,13 @@ const Pedido: NextPage = () => {
       </div>
       <nav className="bottom-controls">
         <Link href={"/pedido/itens"} passHref>
-          <ButtonSecondary disabled={(myOrder?.items?.length ?? 0) < 1}>
+          <ButtonSecondary disabled={(myOrder?.itens?.length ?? 0) < 1}>
             <p>MEUS ITENS</p>
-            <Badge number={myOrder?.items?.length ?? 0} />
+            <Badge number={myOrder?.itens?.length ?? 0} />
           </ButtonSecondary>
         </Link>
         <Link href="/pedido/informacoes-adicionais" passHref>
-          <ButtonPrimary disabled={(myOrder?.items?.length ?? 0) < 1}>
+          <ButtonPrimary disabled={(myOrder?.itens?.length ?? 0) < 1}>
             PEDIDO PRONTO!
           </ButtonPrimary>
         </Link>

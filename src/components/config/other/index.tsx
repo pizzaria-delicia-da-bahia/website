@@ -1,16 +1,18 @@
 import { FC, useState } from "react";
-import { IBebidaOutro, ISabor, ITamanho, IValor } from "../../../types/item";
+import { IOutro } from "../../../types/outro";
 import { OtherStyle } from "./styles";
 
-export const Other: FC<{ item: IBebidaOutro; api_url: string }> = ({
+export const Other: FC<{ item: IOutro; api_url: string }> = ({
   api_url,
   item,
 }) => {
-  const [myValue, setMyValue] = useState<IBebidaOutro>(item);
+  const [myValue, setMyValue] = useState<IOutro>(item);
 
   const saveOther = async () => {
-    const response = await fetch(`${api_url}`, {
-      method: item.nome === "" ? "POST" : "PATCH",
+    console.clear();
+    console.log(JSON.stringify(myValue));
+    const response = await fetch(`${api_url}?id=${item.id}`, {
+      method: (item.id ?? "") === "" ? "POST" : "PATCH",
       body: JSON.stringify(myValue),
       headers: { "Content-Type": "application/json" },
     });

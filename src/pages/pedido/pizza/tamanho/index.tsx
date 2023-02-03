@@ -5,7 +5,7 @@ import { TamanhoStyle } from "../../../../styles/pages/pedido/pizza/tamanho/styl
 import { useRouter } from "next/router";
 import Carousel from "../../../../components/carousel";
 import CarouselItem from "../../../../components/carousel/carouselItem";
-import { ITamanho } from "../../../../types/item";
+import { IPizzaTamanho } from "../../../../types/pizza";
 
 const BottomInfo: FC<{
   name: string;
@@ -19,7 +19,7 @@ const BottomInfo: FC<{
   </div>
 );
 
-const Tamanho: NextPage<{ sizes: Array<ITamanho> }> = ({ sizes }) => {
+const Tamanho: NextPage<{ sizes: Array<IPizzaTamanho> }> = ({ sizes }) => {
   const router = useRouter();
 
   const getImageSize = (index) => Math.ceil((100 / sizes.length) * (index + 1));
@@ -39,7 +39,7 @@ const Tamanho: NextPage<{ sizes: Array<ITamanho> }> = ({ sizes }) => {
                 w: getImageSize(index),
               }}
               index={index}
-              route={`/pedido/pizza/sabores/${item.nome}`}
+              route={`/pedido/pizza/sabores/${item.id}`}
             >
               <BottomInfo
                 prop={item.fatias}
@@ -72,7 +72,7 @@ const Tamanho: NextPage<{ sizes: Array<ITamanho> }> = ({ sizes }) => {
 export default Tamanho;
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const { tamanhos } = await (
+  const tamanhos = await (
     await fetch(`${process.env.API_URL}/pizzas/tamanhos`)
   ).json();
 

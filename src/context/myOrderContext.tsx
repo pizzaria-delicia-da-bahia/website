@@ -1,9 +1,7 @@
 import {
   createContext,
-  Dispatch,
   FC,
   ReactNode,
-  SetStateAction,
   useContext,
   useEffect,
   useState,
@@ -11,102 +9,111 @@ import {
 import { IItem } from "../types/item";
 
 import {
-  EOrderType,
-  ICustomerAddress,
-  ICustomer,
-  IOrder,
-  IPayment,
+  IEnderecoCliente,
+  ICLiente,
+  IPedido,
+  IPagamento,
 } from "../types/order";
 
 const MyOrderContext = createContext<{
-  myOrder: IOrder;
-  setMyOrder: (newOrder: IOrder) => void; // Dispatch<SetStateAction<IOrder | null>>;
+  myOrder: IPedido;
+  setMyOrder: (newOrder: IPedido) => void; // Dispatch<SetStateAction<IOrder | null>>;
   addItem: (item: IItem | IItem[]) => void;
-  addPayment: (payment: IPayment | IPayment[]) => void;
+  addPayment: (payment: IPagamento | IPagamento[]) => void;
   removeItem: (itemId: string) => void;
   removePayment: (PaymentId: string) => void;
   removeAllPayments: () => void;
-  setInfo: (customer: ICustomer, type: EOrderType, fee: number) => void;
+  setInfo: (
+    customer: ICLiente,
+    type: "retirada" | "entrega" | null,
+    fee: number
+  ) => void;
   setFee: (fee: number) => void;
 }>(null);
 
 const MyOrderProvider: FC<{ children: ReactNode }> = ({ children }) => {
-  const [myOrder, setMyOrder] = useState<IOrder | null>(null);
+  const [myOrder, setMyOrder] = useState<IPedido | null>(null);
 
-  const EmptyAddress: ICustomerAddress = {
-    number: "",
-    street: "",
+  const EmptyAddress: IEnderecoCliente = {
+    numero: "",
+    rua: "",
     cep: "",
-    place: "",
-    reference: "",
-    neighbourhood: { id: null, name: "" },
+    localDeEntrega: "",
+    pontoDeReferencia: "",
+    bairroId: "",
   };
 
-  const EmptyOrder: IOrder = {
-    items: [],
-    type: null,
-    customer: { name: "", whatsapp: "", address: EmptyAddress },
-    fee: 0,
-    date: new Date(),
-    payments: [],
+  const EmptyOrder: IPedido = {
+    itens: [],
+    tipo: null,
+    cliente: { nome: "", whatsapp: "", endereco: EmptyAddress },
+    taxaEntrega: 0,
+    data: new Date(),
+    pagamentos: [],
   };
 
   useEffect(() => {
     // localStorage.removeItem("customer");
     // localStorage.removeItem("myOrder");
-    const fromLocal = JSON.parse(localStorage.getItem("myOrder")) as IOrder;
+    const fromLocal = JSON.parse(localStorage.getItem("myOrder")) as IPedido;
     const getTimeDiffInHours = (date: Date) =>
       (new Date().getTime() - date.getTime()) / 1000 / 60 / 60;
-    if (!fromLocal || getTimeDiffInHours(new Date(fromLocal?.date)) > 1) {
+    if (!fromLocal || getTimeDiffInHours(new Date(fromLocal?.data)) > 1) {
+      localStorage.removeItem("myOrder");
       setMyOrder(EmptyOrder);
     } else {
-      setMyOrder((fromLocal as IOrder) ?? EmptyOrder);
+      setMyOrder((fromLocal as IPedido) ?? EmptyOrder);
     }
   }, []);
 
   const addItem = (item: IItem | IItem[]) => {
     const itens = Array.isArray(item) ? item : [item];
+    const novosItens = [...myOrder.itens, ...itens];
     saveMyOrderLocalAndState({
       ...myOrder,
-      items: [...myOrder.items, ...itens],
+      itens: novosItens,
     });
   };
-  const addPayment = (payment: IPayment | IPayment[]) => {
+  const addPayment = (payment: IPagamento | IPagamento[]) => {
     const payments = Array.isArray(payment) ? payment : [payment];
     saveMyOrderLocalAndState({
       ...myOrder,
-      payments: [...myOrder.payments, ...payments],
+      pagamentos: [...myOrder.pagamentos, ...payments],
     });
   };
 
   const removeItem = (itemId: string) => {
     saveMyOrderLocalAndState({
       ...myOrder,
-      items: myOrder.items.filter((i) => i.id !== itemId),
+      itens: myOrder.itens.filter((i) => i.id !== itemId),
     });
   };
 
   const removePayment = (paymentId: string) => {
     saveMyOrderLocalAndState({
       ...myOrder,
-      payments: myOrder.payments.filter((i) => i.id !== paymentId),
+      pagamentos: myOrder.pagamentos.filter((i) => i.id !== paymentId),
     });
   };
 
-  const saveMyOrderLocalAndState = (newOrder: IOrder) => {
+  const saveMyOrderLocalAndState = (newOrder: IPedido) => {
     localStorage.setItem("myOrder", JSON.stringify(newOrder));
     setMyOrder(newOrder);
   };
 
-  const setInfo = (customer: ICustomer, type: EOrderType, fee: number) => {
+  const setInfo = (
+    customer: ICLiente,
+    type: "retirada" | "entrega" | null,
+    fee: number
+  ) => {
     const localCustomer =
-      (JSON.parse(localStorage.getItem("customer")) as ICustomer) ?? null;
-    const newLocalCustomer: ICustomer = {
-      name: customer.name === "" ? localCustomer?.name ?? "" : customer.name,
-      address:
-        customer.address.street === ""
-          ? localCustomer?.address ?? EmptyAddress
-          : customer.address,
+      (JSON.parse(localStorage.getItem("customer")) as ICLiente) ?? null;
+    const newLocalCustomer: ICLiente = {
+      nome: customer.nome === "" ? localCustomer?.nome ?? "" : customer.nome,
+      endereco:
+        customer.endereco.rua === ""
+          ? localCustomer?.endereco ?? EmptyAddress
+          : customer.endereco,
       whatsapp:
         customer.whatsapp === ""
           ? localCustomer?.whatsapp ?? ""
@@ -117,21 +124,21 @@ const MyOrderProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
     saveMyOrderLocalAndState({
       ...myOrder,
-      customer,
-      type,
-      fee,
+      cliente: customer,
+      tipo: type,
+      taxaEntrega: fee,
     });
   };
 
   const setFee = (fee: number) => {
     saveMyOrderLocalAndState({
       ...myOrder,
-      fee,
+      taxaEntrega: fee,
     });
   };
 
   const removeAllPayments = () => {
-    saveMyOrderLocalAndState({ ...myOrder, payments: [] });
+    saveMyOrderLocalAndState({ ...myOrder, pagamentos: [] });
   };
 
   return (

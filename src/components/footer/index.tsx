@@ -1,11 +1,8 @@
 import { FooterStyle } from "./styles";
-import { FaWhatsapp } from "react-icons/fa";
-import { FiClock } from "react-icons/fi";
-import { BsFacebook, BsInstagram, BsWhatsapp } from "react-icons/bs";
 import Facebook from "../../assets/images/footer-icon-facebook.svg";
 import Instagram from "../../assets/images/footer-icon-instagram.svg";
 import Whatsapp from "../../assets/images/footer-icon-whatsapp.svg";
-import Image from "next/image";
+
 export const Footer = () => {
   return (
     <FooterStyle>
@@ -14,7 +11,7 @@ export const Footer = () => {
           target="_blank"
           aria-label="Link para o whatsapp da pizzaria"
           href={encodeURI(
-            "https://api.whatsapp.com/send?phone=+557188726927&text=Olá, gostaria de fazer um pedido! 🍕"
+            `https://api.whatsapp.com/send?phone+557188726927&text=Olá, gostaria de fazer um pedido! 🍕`
           )}
         >
           <img

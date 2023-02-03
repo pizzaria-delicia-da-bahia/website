@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import { ISabor, ITamanho, IValor } from "../../../types/item";
+import { IPizzaTamanho } from "../../../types/pizza";
 import { SizeStyle } from "./styles";
 
 interface IOtherInfo {
@@ -28,18 +28,21 @@ const OtherInfo: FC<IOtherInfo> = ({
   </section>
 );
 
-export const Size: FC<{ tamanho: ITamanho; api_url: string }> = ({
+export const Size: FC<{ tamanho: IPizzaTamanho; api_url: string }> = ({
   api_url,
   tamanho,
 }) => {
-  const [myValue, setMyValue] = useState<ITamanho>(tamanho);
+  const [myValue, setMyValue] = useState<IPizzaTamanho>(tamanho);
 
-  const saveSize = async (tamanho: ITamanho) => {
-    const response = await fetch(`${api_url}/pizzas/tamanhos`, {
-      method: "PATCH",
-      body: JSON.stringify(tamanho),
-      headers: { "Content-Type": "application/json" },
-    });
+  const saveSize = async (tamanho: IPizzaTamanho) => {
+    const response = await fetch(
+      `${api_url}/pizzas/tamanhos?id=${tamanho.id}`,
+      {
+        method: (tamanho.id ?? "") === "" ? "POST" : "PATCH",
+        body: JSON.stringify(tamanho),
+        headers: { "Content-Type": "application/json" },
+      }
+    );
     if (response.status === 200) {
       alert("Tamanho alterado ✅");
     } else {

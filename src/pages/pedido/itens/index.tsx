@@ -16,7 +16,8 @@ import {
   ButtonSecondary,
 } from "../../../styles/components/buttons";
 import { useRouter } from "next/router";
-import { IBebidaOutro, IPizza } from "../../../types/item";
+import { IPizza } from "../../../types/item";
+import { IOutro } from "../../../types/outro";
 import { formatCurrency } from "../../../utitl/functions/format";
 
 const Itens: NextPage = () => {
@@ -24,7 +25,7 @@ const Itens: NextPage = () => {
   const router = useRouter();
 
   const backToOrder = () => {
-    if (myOrder.items.length === 0) router.push("/pedido");
+    if (myOrder.itens.length === 0) router.push("/pedido");
   };
 
   useEffect(() => {
@@ -38,7 +39,7 @@ const Itens: NextPage = () => {
       </div>
       <div className="menu">
         <ul>
-          {myOrder.items.map((item) => (
+          {myOrder.itens.map((item) => (
             <li key={item.id}>
               {item.hasOwnProperty("sabores") ? (
                 <div className="left">
@@ -71,14 +72,14 @@ const Itens: NextPage = () => {
                   <div className="subdiv">
                     <span className="subleft">
                       <img
-                        src={(item as IBebidaOutro).imagemUrl}
+                        src={(item as IOutro).imagemUrl}
                         width={40}
                         height={40}
                       />
                     </span>
                     <span className="subright">
                       <h3 className="item-title">
-                        {(item as IBebidaOutro).nome.toUpperCase()}
+                        {(item as IOutro).nome.toUpperCase()}
                       </h3>
                       <h5 className="item-info">
                         Preço: {formatCurrency(item.valor)}
@@ -102,7 +103,7 @@ const Itens: NextPage = () => {
       <nav className="bottom-controls">
         <ButtonSecondary onClick={() => router.back()}>VOLTAR</ButtonSecondary>
         <Link href="/pedido/informacoes-adicionais" passHref>
-          <ButtonPrimary disabled={(myOrder?.items?.length ?? 0) < 1}>
+          <ButtonPrimary disabled={(myOrder?.itens?.length ?? 0) < 1}>
             PEDIDO PRONTO!
           </ButtonPrimary>
         </Link>

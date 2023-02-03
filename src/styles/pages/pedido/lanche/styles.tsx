@@ -43,9 +43,11 @@ export const LancheStyle = styled.main`
         img {
           border: 2px solid #000;
           background-color: #fff;
-          object-fit: scale-down;
+          object-fit: cover;
           border-radius: 6px;
-          padding: 0.2rem;
+          /* padding: 0.2rem; */
+          width: 110px;
+          height: 90px;
         }
 
         ${hover} {

@@ -1,18 +1,23 @@
 import { FC, useState } from "react";
-import { ISabor, IValor } from "../../../types/item";
+import {
+  IPizzaSabor,
+  IPizzaSaborValor,
+  IPizzaTamanho,
+} from "../../../types/pizza";
 import { FlavourStyle } from "./styles";
 
 export const Flavour: FC<{
-  sabor: ISabor;
+  sabor: IPizzaSabor;
   api_url: string;
+  tamanhos: Array<IPizzaTamanho>;
   grupos?: Array<string>;
-}> = ({ api_url, sabor, grupos }) => {
-  const [myValue, setMyValue] = useState<ISabor>(sabor);
+}> = ({ api_url, sabor, grupos, tamanhos }) => {
+  const [myValue, setMyValue] = useState<IPizzaSabor>(sabor);
   const [myGroup, setMyGroup] = useState<string | null>(null);
 
-  const saveFlavour = async (flavour: ISabor) => {
-    const response = await fetch(`${api_url}/pizzas/sabores`, {
-      method: sabor.nome.length > 0 ? "PATCH" : "POST",
+  const saveFlavour = async (flavour: IPizzaSabor) => {
+    const response = await fetch(`${api_url}/pizzas/sabores?id=${sabor.id}`, {
+      method: (sabor.id ?? "").length > 0 ? "PATCH" : "POST",
       body: JSON.stringify(
         sabor.nome.length > 0 ? flavour : { grupo: "", sabor: flavour }
       ),
@@ -80,8 +85,8 @@ export const Flavour: FC<{
       </div>
       <ul className="flavour-values">
         {myValue.valores.map((val) => (
-          <li key={val.tamanho} className="flavour-value">
-            <label>{val.tamanho}</label>
+          <li key={val.tamanhoId} className="flavour-value">
+            <label>{tamanhos.find((x) => x.id === val.tamanhoId).nome}</label>
             <input
               type="number"
               step={0.5}
@@ -92,7 +97,7 @@ export const Flavour: FC<{
                 setMyValue((prev) => ({
                   ...prev,
                   valores: prev.valores.map((x) =>
-                    x.tamanho === val.tamanho
+                    x.tamanhoId === val.tamanhoId
                       ? { ...val, valor: Number(e.target.value) }
                       : x
                   ),

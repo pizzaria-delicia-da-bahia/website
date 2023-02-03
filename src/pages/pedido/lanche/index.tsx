@@ -3,28 +3,28 @@ import { useState } from "react";
 import { LancheStyle } from "../../../styles/pages/pedido/lanche/styles";
 import { useMyOrder } from "../../../context/myOrderContext";
 import { ButtonSecondary } from "../../../styles/components/buttons";
-import { IBebidaOutro } from "../../../types/item";
+import { IOutro } from "../../../types/outro";
 import ItemQuantityModal from "../../../components/itemQuantityModal";
 import { formatCurrency } from "../../../utitl/functions/format";
 import { useRouter } from "next/router";
 import { v4 as uuidv4 } from "uuid";
 import { sleep } from "../../../utitl/functions/misc";
 
-const Lanche: NextPage<{ lanches: Array<IBebidaOutro> }> = ({ lanches }) => {
+const Lanche: NextPage<{ lanches: Array<IOutro> }> = ({ lanches }) => {
   const { myOrder, addItem } = useMyOrder();
-  const [selectedItem, setSelectedItem] = useState<IBebidaOutro | null>(null);
+  const [selectedItem, setSelectedItem] = useState<IOutro | null>(null);
   const [quantity, setQuantity] = useState<number>(1);
   const [showQuantityModal, setShowQuantityModal] = useState<boolean>(false);
   const router = useRouter();
 
-  const selectItem = (item: IBebidaOutro) => {
+  const selectItem = (item: IOutro) => {
     setSelectedItem(item);
     setShowQuantityModal(item ? true : false);
   };
 
-  const confirmQuantity = async (item: IBebidaOutro) => {
+  const confirmQuantity = async (item: IOutro) => {
     setShowQuantityModal(false);
-    let itens: Array<IBebidaOutro> = Array(quantity).fill({});
+    let itens: Array<IOutro> = Array(quantity).fill({});
     itens = itens.map((i) => (i = { ...item, id: uuidv4() }));
     addItem(itens);
     await sleep();
@@ -76,9 +76,7 @@ const Lanche: NextPage<{ lanches: Array<IBebidaOutro> }> = ({ lanches }) => {
 export default Lanche;
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const { lanches } = await (
-    await fetch(`${process.env.API_URL}/lanches`)
-  ).json();
+  const lanches = await (await fetch(`${process.env.API_URL}/lanches`)).json();
   return {
     props: {
       lanches,

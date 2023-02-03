@@ -1,18 +1,18 @@
-import { GetServerSideProps, GetStaticProps, NextPage } from "next";
-import { IBebidaOutro, ISabor, ITamanho } from "../../types/item";
+import { GetServerSideProps, NextPage } from "next";
+import { IPizzaSabor, IPizzaTamanho } from "../../types/pizza";
+import { IOutro } from "../../types/outro";
 import { ConfigStyle } from "../../styles/pages/config/styles";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Flavour } from "../../components/config/flavour";
 import { Size } from "../../components/config/size";
 import { Other } from "../../components/config/other";
-import { Address } from "../../components/config/address";
 import { IEndereco } from "../../types/endereco";
 
 interface IConfig {
-  sabores: Array<ISabor>;
-  tamanhos: Array<ITamanho>;
-  bebidas: Array<IBebidaOutro>;
-  lanches: Array<IBebidaOutro>;
+  sabores: Array<IPizzaSabor>;
+  tamanhos: Array<IPizzaTamanho>;
+  bebidas: Array<IOutro>;
+  lanches: Array<IOutro>;
   enderecos: Array<IEndereco>;
   grupos: Array<string>;
   api_url: string;
@@ -36,14 +36,17 @@ const Config: NextPage<IConfig> = ({
   const [pageCount, setPageCount] = useState<number>(1);
   const itemsPerPage = 12;
 
-  const emptyFlavour: ISabor = {
+  const emptyFlavour: IPizzaSabor = {
+    id: "",
+    grupoId: "",
     disponivel: true,
     ingredientes: [],
     nome: "",
-    valores: tamanhos.map((t) => ({ tamanho: t.nome, valor: 0 })),
+    valores: tamanhos.map((t) => ({ tamanhoId: t.id, valor: 0 })),
   };
 
-  const emptySize: ITamanho = {
+  const emptySize: IPizzaTamanho = {
+    id: "",
     fatias: 0,
     maxSabores: 0,
     nome: "",
@@ -51,7 +54,8 @@ const Config: NextPage<IConfig> = ({
     visivel: true,
   };
 
-  const emptyOther: IBebidaOutro = {
+  const emptyOther: IOutro = {
+    id: "",
     disponivel: true,
     imagemUrl: "",
     nome: "",
@@ -107,7 +111,12 @@ const Config: NextPage<IConfig> = ({
       {showNew && (
         <div className="new">
           {show === "flavours" ? (
-            <Flavour api_url={api_url} sabor={emptyFlavour} grupos={grupos} />
+            <Flavour
+              api_url={api_url}
+              sabor={emptyFlavour}
+              grupos={grupos}
+              tamanhos={tamanhos}
+            />
           ) : show === "sizes" ? (
             <Size api_url={api_url} tamanho={emptySize} />
           ) : show === "drinks" ? (
@@ -125,7 +134,6 @@ const Config: NextPage<IConfig> = ({
           disabled={pageCount <= 1}
           onClick={() =>
             setPageCount((prev) => {
-              console.log(prev, itemsPerPage);
               return prev - itemsPerPage;
             })
           }
@@ -152,7 +160,12 @@ const Config: NextPage<IConfig> = ({
         {sabores
           .slice(pageCount - 1, pageCount + itemsPerPage - 1)
           .map((sabor) => (
-            <Flavour api_url={api_url} sabor={sabor} key={sabor.nome} />
+            <Flavour
+              api_url={api_url}
+              sabor={sabor}
+              key={sabor.nome}
+              tamanhos={tamanhos}
+            />
           ))}
       </ul>
 
@@ -222,18 +235,18 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   if (!(ctx.query.isauth === "true")) {
     ctx.res.destroy();
   } else {
-    const { grupos } =
+    const grupos =
       (await (await fetch(`${process.env.API_URL}/pizzas/sabores`)).json()) ??
       [];
 
-    const { tamanhos } =
+    const tamanhos =
       (await (await fetch(`${process.env.API_URL}/pizzas/tamanhos`)).json()) ??
       [];
 
-    const { bebidas } =
+    const bebidas =
       (await (await fetch(`${process.env.API_URL}/bebidas`)).json()) ?? [];
 
-    const { lanches } =
+    const lanches =
       (await (await fetch(`${process.env.API_URL}/lanches`)).json()) ?? [];
 
     // const { enderecos } =

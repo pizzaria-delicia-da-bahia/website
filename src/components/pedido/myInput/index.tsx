@@ -5,7 +5,7 @@ export const MyInput: FC<{
   disabled?: boolean;
   name: string;
   placeholder?: string;
-  type: "text" | "name" | "address" | "phoneNumber" | "number";
+  type: "text" | "name" | "address" | "phoneNumber" | "zipCode" | "number";
   value: string | number;
   tabIndex?: number;
   setValue: (value: string | number) => void;
@@ -32,13 +32,21 @@ export const MyInput: FC<{
         placeholder={placeholder}
         tabIndex={tabIndex}
         type={
-          type === "phoneNumber" ? "tel" : type === "address" ? "search" : type
+          type === "zipCode"
+            ? "number"
+            : "phoneNumber"
+            ? "tel"
+            : type === "address"
+            ? "search"
+            : type
         }
         autoComplete={
           type === "address"
             ? "street-address"
             : type === "phoneNumber"
             ? "tel-national"
+            : type === "zipCode"
+            ? "postal-code"
             : type === "name"
             ? "given-name"
             : undefined
