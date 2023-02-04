@@ -10,8 +10,8 @@ const Cardapio: NextPage<ICardapio> = ({ sizes, groupsLeft, groupsRight }) => {
     return s.valores
       .map((v) =>
         getValueString({
-          ...v,
-          tamanhoId: sizes.find((x) => x.id === v.tamanhoId).nome,
+          value: v.valor,
+          name: sizes.find((x) => x.id === v.tamanhoId).nome,
         })
       )
       .join(", ");
