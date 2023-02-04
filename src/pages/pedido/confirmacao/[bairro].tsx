@@ -199,20 +199,30 @@ ${payment}`
 export default Confirmacao;
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const bairros = await (
-    await fetch(`${process.env.API_URL}/bairros?id=${ctx.query.bairro}`)
-  ).json();
-
-  let bairroNome = "NÃO ENCONTRADO";
   try {
-    bairroNome = bairros[0].nome;
-  } catch {
-    console.error("bairro não encontrado");
-  }
+    const bairros = await (
+      await fetch(`${process.env.API_URL}/bairros?id=${ctx.query.bairro}`)
+    ).json();
 
-  return {
-    props: {
-      bairroNome,
-    },
-  };
+    let bairroNome = "NÃO ENCONTRADO";
+    try {
+      bairroNome = bairros[0].nome;
+    } catch {
+      console.error("bairro não encontrado");
+    }
+
+    return {
+      props: {
+        bairroNome,
+      },
+    };
+  } catch (err) {
+    console.error((err as Error).message, (err as Error).stack);
+    return {
+      redirect: {
+        destination: "/pedido",
+        permanent: false,
+      },
+    };
+  }
 };

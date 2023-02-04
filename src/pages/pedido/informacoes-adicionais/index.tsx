@@ -346,12 +346,24 @@ const InformacoesAdicionais: NextPage<{
 export default InformacoesAdicionais;
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const bairros = await (await fetch(`${process.env.API_URL}/bairros`)).json();
+  try {
+    const bairros = await (
+      await fetch(`${process.env.API_URL}/bairros`)
+    ).json();
 
-  return {
-    props: {
-      api_url: `${process.env.API_URL}`,
-      neighbourhoods: bairros,
-    },
-  };
+    return {
+      props: {
+        api_url: `${process.env.API_URL}`,
+        neighbourhoods: bairros,
+      },
+    };
+  } catch (err) {
+    console.error((err as Error).message, (err as Error).stack);
+    return {
+      redirect: {
+        destination: "/pedido",
+        permanent: false,
+      },
+    };
+  }
 };

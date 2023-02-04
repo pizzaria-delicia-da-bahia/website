@@ -113,11 +113,3 @@ const Itens: NextPage = () => {
 };
 
 export default Itens;
-
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  return {
-    props: {
-      bebidas: {},
-    },
-  };
-};

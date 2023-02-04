@@ -68,13 +68,10 @@ const Sabores: NextPage<{ tamanhoId: string; api_url: string }> = ({
   const getAllValues = (valores: IPizzaSaborValor[]) => {
     return (
       size &&
-      getValueString(
-        valores.find(
-          (x) => x.tamanhoId.toUpperCase() === size.nome.toUpperCase()
-        ) ??
-          null ??
-          null
-      )
+      getValueString({
+        name: size.nome,
+        value: valores.find((x) => x.tamanhoId === size.id).valor,
+      })
     );
   };
 
@@ -104,8 +101,10 @@ const Sabores: NextPage<{ tamanhoId: string; api_url: string }> = ({
       </div>
     </div>
   );
-  const getSaborValor = (s) =>
-    s.valores.find((v) => v.tamanhoId === size.id).valor;
+  const getSaborValor = (s) => {
+    const value = s.valores.find((v) => v.tamanhoId === size.id).valor;
+    return value;
+  };
 
   const getValorFormatted = (v: number) =>
     formatCurrency(v / checkedList.length);

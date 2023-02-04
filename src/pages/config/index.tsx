@@ -235,32 +235,38 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   if (!(ctx.query.isauth === "true")) {
     ctx.res.destroy();
   } else {
-    const grupos =
-      (await (await fetch(`${process.env.API_URL}/pizzas/sabores`)).json()) ??
-      [];
+    try {
+      const grupos =
+        (await (await fetch(`${process.env.API_URL}/pizzas/sabores`)).json()) ??
+        [];
 
-    const tamanhos =
-      (await (await fetch(`${process.env.API_URL}/pizzas/tamanhos`)).json()) ??
-      [];
+      const tamanhos =
+        (await (
+          await fetch(`${process.env.API_URL}/pizzas/tamanhos`)
+        ).json()) ?? [];
 
-    const bebidas =
-      (await (await fetch(`${process.env.API_URL}/bebidas`)).json()) ?? [];
+      const bebidas =
+        (await (await fetch(`${process.env.API_URL}/bebidas`)).json()) ?? [];
 
-    const lanches =
-      (await (await fetch(`${process.env.API_URL}/lanches`)).json()) ?? [];
+      const lanches =
+        (await (await fetch(`${process.env.API_URL}/lanches`)).json()) ?? [];
 
-    // const { enderecos } =
-    //   (await (await fetch(`${process.env.API_URL}/enderecos`)).json()) ?? [];
-    return {
-      props: {
-        sabores: grupos.length > 0 ? grupos.map((g) => g.sabores).flat() : [],
-        grupos: grupos.map((g) => g.nome),
-        tamanhos,
-        bebidas,
-        lanches,
-        enderecos: [],
-        api_url: process.env.API_URL,
-      },
-    };
+      // const { enderecos } =
+      //   (await (await fetch(`${process.env.API_URL}/enderecos`)).json()) ?? [];
+      return {
+        props: {
+          sabores: grupos.length > 0 ? grupos.map((g) => g.sabores).flat() : [],
+          grupos: grupos.map((g) => g.nome),
+          tamanhos,
+          bebidas,
+          lanches,
+          enderecos: [],
+          api_url: process.env.API_URL,
+        },
+      };
+    } catch (err) {
+      console.error((err as Error).message, (err as Error).stack);
+      ctx.res.destroy();
+    }
   }
 };
