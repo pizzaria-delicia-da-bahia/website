@@ -89,7 +89,7 @@ export const Flavour: FC<{
             <label>{tamanhos.find((x) => x.id === val.tamanhoId).nome}</label>
             <input
               type="number"
-              step={0.5}
+              step={1}
               min={0}
               max={500}
               value={val.valor}
