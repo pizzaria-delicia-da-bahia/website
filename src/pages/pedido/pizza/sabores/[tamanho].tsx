@@ -156,7 +156,14 @@ const Sabores: NextPage<{ tamanhoId: string; api_url: string }> = ({
           </div>
           <FloatButton
             className={`${checkedList.length === 0 ? "hidden" : undefined}`}
-            onClick={next}
+            onClick={(e) => {
+              e.preventDefault();
+              next();
+            }}
+            onTouchEnd={(e) => {
+              e.preventDefault();
+              next();
+            }}
           >
             <p>Pronto! {">>"}</p>
             <b>
