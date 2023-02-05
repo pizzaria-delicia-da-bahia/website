@@ -125,7 +125,7 @@ const Sabores: NextPage<{ tamanhoId: string; api_url: string }> = ({
       addItem(novaPizza);
       router.push("/pedido");
     } catch (e) {
-      alert((e as Error).message + " ------- "(e as Error).stack);
+      alert((e as Error).message + " ------- " + (e as Error).stack);
     }
   };
   return (
