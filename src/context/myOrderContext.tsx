@@ -68,8 +68,6 @@ const MyOrderProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
   const addItem = (item: IItem | IItem[]) => {
     const itens = Array.isArray(item) ? item : [item];
-    alert("itens: " + itens);
-    alert("meus itens: " + myOrder.itens);
     const novosItens = [...(myOrder.itens ?? []), ...itens];
     saveMyOrderLocalAndState({
       ...myOrder,
@@ -80,7 +78,7 @@ const MyOrderProvider: FC<{ children: ReactNode }> = ({ children }) => {
     const payments = Array.isArray(payment) ? payment : [payment];
     saveMyOrderLocalAndState({
       ...myOrder,
-      pagamentos: [...myOrder.pagamentos, ...payments],
+      pagamentos: [...(myOrder.pagamentos ?? []), ...payments],
     });
   };
 

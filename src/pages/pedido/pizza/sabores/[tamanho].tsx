@@ -114,9 +114,6 @@ const Sabores: NextPage<{ tamanhoId: string; api_url: string }> = ({
       const midValue =
         checkedList.reduce((max, curr) => getSaborValor(curr) + max, 0) /
         checkedList.length;
-
-      alert(`lista: ${JSON.stringify(checkedList)} ${midValue} ${uuidv4()}`);
-
       const novaPizza: IPizza = {
         valor: midValue,
         sabores: checkedList,
@@ -127,7 +124,7 @@ const Sabores: NextPage<{ tamanhoId: string; api_url: string }> = ({
       addItem(novaPizza);
       router.push("/pedido");
     } catch (e) {
-      alert((e as Error).message + " ------- " + (e as Error).stack);
+      console.error((e as Error).message, (e as Error).stack);
     }
   };
   return (
