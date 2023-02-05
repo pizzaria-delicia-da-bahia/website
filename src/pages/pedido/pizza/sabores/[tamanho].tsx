@@ -154,8 +154,8 @@ const Sabores: NextPage<{ tamanhoId: string; api_url: string }> = ({
                 .join(", ")}
             </h3>
           </div>
-          <button
-            className={`${checkedList.length === 0 ? "hidden" : undefined}`}
+          <FloatButton
+            // className={`${checkedList.length === 0 ? "hidden" : undefined}`}
             onClick={next}
           >
             <p>Pronto! {">>"}</p>
@@ -164,7 +164,7 @@ const Sabores: NextPage<{ tamanhoId: string; api_url: string }> = ({
                 checkedList.reduce((max, curr) => getSaborValor(curr) + max, 0)
               )}
             </b>
-          </button>
+          </FloatButton>
         </>
       ) : (
         <Loading />
