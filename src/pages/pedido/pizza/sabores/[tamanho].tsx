@@ -22,10 +22,7 @@ import {
 import { v4 as uuidv4 } from "uuid";
 import Loading from "../../../../components/loading";
 
-const Sabores: NextPage<{ tamanhoId: string; api_url: string }> = ({
-  tamanhoId,
-  api_url,
-}) => {
+const Sabores: NextPage<{ tamanhoId: string }> = ({ tamanhoId }) => {
   const router = useRouter();
   const [checkedList, setCheckedList] = useState<IPizzaSabor[]>([]);
   const { addItem } = useMyOrder();
@@ -35,14 +32,16 @@ const Sabores: NextPage<{ tamanhoId: string; api_url: string }> = ({
   const loadAll = async () => {
     try {
       const sizesFromBackend = (await (
-        await fetch(`${api_url}/pizzas/tamanhos?id=${tamanhoId}`)
+        await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/pizzas/tamanhos?id=${tamanhoId}`
+        )
       ).json()) as IPizzaTamanho[];
 
       if (!sizesFromBackend[0]) throw new Error("Tamanho inválido");
       setSize(sizesFromBackend[0]);
 
       const groupsFromBackend = (await (
-        await fetch(`${api_url}/pizzas/sabores`)
+        await fetch(`${process.env.NEXT_PUBLIC_API_URL}/pizzas/sabores`)
       ).json()) as IPizzaGrupo[];
 
       const groupsLeft: IPizzaGrupo[] = [];
@@ -180,7 +179,6 @@ export default Sabores;
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   return {
     props: {
-      api_url: process.env.API_URL,
       tamanhoId: ctx.query["tamanho"],
     },
   };

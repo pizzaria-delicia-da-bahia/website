@@ -73,11 +73,11 @@ export default Cardapio;
 
 export const getStaticProps: GetStaticProps = async () => {
   const sizes = (await (
-    await fetch(`${process.env.API_URL}/pizzas/tamanhos`)
+    await fetch(`${process.env.NEXT_PUBLIC_API_URL}/pizzas/tamanhos`)
   ).json()) as IPizzaTamanho[];
 
   const grupos = (await (
-    await fetch(`${process.env.API_URL}/pizzas/sabores`)
+    await fetch(`${process.env.NEXT_PUBLIC_API_URL}/pizzas/sabores`)
   ).json()) as IPizzaGrupo[];
 
   const groupsLeft = [];

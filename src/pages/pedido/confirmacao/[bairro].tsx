@@ -201,7 +201,9 @@ export default Confirmacao;
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   try {
     const bairros = await (
-      await fetch(`${process.env.API_URL}/bairros?id=${ctx.query.bairro}`)
+      await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/bairros?id=${ctx.query.bairro}`
+      )
     ).json();
 
     let bairroNome = "NÃO ENCONTRADO";

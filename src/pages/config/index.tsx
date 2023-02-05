@@ -239,26 +239,33 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     try {
       const sabores =
         (await (
-          await fetch(`${process.env.API_URL}/pizzas/sabores?strict=true`)
+          await fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/pizzas/sabores?strict=true`
+          )
         ).json()) ?? [];
 
       const grupos =
-        (await (await fetch(`${process.env.API_URL}/pizzas/grupos`)).json()) ??
-        [];
+        (await (
+          await fetch(`${process.env.NEXT_PUBLIC_API_URL}/pizzas/grupos`)
+        ).json()) ?? [];
 
       const tamanhos =
         (await (
-          await fetch(`${process.env.API_URL}/pizzas/tamanhos`)
+          await fetch(`${process.env.NEXT_PUBLIC_API_URL}/pizzas/tamanhos`)
         ).json()) ?? [];
 
       const bebidas =
-        (await (await fetch(`${process.env.API_URL}/bebidas`)).json()) ?? [];
+        (await (
+          await fetch(`${process.env.NEXT_PUBLIC_API_URL}/bebidas`)
+        ).json()) ?? [];
 
       const lanches =
-        (await (await fetch(`${process.env.API_URL}/lanches`)).json()) ?? [];
+        (await (
+          await fetch(`${process.env.NEXT_PUBLIC_API_URL}/lanches`)
+        ).json()) ?? [];
 
       // const { enderecos } =
-      //   (await (await fetch(`${process.env.API_URL}/enderecos`)).json()) ?? [];
+      //   (await (await fetch(`${process.env.NEXT_PUBLIC_API_URL}/enderecos`)).json()) ?? [];
       return {
         props: {
           sabores,
@@ -267,7 +274,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
           bebidas,
           lanches,
           enderecos: [],
-          api_url: process.env.API_URL,
+          api_url: process.env.NEXT_PUBLIC_API_URL,
         },
       };
     } catch (err) {

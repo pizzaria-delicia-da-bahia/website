@@ -23,9 +23,8 @@ interface IData {
 }
 
 const InformacoesAdicionais: NextPage<{
-  api_url: string;
   neighbourhoods: IBairro[];
-}> = ({ api_url, neighbourhoods }) => {
+}> = ({ neighbourhoods }) => {
   const { setInfo } = useMyOrder();
   const [data, setData] = useState<IData | null>(null);
   const router = useRouter();
@@ -63,7 +62,7 @@ const InformacoesAdicionais: NextPage<{
       });
 
       const taxa = await (
-        await fetch(`${api_url}/taxa${query}`, {
+        await fetch(`${process.env.NEXT_PUBLIC_API_URL}/taxa${query}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -83,9 +82,12 @@ const InformacoesAdicionais: NextPage<{
 
   const searchCEP = async () => {
     const enderecos = (await (
-      await fetch(`${api_url}/enderecos?cep=${data.cliente.endereco.cep}`, {
-        headers: { "Content-Type": "application/json" },
-      })
+      await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/enderecos?cep=${data.cliente.endereco.cep}`,
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      )
     ).json()) as {
       enderecos: Array<{
         bairroId: string;
@@ -348,12 +350,11 @@ export default InformacoesAdicionais;
 export const getServerSideProps: GetServerSideProps = async () => {
   try {
     const bairros = await (
-      await fetch(`${process.env.API_URL}/bairros`)
+      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/bairros`)
     ).json();
 
     return {
       props: {
-        api_url: `${process.env.API_URL}`,
         neighbourhoods: bairros,
       },
     };

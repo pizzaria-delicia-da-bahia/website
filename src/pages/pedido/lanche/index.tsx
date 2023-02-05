@@ -12,7 +12,7 @@ import { sleep } from "../../../utitl/functions/misc";
 import Loading from "../../../components/loading";
 import Image from "next/image";
 
-const Lanche: NextPage<{ api_url: string }> = ({ api_url }) => {
+const Lanche: NextPage = () => {
   const { addItem } = useMyOrder();
   const [selectedItem, setSelectedItem] = useState<IOutro | null>(null);
   const [quantity, setQuantity] = useState<number>(1);
@@ -24,7 +24,7 @@ const Lanche: NextPage<{ api_url: string }> = ({ api_url }) => {
   const loadItems = async () => {
     try {
       const lanchesFromBackend = (await (
-        await fetch(`${api_url}/lanches`)
+        await fetch(`${process.env.NEXT_PUBLIC_API_URL}/lanches`)
       ).json()) as IOutro[];
       console.log(lanchesFromBackend);
       setLanches(lanchesFromBackend);
@@ -110,11 +110,3 @@ const Lanche: NextPage<{ api_url: string }> = ({ api_url }) => {
 };
 
 export default Lanche;
-
-export const getServerSideProps: GetServerSideProps = async () => {
-  return {
-    props: {
-      api_url: process.env.API_URL,
-    },
-  };
-};

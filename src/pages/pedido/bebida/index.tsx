@@ -15,7 +15,7 @@ import { sleep } from "../../../utitl/functions/misc";
 import Loading from "../../../components/loading";
 import Image from "next/image";
 
-const Bebida: NextPage<{ api_url: string }> = ({ api_url }) => {
+const Bebida: NextPage = () => {
   const { myOrder, addItem } = useMyOrder();
   const [selectedItem, setSelectedItem] = useState<IOutro | null>(null);
   const [quantity, setQuantity] = useState<number>(1);
@@ -27,7 +27,7 @@ const Bebida: NextPage<{ api_url: string }> = ({ api_url }) => {
   const loadItems = async () => {
     try {
       const bebidasFromBackend = (await (
-        await fetch(`${api_url}/bebidas`)
+        await fetch(`${process.env.NEXT_PUBLIC_API_URL}/bebidas`)
       ).json()) as IOutro[];
       setBebidas(bebidasFromBackend);
     } catch (err) {
@@ -110,11 +110,3 @@ const Bebida: NextPage<{ api_url: string }> = ({ api_url }) => {
 };
 
 export default Bebida;
-
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  return {
-    props: {
-      api_url: process.env.API_URL,
-    },
-  };
-};

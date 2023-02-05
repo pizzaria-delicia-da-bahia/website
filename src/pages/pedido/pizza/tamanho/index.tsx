@@ -99,7 +99,7 @@ export default Tamanho;
 export const getServerSideProps: GetServerSideProps = async () => {
   return {
     props: {
-      api_url: `${process.env.API_URL}/pizzas/tamanhos`,
+      api_url: `${process.env.NEXT_PUBLIC_API_URL}/pizzas/tamanhos`,
     },
   };
 };
