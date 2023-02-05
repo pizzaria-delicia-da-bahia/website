@@ -93,5 +93,6 @@ export const getStaticProps: GetStaticProps = async () => {
       groupsLeft,
       groupsRight,
     },
+    revalidate: 10,
   };
 };
