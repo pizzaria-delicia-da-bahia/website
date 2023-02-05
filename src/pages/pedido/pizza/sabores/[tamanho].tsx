@@ -112,10 +112,11 @@ const Sabores: NextPage<{ tamanhoId: string; api_url: string }> = ({
 
   const next = () => {
     try {
-      alert(`${JSON.stringify(checkedList)} `);
       const midValue =
         checkedList.reduce((max, curr) => getSaborValor(curr) + max, 0) /
         checkedList.length;
+
+      alert(`${JSON.stringify(checkedList)} ${midValue} ${uuidv4()}`);
 
       const novaPizza: IPizza = {
         valor: midValue,
