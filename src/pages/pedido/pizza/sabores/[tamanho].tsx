@@ -110,6 +110,7 @@ const Sabores: NextPage<{ tamanhoId: string; api_url: string }> = ({
     formatCurrency(v / checkedList.length);
 
   const next = () => {
+    alert("clicou ");
     const midValue =
       checkedList.reduce((max, curr) => getSaborValor(curr) + max, 0) /
       checkedList.length;
@@ -122,7 +123,6 @@ const Sabores: NextPage<{ tamanhoId: string; api_url: string }> = ({
     };
 
     addItem(novaPizza);
-    alert("clicou " + JSON.stringify(novaPizza));
     router.push("/pedido");
   };
   return (
@@ -155,7 +155,7 @@ const Sabores: NextPage<{ tamanhoId: string; api_url: string }> = ({
             </h3>
           </div>
           <FloatButton
-            // className={`${checkedList.length === 0 ? "hidden" : undefined}`}
+            className={`${checkedList.length === 0 ? "hidden" : undefined}`}
             onClick={next}
           >
             <p>Pronto! {">>"}</p>

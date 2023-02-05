@@ -96,6 +96,7 @@ export const FloatButton = styled(ButtonPrimary)`
   border-radius: 50%;
   transition: all 0.2s;
   padding: 0;
+  z-index: 999;
 
   p {
     font-size: min(0.9rem, 2.5vw);
