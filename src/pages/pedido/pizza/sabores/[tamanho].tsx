@@ -102,6 +102,7 @@ const Sabores: NextPage<{ tamanhoId: string; api_url: string }> = ({
     </div>
   );
   const getSaborValor = (s) => {
+    alert(`${JSON.stringify(s)}`);
     const value = s.valores.find((v) => v.tamanhoId === size.id).valor;
     return value;
   };
@@ -111,6 +112,7 @@ const Sabores: NextPage<{ tamanhoId: string; api_url: string }> = ({
 
   const next = () => {
     try {
+      alert(`${JSON.stringify(checkedList)} `);
       const midValue =
         checkedList.reduce((max, curr) => getSaborValor(curr) + max, 0) /
         checkedList.length;
