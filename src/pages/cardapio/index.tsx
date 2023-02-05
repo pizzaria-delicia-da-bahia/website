@@ -1,7 +1,7 @@
 import { GetStaticProps, NextPage } from "next";
 import { CardapioStyle } from "../../styles/pages/cardapio/styles";
 import { ICardapio } from "../../types/cardapio";
-import { IPizzaSabor, IPizzaGrupo } from "../../types/pizza";
+import { IPizzaSabor, IPizzaGrupo, IPizzaTamanho } from "../../types/pizza";
 import { getValueString } from "../../utitl/functions/format";
 import { Sabor } from "../../components/cardapio/sabor";
 
@@ -72,13 +72,13 @@ const Cardapio: NextPage<ICardapio> = ({ sizes, groupsLeft, groupsRight }) => {
 export default Cardapio;
 
 export const getStaticProps: GetStaticProps = async () => {
-  const sizes = await (
+  const sizes = (await (
     await fetch(`${process.env.API_URL}/pizzas/tamanhos`)
-  ).json();
+  ).json()) as IPizzaTamanho[];
 
-  const grupos = await (
+  const grupos = (await (
     await fetch(`${process.env.API_URL}/pizzas/sabores`)
-  ).json();
+  ).json()) as IPizzaGrupo[];
 
   const groupsLeft = [];
   const groupsRight = [];

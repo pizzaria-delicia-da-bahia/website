@@ -1,5 +1,5 @@
 import { GetServerSideProps, NextPage } from "next";
-import { IPizzaSabor, IPizzaTamanho } from "../../types/pizza";
+import { IPizzaGrupo, IPizzaSabor, IPizzaTamanho } from "../../types/pizza";
 import { IOutro } from "../../types/outro";
 import { ConfigStyle } from "../../styles/pages/config/styles";
 import { useState } from "react";
@@ -14,7 +14,7 @@ interface IConfig {
   bebidas: Array<IOutro>;
   lanches: Array<IOutro>;
   enderecos: Array<IEndereco>;
-  grupos: Array<string>;
+  grupos: Array<IPizzaGrupo>;
   api_url: string;
 }
 
@@ -163,6 +163,7 @@ const Config: NextPage<IConfig> = ({
             <Flavour
               api_url={api_url}
               sabor={sabor}
+              grupos={grupos}
               key={sabor.nome}
               tamanhos={tamanhos}
             />
@@ -236,8 +237,13 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     ctx.res.destroy();
   } else {
     try {
+      const sabores =
+        (await (
+          await fetch(`${process.env.API_URL}/pizzas/sabores?strict=true`)
+        ).json()) ?? [];
+
       const grupos =
-        (await (await fetch(`${process.env.API_URL}/pizzas/sabores`)).json()) ??
+        (await (await fetch(`${process.env.API_URL}/pizzas/grupos`)).json()) ??
         [];
 
       const tamanhos =
@@ -255,8 +261,8 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       //   (await (await fetch(`${process.env.API_URL}/enderecos`)).json()) ?? [];
       return {
         props: {
-          sabores: grupos.length > 0 ? grupos.map((g) => g.sabores).flat() : [],
-          grupos: grupos.map((g) => g.nome),
+          sabores,
+          grupos,
           tamanhos,
           bebidas,
           lanches,

@@ -1,5 +1,6 @@
 import { FC, useState } from "react";
 import {
+  IPizzaGrupo,
   IPizzaSabor,
   IPizzaSaborValor,
   IPizzaTamanho,
@@ -10,10 +11,12 @@ export const Flavour: FC<{
   sabor: IPizzaSabor;
   api_url: string;
   tamanhos: Array<IPizzaTamanho>;
-  grupos?: Array<string>;
+  grupos: Array<IPizzaGrupo>;
 }> = ({ api_url, sabor, grupos, tamanhos }) => {
   const [myValue, setMyValue] = useState<IPizzaSabor>(sabor);
-  const [myGroup, setMyGroup] = useState<string | null>(null);
+  const [myIngredientes, setMyIngredientes] = useState<string>(
+    sabor.ingredientes.join(", ")
+  );
 
   const saveFlavour = async (flavour: IPizzaSabor) => {
     const response = await fetch(`${api_url}/pizzas/sabores?id=${sabor.id}`, {
@@ -32,35 +35,14 @@ export const Flavour: FC<{
   return (
     <FlavourStyle>
       <div className="name">
-        {sabor.nome.length > 0 ? (
-          <label>{myValue.nome}</label>
-        ) : (
-          <>
-            <input
-              type="text"
-              placeholder="Nome do sabor"
-              value={myValue.nome}
-              onChange={(e) =>
-                setMyValue((prev) => ({ ...prev, nome: e.target.value }))
-              }
-            />
-            <input
-              type="text"
-              id="my-select-input"
-              placeholder="Grupo"
-              value={myGroup}
-              onChange={(e) => setMyGroup(e.target.value)}
-              list="my-select-list"
-            />
-            <datalist id="my-select-list">
-              {grupos.map((g) => (
-                <option key={g} value={g}>
-                  {g}
-                </option>
-              ))}
-            </datalist>
-          </>
-        )}
+        <input
+          type="text"
+          placeholder="Nome do sabor"
+          value={myValue.nome}
+          onChange={(e) =>
+            setMyValue((prev) => ({ ...prev, nome: e.target.value }))
+          }
+        />
         <input
           type="checkbox"
           checked={myValue.disponivel}
@@ -68,19 +50,29 @@ export const Flavour: FC<{
             setMyValue((prev) => ({ ...prev, disponivel: e.target.checked }))
           }
         />
+        <select
+          className="grupo"
+          value={myValue.grupoId}
+          onChange={(e) =>
+            setMyValue((prev) => ({
+              ...prev,
+              grupoId: e.target.value,
+            }))
+          }
+        >
+          <option value={null}>--Selecione--</option>
+          {grupos.map((g) => (
+            <option key={g.id} value={g.id}>
+              {g.nome}
+            </option>
+          ))}
+        </select>
         <input
           className="ingredientes"
           type="text"
           placeholder="Calabresa, Cebola, Cheddar"
-          value={myValue.ingredientes.join(", ")}
-          onChange={(e) =>
-            setMyValue((prev) => ({
-              ...prev,
-              ingredientes: String(e.target.value)
-                .replace(", ", ",")
-                .split(","),
-            }))
-          }
+          value={myIngredientes}
+          onChange={(e) => setMyIngredientes(e.target.value)}
         />
       </div>
       <ul className="flavour-values">
@@ -107,7 +99,26 @@ export const Flavour: FC<{
           </li>
         ))}
       </ul>
-      <button onClick={() => saveFlavour({ ...sabor, ...myValue })}>
+      <button
+        disabled={
+          !Array.isArray(
+            myIngredientes
+              .replace(/(\s\s+)/g, " ")
+              .trim()
+              .split(", ")
+          )
+        }
+        onClick={() =>
+          saveFlavour({
+            ...sabor,
+            ...myValue,
+            ingredientes: myIngredientes
+              .replace(/(\s\s+)/g, " ")
+              .trim()
+              .split(", "),
+          })
+        }
+      >
         SALVAR
       </button>
     </FlavourStyle>

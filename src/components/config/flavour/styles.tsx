@@ -34,6 +34,12 @@ export const FlavourStyle = styled.li`
       flex-grow: 0;
     }
 
+    .grupo {
+      padding: 0.2rem 0;
+      font-size: 1.2rem;
+      width: 100%;
+    }
+
     .ingredientes {
       width: 100%;
     }
