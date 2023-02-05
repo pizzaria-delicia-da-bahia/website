@@ -68,7 +68,9 @@ const MyOrderProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
   const addItem = (item: IItem | IItem[]) => {
     const itens = Array.isArray(item) ? item : [item];
-    const novosItens = [...myOrder.itens, ...itens];
+    alert("itens: " + itens);
+    alert("meus itens: " + myOrder.itens);
+    const novosItens = [...(myOrder.itens ?? []), ...itens];
     saveMyOrderLocalAndState({
       ...myOrder,
       itens: novosItens,
