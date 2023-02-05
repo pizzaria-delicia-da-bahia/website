@@ -20,14 +20,16 @@ const BottomInfo: FC<{
   </div>
 );
 
-const Tamanho: NextPage<{ api_url: string }> = ({ api_url }) => {
+const Tamanho: NextPage = () => {
   const router = useRouter();
 
   const [sizes, setSizes] = useState<IPizzaTamanho[]>([]);
 
   const loadSizes = async () => {
     try {
-      const tamanhos = (await (await fetch(api_url)).json()) as IPizzaTamanho[];
+      const tamanhos = (await (
+        await fetch(`${process.env.NEXT_PUBLIC_API_URL}/pizzas/tamanhos`)
+      ).json()) as IPizzaTamanho[];
       setSizes(tamanhos.filter((x) => x.visivel));
     } catch (err) {
       console.error((err as Error).message, (err as Error).stack);
@@ -95,11 +97,3 @@ const Tamanho: NextPage<{ api_url: string }> = ({ api_url }) => {
 };
 
 export default Tamanho;
-
-export const getServerSideProps: GetServerSideProps = async () => {
-  return {
-    props: {
-      api_url: `${process.env.NEXT_PUBLIC_API_URL}/pizzas/tamanhos`,
-    },
-  };
-};
