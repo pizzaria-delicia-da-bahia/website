@@ -1,6 +1,7 @@
 import { NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { createRef, ReactElement, useEffect, useRef, useState } from "react";
 import { Badge } from "../../components/badge";
 import Carousel from "../../components/carousel";
@@ -31,6 +32,7 @@ const Pedido: NextPage = () => {
     },
   ];
   const { myOrder } = useMyOrder();
+  const router = useRouter();
 
   return (
     <PedidoStyle>
@@ -52,17 +54,20 @@ const Pedido: NextPage = () => {
         </Carousel>
       </div>
       <nav className="bottom-controls">
-        <Link href={"/pedido/itens"} passHref>
-          <ButtonSecondary disabled={(myOrder?.itens?.length ?? 0) < 1}>
-            <p>MEUS ITENS</p>
-            <Badge number={myOrder?.itens?.length ?? 0} />
-          </ButtonSecondary>
-        </Link>
-        <Link href="/pedido/informacoes-adicionais" passHref>
-          <ButtonPrimary disabled={(myOrder?.itens?.length ?? 0) < 1}>
-            PEDIDO PRONTO!
-          </ButtonPrimary>
-        </Link>
+        <ButtonSecondary
+          disabled={(myOrder?.itens?.length ?? 0) < 1}
+          onClick={() => router.push("/pedido/itens")}
+        >
+          <p>MEUS ITENS</p>
+          <Badge number={myOrder?.itens?.length ?? 0} />
+        </ButtonSecondary>
+
+        <ButtonPrimary
+          disabled={(myOrder?.itens?.length ?? 0) < 1}
+          onClick={() => router.push("/pedido/informacoes-adicionais")}
+        >
+          PEDIDO PRONTO!
+        </ButtonPrimary>
       </nav>
     </PedidoStyle>
   );
