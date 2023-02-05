@@ -110,20 +110,23 @@ const Sabores: NextPage<{ tamanhoId: string; api_url: string }> = ({
     formatCurrency(v / checkedList.length);
 
   const next = () => {
-    alert("clicou ");
-    const midValue =
-      checkedList.reduce((max, curr) => getSaborValor(curr) + max, 0) /
-      checkedList.length;
+    try {
+      const midValue =
+        checkedList.reduce((max, curr) => getSaborValor(curr) + max, 0) /
+        checkedList.length;
 
-    const novaPizza: IPizza = {
-      valor: midValue,
-      sabores: checkedList,
-      tamanho: size,
-      id: uuidv4(),
-    };
+      const novaPizza: IPizza = {
+        valor: midValue,
+        sabores: checkedList,
+        tamanho: size,
+        id: uuidv4(),
+      };
 
-    addItem(novaPizza);
-    router.push("/pedido");
+      addItem(novaPizza);
+      router.push("/pedido");
+    } catch (e) {
+      alert((e as Error).message + " ------- "(e as Error).stack);
+    }
   };
   return (
     <SaboresStyle>
