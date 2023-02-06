@@ -34,10 +34,12 @@ export const MyInput: FC<{
         type={
           type === "zipCode"
             ? "number"
-            : "phoneNumber"
+            : type === "phoneNumber"
             ? "tel"
             : type === "address"
             ? "search"
+            : type === "name"
+            ? "text"
             : type
         }
         autoComplete={

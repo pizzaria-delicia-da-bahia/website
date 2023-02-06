@@ -200,17 +200,22 @@ export default Confirmacao;
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   try {
-    const bairros = await (
-      await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/bairros?id=${ctx.query.bairro}`
-      )
-    ).json();
+    let bairroNome = "";
 
-    let bairroNome = "NÃO ENCONTRADO";
-    try {
-      bairroNome = bairros[0].nome;
-    } catch {
-      console.error("bairro não encontrado");
+    if (ctx.query.bairro) {
+      const bairros = await (
+        await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/bairros?id=${ctx.query.bairro}`
+        )
+      ).json();
+
+      bairroNome = "NÃO ENCONTRADO";
+
+      try {
+        bairroNome = bairros[0].nome;
+      } catch {
+        console.error("bairro não encontrado");
+      }
     }
 
     return {
