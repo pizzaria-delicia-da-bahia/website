@@ -8,7 +8,6 @@
   "dependencies": {
     "js-query-string-object": "^0.0.1",
     "next": "latest",
-    "node-json-db": "^2.1.4",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-icons": "^4.7.1",
