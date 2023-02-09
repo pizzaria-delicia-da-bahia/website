@@ -56,19 +56,22 @@ const InformacoesAdicionais: NextPage<{
 
   const next = async () => {
     try {
-      const query = queryString({
-        ...data.cliente.endereco,
-        neighbourhood: data.cliente.endereco?.bairroId ?? null,
-      });
+      let taxa = 0;
+      if (data.tipo === "entrega") {
+        const query = queryString({
+          ...data.cliente.endereco,
+          neighbourhood: data.cliente.endereco?.bairroId ?? null,
+        });
 
-      const taxa = await (
-        await fetch(`${process.env.NEXT_PUBLIC_API_URL}/taxa${query}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
-      ).json();
+        taxa = await (
+          await fetch(`${process.env.NEXT_PUBLIC_API_URL}/taxa${query}`, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+        ).json();
+      }
 
       setInfo(data.cliente, data.tipo, Number(taxa ?? 0));
       sleep();

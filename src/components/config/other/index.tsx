@@ -10,7 +10,6 @@ export const Other: FC<{ item: IOutro; api_url: string }> = ({
 
   const saveOther = async () => {
     console.clear();
-    console.log(JSON.stringify(myValue));
     const response = await fetch(`${api_url}?id=${item.id}`, {
       method: (item.id ?? "") === "" ? "POST" : "PATCH",
       body: JSON.stringify(myValue),
