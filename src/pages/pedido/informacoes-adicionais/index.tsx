@@ -256,7 +256,7 @@ const InformacoesAdicionais: NextPage<{
                 <label htmlFor="bairro-select">BAIRRO *</label>
                 <select
                   name="bairro-select"
-                  value={data?.cliente?.endereco?.bairroId ?? null}
+                  value={data?.cliente?.endereco?.bairroId ?? ""}
                   onChange={(e) =>
                     setData((prev) => ({
                       ...prev,
@@ -270,7 +270,7 @@ const InformacoesAdicionais: NextPage<{
                     }))
                   }
                 >
-                  <option value={null}>--Selecione--</option>
+                  <option value={""}>--Selecione--</option>
                   {neighbourhoods.map((n) => (
                     <option value={n.id} key={n.id}>
                       {n.nome}

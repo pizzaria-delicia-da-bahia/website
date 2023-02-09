@@ -126,7 +126,11 @@ const Pagamento: NextPage = () => {
             addPayment({ id: uuidv4(), ...data });
             sleep();
             router.push(
-              `/pedido/confirmacao/${myOrder.cliente.endereco.bairroId}`
+              `/pedido/confirmacao${
+                myOrder.tipo === "entrega"
+                  ? `/${myOrder.cliente.endereco.bairroId}`
+                  : ""
+              }`
             );
           }}
         >
