@@ -131,7 +131,7 @@ ${myOrder.pagamentos.map(
         ? "EM ESPÉCIE"
         : "NO PIX"
     }${
-      myOrder.tipo === "entrega" && payment.trocoPara > payment.valor
+      payment.trocoPara > payment.valor
         ? `
 TROCO PARA ${payment.trocoPara}`
         : ""
