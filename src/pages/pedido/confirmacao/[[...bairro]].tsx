@@ -134,7 +134,8 @@ ${myOrder.pagamentos.map(
       payment.trocoPara > payment.valor
         ? `
 TROCO PARA ${payment.trocoPara}`
-        : ""
+        : `
+NÃO VOU PRECISAR DE TROCO`
     }`
 ).join(`
 

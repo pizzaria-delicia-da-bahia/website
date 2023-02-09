@@ -10,7 +10,7 @@ export const PagamentoStyle = styled.main`
   flex-direction: column;
   padding: 4rem 0.3rem 0 0.3rem;
   position: relative;
-  gap: 2rem;
+  gap: 1rem;
   color: #fff;
 
   .text {
@@ -29,7 +29,6 @@ export const PagamentoStyle = styled.main`
   .menu {
     display: flex;
     flex-direction: column;
-    gap: 0.3rem;
     align-items: center;
     .title {
       font-size: min(0.8rem, 3vw);
@@ -40,9 +39,23 @@ export const PagamentoStyle = styled.main`
     }
     .input-label {
       display: block;
-      padding: 0.5rem 0.5rem 0.1rem 0.5rem;
+      padding: 0.2rem 0.5rem 0.1rem 0.5rem;
       text-align: center;
       font-size: 0.8rem;
+
+      &.no-change-container {
+        font-size: 0.9rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0.5rem;
+        margin-top: 0.5rem;
+
+        input {
+          height: 1.5rem;
+          width: 1.5rem;
+        }
+      }
     }
 
     .inputs-changes-methods {

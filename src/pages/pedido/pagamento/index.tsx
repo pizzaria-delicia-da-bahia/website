@@ -115,6 +115,16 @@ const Pagamento: NextPage = () => {
                 <MakeButtonBankNote key={x} value={x} />
               ))}
             </div>
+            <span className="input-label no-change-container">
+              <input
+                type={"checkbox"}
+                id="no-change"
+                checked={data.trocoPara === 0}
+                disabled={data.tipo !== "especie"}
+                onChange={() => setSelectedBankNote(0)}
+              />
+              <label htmlFor="no-change">Não vou precisar de troco</label>
+            </span>
           </div>
         </div>
       </div>
