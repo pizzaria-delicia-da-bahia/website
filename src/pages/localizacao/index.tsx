@@ -1,5 +1,5 @@
 import { NextPage } from "next";
-import { LocalizacaoStyle } from "../../styles/pages/localizacao/styles";
+import { LocalizacaoStyle } from "./_styles";
 
 const Localizacao: NextPage = () => {
   return (

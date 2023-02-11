@@ -13,7 +13,7 @@ import {
   getValueString,
 } from "../../../../utitl/functions/format";
 import { Sabor } from "../../../../components/cardapio/sabor";
-import { SaboresStyle } from "../../../../styles/pages/pedido/pizza/sabores/styles";
+import { SaboresStyle } from "./_styles";
 import { useMyOrder } from "../../../../context/myOrderContext";
 import {
   ButtonSecondary,
@@ -61,6 +61,7 @@ const Sabores: NextPage<{ tamanhoId: string }> = ({ tamanhoId }) => {
   };
 
   useEffect(() => {
+    console.log("renderizou");
     loadAll();
   }, []);
 

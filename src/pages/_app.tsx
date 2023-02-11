@@ -5,6 +5,8 @@ import Globals from "../styles/globals";
 import Favicon from "../../public/favicon.ico";
 import MyOrderProvider from "../context/myOrderContext";
 import NotificationProvider from "../components/notification";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function App({ Component, pageProps }) {
   return (
@@ -25,6 +27,12 @@ export default function App({ Component, pageProps }) {
           <MyOrderProvider>
             <Layout>
               <Component {...pageProps} />
+              <ToastContainer
+                position="top-center"
+                autoClose={2000}
+                closeOnClick
+                theme="colored"
+              />
             </Layout>
           </MyOrderProvider>
         </NavigationProvider>

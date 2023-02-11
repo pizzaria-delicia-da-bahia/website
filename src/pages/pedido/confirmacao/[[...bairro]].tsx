@@ -1,9 +1,6 @@
 import { GetServerSideProps, NextPage } from "next";
 import { useEffect } from "react";
-import {
-  ConfirmacaoStyle,
-  InfoStyle,
-} from "../../../styles/pages/pedido/confirmacao/styles";
+import { ConfirmacaoStyle, InfoStyle } from "./_styles";
 import { useMyOrder } from "../../../context/myOrderContext";
 import {
   ButtonPrimary,

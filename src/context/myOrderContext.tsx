@@ -6,6 +6,7 @@ import {
   useEffect,
   useState,
 } from "react";
+import { toast } from "react-toastify";
 import { IItem } from "../types/item";
 
 import {
@@ -72,6 +73,9 @@ const MyOrderProvider: FC<{ children: ReactNode }> = ({ children }) => {
     saveMyOrderLocalAndState({
       ...myOrder,
       itens: novosItens,
+    });
+    toast("Item adicionado!", {
+      type: "success",
     });
   };
   const addPayment = (payment: IPagamento | IPagamento[]) => {

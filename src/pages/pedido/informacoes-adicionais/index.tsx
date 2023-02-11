@@ -1,9 +1,6 @@
 import { GetServerSideProps, NextPage } from "next";
 import { useEffect, useState } from "react";
-import {
-  BairroSelect,
-  InformacoesAdicionaisStyle,
-} from "../../../styles/pages/pedido/informacoes-adicionais/styles";
+import { BairroSelect, InformacoesAdicionaisStyle } from "./_styles";
 import { useMyOrder } from "../../../context/myOrderContext";
 import { queryString } from "js-query-string-object";
 import {

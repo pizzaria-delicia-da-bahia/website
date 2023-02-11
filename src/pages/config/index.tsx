@@ -1,7 +1,7 @@
 import { GetServerSideProps, NextPage } from "next";
 import { IPizzaGrupo, IPizzaSabor, IPizzaTamanho } from "../../types/pizza";
 import { IOutro } from "../../types/outro";
-import { ConfigStyle } from "../../styles/pages/config/styles";
+import { ConfigStyle } from "./_styles";
 import { useState } from "react";
 import { Flavour } from "../../components/config/flavour";
 import { Size } from "../../components/config/size";

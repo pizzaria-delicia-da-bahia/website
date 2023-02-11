@@ -1,6 +1,6 @@
 import { GetServerSideProps, NextPage } from "next";
 import { useEffect, useState } from "react";
-import { LancheStyle } from "../../../styles/pages/pedido/lanche/styles";
+import { LancheStyle } from "./_styles";
 import { useMyOrder } from "../../../context/myOrderContext";
 import { ButtonSecondary } from "../../../styles/components/buttons";
 import { IOutro } from "../../../types/outro";

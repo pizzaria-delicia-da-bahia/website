@@ -11,7 +11,7 @@ import {
   ButtonPrimary,
   ButtonSecondary,
 } from "../../styles/components/buttons";
-import { PedidoStyle } from "../../styles/pages/pedido/styles";
+import { PedidoStyle } from "./_styles";
 
 const Pedido: NextPage = () => {
   const items = [
@@ -63,6 +63,7 @@ const Pedido: NextPage = () => {
         </ButtonSecondary>
 
         <ButtonPrimary
+          className={myOrder?.itens?.length > 0 ? "pulse" : undefined}
           disabled={(myOrder?.itens?.length ?? 0) < 1}
           onClick={() => router.push("/pedido/informacoes-adicionais")}
         >

@@ -9,7 +9,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { ItensStyle } from "../../../styles/pages/pedido/itens/styles";
+import { ItensStyle } from "./_styles";
 import { useMyOrder } from "../../../context/myOrderContext";
 import {
   ButtonPrimary,
@@ -103,7 +103,10 @@ const Itens: NextPage = () => {
       <nav className="bottom-controls">
         <ButtonSecondary onClick={() => router.back()}>VOLTAR</ButtonSecondary>
         <Link href="/pedido/informacoes-adicionais" passHref>
-          <ButtonPrimary disabled={(myOrder?.itens?.length ?? 0) < 1}>
+          <ButtonPrimary
+            className="pulse"
+            disabled={(myOrder?.itens?.length ?? 0) < 1}
+          >
             PEDIDO PRONTO!
           </ButtonPrimary>
         </Link>

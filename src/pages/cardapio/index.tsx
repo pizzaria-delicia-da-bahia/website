@@ -1,5 +1,5 @@
 import { GetStaticProps, NextPage } from "next";
-import { CardapioStyle } from "../../styles/pages/cardapio/styles";
+import { CardapioStyle } from "./_styles";
 import { ICardapio } from "../../types/cardapio";
 import { IPizzaSabor, IPizzaGrupo, IPizzaTamanho } from "../../types/pizza";
 import { getValueString } from "../../utitl/functions/format";

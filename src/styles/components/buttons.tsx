@@ -1,4 +1,5 @@
 import styled, { css } from "styled-components";
+import { animations } from "../animations";
 import { colors } from "../colors";
 import { breakpointsMQ, hover } from "../mediaQueries";
 import { sizes } from "../sizes";
@@ -37,6 +38,11 @@ export const ButtonPrimary = styled(Button)`
   background-color: ${colors.elements};
   color: ${colors.background};
   border: 5px solid ${colors.elements};
+  transform: scale(1);
+
+  &.pulse {
+    animation: ${animations.pulse(colors.elements)} 2s ease-in-out infinite;
+  }
 `;
 
 export const ButtonSecondary = styled(Button)`
