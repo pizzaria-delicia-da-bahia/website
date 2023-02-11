@@ -22,10 +22,4 @@ export const breakpointsMQ = {
   tvLg: t(breakpoints.tvLg, null),
 };
 
-console.log(JSON.stringify(breakpointsMQ, null, " "));
-console.log(
-  window.innerWidth * window.devicePixelRatio,
-  window.devicePixelRatio
-);
-
 export const hover = `@media (hover: hover) and (pointer: fine)`;
