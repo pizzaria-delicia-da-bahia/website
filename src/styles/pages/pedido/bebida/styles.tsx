@@ -1,9 +1,9 @@
 import styled from "styled-components";
-import { colors } from "../../../styles/colors";
-import { breakpointsMQ, hover } from "../../../styles/mediaQueries";
-import { sizes } from "../../../styles/sizes";
+import { colors } from "../../../colors";
+import { breakpointsMQ, hover } from "../../../mediaQueries";
+import { sizes } from "../../../sizes";
 
-export const LancheStyle = styled.main`
+export const BebidaStyle = styled.main`
   height: 100%;
   overflow: auto;
   display: flex;
@@ -45,9 +45,8 @@ export const LancheStyle = styled.main`
           background-color: #fff;
           object-fit: cover;
           border-radius: 6px;
-          /* padding: 0.2rem; */
-          width: 110px;
-          height: 90px;
+          padding: 0.2rem;
+          height: 80px;
         }
 
         ${hover} {

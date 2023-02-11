@@ -9,7 +9,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { ItensStyle } from "./_styles";
+import { ItensStyle } from "../../../styles/pages/pedido/itens/styles";
 import { useMyOrder } from "../../../context/myOrderContext";
 import {
   ButtonPrimary,

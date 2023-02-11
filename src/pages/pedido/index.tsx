@@ -11,7 +11,7 @@ import {
   ButtonPrimary,
   ButtonSecondary,
 } from "../../styles/components/buttons";
-import { PedidoStyle } from "./_styles";
+import { PedidoStyle } from "../../styles/pages/pedido/styles";
 
 const Pedido: NextPage = () => {
   const items = [

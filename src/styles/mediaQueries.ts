@@ -1,8 +1,8 @@
 import { breakpoints } from "./breakpoints";
 
 const t = (min: String, max: String) =>
-  `only screen and (min-width: ${min}) ${
-    max ? `and (max-width: calc(${max} - 1px))` : ""
+  `only screen and (min-width: ${min})${
+    max ? ` and (max-width: calc(${max} - 1px))` : ""
   }`;
 export const breakpointsMQ = {
   mobile: t("0px", breakpoints.tablet),
@@ -21,5 +21,11 @@ export const breakpointsMQ = {
   tvMdUp: t(breakpoints.tvMd, null),
   tvLg: t(breakpoints.tvLg, null),
 };
+
+console.log(JSON.stringify(breakpointsMQ, null, " "));
+console.log(
+  window.innerWidth * window.devicePixelRatio,
+  window.devicePixelRatio
+);
 
 export const hover = `@media (hover: hover) and (pointer: fine)`;

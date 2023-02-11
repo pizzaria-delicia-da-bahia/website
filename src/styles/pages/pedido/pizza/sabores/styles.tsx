@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import { breakpointsMQ } from "../../../../styles/mediaQueries";
-import { colors } from "../../../../styles/colors";
-import { sizes } from "../../../../styles/sizes";
+import { breakpointsMQ } from "../../../../mediaQueries";
+import { colors } from "../../../../colors";
+import { sizes } from "../../../../sizes";
 
 export const SaboresStyle = styled.main`
   color: #fff;

@@ -21,6 +21,10 @@ export default function App({ Component, pageProps }) {
             desde 2013, servindo as pizzas mais 
             deliciosas de Salvador!`}
         />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=0"
+        />
       </Head>
       <NotificationProvider>
         <NavigationProvider>

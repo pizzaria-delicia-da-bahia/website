@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import { colors } from "../../../styles/colors";
-import { breakpointsMQ } from "../../../styles/mediaQueries";
-import { sizes } from "../../../styles/sizes";
+import { colors } from "../../../colors";
+import { breakpointsMQ } from "../../../mediaQueries";
+import { sizes } from "../../../sizes";
 
 export const PagamentoStyle = styled.main`
   height: 100%;

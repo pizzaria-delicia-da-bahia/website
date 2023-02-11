@@ -13,7 +13,7 @@ import {
   getValueString,
 } from "../../../../utitl/functions/format";
 import { Sabor } from "../../../../components/cardapio/sabor";
-import { SaboresStyle } from "./_styles";
+import { SaboresStyle } from "../../../../styles/pages/pedido/pizza/sabores/styles";
 import { useMyOrder } from "../../../../context/myOrderContext";
 import {
   ButtonSecondary,

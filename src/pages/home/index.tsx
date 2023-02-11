@@ -1,7 +1,7 @@
 import { GetStaticProps, NextPage } from "next";
 import Image from "next/image";
 import { PecaJaButton } from "../../components/pecaja";
-import { HomeStyle } from "./_styles";
+import { HomeStyle } from "../../styles/pages/home/styles";
 import PizzaImage from "../../assets/pages/home/pizza_1.png";
 import { useNavigation } from "../../context/navigationContext";
 

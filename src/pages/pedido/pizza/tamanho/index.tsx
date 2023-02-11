@@ -1,7 +1,7 @@
 import { GetServerSideProps, NextPage } from "next";
 import { FC, useEffect, useState } from "react";
 import { ButtonSecondary } from "../../../../styles/components/buttons";
-import { TamanhoStyle } from "./_styles";
+import { TamanhoStyle } from "../../../../styles/pages/pedido/pizza/tamanho/styles";
 import { useRouter } from "next/router";
 import Carousel from "../../../../components/carousel";
 import CarouselItem from "../../../../components/carousel/carouselItem";

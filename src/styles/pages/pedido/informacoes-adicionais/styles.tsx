@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import { MyInputStyle } from "../../../components/pedido/myInput/styles";
-import { colors } from "../../../styles/colors";
-import { breakpointsMQ, hover } from "../../../styles/mediaQueries";
-import { sizes } from "../../../styles/sizes";
+import { MyInputStyle } from "../../../../components/pedido/myInput/styles";
+import { colors } from "../../../colors";
+import { breakpointsMQ, hover } from "../../../mediaQueries";
+import { sizes } from "../../../sizes";
 
 export const InformacoesAdicionaisStyle = styled.main`
   height: 100%;

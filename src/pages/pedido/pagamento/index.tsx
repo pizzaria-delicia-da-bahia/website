@@ -7,7 +7,7 @@ import {
 } from "../../../styles/components/buttons";
 import { formatCurrency } from "../../../utitl/functions/format";
 import { useRouter } from "next/router";
-import { PagamentoStyle } from "./_styles";
+import { PagamentoStyle } from "../../../styles/pages/pedido/pagamento/styles";
 import { v4 as uuidv4 } from "uuid";
 import { PaymentMethod } from "../../../components/pedido/paymentMethod";
 import { ButtonBankNote } from "../../../components/pedido/bankNoteButton";

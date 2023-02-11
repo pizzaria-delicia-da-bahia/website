@@ -1,7 +1,6 @@
 import styled from "styled-components";
-import { breakpointsMQ } from "../../styles/mediaQueries";
-import { sizes } from "../../styles/sizes";
-import { colors } from "../../styles/colors";
+import { breakpointsMQ } from "../../mediaQueries";
+import { colors } from "../../colors";
 
 export const LocalizacaoStyle = styled.main`
   display: flex;
@@ -70,23 +69,53 @@ export const LocalizacaoStyle = styled.main`
     padding: 3rem 2rem;
     .frame {
       iframe {
-        width: 70vw;
+        width: 80vw;
         height: min(290px, 70vw);
         border: 0.3rem solid ${colors.elements};
       }
     }
   }
-  @media ${breakpointsMQ.desktopLgUp} {
+  @media ${breakpointsMQ.desktopMd} {
     padding: 2rem;
     .frame {
       iframe {
         width: 80vw;
-        height: min(300px, 70vw);
+        height: min(300px, 60vw);
         border: 0.3rem solid ${colors.elements};
       }
     }
   }
-  @media ${breakpointsMQ.tvSmUp} {
+  @media ${breakpointsMQ.desktopLg} {
+    padding: 2rem;
+    .frame {
+      iframe {
+        width: 80vw;
+        height: min(300px, 60vw);
+        border: 0.3rem solid ${colors.elements};
+      }
+    }
+  }
+  @media ${breakpointsMQ.tvSm} {
+    padding: 2rem;
+    .frame {
+      iframe {
+        width: 80vw;
+        height: min(800px, 65vh);
+        border: 0.3rem solid ${colors.elements};
+      }
+    }
+  }
+  @media ${breakpointsMQ.tvMd} {
+    padding: 2rem;
+    .frame {
+      iframe {
+        width: 80vw;
+        height: min(800px, 60vh);
+        border: 0.3rem solid ${colors.elements};
+      }
+    }
+  }
+  @media ${breakpointsMQ.tvLg} {
     padding: 2rem;
     .frame {
       iframe {

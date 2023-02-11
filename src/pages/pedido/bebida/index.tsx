@@ -1,6 +1,6 @@
 import { GetServerSideProps, NextPage } from "next";
 import { useEffect, useState } from "react";
-import { BebidaStyle } from "./_styles";
+import { BebidaStyle } from "../../../styles/pages/pedido/bebida/styles";
 import { useMyOrder } from "../../../context/myOrderContext";
 import {
   ButtonPrimary,

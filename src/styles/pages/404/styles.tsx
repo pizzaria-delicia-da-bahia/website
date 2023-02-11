@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { colors } from "../../styles/colors";
+import { colors } from "../../colors";
 
 export const FourZeroFourStyles = styled.main`
   flex-grow: 1;
