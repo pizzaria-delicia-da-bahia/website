@@ -7,6 +7,7 @@ export const SaboresStyle = styled.main`
   color: #fff;
   height: 100%;
   overflow: auto;
+  scroll-behavior: smooth;
   display: flex;
   flex-direction: column;
   padding: 2rem 0.3rem 15rem 0.3rem;

@@ -27,7 +27,6 @@ export const CarouselStyle = styled.div`
       scroll-snap-type: x mandatory;
       scroll-behavior: smooth;
       -webkit-overflow-scrolling: touch;
-      scroll-snap-stop: always;
       padding: 1rem 5rem;
       gap: 0.5rem;
       &::-webkit-scrollbar {

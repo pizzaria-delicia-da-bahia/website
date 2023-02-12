@@ -7,6 +7,7 @@ export const CardapioStyle = styled.main`
   color: #fff;
   height: 100%;
   overflow: auto;
+  scroll-behavior: smooth;
   display: flex;
   flex-direction: column;
   padding: 3rem 0.3rem;

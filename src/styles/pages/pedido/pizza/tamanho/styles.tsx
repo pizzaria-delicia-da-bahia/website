@@ -8,17 +8,10 @@ export const TamanhoStyle = styled.main`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 8rem 0.5rem;
+  padding: calc(${sizes.header}px + 10rem) 0.5rem 10rem 0.5rem;
   gap: 0.1rem;
   overflow: hidden;
-  height: 100%;
-
-  /* overflow: auto;
-  display: flex;
-  flex-direction: column;
-  padding: 2rem 0.3rem 10rem 0.3rem;
-  position: relative;
-  gap: 1rem; */
+  height: calc(100vh - (${sizes.header}px + ${sizes.footer}px));
 
   .text {
     display: flex;
@@ -34,9 +27,6 @@ export const TamanhoStyle = styled.main`
     display: flex;
     justify-content: center;
     align-items: center;
-    /* height: 30vh; */
-    /* padding: 0 0.1rem; */
-    /* max-width: 800px; */
   }
 
   .bottom-info {
@@ -54,31 +44,27 @@ export const TamanhoStyle = styled.main`
     }
   }
 
-  @media ${breakpointsMQ.mobile} {
-    /* padding-bottom: calc(${sizes.footer}px + ${sizes.header}px);
-    max-height: calc(100vh); */
+  & > .bottom-controls {
+    background-color: ${colors.background};
+    padding: 5px 0 0 0;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: calc(${sizes.footer}px + 50px);
+    display: flex;
+    justify-content: center;
 
-    .text {
-      justify-content: center;
-      padding: 5px;
-      box-sizing: content-box;
-      flex-grow: 0;
-      flex-shrink: 1;
-      max-height: 60vh;
+    button {
+      max-height: 50px;
     }
-
-    /* .menu {
-      height: 40vh;
-    } */
   }
 
   @media ${breakpointsMQ.tabletUp} {
-    /* padding: 19rem 2rem; */
     display: flex;
     gap: 1rem;
     align-self: center;
-    height: 100%;
-    padding: 4rem 0.5rem;
+    padding: 1rem 0.5rem;
 
     .bottom-info {
       display: flex;

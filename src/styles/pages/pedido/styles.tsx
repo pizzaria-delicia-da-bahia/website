@@ -8,7 +8,10 @@ export const PedidoStyle = styled.main`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 8rem 0rem calc(${sizes.footer}px + ${sizes.header}px + 2rem) 0rem;
+  padding: 2rem;
+  padding: calc(${sizes.header}px + 10rem) 0.5rem 10rem 0.5rem;
+
+  height: calc(100vh - (${sizes.header}px + ${sizes.footer}px));
   gap: 2rem;
 
   .text {
@@ -18,7 +21,6 @@ export const PedidoStyle = styled.main`
     flex-shrink: 1;
     align-items: center;
     justify-content: center;
-    padding: 0.5rem;
 
     h1 {
       color: ${colors.elements};
@@ -32,11 +34,9 @@ export const PedidoStyle = styled.main`
   }
 
   .menu {
-    flex-grow: 1;
     display: flex;
     justify-content: center;
     align-items: center;
-    /* height: 30vh; */
   }
 
   & > .bottom-controls {
