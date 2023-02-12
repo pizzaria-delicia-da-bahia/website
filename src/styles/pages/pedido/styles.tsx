@@ -8,9 +8,7 @@ export const PedidoStyle = styled.main`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 2rem;
   padding: calc(${sizes.header}px + 10rem) 0.5rem 10rem 0.5rem;
-
   height: calc(100vh - (${sizes.header}px + ${sizes.footer}px));
   gap: 2rem;
 
@@ -55,24 +53,8 @@ export const PedidoStyle = styled.main`
     }
   }
 
-  @media ${breakpointsMQ.tabletUp} {
-    /* gap: 2rem;
-    height: calc(100vh - ${sizes.header}px);
-    padding: 2rem 0.5rem 5rem 0.5rem; */
-
-    /* .menu {
-      height: 50vh;
-    } */
-  }
-
-  @media ${breakpointsMQ.desktopLg} {
-    /* padding: 1rem 0.5rem 9rem 0.5rem;
-    height: calc(100vh - ${sizes.header}px + ${sizes.footer}px);
-    gap: 0.1rem; */
-    /* .menu {
-      ul {
-        transform: scale(90%);
-      }
-    } */
+  @media ${breakpointsMQ.desktopLgUp} {
+    padding: 1rem;
+    height: 100%;
   }
 `;

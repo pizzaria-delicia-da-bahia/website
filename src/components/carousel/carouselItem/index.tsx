@@ -1,5 +1,3 @@
-import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import type { FC, ReactElement } from "react";
 import { useCarousel } from "..";

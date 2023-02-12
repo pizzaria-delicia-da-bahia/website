@@ -8,9 +8,9 @@ export const TamanhoStyle = styled.main`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: calc(${sizes.header}px + 10rem) 0.5rem 10rem 0.5rem;
   gap: 0.1rem;
   overflow: hidden;
+  padding: calc(${sizes.header}px + 10rem) 0.5rem 10rem 0.5rem;
   height: calc(100vh - (${sizes.header}px + ${sizes.footer}px));
 
   .text {
@@ -22,7 +22,6 @@ export const TamanhoStyle = styled.main`
   }
 
   .menu {
-    flex-grow: 1;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -63,8 +62,10 @@ export const TamanhoStyle = styled.main`
   @media ${breakpointsMQ.tabletUp} {
     display: flex;
     gap: 1rem;
-    align-self: center;
+    justify-content: center;
+    align-items: center;
     padding: 1rem 0.5rem;
+    height: 100%;
 
     .bottom-info {
       display: flex;
