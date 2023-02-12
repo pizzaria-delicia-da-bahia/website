@@ -1,6 +1,6 @@
 import { createGlobalStyle } from "styled-components";
-import BackgroundImage from "../assets/images/pizzas_pattern.svg";
-import Filter from "../assets/images/filter.svg";
+// import BackgroundImage from "../assets/images/pizzas_pattern.svg";
+// import Filter from "../assets/images/filter.svg";
 import { breakpointsMQ } from "./mediaQueries";
 import { colors } from "./colors";
 // import InterFont from '../../public/fonts/Inter.ttf';
@@ -61,7 +61,7 @@ body{
     background-size: cover;
     opacity: 0;
     
-    background-image: url(${Filter.src});
+    background-image: url($Filter.src});
     background-repeat: no-repeat;
 
     @supports ((mix-blend-mode: multiply)) {
@@ -69,6 +69,7 @@ body{
       mix-blend-mode: multiply;
     }; */
   }
+
   
   &:before {
     content: '';
@@ -78,9 +79,11 @@ body{
     width: 100vw;
     height: 100vh;
     pointer-events: none;
-    opacity: 15%;
     z-index: -1;
-    background-image: url(${BackgroundImage.src});
+  opacity: 0.1;
+  background: linear-gradient(135deg, ${colors.background} 25%, transparent 25%) -10px 0/ 20px 20px, linear-gradient(225deg, ${colors.backgroundLight} 25%, transparent 25%) -10px 0/ 20px 20px, linear-gradient(315deg, ${colors.background} 25%, transparent 25%) 0px 0/ 20px 20px, linear-gradient(45deg, ${colors.background} 25%, ${colors.backgroundDark} 25%) 0px 0/ 20px 20px;
+    /* opacity: 15%;
+    background-image: url($BackgroundImage.src});
     background-size: 60%;
       @media ${breakpointsMQ.tablet}{
         background-size: 40%;
@@ -90,7 +93,7 @@ body{
       }
       @media ${breakpointsMQ.tvSmUp}{
         background-size: 20%;
-      }
+      } */
     }
 
   }
