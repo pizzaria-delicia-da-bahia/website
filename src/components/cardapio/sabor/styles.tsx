@@ -5,7 +5,7 @@ export const SaborStyle = styled.li.attrs(
   (props: { showCheckBox: boolean }) => props
 )`
   display: flex;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 
   * {
     pointer-events: none;
@@ -25,12 +25,12 @@ export const SaborStyle = styled.li.attrs(
   .right {
     display: flex;
     flex-direction: column;
-    gap: 0.3rem;
+    gap: 0.1rem;
     align-items: stretch;
     user-select: none;
 
     .flavour-name {
-      font-size: 1.8rem;
+      font-size: min(1.5rem, 6vw);
       display: flex;
       gap: 5px;
       align-items: flex-start;

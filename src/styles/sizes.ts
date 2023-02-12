@@ -1,4 +1,4 @@
 export const sizes = {
-  header: 90,
+  header: 70,
   footer: 80,
 };

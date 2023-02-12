@@ -341,7 +341,7 @@ const InformacoesAdicionais: NextPage<{
           }
           onClick={() => next()}
         >
-          PRÓXIMO PASSO
+          CONTINUAR
         </ButtonPrimary>
       </nav>
     </InformacoesAdicionaisStyle>

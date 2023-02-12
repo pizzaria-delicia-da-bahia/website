@@ -54,6 +54,7 @@ const Bebida: NextPage = () => {
   };
   const cancelQuantity = () => {
     selectItem(null);
+    setQuantity(1);
   };
   return (
     <BebidaStyle>

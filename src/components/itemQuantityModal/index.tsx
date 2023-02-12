@@ -39,7 +39,7 @@ const ItemQuantityModal: FC<{
           type="number"
           min={1}
           max={15}
-          value={value}
+          value={value || ""}
           onChange={(e) => setValue(Number(e.target.value))}
         />
       </div>

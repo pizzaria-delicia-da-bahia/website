@@ -107,7 +107,7 @@ const Itens: NextPage = () => {
             className="pulse"
             disabled={(myOrder?.itens?.length ?? 0) < 1}
           >
-            PEDIDO PRONTO!
+            CONTINUAR
           </ButtonPrimary>
         </Link>
       </nav>

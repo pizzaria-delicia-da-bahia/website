@@ -161,7 +161,7 @@ NÃO VOU PRECISAR DE TROCO`
         <Info name="Total" value={total} />
         <Info name="Pagamento" value={payment} />
       </div>
-      <nav className="controls">
+      <nav className="bottom-controls">
         <ButtonSecondary onClick={() => router.back()}>VOLTAR</ButtonSecondary>
         <Link
           href={encodeURI(

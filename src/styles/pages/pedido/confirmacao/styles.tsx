@@ -8,7 +8,7 @@ export const ConfirmacaoStyle = styled.main`
   overflow: auto;
   display: flex;
   flex-direction: column;
-  padding: 5rem 0.5rem 15rem 0.5rem;
+  padding: 2rem 0.5rem 15rem 0.5rem;
   position: relative;
   gap: 2rem;
   color: #fff;
@@ -36,19 +36,19 @@ export const ConfirmacaoStyle = styled.main`
       text-transform: uppercase;
     }
   }
-  & > .controls {
+  & > .bottom-controls {
     background-color: ${colors.background};
-    padding: 10px 0 0 0;
+    padding: 5px 0 0 0;
     position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
-    height: calc(${sizes.footer}px + 80px);
+    height: calc(${sizes.footer}px + 50px);
     display: flex;
     justify-content: center;
 
     button {
-      max-height: 60px;
+      max-height: 50px;
     }
   }
 

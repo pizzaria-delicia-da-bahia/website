@@ -9,16 +9,16 @@ export const CardapioStyle = styled.main`
   overflow: auto;
   display: flex;
   flex-direction: column;
-  padding: 5rem 0.3rem;
+  padding: 3rem 0.3rem;
   position: relative;
 
   .sizes {
     list-style: none;
     display: flex;
     flex-wrap: wrap;
-    gap: 1rem;
+    gap: 0.5rem;
     justify-content: center;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
     padding: 0 min(2rem, 2vw);
     li {
       border-radius: 10px;
@@ -42,7 +42,7 @@ export const CardapioStyle = styled.main`
   .value-detail {
     text-align: center;
     letter-spacing: 0.12rem;
-    margin: 0.5rem 0 2rem 0;
+    margin: 0.5rem 0 1rem 0;
     font-size: min(1.4rem, 3.8vw);
     animation: ${animations.floatingSkew} infinite 5s ease-in-out;
     b {

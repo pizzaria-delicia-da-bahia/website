@@ -23,7 +23,6 @@ export const PaymentMethodStyle = styled.button`
   }
 
   &.selected {
-    transform: scale(130%);
     animation: ${animations.pulse("00000000")} 2s infinite;
     z-index: 1;
   }

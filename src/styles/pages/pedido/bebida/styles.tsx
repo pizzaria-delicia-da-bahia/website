@@ -8,9 +8,9 @@ export const BebidaStyle = styled.main`
   overflow: auto;
   display: flex;
   flex-direction: column;
-  padding: 5rem 0.3rem 15rem 0.3rem;
+  padding: 2rem 0.3rem 10rem 0.3rem;
   position: relative;
-  gap: 2rem;
+  gap: 1rem;
 
   .text {
     display: flex;
@@ -18,7 +18,7 @@ export const BebidaStyle = styled.main`
     text-align: center;
     h1 {
       color: ${colors.elements};
-      font-size: min(3rem, 9vw);
+      font-size: min(2rem, 7vw);
     }
   }
 

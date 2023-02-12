@@ -51,6 +51,7 @@ const Lanche: NextPage = () => {
   };
   const cancelQuantity = () => {
     selectItem(null);
+    setQuantity(1);
   };
 
   return (

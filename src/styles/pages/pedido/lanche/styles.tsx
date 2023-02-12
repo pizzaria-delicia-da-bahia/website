@@ -8,7 +8,7 @@ export const LancheStyle = styled.main`
   overflow: auto;
   display: flex;
   flex-direction: column;
-  padding: 5rem 0.3rem 15rem 0.3rem;
+  padding: 3rem 0.3rem 15rem 0.3rem;
   position: relative;
   gap: 2rem;
 

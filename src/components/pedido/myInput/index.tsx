@@ -56,7 +56,7 @@ export const MyInput: FC<{
         min={min ?? undefined}
         max={max ?? undefined}
         step={type === "number" ? 0.5 : undefined}
-        value={value}
+        value={value || ""}
         onChange={(e) => setValue(e.target.value)}
         onKeyDown={(e) => {
           const onlyNumbers = e.key.match(/[^\d-)(\s]/g);

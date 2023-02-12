@@ -11,6 +11,7 @@ export const CarouselStyle = styled.div`
   flex-grow: 0;
   flex-shrink: 0;
   padding-bottom: 1rem;
+
   ul {
     display: flex;
     justify-content: center;

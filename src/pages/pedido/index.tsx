@@ -67,7 +67,7 @@ const Pedido: NextPage = () => {
           disabled={(myOrder?.itens?.length ?? 0) < 1}
           onClick={() => router.push("/pedido/informacoes-adicionais")}
         >
-          PEDIDO PRONTO!
+          CONTINUAR
         </ButtonPrimary>
       </nav>
     </PedidoStyle>

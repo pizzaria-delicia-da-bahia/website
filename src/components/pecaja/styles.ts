@@ -19,7 +19,7 @@ export const PecaJaButtonStyle = styled.button`
     color: ${colors.background};
     line-height: 100%;
     font-weight: bold;
-    font-size: 1.5rem;
+    font-size: 1rem;
     padding-top: 5px;
   }
 

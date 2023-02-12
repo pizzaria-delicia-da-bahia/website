@@ -144,7 +144,7 @@ const Pagamento: NextPage = () => {
             );
           }}
         >
-          PRÓXIMO PASSO
+          CONTINUAR
         </ButtonPrimary>
       </nav>
     </PagamentoStyle>

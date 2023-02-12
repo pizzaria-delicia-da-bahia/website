@@ -8,7 +8,7 @@ export const PagamentoStyle = styled.main`
   overflow: auto;
   display: flex;
   flex-direction: column;
-  padding: 2rem 0.3rem 0 0.3rem;
+  padding: 3rem 0.3rem 0 0.3rem;
   position: relative;
   gap: 0.8rem;
   color: #fff;

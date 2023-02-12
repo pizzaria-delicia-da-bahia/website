@@ -13,7 +13,7 @@ export const ConfigStyle = styled.main`
   overflow: auto;
   display: flex;
   flex-direction: column;
-  padding: 5rem 0.3rem;
+  padding: 2rem 0.3rem;
   position: relative;
   ul {
     list-style: none;

@@ -8,7 +8,7 @@ export const ItensStyle = styled.main`
   flex-direction: column;
   align-items: center;
   justify-content: stretch;
-  padding: 5rem 0.5rem calc(${sizes.footer}px + ${sizes.header}px + 2rem) 0.5rem;
+  padding: 3rem 0.5rem calc(${sizes.footer}px + ${sizes.header}px + 2rem) 0.5rem;
   gap: 1.5rem;
   overflow: hidden;
 
@@ -93,6 +93,22 @@ export const ItensStyle = styled.main`
           }
         }
       }
+    }
+  }
+
+  & > .bottom-controls {
+    background-color: ${colors.background};
+    padding: 5px 0 0 0;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: calc(${sizes.footer}px + 50px);
+    display: flex;
+    justify-content: center;
+
+    button {
+      max-height: 50px;
     }
   }
 
