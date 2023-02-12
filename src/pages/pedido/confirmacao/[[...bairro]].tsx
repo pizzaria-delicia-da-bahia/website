@@ -134,8 +134,10 @@ ${myOrder.pagamentos.map(
       payment.trocoPara > payment.valor
         ? `
 TROCO PARA ${payment.trocoPara}`
-        : `
+        : payment.tipo === "especie"
+        ? `
 NÃO VOU PRECISAR DE TROCO`
+        : ""
     }`
 ).join(`
 

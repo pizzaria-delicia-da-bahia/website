@@ -30,7 +30,7 @@ export const InformacoesAdicionaisStyle = styled.main`
   .menu {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 0.5rem;
     .ordertype {
       display: flex;
       gap: 1rem;
@@ -57,7 +57,7 @@ export const InformacoesAdicionaisStyle = styled.main`
           .cep {
             display: grid;
             grid-template-columns: 1fr 50px;
-            padding-right: 2rem;
+            padding-right: 1rem;
             & > div {
               flex-grow: 1;
             }
@@ -96,17 +96,17 @@ export const InformacoesAdicionaisStyle = styled.main`
 
   & > .bottom-controls {
     background-color: ${colors.background};
-    padding: 10px 0 0 0;
+    padding: 5px 0 0 0;
     position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
-    height: calc(${sizes.footer}px + 80px);
+    height: calc(${sizes.footer}px + 50px);
     display: flex;
     justify-content: center;
 
     button {
-      max-height: 60px;
+      max-height: 50px;
     }
   }
 

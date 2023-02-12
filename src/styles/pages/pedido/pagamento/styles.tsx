@@ -8,9 +8,9 @@ export const PagamentoStyle = styled.main`
   overflow: auto;
   display: flex;
   flex-direction: column;
-  padding: 4rem 0.3rem 0 0.3rem;
+  padding: 2rem 0.3rem 0 0.3rem;
   position: relative;
-  gap: 1rem;
+  gap: 0.8rem;
   color: #fff;
 
   .text {
@@ -89,17 +89,17 @@ export const PagamentoStyle = styled.main`
 
   & > .controls {
     background-color: ${colors.background};
-    padding: 10px 0 0 0;
+    padding: 5px 0 0 0;
     position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
-    height: calc(${sizes.footer}px + 80px);
+    height: calc(${sizes.footer}px + 50px);
     display: flex;
     justify-content: center;
 
     button {
-      max-height: 60px;
+      max-height: 50px;
     }
   }
 

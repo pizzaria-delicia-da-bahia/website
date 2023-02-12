@@ -12,6 +12,9 @@ export const Button = styled.button`
   font-weight: bold;
   position: relative;
   transition: all linear 0.1s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   &:not(:disabled) {
     cursor: pointer;
@@ -40,7 +43,8 @@ export const ButtonPrimary = styled(Button)`
   border: 5px solid ${colors.elements};
   transform: scale(1);
 
-  &.pulse {
+  &.pulse,
+  &:not(:disabled) {
     animation: ${animations.pulse(colors.elements)} 2s ease-in-out infinite;
   }
 `;
@@ -52,7 +56,7 @@ export const ButtonSecondary = styled(Button)`
   color: ${colors.elements};
 `;
 
-export const ButtonBackForward = styled(ButtonPrimary).attrs(
+export const ButtonBackForward = styled(Button).attrs(
   (props: { to: "back" | "forward" }) => props
 )`
   position: relative;
@@ -60,19 +64,21 @@ export const ButtonBackForward = styled(ButtonPrimary).attrs(
   flex-shrink: 0;
   width: 50px;
   height: 50px;
-  border: 2px solid #000;
-  border-radius: 50%;
-  font-size: 1.3rem;
-
+  background-color: transparent;
+  border: none;
+  font-size: 2.5rem;
   padding: 0;
+  margin: 0 1rem;
+  animation: ${animations.pulse("00000000")} 2s ease-in infinite;
+
   &::before {
     ${(props) =>
       props.to === "back"
         ? css`
-            content: "<";
+            content: "⬅️";
           `
         : css`
-            content: ">";
+            content: "➡️";
           `}
     /* content: "aaa"; */
     position: absolute;
