@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { breakpointsMQ, hover } from "../../mediaQueries";
+import { breakpointsMQ } from "../../mediaQueries";
 import { sizes } from "../../sizes";
 import { colors } from "../../colors";
 
@@ -8,7 +8,7 @@ export const PedidoStyle = styled.main`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 4rem 0.5rem calc(${sizes.footer}px + ${sizes.header}px + 2rem) 0.5rem;
+  padding: 8rem 0rem calc(${sizes.footer}px + ${sizes.header}px + 2rem) 0rem;
   gap: 2rem;
 
   .text {
@@ -33,48 +33,46 @@ export const PedidoStyle = styled.main`
 
   .menu {
     flex-grow: 1;
-    width: 100vw;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 30vh;
-    padding: 0 0.1rem;
-    max-width: 800px;
-    /* overflow: auto; */
+    /* height: 30vh; */
   }
 
-  .bottom-controls {
+  & > .bottom-controls {
+    background-color: ${colors.background};
+    padding: 5px 0 0 0;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: calc(${sizes.footer}px + 50px);
     display: flex;
     justify-content: center;
-    position: fixed;
-    bottom: ${sizes.footer}px;
-  }
 
-  @media ${breakpointsMQ.mobile} {
-    .menu {
-      transform: scale(80%);
+    button {
+      max-height: 50px;
     }
   }
 
   @media ${breakpointsMQ.tabletUp} {
-    gap: 2rem;
+    /* gap: 2rem;
     height: calc(100vh - ${sizes.header}px);
-    padding: 2rem 0.5rem 5rem 0.5rem;
+    padding: 2rem 0.5rem 5rem 0.5rem; */
 
-    .menu {
+    /* .menu {
       height: 50vh;
-    }
+    } */
   }
 
   @media ${breakpointsMQ.desktopLg} {
-    /* gap: 0.1rem; */
-    padding: 1rem 0.5rem 9rem 0.5rem;
+    /* padding: 1rem 0.5rem 9rem 0.5rem;
     height: calc(100vh - ${sizes.header}px + ${sizes.footer}px);
-    gap: 0.1rem;
-    .menu {
+    gap: 0.1rem; */
+    /* .menu {
       ul {
         transform: scale(90%);
       }
-    }
+    } */
   }
 `;

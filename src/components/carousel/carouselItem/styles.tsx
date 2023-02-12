@@ -2,9 +2,9 @@ import styled, { css } from "styled-components";
 import { colors } from "../../../styles/colors";
 import { breakpointsMQ } from "../../../styles/mediaQueries";
 
-const selected = "&.selected.selected";
-// const previous = "&:has(~ li.selected)";
-// const next = "&.selected + li";
+// const selected = "&.selected.selected";
+// // const previous = "&:has(~ li.selected)";
+// // const next = "&.selected + li";
 const previous = "&.previous.previous";
 const next = "&.next.next";
 const hidden = "&.hidden.hidden";
@@ -12,14 +12,31 @@ const hidden = "&.hidden.hidden";
 export const CarouselItemStyle = styled.li.attrs(
   (props: { index: number; length: number; selectedIndex: number }) => props
 )`
-  display: none;
+  /* display: none; */
   -moz-user-select: none;
   user-select: none;
   /* position: absolute; */
+  scroll-snap-align: center;
+  display: flex;
+  background-color: ${colors.elements};
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.5);
+  border-radius: 1rem;
+  cursor: pointer;
+  padding: 3rem 1rem;
+  min-width: 80vw;
+  transition: all 0.1s linear;
+  max-height: 30vh;
+  gap: 0.2rem;
+  /* margin: auto; */
 
-  ${selected}, ${previous}, ${next} {
+  /* margin-bottom: auto; */
+
+  /* $selected}, $previous}, $next} {
     display: flex;
-    background-color: ${colors.elements};
+    background-color: $colors.elements};
     justify-content: center;
     align-items: center;
     flex-direction: column;
@@ -27,30 +44,37 @@ export const CarouselItemStyle = styled.li.attrs(
     border-radius: 1rem;
     cursor: pointer;
     transition: all 0.1s linear;
-  }
+  } */
 
   ${previous}, ${next} {
+    /* opacity: 0.8;
+    padding: 0.6rem 0.5rem; */
+    /* transform: scale(70%); */
+
+    /* min-width: 15rem; */
+  }
+  /* $previous}, $next} {
     pointer-events: none;
     opacity: 0.8;
     padding: 0.6rem 0.5rem;
     transform: scale(70%);
-
+    
     min-width: 15rem;
-  }
+  } */
 
-  ${selected} {
+  /* $selected} {
     transform: scale(90%);
     padding: 0.1rem 3rem;
     z-index: 1;
     min-width: 7rem;
-  }
-  ${hidden} {
+  } */
+  /* ${hidden} {
     display: none;
-  }
+  } */
   .image-wrapper {
-    overflow: hidden;
+    /* overflow: scroll; */
     /* height: 100%; */
-    max-height: 35%;
+    /* max-height: 25%; */
     display: flex;
     justify-content: center;
     align-items: flex-end;
@@ -67,24 +91,26 @@ export const CarouselItemStyle = styled.li.attrs(
     gap: 1rem;
   }
 
-  /* @media ${breakpointsMQ.tabletUp} {
-    ${selected} {
+  /* @media $breakpointsMQ.tabletUp} {
+    $selected} {
       padding: 3rem 2rem;
       min-width: 11rem;
     }
 
-    ${previous}, ${next} {
+    $previous}, $next} {
       padding: 1.5rem 1rem;
       min-width: 9rem;
     }
   } */
 
   @media ${breakpointsMQ.desktopSmUp} {
-    ${previous}, ${next} {
+    min-width: 20vw;
+
+    /* $previous}, $next} {
       min-width: 15rem;
     }
-    ${selected} {
+    $selected} {
       min-width: 20rem;
-    }
+    } */
   }
 `;

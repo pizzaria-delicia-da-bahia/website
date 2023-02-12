@@ -8,9 +8,17 @@ export const TamanhoStyle = styled.main`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 3rem 0.5rem;
+  padding: 8rem 0.5rem;
   gap: 0.1rem;
   overflow: hidden;
+  height: 100%;
+
+  /* overflow: auto;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 0.3rem 10rem 0.3rem;
+  position: relative;
+  gap: 1rem; */
 
   .text {
     display: flex;
@@ -38,11 +46,11 @@ export const TamanhoStyle = styled.main`
     align-items: center;
     padding: 1rem 0.2rem;
 
-    b {
+    .value {
       font-size: 1rem;
     }
-    span {
-      font-size: 0.7rem;
+    .description {
+      font-size: min(0.7rem, 4vw);
     }
   }
 
@@ -59,9 +67,9 @@ export const TamanhoStyle = styled.main`
       max-height: 60vh;
     }
 
-    .menu {
+    /* .menu {
       height: 40vh;
-    }
+    } */
   }
 
   @media ${breakpointsMQ.tabletUp} {
@@ -79,8 +87,8 @@ export const TamanhoStyle = styled.main`
       align-items: center;
       padding: 1rem 0.2rem;
 
-      b {
-        font-size: 1.5rem;
+      .value {
+        font-size: 1rem;
       }
     }
   }

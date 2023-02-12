@@ -49,7 +49,7 @@ const CarouselItem: FC<ICarouselItem> = ({
           alt=""
         />
       </div>
-      <h2>{title}</h2>
+      <h3>{title}</h3>
       {children && <div className="bottom-elements">{children}</div>}
     </CarouselItemStyle>
     // </Link>

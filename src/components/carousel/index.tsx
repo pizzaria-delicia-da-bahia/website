@@ -7,6 +7,7 @@ import {
   ReactElement,
   SetStateAction,
   useContext,
+  useEffect,
   useState,
 } from "react";
 import { ButtonBackForward } from "../../styles/components/buttons";
@@ -49,15 +50,26 @@ export const useCarousel = () => {
 
 const CarouselComponent: FC<{ children: ReactElement[] }> = ({ children }) => {
   const { selectedIndex, setSelectedIndex, length } = useCarousel();
+
+  useEffect(() => {
+    if (children) {
+      document.querySelector(".selected.selected").scrollIntoView();
+    }
+  }, [children]);
+
   return (
     <CarouselStyle>
-      <ul>{children}</ul>
+      <div className="carousel-container">
+        <ul>{children}</ul>
+      </div>
 
       <div className="buttons-back-forward">
         <ButtonBackForward
           to="back"
           disabled={selectedIndex === 0}
-          onClick={() => setSelectedIndex((prev) => prev - 1)}
+          onClick={() => {
+            setSelectedIndex((prev) => prev - 1);
+          }}
         />
         <ButtonBackForward
           to="forward"

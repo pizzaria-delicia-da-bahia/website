@@ -44,8 +44,8 @@ const Confirmacao: NextPage<{ bairroNome: string }> = ({ bairroNome }) => {
   const Info = ({ name, value }: { name: string; value: string }) => {
     return (
       <InfoStyle>
-        {/* <h5 className="title">{name}</h5> */}
-        <h4 className="value">{value}</h4>
+        <h5 className="title">{name}</h5>
+        <h4 className="value">{value.replace(/---.+---\n/g, "")}</h4>
       </InfoStyle>
     );
   };

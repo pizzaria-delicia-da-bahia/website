@@ -8,6 +8,7 @@ export const ConfirmacaoStyle = styled.main`
   overflow: auto;
   display: flex;
   flex-direction: column;
+  align-items: center;
   padding: 2rem 0.5rem 15rem 0.5rem;
   position: relative;
   gap: 2rem;
@@ -28,13 +29,11 @@ export const ConfirmacaoStyle = styled.main`
     flex-direction: column;
     gap: 0.3rem;
     align-items: center;
-
-    .title {
-      font-size: min(0.8rem, 3vw);
-    }
-    .value {
-      text-transform: uppercase;
-    }
+    background-color: ${colors.elements};
+    width: 100%;
+    padding: 0.5rem;
+    border: 2px solid #000;
+    border-radius: 10px;
   }
   & > .bottom-controls {
     background-color: ${colors.background};
@@ -54,6 +53,8 @@ export const ConfirmacaoStyle = styled.main`
 
   @media ${breakpointsMQ.desktopSmUp} {
     .menu {
+      width: max-content;
+      padding: 0.5rem 2rem;
       .ordertype {
         gap: 3rem;
         font-size: 1.3rem;
@@ -78,7 +79,7 @@ export const ConfirmacaoStyle = styled.main`
 
 export const InfoStyle = styled.div`
   padding: 0.2rem;
-  background-color: ${colors.elements};
+  /* background-color: ${colors.elements}; */
   border-radius: 5px;
   display: flex;
   flex-direction: column;
@@ -86,8 +87,12 @@ export const InfoStyle = styled.div`
   width: 100%;
 
   color: ${colors.background};
-
-  h4 {
+  .title {
+    color: #000;
+    font-size: min(0.9rem, 4vw);
+  }
+  .value {
     white-space: pre-line;
+    text-transform: uppercase;
   }
 `;

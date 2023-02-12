@@ -59,7 +59,11 @@ const InformacoesAdicionais: NextPage<{
       let taxa = 0;
       if (data.tipo === "entrega") {
         const query = queryString({
-          ...data.cliente.endereco,
+          street: data.cliente.endereco?.rua ?? null,
+          cep: data.cliente.endereco?.cep ?? null,
+          number: data.cliente.endereco?.numero ?? null,
+          place: data.cliente.endereco?.localDeEntrega ?? null,
+          reference: data.cliente.endereco?.pontoDeReferencia ?? null,
           neighbourhood: data.cliente.endereco?.bairroId ?? null,
         });
 

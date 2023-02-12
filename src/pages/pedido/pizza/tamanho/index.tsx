@@ -1,5 +1,5 @@
 import { GetServerSideProps, NextPage } from "next";
-import { FC, useEffect, useState } from "react";
+import { createRef, FC, useEffect, useState } from "react";
 import { ButtonSecondary } from "../../../../styles/components/buttons";
 import { TamanhoStyle } from "../../../../styles/pages/pedido/pizza/tamanho/styles";
 import { useRouter } from "next/router";
@@ -15,8 +15,8 @@ const BottomInfo: FC<{
 }> = ({ name, prop, description }) => (
   <div className={`bottom-info ${name}`}>
     <img src={`/images/tamanho-${name}.svg`} width={30} height={30} />
-    <b>{prop}</b>
-    <span>{description}</span>
+    <b className="value">{prop}</b>
+    <span className="description">{description}</span>
   </div>
 );
 
@@ -40,7 +40,13 @@ const Tamanho: NextPage = () => {
     loadSizes();
   }, []);
 
-  const getImageSize = (index) => Math.ceil((100 / sizes.length) * (index + 1));
+  useEffect(() => {
+    if (sizes.length) {
+      document.querySelector(".selected.selected").scrollIntoView();
+    }
+  }, [sizes]);
+
+  const getImageSize = (index) => Math.ceil((60 / sizes.length) * (index + 1));
   return (
     <TamanhoStyle>
       {sizes.length > 0 ? (
