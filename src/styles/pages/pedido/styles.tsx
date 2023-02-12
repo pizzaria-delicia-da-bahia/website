@@ -9,8 +9,7 @@ export const PedidoStyle = styled.main`
   align-items: center;
   justify-content: center;
   padding: 4rem 0.5rem calc(${sizes.footer}px + ${sizes.header}px + 2rem) 0.5rem;
-  gap: 2.5rem;
-  overflow: hidden;
+  gap: 2rem;
 
   .text {
     display: flex;
@@ -34,18 +33,21 @@ export const PedidoStyle = styled.main`
 
   .menu {
     flex-grow: 1;
-    width: 100%;
+    width: 100vw;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 30vh;
     padding: 0 0.1rem;
     max-width: 800px;
+    /* overflow: auto; */
   }
 
   .bottom-controls {
     display: flex;
     justify-content: center;
+    position: fixed;
+    bottom: ${sizes.footer}px;
   }
 
   @media ${breakpointsMQ.mobile} {

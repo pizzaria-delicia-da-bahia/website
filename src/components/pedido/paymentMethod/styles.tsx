@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { animations } from "../../../styles/animations";
 import { colors } from "../../../styles/colors";
 import { breakpointsMQ, hover } from "../../../styles/mediaQueries";
 
@@ -12,17 +13,18 @@ export const PaymentMethodStyle = styled.button`
   cursor: pointer;
   transition: all 0.2s ease-out;
   position: relative;
-  height: 100px;
+  height: min(100px, 22vw);
 
   ${hover} {
     &:hover {
-      transform: scale(105%);
+      transform: scale(102%);
       z-index: 2;
     }
   }
 
   &.selected {
-    transform: scale(140%);
+    transform: scale(130%);
+    animation: ${animations.pulse("00000000")} 2s infinite;
     z-index: 1;
   }
 

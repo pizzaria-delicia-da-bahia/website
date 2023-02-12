@@ -3,7 +3,7 @@ import { colors } from "../../../styles/colors";
 import { breakpointsMQ } from "../../../styles/mediaQueries";
 
 export const ButtonBankNoteStyle = styled.button`
-  width: 7rem;
+  width: min(7rem, 29vw);
   height: 3rem;
   position: relative;
   transition: 0.2s ease-in-out;

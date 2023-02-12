@@ -107,6 +107,11 @@ body{
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       outline: none;
+      user-select: none;
+    }
+
+    input{
+      user-select: auto;
     }
 `;
 

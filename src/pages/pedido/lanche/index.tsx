@@ -26,7 +26,6 @@ const Lanche: NextPage = () => {
       const lanchesFromBackend = (await (
         await fetch(`${process.env.NEXT_PUBLIC_API_URL}/lanches`)
       ).json()) as IOutro[];
-      console.log(lanchesFromBackend);
       setLanches(lanchesFromBackend);
     } catch (err) {
       console.error((err as Error).message, (err as Error).stack);

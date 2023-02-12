@@ -79,7 +79,7 @@ const Config: NextPage<IConfig> = ({
         }
       }
     } catch (err) {
-      console.error(err);
+      console.error((err as Error).message, (err as Error).stack);
     }
   };
 

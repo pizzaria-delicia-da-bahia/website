@@ -9,7 +9,6 @@ export const Other: FC<{ item: IOutro; api_url: string }> = ({
   const [myValue, setMyValue] = useState<IOutro>(item);
 
   const saveOther = async () => {
-    console.clear();
     const response = await fetch(`${api_url}?id=${item.id}`, {
       method: (item.id ?? "") === "" ? "POST" : "PATCH",
       body: JSON.stringify(myValue),

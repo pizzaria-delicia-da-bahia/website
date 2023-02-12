@@ -17,8 +17,8 @@ export default function App({ Component, pageProps }) {
         <meta charSet="UTF-8" />
         <meta
           name="description"
-          content={`Pizzaria Delicia da Bahia, 
-            desde 2013, servindo as pizzas mais 
+          content={`Pizzaria Delicia da Bahia,
+            desde 2013, servindo as pizzas mais
             deliciosas de Salvador!`}
         />
         <meta

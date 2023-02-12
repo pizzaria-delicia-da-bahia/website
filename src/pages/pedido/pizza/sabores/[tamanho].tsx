@@ -61,7 +61,6 @@ const Sabores: NextPage<{ tamanhoId: string }> = ({ tamanhoId }) => {
   };
 
   useEffect(() => {
-    console.log("renderizou");
     loadAll();
   }, []);
 
