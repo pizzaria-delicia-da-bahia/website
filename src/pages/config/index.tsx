@@ -7,6 +7,7 @@ import { Flavour } from "../../components/config/flavour";
 import { Size } from "../../components/config/size";
 import { Other } from "../../components/config/other";
 import { IEndereco } from "../../types/endereco";
+import { toast } from "react-toastify";
 
 interface IConfig {
   sabores: Array<IPizzaSabor>;
@@ -72,9 +73,8 @@ const Config: NextPage<IConfig> = ({
           headers: { "Content-Type": "application/json" },
         });
 
-        // console.log(JSON.stringify({ pw: Buffer.from(pw) }));
         if (response.status === 200) {
-          alert("Bem vindo");
+          toast("Bem vindo", { type: "success" });
           setIsAuth(true);
         }
       }

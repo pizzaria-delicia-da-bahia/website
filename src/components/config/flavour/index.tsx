@@ -1,4 +1,5 @@
 import { FC, useState } from "react";
+import { toast } from "react-toastify";
 import {
   IPizzaGrupo,
   IPizzaSabor,
@@ -27,7 +28,8 @@ export const Flavour: FC<{
       headers: { "Content-Type": "application/json" },
     });
     if (response.status === 200) {
-      alert("Sabor alterado ✅");
+      toast("Sabor alterado ✅", { type: "success" });
+
       !sabor.nome.length && setMyValue(sabor);
     }
   };

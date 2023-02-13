@@ -14,8 +14,9 @@ import { useRouter } from "next/router";
 import { ICLiente } from "../../../types/order";
 import { sleep } from "../../../utitl/functions/misc";
 import { MyInput } from "../../../components/pedido/myInput";
-import { useNotification } from "../../../components/notification";
-import { IEndereco, IBairro } from "../../../types/endereco";
+import { IBairro } from "../../../types/endereco";
+import { removeAccents } from "../../../utitl/functions/format";
+import { toast } from "react-toastify";
 
 interface IData {
   cliente: ICLiente;
@@ -28,7 +29,6 @@ const InformacoesAdicionais: NextPage<{
   const { setInfo } = useMyOrder();
   const [data, setData] = useState<IData | null>(null);
   const router = useRouter();
-  const { notification } = useNotification();
 
   const getCustomerFromLocalStorage = () => {
     const customer =
@@ -56,72 +56,79 @@ const InformacoesAdicionais: NextPage<{
 
   const next = async () => {
     try {
-      let taxa = 0;
+      let endereco;
       if (data.tipo === "entrega") {
         const query = queryString({
-          street: data.cliente.endereco?.rua ?? null,
+          rua: removeAccents(data.cliente.endereco?.rua) ?? null,
           cep: data.cliente.endereco?.cep ?? null,
-          number: data.cliente.endereco?.numero ?? null,
-          place: data.cliente.endereco?.localDeEntrega ?? null,
-          reference: data.cliente.endereco?.pontoDeReferencia ?? null,
-          neighbourhood: data.cliente.endereco?.bairroId ?? null,
+          bairroId: data.cliente.endereco?.bairroId ?? null,
+          // number: data.cliente.endereco?.numero ?? null,
+          // place: data.cliente.endereco?.localDeEntrega ?? null,
+          // reference: data.cliente.endereco?.pontoDeReferencia ?? null,
         });
 
-        taxa = await (
+        endereco = (await (
           await fetch(`${process.env.NEXT_PUBLIC_API_URL}/taxa${query}`, {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
             },
           })
-        ).json();
+        ).json()) as { cep: string; rua: string; bairroId: string } | null;
       }
 
-      setInfo(data.cliente, data.tipo, Number(taxa ?? 0));
+      setInfo(
+        {
+          ...data.cliente,
+          endereco: { ...data.cliente.endereco, ...(endereco ?? {}) },
+        },
+        data.tipo,
+        Number(endereco?.taxa ?? 0)
+      );
       sleep();
 
       router.push(`/pedido/pagamento`);
     } catch (err) {
       console.error(err, err.stack);
-      alert("Erro ❌");
     }
   };
 
   const searchCEP = async () => {
-    const enderecos = (await (
-      await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/enderecos?cep=${data.cliente.endereco.cep}`,
-        {
-          headers: { "Content-Type": "application/json" },
-        }
-      )
-    ).json()) as {
-      enderecos: Array<{
+    try {
+      const enderecos = (await (
+        await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/enderecos?cep=${data.cliente.endereco.cep}`,
+          {
+            headers: { "Content-Type": "application/json" },
+          }
+        )
+      ).json()) as Array<{
         bairroId: string;
         cep: string;
         id: number;
         rua: string;
         taxa: number;
       }>;
-    };
 
-    if (!enderecos) {
-      notification("❌ Endereço não localizado!");
-      return;
-    }
-    const e = enderecos[0];
+      if (!enderecos?.length) throw new Error();
 
-    setData((prev) => ({
-      ...prev,
-      cliente: {
-        ...prev.cliente,
-        endereco: {
-          ...prev.cliente.endereco,
-          bairroId: e.bairroId,
-          rua: e.rua,
+      const e = enderecos[0];
+
+      setData((prev) => ({
+        ...prev,
+        cliente: {
+          ...prev.cliente,
+          endereco: {
+            ...prev.cliente.endereco,
+            bairroId: e.bairroId,
+            rua: e.rua,
+          },
         },
-      },
-    }));
+      }));
+    } catch (err) {
+      toast("Endereço não encontrado", { type: "error" });
+      console.error((err as Error).message, (err as Error).stack);
+    }
   };
 
   return (
@@ -194,7 +201,11 @@ const InformacoesAdicionais: NextPage<{
                   name="CEP"
                   type="zipCode"
                   placeholder="EX: 40000-000"
-                  value={(data && data.cliente.endereco.cep) ?? ""}
+                  value={
+                    data?.tipo === "entrega"
+                      ? data?.cliente?.endereco?.cep ?? ""
+                      : ""
+                  }
                   setValue={(value) =>
                     setData((prev) => ({
                       ...prev,
@@ -224,7 +235,11 @@ const InformacoesAdicionais: NextPage<{
                 name="ENDEREÇO (RUA/AVENIDA) *"
                 placeholder="EX: AVENIDA ANITA GARIBALDI"
                 type="address"
-                value={(data && data.cliente.endereco.rua) ?? ""}
+                value={
+                  data?.tipo === "entrega"
+                    ? data?.cliente?.endereco?.rua ?? ""
+                    : ""
+                }
                 setValue={(value) =>
                   setData((prev) => ({
                     ...prev,
@@ -243,7 +258,11 @@ const InformacoesAdicionais: NextPage<{
                 name="Nº"
                 placeholder="EX: 427-B"
                 type="text"
-                value={(data && data.cliente.endereco.numero) ?? ""}
+                value={
+                  data?.tipo === "entrega"
+                    ? data?.cliente?.endereco?.numero ?? ""
+                    : ""
+                }
                 setValue={(value) =>
                   setData((prev) => ({
                     ...prev,
@@ -263,7 +282,11 @@ const InformacoesAdicionais: NextPage<{
                 <label htmlFor="bairro-select">BAIRRO *</label>
                 <select
                   name="bairro-select"
-                  value={data?.cliente?.endereco?.bairroId ?? ""}
+                  value={
+                    data?.tipo === "entrega"
+                      ? data?.cliente?.endereco?.bairroId ?? ""
+                      : ""
+                  }
                   onChange={(e) =>
                     setData((prev) => ({
                       ...prev,
@@ -291,7 +314,11 @@ const InformacoesAdicionais: NextPage<{
                 name="LOCAL DE ENTREGA"
                 placeholder="EX: COND. ONDINA TOP, EDF. FLORES, AP. 101"
                 type="text"
-                value={(data && data.cliente.endereco.localDeEntrega) ?? ""}
+                value={
+                  data?.tipo === "entrega"
+                    ? data?.cliente?.endereco?.localDeEntrega ?? ""
+                    : ""
+                }
                 setValue={(value) =>
                   setData((prev) => ({
                     ...prev,
@@ -310,7 +337,11 @@ const InformacoesAdicionais: NextPage<{
                 name="PONTO DE REFERÊNCIA"
                 placeholder="EX: EM FRENTE AO MERCADO NOVA ESPERANÇA"
                 type="text"
-                value={(data && data.cliente.endereco.pontoDeReferencia) ?? ""}
+                value={
+                  (data?.tipo === "entrega" &&
+                    data?.cliente?.endereco?.pontoDeReferencia) ??
+                  ""
+                }
                 setValue={(value) =>
                   setData((prev) => ({
                     ...prev,

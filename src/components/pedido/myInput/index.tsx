@@ -33,7 +33,7 @@ export const MyInput: FC<{
         tabIndex={tabIndex}
         type={
           type === "zipCode"
-            ? "number"
+            ? "tel"
             : type === "phoneNumber"
             ? "tel"
             : type === "address"
@@ -62,7 +62,7 @@ export const MyInput: FC<{
           const onlyNumbers = e.key.match(/[^\d-)(\s]/g);
           const cutOrCopy = (e.key === "c" || e.key === "v") && e.ctrlKey;
           if (
-            type === "phoneNumber" &&
+            ["phoneNumber", "zipCode"].includes(type) &&
             onlyNumbers &&
             !cutOrCopy &&
             !["Backspace", "Delete", "Tab"].includes(e.key)

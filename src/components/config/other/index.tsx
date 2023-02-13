@@ -1,4 +1,5 @@
 import { FC, useState } from "react";
+import { toast } from "react-toastify";
 import { IOutro } from "../../../types/outro";
 import { OtherStyle } from "./styles";
 
@@ -15,10 +16,10 @@ export const Other: FC<{ item: IOutro; api_url: string }> = ({
       headers: { "Content-Type": "application/json" },
     });
     if (response.status === 200) {
-      alert("Item alterado ✅");
+      toast("Item alterado ✅", { type: "success" });
       !item.nome.length && setMyValue(item);
     } else {
-      alert("Erro ❌");
+      toast("Erro ❌", { type: "error" });
     }
   };
 

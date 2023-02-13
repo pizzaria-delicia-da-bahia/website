@@ -104,7 +104,7 @@ const Itens: NextPage = () => {
         <ButtonSecondary onClick={() => router.back()}>VOLTAR</ButtonSecondary>
         <Link href="/pedido/informacoes-adicionais" passHref>
           <ButtonPrimary
-            className="pulse"
+            className={myOrder.itens.length ? "pulse" : undefined}
             disabled={(myOrder?.itens?.length ?? 0) < 1}
           >
             CONTINUAR

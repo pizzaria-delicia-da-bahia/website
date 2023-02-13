@@ -1,4 +1,5 @@
 import { FC, useState } from "react";
+import { toast } from "react-toastify";
 import { IEndereco } from "../../../types/endereco";
 import { AddressStyle } from "./styles";
 
@@ -15,9 +16,9 @@ export const Address: FC<{ endereco: IEndereco; api_url: string }> = ({
       headers: { "Content-Type": "application/json" },
     });
     if (response.status === 200) {
-      alert("Item alterado ✅");
+      toast("Item alterado ✅", { type: "success" });
     } else {
-      alert("Erro ❌");
+      toast("Erro ❌", { type: "error" });
     }
   };
 

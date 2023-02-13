@@ -1,4 +1,5 @@
 import { FC, useState } from "react";
+import { toast } from "react-toastify";
 import { IPizzaTamanho } from "../../../types/pizza";
 import { SizeStyle } from "./styles";
 
@@ -44,9 +45,9 @@ export const Size: FC<{ tamanho: IPizzaTamanho; api_url: string }> = ({
       }
     );
     if (response.status === 200) {
-      alert("Tamanho alterado ✅");
+      toast("Tamanho alterado ✅", { type: "success" });
     } else {
-      alert("Erro ❌");
+      toast("Erro ❌", { type: "error" });
     }
   };
 

@@ -1,9 +1,7 @@
 import { breakpoints } from "./breakpoints";
 
 const t = (min: String, max: String) =>
-  `only screen and (min-width: ${min})${
-    max ? ` and (max-width: calc(${max} - 1px))` : ""
-  }`;
+  `(min-width: ${min})${max ? ` and (max-width: calc(${max} - 1px))` : ""}`;
 export const breakpointsMQ = {
   mobile: t("0px", breakpoints.tablet),
   mobileUp: t("0px", null),
