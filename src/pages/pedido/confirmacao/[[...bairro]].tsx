@@ -110,8 +110,11 @@ ITENS: ${formatCurrency(
     myOrder.itens.reduce((acc, item) => acc + item.valor, 0)
   )}${
     myOrder.tipo === "entrega"
-      ? `
+      ? myOrder.taxaEntrega ?? 0 > 0
+        ? `
 ENTREGA: ${formatCurrency(myOrder.taxaEntrega)}`
+        : `
+(FALTA TAXA DE ENTREGA)`
       : ""
   }${`
 VALOR TOTAL: ${formatCurrency(
