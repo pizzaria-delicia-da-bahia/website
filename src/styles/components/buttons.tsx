@@ -80,7 +80,6 @@ export const ButtonBackForward = styled(Button).attrs(
         : css`
             content: "➡️";
           `}
-    /* content: "aaa"; */
     position: absolute;
     color: black;
     top: 0;

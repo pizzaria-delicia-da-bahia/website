@@ -30,7 +30,6 @@ export const NavigationStyle = styled.nav.attrs(
             top: 100%;
             right: 0;
             padding: 7rem 0.4rem;
-            /* margin: 5px 5px; */
             color: #fff;
             width: 100%;
             height: 100vh;
@@ -75,20 +74,6 @@ export const NavigationStyle = styled.nav.attrs(
                     ${colors.backgroundDark} 25%
                   )
                   0px 0/ 20px 20px;
-
-              /* opacity: 10%;
-              background-image: url($BackgroundImage.src});
-              background-size: 60%;
-
-              @media ${breakpointsMQ.tablet} {
-                background-size: 40%;
-              }
-              @media ${breakpointsMQ.desktopSmUp} {
-                background-size: 30%;
-              }
-              @media ${breakpointsMQ.tvSmUp} {
-                background-size: 20%;
-              } */
             }
 
             @keyframes slideDown {

@@ -96,11 +96,12 @@ const Pagamento: NextPage = () => {
         <h1 className="title">PAGAMENTO</h1>
         <p className="value">
           VALOR TOTAL <b>{formatCurrency(data.valor)}</b>
-          {myOrder.tipo === "entrega" && myOrder.taxaEntrega > 0 ? (
-            <span>{` (ITENS + ENTREGA)`}</span>
-          ) : (
-            <span>{` (ENDEREÇO NÃO ENCONTRADO, FALTA INCLUIR TAXA DE ENTREGA)`}</span>
-          )}
+          {myOrder.tipo === "entrega" &&
+            (myOrder.taxaEntrega > 0 ? (
+              <span>{` (ITENS + ENTREGA)`}</span>
+            ) : (
+              <span>{` (ENDEREÇO NÃO ENCONTRADO, FALTA INCLUIR TAXA DE ENTREGA)`}</span>
+            ))}
         </p>
       </div>
       <div className="menu">

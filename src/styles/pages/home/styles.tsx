@@ -73,7 +73,6 @@ export const HomeStyle = styled.main.attrs(
       width: 100vw;
       top: 0;
       margin-top: calc((50vh + ${sizes.header}px) - 4.8rem);
-      /* margin-top: 50vh; */
       transform: translateY(-50%);
     }
   }

@@ -34,8 +34,6 @@ export const LocalizacaoStyle = styled.main`
     iframe {
       width: 90vw;
       height: 100%;
-      /* height: calc(80vh - ${sizes.header}px - ${sizes.footer}px); */
-
       border: 0.3rem solid ${colors.elements};
       border-radius: 1rem;
     }

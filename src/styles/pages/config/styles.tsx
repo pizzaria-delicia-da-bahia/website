@@ -38,7 +38,6 @@ export const ConfigStyle = styled.main`
       position: relative;
       width: 50px;
       height: 50px;
-      /* margin-left: 0.5rem; */
       transform: scale(50%);
       transition: all 0.2s ease-out;
       flex-shrink: 0;

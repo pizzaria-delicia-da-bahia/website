@@ -76,7 +76,6 @@ export const LancheStyle = styled.main`
     }
   }
   & > .bottom-controls {
-    /* background-color: ${colors.background}; */
     padding: 5px 0 0 0;
     position: fixed;
     bottom: 0;

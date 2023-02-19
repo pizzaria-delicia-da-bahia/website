@@ -12,7 +12,7 @@ export const ItensStyle = styled.main`
   justify-content: stretch;
   padding: 3rem 0.5rem 0 0.5rem;
   gap: 0.5rem;
-  height: 100%; /* overflow: hidden; */
+  height: 100%;
   .text {
     h1 {
       color: ${colors.elements};
@@ -72,7 +72,6 @@ export const ItensStyle = styled.main`
             flex-shrink: 0;
             width: min(4rem, 10vw);
             height: min(4rem, 10vw);
-            /* height: 4rem; */
             font-size: min(2rem, 5vw);
             display: flex;
             justify-content: center;

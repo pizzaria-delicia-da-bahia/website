@@ -69,7 +69,6 @@ const Lanche: NextPage = () => {
                   onClick={() => selectItem(lanche)}
                 >
                   <div className="left">
-                    {/* <img src={lanche.imagemUrl} width={40} height={40} /> */}
                     <Image
                       loader={() => lanche.imagemUrl}
                       src={lanche.imagemUrl}

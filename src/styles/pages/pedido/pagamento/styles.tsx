@@ -71,7 +71,6 @@ export const PagamentoStyle = styled.main`
           width: 100%;
           display: grid;
           grid-template-columns: repeat(3, 1fr);
-          /* gap: 1rem; */
           align-items: center;
           justify-content: center;
         }
@@ -89,7 +88,6 @@ export const PagamentoStyle = styled.main`
   }
 
   & > .bottom-controls {
-    /* background-color: ${colors.background}; */
     padding: 5px 0 0 0;
     position: fixed;
     bottom: 0;

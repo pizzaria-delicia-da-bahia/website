@@ -1,5 +1,5 @@
 import { Dispatch, FC, SetStateAction } from "react";
-import { NavigationStyle } from "./styles";
+import { NavigationStyle } from "./styles2";
 import { navigationItems } from "../../../data/navigationItems";
 import NaviItem from "./navitem";
 import { PecaJaButton } from "../../pecaja";

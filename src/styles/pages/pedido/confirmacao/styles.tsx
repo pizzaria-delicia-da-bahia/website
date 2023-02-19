@@ -79,7 +79,6 @@ export const ConfirmacaoStyle = styled.main`
 
 export const InfoStyle = styled.div`
   padding: 0.2rem;
-  /* background-color: ${colors.elements}; */
   border-radius: 5px;
   display: flex;
   flex-direction: column;

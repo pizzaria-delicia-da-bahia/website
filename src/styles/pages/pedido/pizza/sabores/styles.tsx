@@ -56,11 +56,9 @@ export const SaboresStyle = styled.main`
     position: fixed;
     bottom: 0;
     height: calc(${sizes.footer}px + 60px);
-    /* margin-bottom: 1rem; */
     background-color: ${colors.background};
     padding: 1rem;
     display: flex;
-    /* justify-content: center; */
     width: 100%;
 
     .selected-flavours {

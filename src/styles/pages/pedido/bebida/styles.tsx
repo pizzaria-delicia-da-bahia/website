@@ -48,7 +48,6 @@ export const BebidaStyle = styled.main`
       height: 100%;
       width: 100%;
       overflow: auto;
-      /* flex-direction: column; */
       gap: 0.2rem;
       li {
         padding: 0.5rem;
@@ -72,7 +71,6 @@ export const BebidaStyle = styled.main`
 
           img {
             object-fit: cover;
-            /* padding: 0.2rem; */
           }
         }
 
@@ -99,7 +97,6 @@ export const BebidaStyle = styled.main`
     }
   }
   & > .bottom-controls {
-    /* background-color: ${colors.background}; */
     padding: 5px 0 0 0;
     position: fixed;
     bottom: 0;
