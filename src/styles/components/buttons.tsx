@@ -108,7 +108,7 @@ export const FloatButton = styled(ButtonPrimary)`
   border-radius: 50%;
   transition: all 0.2s;
   padding: 0;
-  z-index: 999;
+  z-index: 99;
   display: block;
 
   p {

@@ -9,6 +9,7 @@ export const LocalizacaoStyle = styled.main`
   align-items: center;
   justify-content: stretch;
   padding: 1rem 2rem;
+  height: 100%;
 
   .text {
     display: flex;
@@ -29,9 +30,12 @@ export const LocalizacaoStyle = styled.main`
   }
 
   .frame {
+    flex-grow: 1;
     iframe {
       width: 90vw;
-      height: calc(80vh - ${sizes.header}px - ${sizes.footer}px);
+      height: 100%;
+      /* height: calc(80vh - ${sizes.header}px - ${sizes.footer}px); */
+
       border: 0.3rem solid ${colors.elements};
       border-radius: 1rem;
     }

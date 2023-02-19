@@ -5,36 +5,49 @@ import { sizes } from "../../../sizes";
 
 export const LancheStyle = styled.main`
   height: 100%;
-  overflow: auto;
   display: flex;
+  justify-content: center;
   flex-direction: column;
-  padding: 3rem 0.3rem 15rem 0.3rem;
+  padding: 1rem 0 0 0;
   position: relative;
-  gap: 2rem;
+  gap: 0.5rem;
 
   .text {
+    flex: 0;
     display: flex;
     flex-direction: column;
     text-align: center;
     h1 {
       color: ${colors.elements};
-      font-size: min(3rem, 9vw);
+      font-size: min(2rem, 7vw);
     }
   }
 
-  .menu {
+  > .menu {
+    flex-grow: 1;
+    flex-shrink: 0;
+    width: 100%;
+    margin-bottom: 50px;
+    position: relative;
+
     ul {
+      position: absolute;
+      height: 100%;
       list-style: none;
-      padding: 1rem;
+      padding: 0.5rem 0.5rem 6rem 0.5rem;
       display: flex;
+      width: 100%;
       flex-direction: column;
-      gap: 1rem;
+      gap: 0.5rem;
+      overflow-y: auto;
+      scroll-behavior: smooth;
+
       li {
-        min-height: 10px;
         padding: 0.5rem;
         background-color: ${colors.elements};
         border-radius: 10px;
         gap: 0.2rem;
+        max-height: 8rem;
         display: flex;
         align-items: center;
         cursor: pointer;
@@ -45,7 +58,6 @@ export const LancheStyle = styled.main`
           background-color: #fff;
           object-fit: cover;
           border-radius: 6px;
-          /* padding: 0.2rem; */
           width: 110px;
           height: 90px;
         }
@@ -64,18 +76,18 @@ export const LancheStyle = styled.main`
     }
   }
   & > .bottom-controls {
-    background-color: ${colors.background};
-    padding: 10px 0 0 0;
+    /* background-color: ${colors.background}; */
+    padding: 5px 0 0 0;
     position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
-    height: calc(${sizes.footer}px + 60px);
+    height: calc(${sizes.footer}px + 50px);
     display: flex;
     justify-content: center;
 
     button {
-      max-height: 60px;
+      max-height: 50px;
     }
   }
   @media ${breakpointsMQ.desktopSmUp} {
@@ -83,7 +95,9 @@ export const LancheStyle = styled.main`
       ul {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        grid-gap: 1rem;
+        grid-auto-rows: max-content;
+        grid-gap: 0.5rem;
+        max-height: 100%;
       }
     }
   }

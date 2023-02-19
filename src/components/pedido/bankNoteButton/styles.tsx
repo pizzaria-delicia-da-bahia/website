@@ -3,10 +3,11 @@ import { colors } from "../../../styles/colors";
 import { breakpointsMQ } from "../../../styles/mediaQueries";
 
 export const ButtonBankNoteStyle = styled.button`
-  width: min(7rem, 29vw);
-  height: 3rem;
+  width: min(7rem, 25vw);
+  aspect-ratio: 5.5/2;
   position: relative;
   transition: 0.2s ease-in-out;
+
   img {
     user-select: none;
     pointer-events: none;
@@ -27,7 +28,6 @@ export const ButtonBankNoteStyle = styled.button`
   }
 
   @media ${breakpointsMQ.desktopSmUp} {
-    width: 10rem;
-    height: 5rem;
+    /* width: 10rem; */
   }
 `;

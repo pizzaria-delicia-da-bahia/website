@@ -5,7 +5,7 @@ export const LogoStyle = styled.div.attrs(
   (props: { menuOpen: Boolean }) => props
 )`
   position: absolute;
-  z-index: 999;
+  z-index: 99;
   left: 0;
   top: 0;
   margin-left: 30px;

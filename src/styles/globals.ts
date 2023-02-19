@@ -48,6 +48,10 @@ body{
   inset: 0;
   overflow: hidden;
 
+  .toast{
+    z-index: 999;
+  }
+
   &:after {
     /* content: '';
     position: absolute;

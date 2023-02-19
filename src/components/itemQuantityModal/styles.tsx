@@ -16,6 +16,7 @@ export const ItemQuantityModalStyle = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
+
   .text {
     .title {
       font-size: min(2rem, 5vw);
@@ -35,6 +36,7 @@ export const ItemQuantityModalStyle = styled.div`
     flex-direction: column;
     padding: 0.5rem;
     align-items: center;
+
     input {
       font-size: min(2rem, 5vw);
       padding: 0.5rem;

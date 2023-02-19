@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { MyInputStyle } from "../../../../components/pedido/myInput/styles";
+import { animations } from "../../../animations";
 import { colors } from "../../../colors";
 import { breakpointsMQ, hover } from "../../../mediaQueries";
 import { sizes } from "../../../sizes";
@@ -41,10 +42,15 @@ export const InformacoesAdicionaisStyle = styled.main`
         justify-content: center;
         align-items: center;
         gap: 0.2rem;
-        input {
+        input[type="radio"] {
           width: 20px;
           height: 20px;
+          accent-color: ${colors.elements};
         }
+      }
+
+      &.no-type {
+        animation: ${animations.pulse(colors.elements, 0.93)} 2s infinite;
       }
     }
 
@@ -55,12 +61,16 @@ export const InformacoesAdicionaisStyle = styled.main`
       .input-group {
         &.cep-endereco-n {
           .cep {
-            display: grid;
+            display: flex;
             grid-template-columns: 1fr 50px;
-            padding-right: 1rem;
+            padding-right: 0.5rem;
+            max-width: 100%;
+
             & > div {
               flex-grow: 1;
+              flex-shrink: 1;
             }
+
             & > button {
               cursor: pointer;
               background-color: transparent;
@@ -76,7 +86,9 @@ export const InformacoesAdicionaisStyle = styled.main`
           }
         }
       }
+    }
 
+    section {
       &.disabled {
         * {
           pointer-events: none;

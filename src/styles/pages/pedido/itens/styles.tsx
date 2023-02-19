@@ -6,12 +6,13 @@ import { colors } from "../../../colors";
 export const ItensStyle = styled.main`
   display: flex;
   flex-direction: column;
+  place-items: center;
+  grid-template-rows: max-content 1fr;
   align-items: center;
   justify-content: stretch;
-  padding: 3rem 0.5rem calc(${sizes.footer}px + ${sizes.header}px + 2rem) 0.5rem;
-  gap: 1.5rem;
-  overflow: hidden;
-
+  padding: 3rem 0.5rem 0 0.5rem;
+  gap: 0.5rem;
+  height: 100%; /* overflow: hidden; */
   .text {
     h1 {
       color: ${colors.elements};
@@ -19,19 +20,21 @@ export const ItensStyle = styled.main`
   }
 
   .menu {
+    flex-grow: 1;
+    flex-shrink: 0;
     width: 100%;
-    flex-grow: 0;
-    height: 35vh;
-    max-height: 35vh;
-    overflow: auto;
-    padding: 0.8rem 0.5rem;
-
+    margin-bottom: calc(50px + 10px);
+    position: relative;
     ul {
+      padding: 0.3rem;
+      position: absolute;
+      width: 100%;
       height: 100%;
+      overflow-y: auto;
       list-style: none;
       display: flex;
       flex-direction: column;
-      gap: 1rem;
+      gap: 0.2rem;
       li {
         background-color: ${colors.elements};
         display: flex;

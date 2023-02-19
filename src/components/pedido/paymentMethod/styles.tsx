@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { animations } from "../../../styles/animations";
-import { colors } from "../../../styles/colors";
 import { breakpointsMQ, hover } from "../../../styles/mediaQueries";
 
 export const PaymentMethodStyle = styled.button`
@@ -13,7 +12,7 @@ export const PaymentMethodStyle = styled.button`
   cursor: pointer;
   transition: all 0.2s ease-out;
   position: relative;
-  height: min(100px, 22vw);
+  height: min(8rem, 20vw);
 
   ${hover} {
     &:hover {

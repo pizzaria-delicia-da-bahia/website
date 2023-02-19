@@ -2,15 +2,9 @@ import styled from "styled-components";
 import { breakpointsMQ, hover } from "../../styles/mediaQueries";
 
 export const CarouselStyle = styled.div`
-  /* display: flex; */
   flex-direction: column;
   justify-content: center;
   display: flex;
-  /* gap: 0.5rem; */
-  /* height: 45vh; */
-  /* flex-grow: 0;
-  flex-shrink: 0;
-  padding-bottom: 1rem; */
   width: 100vw;
 
   .carousel-container {

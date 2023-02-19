@@ -8,7 +8,8 @@ export const PagamentoStyle = styled.main`
   overflow: auto;
   display: flex;
   flex-direction: column;
-  padding: 3rem 0.3rem 0 0.3rem;
+  justify-content: center;
+  padding: 1rem 0.3rem calc(50px + 1rem) 0.3rem;
   position: relative;
   gap: 0.8rem;
   color: #fff;
@@ -17,12 +18,12 @@ export const PagamentoStyle = styled.main`
     display: flex;
     flex-direction: column;
     text-align: center;
-    h1 {
+    .title {
       color: ${colors.elements};
-      font-size: min(1.8rem, 5vw);
+      font-size: min(1.5rem, 5vw);
     }
-    h4 {
-      font-size: min(1.3rem, 3vw);
+    .value {
+      font-size: min(1rem, 3vw);
     }
   }
 
@@ -30,6 +31,7 @@ export const PagamentoStyle = styled.main`
     display: flex;
     flex-direction: column;
     align-items: center;
+    overflow-y: auto;
     .title {
       font-size: min(0.8rem, 3vw);
     }
@@ -62,7 +64,6 @@ export const PagamentoStyle = styled.main`
       display: flex;
       flex-direction: column;
       gap: 0.5rem;
-      padding: 0 0.5rem;
 
       .methods {
         ul {
@@ -87,8 +88,8 @@ export const PagamentoStyle = styled.main`
     }
   }
 
-  & > .controls {
-    background-color: ${colors.background};
+  & > .bottom-controls {
+    /* background-color: ${colors.background}; */
     padding: 5px 0 0 0;
     position: fixed;
     bottom: 0;

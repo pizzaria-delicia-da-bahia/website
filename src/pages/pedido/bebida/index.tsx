@@ -16,7 +16,7 @@ import Loading from "../../../components/loading";
 import Image from "next/image";
 
 const Bebida: NextPage = () => {
-  const { myOrder, addItem } = useMyOrder();
+  const { addItem } = useMyOrder();
   const [selectedItem, setSelectedItem] = useState<IOutro | null>(null);
   const [quantity, setQuantity] = useState<number>(1);
   const [showQuantityModal, setShowQuantityModal] = useState<boolean>(false);
@@ -49,12 +49,16 @@ const Bebida: NextPage = () => {
     let itens: Array<IOutro> = Array(quantity).fill({});
     itens = itens.map((i) => (i = { ...item, id: uuidv4() }));
     addItem(itens);
-    await sleep();
+    // await sleep();
     router.push("/pedido");
   };
   const cancelQuantity = () => {
     selectItem(null);
     setQuantity(1);
+  };
+
+  const replaceType = (name: string) => {
+    return name.replace(/(REFRIGERANTE|CERVEJA) /g, "");
   };
   return (
     <BebidaStyle>
@@ -75,14 +79,14 @@ const Bebida: NextPage = () => {
                     <Image
                       loader={() => bebida.imagemUrl}
                       src={bebida.imagemUrl}
-                      width={40}
-                      height={80}
-                      objectFit={"cover"}
+                      layout="fill"
                     />
                   </div>
 
                   <div className="right">
-                    <h5 className="title">{bebida.nome.toUpperCase()}</h5>
+                    <h5 className="title">
+                      {replaceType(bebida.nome.toUpperCase())}
+                    </h5>
                     <p className="value">{formatCurrency(bebida.valor)}</p>
                   </div>
                 </li>

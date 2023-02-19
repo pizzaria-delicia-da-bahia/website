@@ -16,6 +16,7 @@ import { sleep } from "../../../utitl/functions/misc";
 const Pagamento: NextPage = () => {
   const { myOrder, addPayment, removeAllPayments } = useMyOrder();
   const router = useRouter();
+  const [nextInactive, setNextInactive] = useState<boolean>(false);
   const [data, setData] = useState<{
     valor: number;
     trocoPara: number;
@@ -77,22 +78,30 @@ const Pagamento: NextPage = () => {
     />
   );
 
+  const next = (e) => {
+    setNextInactive(true);
+    addPayment({ id: uuidv4(), ...data });
+    router.push(
+      `/pedido/confirmacao${
+        myOrder.tipo === "entrega"
+          ? `/${myOrder.cliente.endereco.bairroId}`
+          : ""
+      }`
+    );
+  };
+
   return (
     <PagamentoStyle>
       <div className="text">
-        <h1>PAGAMENTO</h1>
-        <h4>
+        <h1 className="title">PAGAMENTO</h1>
+        <p className="value">
           VALOR TOTAL <b>{formatCurrency(data.valor)}</b>
-        </h4>
-        {myOrder.tipo === "entrega" && (
-          <p>
-            {myOrder.taxaEntrega > 0 ? (
-              <span>{`(ITENS + TAXA DE ENTREGA)`}</span>
-            ) : (
-              <span>{`(SEU ENDEREÇO NÃO FOI ENCONTRADO, FALTA INCLUIR A TAXA DE ENTREGA)`}</span>
-            )}
-          </p>
-        )}
+          {myOrder.tipo === "entrega" && myOrder.taxaEntrega > 0 ? (
+            <span>{` (ITENS + ENTREGA)`}</span>
+          ) : (
+            <span>{` (ENDEREÇO NÃO ENCONTRADO, FALTA INCLUIR TAXA DE ENTREGA)`}</span>
+          )}
+        </p>
       </div>
       <div className="menu">
         <div className="inputs-changes-methods">
@@ -128,21 +137,11 @@ const Pagamento: NextPage = () => {
           </div>
         </div>
       </div>
-      <nav className="controls">
+      <nav className="bottom-controls">
         <ButtonSecondary onClick={() => router.back()}>VOLTAR</ButtonSecondary>
         <ButtonPrimary
-          disabled={!data || !data.tipo}
-          onClick={() => {
-            addPayment({ id: uuidv4(), ...data });
-            sleep();
-            router.push(
-              `/pedido/confirmacao${
-                myOrder.tipo === "entrega"
-                  ? `/${myOrder.cliente.endereco.bairroId}`
-                  : ""
-              }`
-            );
-          }}
+          disabled={nextInactive || !data || !data.tipo}
+          onClick={next}
         >
           CONTINUAR
         </ButtonPrimary>

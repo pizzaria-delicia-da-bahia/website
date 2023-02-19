@@ -1,4 +1,4 @@
-import { GetServerSideProps, NextPage } from "next";
+import { NextPage } from "next";
 import { useEffect, useState } from "react";
 import {
   BairroSelect,
@@ -17,18 +17,19 @@ import { MyInput } from "../../../components/pedido/myInput";
 import { IBairro } from "../../../types/endereco";
 import { removeAccents } from "../../../utitl/functions/format";
 import { toast } from "react-toastify";
+import Loading from "../../../components/loading";
 
 interface IData {
   cliente: ICLiente;
   tipo: "retirada" | "entrega" | null;
 }
 
-const InformacoesAdicionais: NextPage<{
-  neighbourhoods: IBairro[];
-}> = ({ neighbourhoods }) => {
+const InformacoesAdicionais: NextPage = () => {
   const { setInfo } = useMyOrder();
   const [data, setData] = useState<IData | null>(null);
   const router = useRouter();
+  const [nextInactive, setNextInactive] = useState<boolean>(false);
+  const [neighbourhoods, setNeighbourhoods] = useState<IBairro[]>([]);
 
   const getCustomerFromLocalStorage = () => {
     const customer =
@@ -50,12 +51,23 @@ const InformacoesAdicionais: NextPage<{
       tipo: null,
     });
   };
+
+  const getNeighbourhoods = async () => {
+    const response = await (
+      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/bairros`)
+    ).json();
+
+    setNeighbourhoods(response);
+  };
+
   useEffect(() => {
+    getNeighbourhoods();
     getCustomerFromLocalStorage();
   }, []);
 
   const next = async () => {
     try {
+      setNextInactive(true);
       let endereco;
       if (data.tipo === "entrega") {
         const query = queryString({
@@ -85,11 +97,11 @@ const InformacoesAdicionais: NextPage<{
         data.tipo,
         Number(endereco?.taxa ?? 0)
       );
-      sleep();
 
       router.push(`/pedido/pagamento`);
     } catch (err) {
       console.error(err, err.stack);
+      setNextInactive(false);
     }
   };
 
@@ -133,276 +145,273 @@ const InformacoesAdicionais: NextPage<{
 
   return (
     <InformacoesAdicionaisStyle>
-      <div className="text">
-        <h1>INFORMAÇÕES ADICIONAIS</h1>
-        <p>OS CAMPOS COM * (ASTERISCO) SÃO OBRIGATÓRIOS</p>
-      </div>
-      <form className="menu">
-        <section className="ordertype">
-          <span>
-            <input
-              name="ordertype"
-              id="delivery"
-              type={"radio"}
-              checked={(data && data.tipo === "entrega") ?? false}
-              onChange={(e) =>
-                e.target.checked &&
-                setData((prev) => ({ ...prev, tipo: "entrega" }))
-              }
-            />
-            <label htmlFor="delivery">QUERO DELIVERY</label>
-          </span>
-          <span>
-            <input
-              name="ordertype"
-              id="withdraw"
-              type={"radio"}
-              checked={(data && data.tipo === "retirada") ?? false}
-              onChange={(e) =>
-                e.target.checked &&
-                setData((prev) => ({ ...prev, tipo: "retirada" }))
-              }
-            />
-            <label htmlFor="withdraw">VOU BUSCAR</label>
-          </span>
-        </section>
-        <section className="customer-info">
-          <MyInput
-            name="NOME *"
-            type="name"
-            value={(data && data.cliente.nome) ?? ""}
-            setValue={(value) =>
-              setData((prev) => ({
-                ...prev,
-                cliente: { ...prev.cliente, nome: value as string },
-              }))
-            }
-          />
-          <MyInput
-            name="WHATSAPP *"
-            type="phoneNumber"
-            value={(data && data.cliente.whatsapp) ?? ""}
-            setValue={(value) =>
-              setData((prev) => ({
-                ...prev,
-                cliente: { ...prev.cliente, whatsapp: value as string },
-              }))
-            }
-          />
-          <section
-            className={`address-info${
-              !data || data.tipo !== "entrega" ? " disabled" : ""
-            }`}
-          >
-            <div className={`input-group cep-endereco-n`}>
-              <div className="cep">
-                <MyInput
-                  tabIndex={!data || data.tipo != "entrega" ? -1 : undefined}
-                  name="CEP"
-                  type="zipCode"
-                  placeholder="EX: 40000-000"
-                  value={
-                    data?.tipo === "entrega"
-                      ? data?.cliente?.endereco?.cep ?? ""
-                      : ""
-                  }
-                  setValue={(value) =>
-                    setData((prev) => ({
-                      ...prev,
-                      cliente: {
-                        ...prev.cliente,
-                        endereco: {
-                          ...prev.cliente.endereco,
-                          cep: value as string,
-                        },
-                      },
-                    }))
+      {!neighbourhoods.length ? (
+        <Loading />
+      ) : (
+        <>
+          <div className="text">
+            <h1>INFORMAÇÕES ADICIONAIS</h1>
+            <p>OS CAMPOS COM * (ASTERISCO) SÃO OBRIGATÓRIOS</p>
+          </div>
+          <form className="menu">
+            <section
+              className={`ordertype${!data || !data.tipo ? " no-type" : ""}`}
+            >
+              <span>
+                <input
+                  name="ordertype"
+                  id="delivery"
+                  type={"radio"}
+                  checked={(data && data.tipo === "entrega") ?? false}
+                  onChange={(e) =>
+                    e.target.checked &&
+                    setData((prev) => ({ ...prev, tipo: "entrega" }))
                   }
                 />
-                <button
-                  type="button"
-                  disabled={
-                    String(data?.cliente?.endereco?.cep).replace(/[^0-9]/g, "")
-                      .length !== 8
-                  }
-                  onClick={searchCEP}
-                >
-                  🔎
-                </button>
-              </div>
-              <MyInput
-                tabIndex={!data || data.tipo != "entrega" ? -1 : undefined}
-                name="ENDEREÇO (RUA/AVENIDA) *"
-                placeholder="EX: AVENIDA ANITA GARIBALDI"
-                type="address"
-                value={
-                  data?.tipo === "entrega"
-                    ? data?.cliente?.endereco?.rua ?? ""
-                    : ""
-                }
-                setValue={(value) =>
-                  setData((prev) => ({
-                    ...prev,
-                    cliente: {
-                      ...prev.cliente,
-                      endereco: {
-                        ...prev.cliente.endereco,
-                        rua: value as string,
-                      },
-                    },
-                  }))
-                }
-              />
-              <MyInput
-                tabIndex={!data || data.tipo != "entrega" ? -1 : undefined}
-                name="Nº"
-                placeholder="EX: 427-B"
-                type="text"
-                value={
-                  data?.tipo === "entrega"
-                    ? data?.cliente?.endereco?.numero ?? ""
-                    : ""
-                }
-                setValue={(value) =>
-                  setData((prev) => ({
-                    ...prev,
-                    cliente: {
-                      ...prev.cliente,
-                      endereco: {
-                        ...prev.cliente.endereco,
-                        numero: value as string,
-                      },
-                    },
-                  }))
-                }
-              />
-            </div>
-            <div className={`input-group bairro-local-referencia`}>
-              <BairroSelect>
-                <label htmlFor="bairro-select">BAIRRO *</label>
-                <select
-                  name="bairro-select"
-                  value={
-                    data?.tipo === "entrega"
-                      ? data?.cliente?.endereco?.bairroId ?? ""
-                      : ""
-                  }
+                <label htmlFor="delivery">QUERO DELIVERY</label>
+              </span>
+              <span>
+                <input
+                  name="ordertype"
+                  id="withdraw"
+                  type={"radio"}
+                  checked={(data && data.tipo === "retirada") ?? false}
                   onChange={(e) =>
-                    setData((prev) => ({
-                      ...prev,
-                      cliente: {
-                        ...prev.cliente,
-                        endereco: {
-                          ...prev.cliente.endereco,
-                          bairroId: e.target.value,
-                        },
-                      },
-                    }))
+                    e.target.checked &&
+                    setData((prev) => ({ ...prev, tipo: "retirada" }))
                   }
-                >
-                  <option value={""}>--Selecione--</option>
-                  {neighbourhoods.map((n) => (
-                    <option value={n.id} key={n.id}>
-                      {n.nome}
-                    </option>
-                  ))}
-                </select>
-              </BairroSelect>
+                />
+                <label htmlFor="withdraw">VOU BUSCAR</label>
+              </span>
+            </section>
+            <section
+              className={`customer-info${
+                !data || !data.tipo ? " disabled" : ""
+              }`}
+            >
+              <MyInput
+                name="NOME *"
+                type="name"
+                value={(data && data.cliente.nome) ?? ""}
+                setValue={(value) =>
+                  setData((prev) => ({
+                    ...prev,
+                    cliente: { ...prev.cliente, nome: value as string },
+                  }))
+                }
+              />
+              <MyInput
+                name="WHATSAPP *"
+                type="phoneNumber"
+                value={(data && data.cliente.whatsapp) ?? ""}
+                setValue={(value) =>
+                  setData((prev) => ({
+                    ...prev,
+                    cliente: { ...prev.cliente, whatsapp: value as string },
+                  }))
+                }
+              />
+              <section
+                className={`address-info${
+                  !data || data.tipo !== "entrega" ? " disabled" : ""
+                }`}
+              >
+                <div className={`input-group cep-endereco-n`}>
+                  <div className="cep">
+                    <MyInput
+                      tabIndex={
+                        !data || data.tipo != "entrega" ? -1 : undefined
+                      }
+                      name="CEP"
+                      type="zipCode"
+                      placeholder="EX: 40000-000"
+                      value={
+                        data?.tipo === "entrega"
+                          ? data?.cliente?.endereco?.cep ?? ""
+                          : ""
+                      }
+                      setValue={(value) =>
+                        setData((prev) => ({
+                          ...prev,
+                          cliente: {
+                            ...prev.cliente,
+                            endereco: {
+                              ...prev.cliente.endereco,
+                              cep: value as string,
+                            },
+                          },
+                        }))
+                      }
+                    />
+                    <button
+                      type="button"
+                      disabled={
+                        String(data?.cliente?.endereco?.cep).replace(
+                          /[^0-9]/g,
+                          ""
+                        ).length !== 8
+                      }
+                      onClick={searchCEP}
+                    >
+                      🔎
+                    </button>
+                  </div>
+                  <MyInput
+                    tabIndex={!data || data.tipo != "entrega" ? -1 : undefined}
+                    name="ENDEREÇO (RUA/AVENIDA) *"
+                    placeholder="EX: AVENIDA ANITA GARIBALDI"
+                    type="address"
+                    value={
+                      data?.tipo === "entrega"
+                        ? data?.cliente?.endereco?.rua ?? ""
+                        : ""
+                    }
+                    setValue={(value) =>
+                      setData((prev) => ({
+                        ...prev,
+                        cliente: {
+                          ...prev.cliente,
+                          endereco: {
+                            ...prev.cliente.endereco,
+                            rua: value as string,
+                          },
+                        },
+                      }))
+                    }
+                  />
+                  <MyInput
+                    tabIndex={!data || data.tipo != "entrega" ? -1 : undefined}
+                    name="Nº"
+                    placeholder="EX: 427-B"
+                    type="text"
+                    value={
+                      data?.tipo === "entrega"
+                        ? data?.cliente?.endereco?.numero ?? ""
+                        : ""
+                    }
+                    setValue={(value) =>
+                      setData((prev) => ({
+                        ...prev,
+                        cliente: {
+                          ...prev.cliente,
+                          endereco: {
+                            ...prev.cliente.endereco,
+                            numero: value as string,
+                          },
+                        },
+                      }))
+                    }
+                  />
+                </div>
+                <div className={`input-group bairro-local-referencia`}>
+                  <BairroSelect>
+                    <label htmlFor="bairro-select">BAIRRO *</label>
+                    <select
+                      name="bairro-select"
+                      value={
+                        data?.tipo === "entrega"
+                          ? data?.cliente?.endereco?.bairroId ?? ""
+                          : ""
+                      }
+                      onChange={(e) =>
+                        setData((prev) => ({
+                          ...prev,
+                          cliente: {
+                            ...prev.cliente,
+                            endereco: {
+                              ...prev.cliente.endereco,
+                              bairroId: e.target.value,
+                            },
+                          },
+                        }))
+                      }
+                    >
+                      <option value={""}>--Selecione--</option>
+                      {neighbourhoods.map((n) => (
+                        <option value={n.id} key={n.id}>
+                          {n.nome}
+                        </option>
+                      ))}
+                    </select>
+                  </BairroSelect>
 
-              <MyInput
-                tabIndex={!data || data.tipo != "entrega" ? -1 : undefined}
-                name="LOCAL DE ENTREGA"
-                placeholder="EX: COND. ONDINA TOP, EDF. FLORES, AP. 101"
-                type="text"
-                value={
-                  data?.tipo === "entrega"
-                    ? data?.cliente?.endereco?.localDeEntrega ?? ""
-                    : ""
-                }
-                setValue={(value) =>
-                  setData((prev) => ({
-                    ...prev,
-                    cliente: {
-                      ...prev.cliente,
-                      endereco: {
-                        ...prev.cliente.endereco,
-                        localDeEntrega: value as string,
-                      },
-                    },
-                  }))
-                }
-              />
-              <MyInput
-                tabIndex={!data || data.tipo != "entrega" ? -1 : undefined}
-                name="PONTO DE REFERÊNCIA"
-                placeholder="EX: EM FRENTE AO MERCADO NOVA ESPERANÇA"
-                type="text"
-                value={
-                  (data?.tipo === "entrega" &&
-                    data?.cliente?.endereco?.pontoDeReferencia) ??
-                  ""
-                }
-                setValue={(value) =>
-                  setData((prev) => ({
-                    ...prev,
-                    cliente: {
-                      ...prev.cliente,
-                      endereco: {
-                        ...prev.cliente.endereco,
-                        pontoDeReferencia: value as string,
-                      },
-                    },
-                  }))
-                }
-              />
-            </div>
-          </section>
-        </section>
-      </form>
-      <nav className="bottom-controls">
-        <ButtonSecondary onClick={() => router.back()}>VOLTAR</ButtonSecondary>
-        <ButtonPrimary
-          disabled={
-            !data ||
-            data.tipo === null ||
-            data.cliente.nome === "" ||
-            data.cliente.whatsapp === "" ||
-            (data.tipo === "entrega" && data.cliente.endereco.rua === "") ||
-            data.cliente.nome.length < 2 ||
-            data.cliente.whatsapp.length < 8 ||
-            (data.tipo === "entrega" &&
-              (data.cliente.endereco?.rua?.length ?? 0) < 5) ||
-            (data.tipo === "entrega" && !data.cliente.endereco?.bairroId)
-          }
-          onClick={() => next()}
-        >
-          CONTINUAR
-        </ButtonPrimary>
-      </nav>
+                  <MyInput
+                    tabIndex={!data || data.tipo != "entrega" ? -1 : undefined}
+                    name="LOCAL DE ENTREGA"
+                    placeholder="EX: COND. ONDINA TOP, EDF. FLORES, AP. 101"
+                    type="text"
+                    value={
+                      data?.tipo === "entrega"
+                        ? data?.cliente?.endereco?.localDeEntrega ?? ""
+                        : ""
+                    }
+                    setValue={(value) =>
+                      setData((prev) => ({
+                        ...prev,
+                        cliente: {
+                          ...prev.cliente,
+                          endereco: {
+                            ...prev.cliente.endereco,
+                            localDeEntrega: value as string,
+                          },
+                        },
+                      }))
+                    }
+                  />
+                  <MyInput
+                    tabIndex={!data || data.tipo != "entrega" ? -1 : undefined}
+                    name="PONTO DE REFERÊNCIA"
+                    placeholder="EX: EM FRENTE AO MERCADO NOVA ESPERANÇA"
+                    type="text"
+                    value={
+                      (data?.tipo === "entrega" &&
+                        data?.cliente?.endereco?.pontoDeReferencia) ??
+                      ""
+                    }
+                    setValue={(value) =>
+                      setData((prev) => ({
+                        ...prev,
+                        cliente: {
+                          ...prev.cliente,
+                          endereco: {
+                            ...prev.cliente.endereco,
+                            pontoDeReferencia: value as string,
+                          },
+                        },
+                      }))
+                    }
+                  />
+                </div>
+              </section>
+            </section>
+          </form>
+          <nav className="bottom-controls">
+            <ButtonSecondary onClick={() => router.back()}>
+              VOLTAR
+            </ButtonSecondary>
+            <ButtonPrimary
+              disabled={
+                nextInactive ||
+                !data ||
+                data.tipo === null ||
+                data.cliente.nome === "" ||
+                data.cliente.whatsapp === "" ||
+                (data.tipo === "entrega" && data.cliente.endereco.rua === "") ||
+                data.cliente.nome.length < 2 ||
+                data.cliente.whatsapp.length < 8 ||
+                (data.tipo === "entrega" &&
+                  (data.cliente.endereco?.rua?.length ?? 0) < 5) ||
+                (data.tipo === "entrega" && !data.cliente.endereco?.bairroId)
+              }
+              onClick={() => next()}
+            >
+              CONTINUAR
+            </ButtonPrimary>
+          </nav>
+        </>
+      )}
     </InformacoesAdicionaisStyle>
   );
 };
 
 export default InformacoesAdicionais;
-
-export const getServerSideProps: GetServerSideProps = async () => {
-  try {
-    const bairros = await (
-      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/bairros`)
-    ).json();
-
-    return {
-      props: {
-        neighbourhoods: bairros,
-      },
-    };
-  } catch (err) {
-    console.error((err as Error).message, (err as Error).stack);
-    return {
-      redirect: {
-        destination: "/pedido",
-        permanent: false,
-      },
-    };
-  }
-};

@@ -51,20 +51,20 @@ export const animations = {
         }
 `,
 
-  pulse: (color: string) => keyframes`
+  pulse: (color: string, maxSize: number = 1.1) => keyframes`
     0% {
       transform: scale(0.9);
-      box-shadow: 0 0 0 0 ${color};
+      filter: drop-shadow(0 0 5px ${color});
     }
 
     50% {
-      transform: scale(1.1);
-      box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+      transform: scale(${maxSize});
+      filter: drop-shadow(0 0 70px rgba(0, 0, 0, 0));
     }
 
     100% {
       transform: scale(0.9);
-      box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+      filter: drop-shadow(0 0 5px ${color});
     }
   `,
 };

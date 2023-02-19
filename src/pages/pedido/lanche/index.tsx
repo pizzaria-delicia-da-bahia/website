@@ -46,7 +46,6 @@ const Lanche: NextPage = () => {
     let itens: Array<IOutro> = Array(quantity).fill({});
     itens = itens.map((i) => (i = { ...item, id: uuidv4() }));
     addItem(itens);
-    await sleep();
     router.push("/pedido");
   };
   const cancelQuantity = () => {

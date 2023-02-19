@@ -9,9 +9,8 @@ export const TamanhoStyle = styled.main`
   align-items: center;
   justify-content: center;
   gap: 0.1rem;
-  overflow: hidden;
-  padding: calc(${sizes.header}px + 10rem) 0.5rem 10rem 0.5rem;
-  height: calc(100vh - (${sizes.header}px + ${sizes.footer}px));
+  height: 100%;
+  padding: 0 0 50px 0;
 
   .text {
     display: flex;
@@ -44,7 +43,6 @@ export const TamanhoStyle = styled.main`
   }
 
   & > .bottom-controls {
-    background-color: ${colors.background};
     padding: 5px 0 0 0;
     position: fixed;
     bottom: 0;
@@ -60,11 +58,7 @@ export const TamanhoStyle = styled.main`
   }
 
   @media ${breakpointsMQ.tabletUp} {
-    display: flex;
     gap: 1rem;
-    justify-content: center;
-    align-items: center;
-    padding: 1rem 0.5rem;
     height: 100%;
 
     .bottom-info {

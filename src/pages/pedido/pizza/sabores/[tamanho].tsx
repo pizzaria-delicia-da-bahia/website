@@ -28,6 +28,7 @@ const Sabores: NextPage<{ tamanhoId: string }> = ({ tamanhoId }) => {
   const { addItem } = useMyOrder();
   const [size, setSize] = useState<IPizzaTamanho | null>(null);
   const [groups, setGroups] = useState<Array<IPizzaGrupo[]>>([]);
+  const [nextInactive, setNextInactive] = useState<boolean>(false);
 
   const loadAll = async () => {
     try {
@@ -110,6 +111,7 @@ const Sabores: NextPage<{ tamanhoId: string }> = ({ tamanhoId }) => {
 
   const next = () => {
     try {
+      setNextInactive(true);
       const midValue =
         checkedList.reduce((max, curr) => getSaborValor(curr) + max, 0) /
         checkedList.length;
@@ -124,6 +126,7 @@ const Sabores: NextPage<{ tamanhoId: string }> = ({ tamanhoId }) => {
       router.push("/pedido");
     } catch (e) {
       console.error((e as Error).message, (e as Error).stack);
+      setNextInactive(false);
     }
   };
   return (
@@ -157,6 +160,7 @@ const Sabores: NextPage<{ tamanhoId: string }> = ({ tamanhoId }) => {
           </div>
           <FloatButton
             className={`${checkedList.length === 0 ? "hidden" : undefined}`}
+            disabled={nextInactive}
             onClick={next}
           >
             <p>Pronto! {">>"}</p>

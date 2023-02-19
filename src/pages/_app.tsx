@@ -29,13 +29,14 @@ export default function App({ Component, pageProps }) {
         <MyOrderProvider>
           <Layout>
             <Component {...pageProps} />
-            <ToastContainer
-              position="top-center"
-              autoClose={2000}
-              closeOnClick
-              theme="colored"
-            />
           </Layout>
+          <ToastContainer
+            position="top-center"
+            autoClose={2000}
+            closeOnClick
+            theme="colored"
+            className="toast"
+          />
         </MyOrderProvider>
       </NavigationProvider>
       <Globals />

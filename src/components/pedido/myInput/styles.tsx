@@ -6,6 +6,7 @@ export const MyInputStyle = styled.div`
   flex-direction: column;
   padding: 0.5rem;
   gap: 0.1rem;
+  min-width: 0;
 
   label {
     font-size: 0.6rem;
