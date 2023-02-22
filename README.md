@@ -6,6 +6,9 @@
     <a href="https://preview-website-pdb.vercel.app/">
         <img src="https://img.shields.io/badge/preview-vercel-a.svg?style=for-the-badge">
     </a>
+    <a href="https://backend-website-pdb.vercel.app/">
+        <img src="https://img.shields.io/badge/backend-github-blue.svg?style=for-the-badge">
+    </a>
     <a href="https://www.figma.com/file/NvP58fWAUspNTvx5mLnoPC/Site---Pizzaria-Delicia-da-Bahia?node-id=11%3A25&t=88RvIRhdUBlI4v9O-1">
         <img src="https://img.shields.io/badge/prototype-figma-red.svg?style=for-the-badge">
     </a>
@@ -83,4 +86,4 @@ npm run dev || yarn dev
 └─────────────────
 ```
 ### Tags
-`next.js` `styled-components` `axios` `node-json-db` `react` `uuid`
+`next.js` `node.js` `styled-components` `axios` `node-json-db` `react` `uuid`

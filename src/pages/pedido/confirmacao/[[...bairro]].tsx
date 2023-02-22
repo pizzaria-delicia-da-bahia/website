@@ -166,10 +166,9 @@ NÃO VOU PRECISAR DE TROCO`
         <ButtonSecondary onClick={() => router.back()}>VOLTAR</ButtonSecondary>
         <Link
           href={encodeURI(
-            `https://api.whatsapp.com/send?phone=+557188726927&text=${`${customer.replace(
-              /;/g,
-              "*"
-            )}`}${
+            `https://api.whatsapp.com/send?${
+              env.whatsapp ? `phone=${env.whatsapp}&` : ""
+            }text=${`${customer.replace(/;/g, "*")}`}${
               address.replace(" ", "").length
                 ? `
 

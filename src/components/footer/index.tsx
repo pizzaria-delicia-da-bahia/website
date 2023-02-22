@@ -2,6 +2,7 @@ import { FooterStyle } from "./styles";
 import Facebook from "@assets/images/footer-icon-facebook.svg";
 import Instagram from "@assets/images/footer-icon-instagram.svg";
 import Whatsapp from "@assets/images/footer-icon-whatsapp.svg";
+import { env } from "@config/env";
 
 export const Footer = () => {
   return (
@@ -11,7 +12,9 @@ export const Footer = () => {
           target="_blank"
           aria-label="Link para o whatsapp da pizzaria"
           href={encodeURI(
-            `https://api.whatsapp.com/send?phone+557188726927&text=Olá, gostaria de fazer um pedido! 🍕`
+            `https://api.whatsapp.com/send${
+              env.whatsapp ? `?phone=${env.whatsapp}&` : ""
+            }text=Olá, gostaria de fazer um pedido! 🍕`
           )}
         >
           <img
