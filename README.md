@@ -3,18 +3,15 @@
 <div align="center"><img src="https://i.ibb.co/93rsyR7/home.png" alt="home" border="0"></div>
 
 <div align="center">
-    <a href="#">
+    <a href="https://preview-website-pdb.vercel.app/">
         <img src="https://img.shields.io/badge/preview-vercel-a.svg?style=for-the-badge">
     </a>
-    <a href="https://github.com/techdinner/techdinner-api/issues">
-        <img src="https://img.shields.io/badge/backend-github-blue.svg?style=for-the-badge">
-    </a>
-    <a href="https://github.com/techdinner/techdinner-api/pulls">
+    <a href="https://www.figma.com/file/NvP58fWAUspNTvx5mLnoPC/Site---Pizzaria-Delicia-da-Bahia?node-id=11%3A25&t=88RvIRhdUBlI4v9O-1">
         <img src="https://img.shields.io/badge/prototype-figma-red.svg?style=for-the-badge">
     </a>
 </div>
 <div align="center">
-    <a>
+    <a href="https://github.com/pizzaria-delicia-da-bahia/website">
         <img src="https://img.shields.io/badge/status-active-success.svg">
     </a>
     <a>
@@ -66,16 +63,12 @@ npm run dev || yarn dev
 `Static`
 ```
 ├─/home
+|─/cardapio (With revalidation)
 ├─/localizacao
 └─/sobre
 ```
-`SSR`
-```
-|─/config
-└─/cardapio
-```
 
-`SPA`
+`Single Page`
 ```
 ├─/pedido
 | ├───/lanche
@@ -90,4 +83,4 @@ npm run dev || yarn dev
 └─────────────────
 ```
 ### Tags
-`next.js` `styled-components` `axios` `node-json-db` ``
+`next.js` `styled-components` `axios` `node-json-db` `react` `uuid`
