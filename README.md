@@ -14,14 +14,17 @@
     </a>
 </div>
 <div align="center">
-     <a>
-        <img src="https://img.shields.io/github/license/pizzaria-delicia-da-bahia/website">
-    </a>
-     <a>
-        <img src="https://img.shields.io/github/package-json/v/pizzaria-delicia-da-bahia/website/main">
-    </a>
     <a>
         <img src="https://img.shields.io/badge/status-active-success.svg">
+    </a>
+    <a>
+        <img src="https://img.shields.io/badge/node-18.14.2-blue.svg">
+    </a>
+     <a>
+        <img src="https://img.shields.io/github/package-json/license/pizzaria-delicia-da-bahia/website">
+    </a>
+     <a>
+        <img src="https://img.shields.io/github/package-json/v/pizzaria-delicia-da-bahia/website">
     </a>
     <a href="https://github.com/pizzaria-delicia-da-bahia/website/issues">
         <img src="https://img.shields.io/github/issues/pizzaria-delicia-da-bahia/website">
