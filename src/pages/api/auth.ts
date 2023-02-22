@@ -5,11 +5,12 @@ import NextCors from "nextjs-cors";
 export default async function handler(req: Request, res: Response) {
   await NextCors(req, res, {
     // Options
-    methods: ["GET"],
+    methods: ["POST"],
     origin: "*",
     optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
   });
-  if (req.method === "GET") {
+
+  if (req.method === "POST") {
     try {
       let { pw } = req.body;
       if (!pw) throw new Error("Invalid password");
