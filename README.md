@@ -3,7 +3,7 @@
 <div align="center"><img src="https://i.ibb.co/93rsyR7/home.png" alt="home" border="0"></div>
 
 <div align="center">
-    <a href="">
+    <a href="#">
         <img src="https://img.shields.io/badge/preview-vercel-a.svg?style=for-the-badge">
     </a>
     <a href="https://github.com/techdinner/techdinner-api/issues">
