@@ -27,7 +27,7 @@
       "@dtos/*": ["src/dtos/*"],
       "@config/*": ["src/config/*"],
       "@styles/*": ["src/styles/*"],
-      "@models/*": ["src/types/*"],
+      "@models/*": ["src/models/*"],
       "@assets/*": ["src/assets/*"],
       "@data/*": ["src/data/*"],
     }

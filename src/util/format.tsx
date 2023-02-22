@@ -30,36 +30,3 @@ export const removeAccents = (txt: string) => {
     .trim();
   return r;
 };
-
-export function removeAbreviations(txt: string) {
-  return txt
-    .replace(/^r /g, "rua ")
-    .replace(/^acesso /g, "")
-    .replace(/^lad /g, "ladeira ")
-    .replace(/^tv /g, "travessa ")
-    .replace(/^trav /g, "travessa ")
-    .replace(/^av /g, "avenida ")
-    .replace(/^pc /g, "praça ")
-    .replace(/^pç /g, "praça ")
-    .replace(/(. +)(st +)/g, "$1 santo ")
-    .replace(/(. +)(dr +)/g, "$1 doutor ")
-    .replace(/(. +)(dra +)/g, "$1 doutora ");
-}
-
-export function convertOrdinals(txt: string) {
-  [
-    "primeira",
-    "segunda",
-    "terceira",
-    "quarta",
-    "quinta",
-    "sexta",
-    "setima",
-    "oitava",
-    "nona",
-  ].forEach((x, i) => {
-    const regex = new RegExp(String.raw`^(${i + 1}a|${i + 1}|${x}) `, "g");
-    txt = txt.replace(regex, `${i + 1}ª `);
-  });
-  return txt;
-}
