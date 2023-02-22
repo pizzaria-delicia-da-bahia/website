@@ -1,8 +1,8 @@
-# <center>Pizzaria Delicia da Bahia</center>
+# <div align="center">Pizzaria Delicia da Bahia</div>
 
-<center><img src="https://i.ibb.co/93rsyR7/home.png" alt="home" border="0"></center>
+<div align="center"><img src="https://i.ibb.co/93rsyR7/home.png" alt="home" border="0"></div>
 
-<center>
+<div align="center">
     <a href="">
         <img src="https://img.shields.io/badge/preview-vercel-a.svg?style=for-the-badge">
     </a>
@@ -12,8 +12,8 @@
     <a href="https://github.com/techdinner/techdinner-api/pulls">
         <img src="https://img.shields.io/badge/prototype-figma-red.svg?style=for-the-badge">
     </a>
-</center>
-<center>
+</div>
+<div align="center">
      <a>
         <img src="https://img.shields.io/github/license/pizzaria-delicia-da-bahia/website">
     </a>
@@ -29,7 +29,7 @@
     <a href="https://github.com/pizzaria-delicia-da-bahia/website/pulls">
         <img src="https://img.shields.io/github/issues-pr/pizzaria-delicia-da-bahia/website">
     </a>
-</center>
+</div>
 
 ### Introduction
 Website developed with `Next.js`
