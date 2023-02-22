@@ -15,7 +15,7 @@ export default async function handler(req: Request, res: Response) {
       let { pw } = req.body;
       if (!pw) throw new Error("Invalid password");
       pw = Buffer.from(pw).toString("ascii");
-      console.log(pw, req.body.toString());
+      console.log(pw, "isEqual", pw === env.configPassword);
       if (pw === env.configPassword) {
         res.status(200).send({});
       }
