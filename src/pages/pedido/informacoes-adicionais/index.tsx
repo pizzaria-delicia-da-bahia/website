@@ -3,21 +3,18 @@ import { useEffect, useState } from "react";
 import {
   BairroSelect,
   InformacoesAdicionaisStyle,
-} from "../../../styles/pages/pedido/informacoes-adicionais/styles";
-import { useMyOrder } from "../../../context/myOrderContext";
+} from "@styles/pages/pedido/informacoes-adicionais/styles";
+import { useMyOrder } from "@context/myOrderContext";
 import { queryString } from "js-query-string-object";
-import {
-  ButtonPrimary,
-  ButtonSecondary,
-} from "../../../styles/components/buttons";
+import { ButtonPrimary, ButtonSecondary } from "@styles/components/buttons";
 import { useRouter } from "next/router";
-import { ICLiente } from "../../../types/order";
-import { sleep } from "../../../utitl/functions/misc";
-import { MyInput } from "../../../components/pedido/myInput";
-import { IBairro } from "../../../types/endereco";
-import { removeAccents } from "../../../utitl/functions/format";
+import { ICLiente } from "@models/order";
+import { MyInput } from "@components/pedido/myInput";
+import { IBairro } from "@models/endereco";
+import { removeAccents } from "@util/format";
 import { toast } from "react-toastify";
-import Loading from "../../../components/loading";
+import Loading from "@components/loading";
+import { env } from "@config/env";
 
 interface IData {
   cliente: ICLiente;
@@ -54,7 +51,9 @@ const InformacoesAdicionais: NextPage = () => {
 
   const getNeighbourhoods = async () => {
     const response = await (
-      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/bairros`)
+      await fetch(`${env.apiURL}/bairros`, {
+        headers: { "Content-Type": "application/json" },
+      })
     ).json();
 
     setNeighbourhoods(response);
@@ -80,7 +79,7 @@ const InformacoesAdicionais: NextPage = () => {
         });
 
         endereco = (await (
-          await fetch(`${process.env.NEXT_PUBLIC_API_URL}/taxa${query}`, {
+          await fetch(`${env.apiURL}/taxa${query}`, {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
@@ -109,7 +108,7 @@ const InformacoesAdicionais: NextPage = () => {
     try {
       const enderecos = (await (
         await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/enderecos?cep=${data.cliente.endereco.cep}`,
+          `${env.apiURL}/enderecos?cep=${data.cliente.endereco.cep}`,
           {
             headers: { "Content-Type": "application/json" },
           }

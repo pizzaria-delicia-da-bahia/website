@@ -10,7 +10,7 @@ import {
   useEffect,
   useState,
 } from "react";
-import { ButtonBackForward } from "../../styles/components/buttons";
+import { ButtonBackForward } from "@styles/components/buttons";
 import { CarouselStyle } from "./styles";
 
 interface ICarouselProvider {

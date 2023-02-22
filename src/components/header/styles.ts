@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { breakpointsMQ } from "../../styles/mediaQueries";
-import { sizes } from "../../styles/sizes";
+import { breakpointsMQ } from "@styles/mediaQueries";
+import { sizes } from "@styles/sizes";
 
 export const HeaderStyle = styled.header`
   display: flex;

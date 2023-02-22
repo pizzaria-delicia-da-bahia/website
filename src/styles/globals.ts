@@ -1,9 +1,6 @@
 import { createGlobalStyle } from "styled-components";
-// import BackgroundImage from "../assets/images/pizzas_pattern.svg";
-// import Filter from "../assets/images/filter.svg";
-import { breakpointsMQ } from "./mediaQueries";
-import { colors } from "./colors";
-// import InterFont from '../../public/fonts/Inter.ttf';
+import { breakpointsMQ } from "@styles/mediaQueries";
+import { colors } from "@styles/colors";
 
 const Globals = createGlobalStyle`
 

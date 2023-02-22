@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { colors } from "../../styles/colors";
-import { breakpointsMQ, hover } from "../../styles/mediaQueries";
+import { colors } from "@styles/colors";
+import { breakpointsMQ, hover } from "@styles/mediaQueries";
 
 export const PecaJaButtonStyle = styled.button`
   padding: 0.7rem 2.5rem;

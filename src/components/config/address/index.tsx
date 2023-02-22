@@ -1,6 +1,6 @@
 import { FC, useState } from "react";
 import { toast } from "react-toastify";
-import { IEndereco } from "../../../types/endereco";
+import { IEndereco } from "@models/endereco";
 import { AddressStyle } from "./styles";
 
 export const Address: FC<{ endereco: IEndereco; api_url: string }> = ({

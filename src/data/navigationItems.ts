@@ -1,4 +1,4 @@
-import { INavigationItem } from "../types/navigationItem";
+import { INavigationItem } from "@models/navigationItem";
 
 export const navigationItems: Array<INavigationItem> = [
   { name: "HOME", route: "/home" },

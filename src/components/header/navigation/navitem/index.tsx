@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import type { FC } from "react";
-import { useNavigation } from "../../../../context/navigationContext";
-import { INavigationItem } from "../../../../types/navigationItem";
+import { useNavigation } from "@context/navigationContext";
+import { INavigationItem } from "@models/navigationItem";
 import { NavItemStyle } from "./styles";
 
 const NaviItem: FC<{ item: INavigationItem }> = ({ item }) => {

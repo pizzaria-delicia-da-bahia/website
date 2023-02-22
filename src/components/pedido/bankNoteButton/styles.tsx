@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { colors } from "../../../styles/colors";
-import { breakpointsMQ } from "../../../styles/mediaQueries";
+import { colors } from "@styles/colors";
+import { breakpointsMQ } from "@styles/mediaQueries";
 
 export const ButtonBankNoteStyle = styled.button`
   width: min(7rem, 25vw);

@@ -1,17 +1,14 @@
 import { NextPage } from "next";
 import { useEffect, useState } from "react";
-import { useMyOrder } from "../../../context/myOrderContext";
-import {
-  ButtonPrimary,
-  ButtonSecondary,
-} from "../../../styles/components/buttons";
-import { formatCurrency } from "../../../utitl/functions/format";
+import { useMyOrder } from "@context/myOrderContext";
+import { ButtonPrimary, ButtonSecondary } from "@styles/components/buttons";
+import { formatCurrency } from "@util/format";
 import { useRouter } from "next/router";
-import { PagamentoStyle } from "../../../styles/pages/pedido/pagamento/styles";
+import { PagamentoStyle } from "@styles/pages/pedido/pagamento/styles";
 import { v4 as uuidv4 } from "uuid";
-import { PaymentMethod } from "../../../components/pedido/paymentMethod";
-import { ButtonBankNote } from "../../../components/pedido/bankNoteButton";
-import { sleep } from "../../../utitl/functions/misc";
+import { PaymentMethod } from "@components/pedido/paymentMethod";
+import { ButtonBankNote } from "@components/pedido/bankNoteButton";
+import { sleep } from "@util/misc";
 
 const Pagamento: NextPage = () => {
   const { myOrder, addPayment, removeAllPayments } = useMyOrder();

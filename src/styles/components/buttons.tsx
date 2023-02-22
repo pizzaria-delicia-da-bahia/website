@@ -1,8 +1,8 @@
 import styled, { css } from "styled-components";
-import { animations } from "../animations";
-import { colors } from "../colors";
-import { breakpointsMQ, hover } from "../mediaQueries";
-import { sizes } from "../sizes";
+import { animations } from "@styles/animations";
+import { colors } from "@styles/colors";
+import { breakpointsMQ, hover } from "@styles/mediaQueries";
+import { sizes } from "@styles/sizes";
 
 export const Button = styled.button`
   padding: 0.8rem 1rem;

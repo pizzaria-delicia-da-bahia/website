@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { breakpointsMQ, hover } from "../../styles/mediaQueries";
+import { breakpointsMQ, hover } from "@styles/mediaQueries";
 
 export const CarouselStyle = styled.div`
   flex-direction: column;
@@ -21,7 +21,7 @@ export const CarouselStyle = styled.div`
       scroll-snap-type: x mandatory;
       scroll-behavior: smooth;
       -webkit-overflow-scrolling: touch;
-      padding: 1rem 5rem;
+      padding: 0.5rem 5rem;
       gap: 0.5rem;
       &::-webkit-scrollbar {
         display: none;

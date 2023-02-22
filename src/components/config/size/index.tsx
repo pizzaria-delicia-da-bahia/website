@@ -1,6 +1,6 @@
 import { FC, useState } from "react";
 import { toast } from "react-toastify";
-import { IPizzaTamanho } from "../../../types/pizza";
+import { IPizzaTamanho } from "@models/pizza";
 import { SizeStyle } from "./styles";
 
 interface IOtherInfo {

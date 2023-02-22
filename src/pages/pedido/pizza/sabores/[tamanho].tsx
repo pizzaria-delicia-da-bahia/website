@@ -6,21 +6,16 @@ import {
   IPizzaGrupo,
   IPizzaSaborValor,
   IPizzaTamanho,
-} from "../../../../types/pizza";
-import { IPizza } from "../../../../types/item";
-import {
-  formatCurrency,
-  getValueString,
-} from "../../../../utitl/functions/format";
-import { Sabor } from "../../../../components/cardapio/sabor";
-import { SaboresStyle } from "../../../../styles/pages/pedido/pizza/sabores/styles";
-import { useMyOrder } from "../../../../context/myOrderContext";
-import {
-  ButtonSecondary,
-  FloatButton,
-} from "../../../../styles/components/buttons";
+} from "@models/pizza";
+import { IPizza } from "@models/item";
+import { formatCurrency, getValueString } from "@util/format";
+import { Sabor } from "@components/cardapio/sabor";
+import { SaboresStyle } from "@styles/pages/pedido/pizza/sabores/styles";
+import { useMyOrder } from "@context/myOrderContext";
+import { ButtonSecondary, FloatButton } from "@styles/components/buttons";
 import { v4 as uuidv4 } from "uuid";
-import Loading from "../../../../components/loading";
+import Loading from "@components/loading";
+import { env } from "@config/env";
 
 const Sabores: NextPage<{ tamanhoId: string }> = ({ tamanhoId }) => {
   const router = useRouter();
@@ -33,16 +28,18 @@ const Sabores: NextPage<{ tamanhoId: string }> = ({ tamanhoId }) => {
   const loadAll = async () => {
     try {
       const sizesFromBackend = (await (
-        await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/pizzas/tamanhos?id=${tamanhoId}`
-        )
+        await fetch(`${env.apiURL}/pizzas/tamanhos?id=${tamanhoId}`, {
+          headers: { "Content-Type": "application/json" },
+        })
       ).json()) as IPizzaTamanho[];
 
       if (!sizesFromBackend[0]) throw new Error("Tamanho inválido");
       setSize(sizesFromBackend[0]);
 
       const groupsFromBackend = (await (
-        await fetch(`${process.env.NEXT_PUBLIC_API_URL}/pizzas/sabores`)
+        await fetch(`${env.apiURL}/pizzas/sabores`, {
+          headers: { "Content-Type": "application/json" },
+        })
       ).json()) as IPizzaGrupo[];
 
       const groupsLeft: IPizzaGrupo[] = [];

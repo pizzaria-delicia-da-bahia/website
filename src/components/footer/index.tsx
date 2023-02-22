@@ -1,7 +1,7 @@
 import { FooterStyle } from "./styles";
-import Facebook from "../../assets/images/footer-icon-facebook.svg";
-import Instagram from "../../assets/images/footer-icon-instagram.svg";
-import Whatsapp from "../../assets/images/footer-icon-whatsapp.svg";
+import Facebook from "@assets/images/footer-icon-facebook.svg";
+import Instagram from "@assets/images/footer-icon-instagram.svg";
+import Whatsapp from "@assets/images/footer-icon-whatsapp.svg";
 
 export const Footer = () => {
   return (

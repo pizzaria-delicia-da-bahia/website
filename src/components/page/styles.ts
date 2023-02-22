@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { sizes } from "../../styles/sizes";
+import { sizes } from "@styles/sizes";
 
 export const PageStyle = styled.main`
   flex-grow: 1;

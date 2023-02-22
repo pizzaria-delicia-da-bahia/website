@@ -3,18 +3,16 @@ import { useEffect } from "react";
 import {
   ConfirmacaoStyle,
   InfoStyle,
-} from "../../../styles/pages/pedido/confirmacao/styles";
-import { useMyOrder } from "../../../context/myOrderContext";
-import {
-  ButtonPrimary,
-  ButtonSecondary,
-} from "../../../styles/components/buttons";
+} from "@styles/pages/pedido/confirmacao/styles";
+import { useMyOrder } from "@context/myOrderContext";
+import { ButtonPrimary, ButtonSecondary } from "@styles/components/buttons";
 import { useRouter } from "next/router";
-import { ICLiente } from "../../../types/order";
-import { IPizza } from "../../../types/item";
-import { IOutro } from "../../../types/outro";
+import { ICLiente } from "@models/order";
+import { IPizza } from "@models/item";
+import { IOutro } from "@models/outro";
 import Link from "next/link";
-import { formatCurrency } from "../../../utitl/functions/format";
+import { formatCurrency } from "@util/format";
+import { env } from "@config/env";
 
 interface IData {
   customer: ICLiente;
@@ -210,9 +208,9 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
     if (ctx.query.bairro) {
       const bairros = await (
-        await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/bairros?id=${ctx.query.bairro}`
-        )
+        await fetch(`${env.apiURL}/bairros?id=${ctx.query.bairro}`, {
+          headers: { "Content-Type": "application/json" },
+        })
       ).json();
 
       bairroNome = "NÃO ENCONTRADO";

@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { colors } from "../../../styles/colors";
-import { breakpointsMQ } from "../../../styles/mediaQueries";
+import { colors } from "@styles/colors";
+import { breakpointsMQ } from "@styles/mediaQueries";
 
 export const CarouselItemStyle = styled.li.attrs(
   (props: { index: number; length: number; selectedIndex: number }) => props
@@ -17,10 +17,10 @@ export const CarouselItemStyle = styled.li.attrs(
   box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.5);
   border-radius: 1rem;
   cursor: pointer;
-  padding: 3rem 1rem;
-  min-width: 80vw;
+  padding: 2rem 5rem;
+  /* min-width: 70vw; */
   transition: all 0.1s linear;
-  max-height: 30vh;
+  /* max-height: 30vh; */
   gap: 0.2rem;
 
   .image-wrapper {

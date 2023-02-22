@@ -1,9 +1,10 @@
 import { GetStaticProps, NextPage } from "next";
-import { CardapioStyle } from "../../styles/pages/cardapio/styles";
-import { ICardapio } from "../../types/cardapio";
-import { IPizzaSabor, IPizzaGrupo, IPizzaTamanho } from "../../types/pizza";
-import { getValueString } from "../../utitl/functions/format";
-import { Sabor } from "../../components/cardapio/sabor";
+import { CardapioStyle } from "@styles/pages/cardapio/styles";
+import { ICardapio } from "@models/cardapio";
+import { IPizzaSabor, IPizzaGrupo, IPizzaTamanho } from "@models/pizza";
+import { getValueString } from "@util/format";
+import { Sabor } from "@components/cardapio/sabor";
+import { env } from "@config/env";
 
 const Cardapio: NextPage<ICardapio> = ({ sizes, groupsLeft, groupsRight }) => {
   const getAllValues = (s: IPizzaSabor) => {
@@ -72,13 +73,15 @@ const Cardapio: NextPage<ICardapio> = ({ sizes, groupsLeft, groupsRight }) => {
 export default Cardapio;
 
 export const getStaticProps: GetStaticProps = async () => {
-  const sizes = (await (
-    await fetch(`${process.env.NEXT_PUBLIC_API_URL}/pizzas/tamanhos`)
-  ).json()) as IPizzaTamanho[];
+  const sizes = ((await (
+    await fetch(`${env.apiURL}/pizzas/tamanhos`)
+  ).json()) ?? []) as IPizzaTamanho[];
 
-  const grupos = (await (
-    await fetch(`${process.env.NEXT_PUBLIC_API_URL}/pizzas/sabores`)
-  ).json()) as IPizzaGrupo[];
+  const grupos = ((await (
+    await fetch(`${env.apiURL}/pizzas/sabores`, {
+      headers: { "Content-Type": "application/json" },
+    })
+  ).json()) ?? []) as IPizzaGrupo[];
 
   const groupsLeft = [];
   const groupsRight = [];

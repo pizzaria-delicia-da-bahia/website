@@ -1,8 +1,8 @@
 import styled, { css } from "styled-components";
-import { animations } from "../../../styles/animations";
-import { colors } from "../../../styles/colors";
-import { breakpointsMQ } from "../../../styles/mediaQueries";
-// import BackgroundImage from "../../../assets/images/pizzas_pattern.svg";
+import { animations } from "@styles/animations";
+import { colors } from "@styles/colors";
+import { breakpointsMQ } from "@styles/mediaQueries";
+// import BackgroundImage from "@assets/images/pizzas_pattern.svg";
 
 export const NavigationStyle = styled.nav.attrs(
   (props: { menuOpen: Boolean }) => props

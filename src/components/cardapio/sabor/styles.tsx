@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import { colors } from "../../../styles/colors";
+import { colors } from "@styles/colors";
 
 export const SaborStyle = styled.li.attrs(
   (props: { showCheckBox: boolean }) => props

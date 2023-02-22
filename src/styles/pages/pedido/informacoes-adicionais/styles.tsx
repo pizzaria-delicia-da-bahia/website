@@ -1,20 +1,19 @@
 import styled from "styled-components";
-import { MyInputStyle } from "../../../../components/pedido/myInput/styles";
-import { animations } from "../../../animations";
-import { colors } from "../../../colors";
-import { breakpointsMQ, hover } from "../../../mediaQueries";
-import { sizes } from "../../../sizes";
+import { MyInputStyle } from "@components/pedido/myInput/styles";
+import { animations } from "@styles/animations";
+import { colors } from "@styles/colors";
+import { breakpointsMQ, hover } from "@styles/mediaQueries";
+import { sizes } from "@styles/sizes";
 
 export const InformacoesAdicionaisStyle = styled.main`
-  height: 100%;
+  height: calc(100% - 50px);
   overflow: auto;
   display: flex;
   flex-direction: column;
-  padding: 3rem 0.3rem 15rem 0.3rem;
+  padding: 3rem 0.3rem;
   position: relative;
   gap: 2rem;
   color: #fff;
-
   .text {
     display: flex;
     flex-direction: column;
@@ -107,7 +106,6 @@ export const InformacoesAdicionaisStyle = styled.main`
   }
 
   & > .bottom-controls {
-    background-color: ${colors.background};
     padding: 5px 0 0 0;
     position: fixed;
     bottom: 0;

@@ -1,19 +1,16 @@
-import { GetServerSideProps, NextPage } from "next";
+import { NextPage } from "next";
 import { useEffect, useState } from "react";
-import { BebidaStyle } from "../../../styles/pages/pedido/bebida/styles";
-import { useMyOrder } from "../../../context/myOrderContext";
-import {
-  ButtonPrimary,
-  ButtonSecondary,
-} from "../../../styles/components/buttons";
-import { IOutro } from "../../../types/outro";
-import ItemQuantityModal from "../../../components/itemQuantityModal";
-import { formatCurrency } from "../../../utitl/functions/format";
+import { BebidaStyle } from "@styles/pages/pedido/bebida/styles";
+import { useMyOrder } from "@context/myOrderContext";
+import { ButtonSecondary } from "@styles/components/buttons";
+import { IOutro } from "@models/outro";
+import ItemQuantityModal from "@components/itemQuantityModal";
+import { formatCurrency } from "@util/format";
 import { useRouter } from "next/router";
 import { v4 as uuidv4 } from "uuid";
-import { sleep } from "../../../utitl/functions/misc";
-import Loading from "../../../components/loading";
+import Loading from "@components/loading";
 import Image from "next/image";
+import { env } from "@config/env";
 
 const Bebida: NextPage = () => {
   const { addItem } = useMyOrder();
@@ -27,7 +24,9 @@ const Bebida: NextPage = () => {
   const loadItems = async () => {
     try {
       const bebidasFromBackend = (await (
-        await fetch(`${process.env.NEXT_PUBLIC_API_URL}/bebidas`)
+        await fetch(`${env.apiURL}/bebidas`, {
+          headers: { "Content-Type": "application/json" },
+        })
       ).json()) as IOutro[];
       setBebidas(bebidasFromBackend);
     } catch (err) {

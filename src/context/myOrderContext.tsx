@@ -7,14 +7,9 @@ import {
   useState,
 } from "react";
 import { toast } from "react-toastify";
-import { IItem } from "../types/item";
+import { IItem } from "@models/item";
 
-import {
-  IEnderecoCliente,
-  ICLiente,
-  IPedido,
-  IPagamento,
-} from "../types/order";
+import { IEnderecoCliente, ICLiente, IPedido, IPagamento } from "@models/order";
 
 const MyOrderContext = createContext<{
   myOrder: IPedido;

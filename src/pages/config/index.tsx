@@ -1,13 +1,14 @@
 import { GetServerSideProps, NextPage } from "next";
-import { IPizzaGrupo, IPizzaSabor, IPizzaTamanho } from "../../types/pizza";
-import { IOutro } from "../../types/outro";
-import { ConfigStyle } from "../../styles/pages/config/styles";
+import { IPizzaGrupo, IPizzaSabor, IPizzaTamanho } from "@models/pizza";
+import { IOutro } from "@models/outro";
+import { ConfigStyle } from "@styles/pages/config/styles";
 import { useState } from "react";
-import { Flavour } from "../../components/config/flavour";
-import { Size } from "../../components/config/size";
-import { Other } from "../../components/config/other";
-import { IEndereco } from "../../types/endereco";
+import { Flavour } from "@components/config/flavour";
+import { Size } from "@components/config/size";
+import { Other } from "@components/config/other";
+import { IEndereco } from "@models/endereco";
 import { toast } from "react-toastify";
+import { env } from "@config/env";
 
 interface IConfig {
   sabores: Array<IPizzaSabor>;
@@ -16,7 +17,6 @@ interface IConfig {
   lanches: Array<IOutro>;
   enderecos: Array<IEndereco>;
   grupos: Array<IPizzaGrupo>;
-  api_url: string;
 }
 
 const Config: NextPage<IConfig> = ({
@@ -26,7 +26,6 @@ const Config: NextPage<IConfig> = ({
   lanches,
   grupos,
   enderecos,
-  api_url,
 }) => {
   const [show, setShow] = useState<
     "flavours" | "sizes" | "drinks" | "snacks" | "addresses" | string
@@ -67,7 +66,7 @@ const Config: NextPage<IConfig> = ({
     try {
       const pw = window.prompt("Insira a senha de acesso:", "");
       if (pw) {
-        const response = await fetch(`${api_url}/auth`, {
+        const response = await fetch(`${env.apiURL}/auth`, {
           method: "POST",
           body: JSON.stringify({ pw: Buffer.from(pw) }),
           headers: { "Content-Type": "application/json" },
@@ -112,17 +111,17 @@ const Config: NextPage<IConfig> = ({
         <div className="new">
           {show === "flavours" ? (
             <Flavour
-              api_url={api_url}
+              api_url={env.apiURL}
               sabor={emptyFlavour}
               grupos={grupos}
               tamanhos={tamanhos}
             />
           ) : show === "sizes" ? (
-            <Size api_url={api_url} tamanho={emptySize} />
+            <Size api_url={env.apiURL} tamanho={emptySize} />
           ) : show === "drinks" ? (
-            <Other api_url={`${api_url}/bebidas`} item={emptyOther} />
+            <Other api_url={`${env.apiURL}/bebidas`} item={emptyOther} />
           ) : show === "snacks" ? (
-            <Other api_url={`${api_url}/lanches`} item={emptyOther} />
+            <Other api_url={`${env.apiURL}/lanches`} item={emptyOther} />
           ) : (
             <></>
           )}
@@ -161,7 +160,7 @@ const Config: NextPage<IConfig> = ({
           .slice(pageCount - 1, pageCount + itemsPerPage - 1)
           .map((sabor) => (
             <Flavour
-              api_url={api_url}
+              api_url={env.apiURL}
               sabor={sabor}
               grupos={grupos}
               key={sabor.nome}
@@ -174,19 +173,19 @@ const Config: NextPage<IConfig> = ({
         {tamanhos
           .slice(pageCount - 1, pageCount + itemsPerPage - 1)
           .map((size) => (
-            <Size api_url={api_url} tamanho={size} key={size.nome} />
+            <Size api_url={env.apiURL} tamanho={size} key={size.nome} />
           ))}
       </ul>
 
       <ul className={`drinks ${show !== "drinks" && "hidden"}`}>
         {bebidas.slice(pageCount - 1, pageCount + itemsPerPage - 1).map((i) => (
-          <Other api_url={`${api_url}/bebidas`} item={i} key={i.nome} />
+          <Other api_url={`${env.apiURL}/bebidas`} item={i} key={i.nome} />
         ))}
       </ul>
 
       <ul className={`snacks ${show !== "snacks" && "hidden"}`}>
         {lanches.slice(pageCount - 1, pageCount + itemsPerPage - 1).map((i) => (
-          <Other api_url={`${api_url}/lanches`} item={i} key={i.nome} />
+          <Other api_url={`${env.apiURL}/lanches`} item={i} key={i.nome} />
         ))}
       </ul>
 
@@ -195,7 +194,7 @@ const Config: NextPage<IConfig> = ({
           .slice(pageCount - 1, pageCount + itemsPerPage - 1)
           .map((i) => (
             <Address
-              api_url={`${api_url}/enderecos`}
+              api_url={`${env.apiURL}/enderecos`}
               endereco={i}
               key={i.cep}
             />
@@ -239,33 +238,41 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     try {
       const sabores =
         (await (
-          await fetch(
-            `${process.env.NEXT_PUBLIC_API_URL}/pizzas/sabores?strict=true`
-          )
+          await fetch(`${env.apiURL}/pizzas/sabores?strict=true`, {
+            headers: { "Content-Type": "application/json" },
+          })
         ).json()) ?? [];
 
       const grupos =
         (await (
-          await fetch(`${process.env.NEXT_PUBLIC_API_URL}/pizzas/grupos`)
+          await fetch(`${env.apiURL}/pizzas/grupos`, {
+            headers: { "Content-Type": "application/json" },
+          })
         ).json()) ?? [];
 
       const tamanhos =
         (await (
-          await fetch(`${process.env.NEXT_PUBLIC_API_URL}/pizzas/tamanhos`)
+          await fetch(`${env.apiURL}/pizzas/tamanhos`, {
+            headers: { "Content-Type": "application/json" },
+          })
         ).json()) ?? [];
 
       const bebidas =
         (await (
-          await fetch(`${process.env.NEXT_PUBLIC_API_URL}/bebidas`)
+          await fetch(`${env.apiURL}/bebidas`, {
+            headers: { "Content-Type": "application/json" },
+          })
         ).json()) ?? [];
 
       const lanches =
         (await (
-          await fetch(`${process.env.NEXT_PUBLIC_API_URL}/lanches`)
+          await fetch(`${env.apiURL}/lanches`, {
+            headers: { "Content-Type": "application/json" },
+          })
         ).json()) ?? [];
 
       // const { enderecos } =
-      //   (await (await fetch(`${process.env.NEXT_PUBLIC_API_URL}/enderecos`)).json()) ?? [];
+      //   (await (await fetch(`${env.apiURL}/enderecos`, {headers: { "Content-Type": "application/json" }})).json()) ?? [];
       return {
         props: {
           sabores,
@@ -274,7 +281,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
           bebidas,
           lanches,
           enderecos: [],
-          api_url: process.env.NEXT_PUBLIC_API_URL,
         },
       };
     } catch (err) {

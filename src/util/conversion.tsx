@@ -1,3 +1,5 @@
+import React from "react";
+
 export const FlagEmojiToPNG = (flag: string) => {
   var reg = /[\uD83C][\uDDE6-\uDDFF][\uD83C][\uDDE6-\uDDFF]/;
   if (reg.test(flag)) {

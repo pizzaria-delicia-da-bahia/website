@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { FC } from "react";
-import _Logo from "../../../assets/images/logo.svg";
-import { useNavigation } from "../../../context/navigationContext";
+import _Logo from "@assets/images/logo.svg";
+import { useNavigation } from "@context/navigationContext";
 import { LogoStyle } from "./styles";
 
 export const Logo: FC = () => {

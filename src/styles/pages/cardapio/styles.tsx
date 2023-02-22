@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import { breakpointsMQ } from "../../mediaQueries";
-import { colors } from "../../colors";
-import { animations } from "../../animations";
+import { breakpointsMQ } from "@styles/mediaQueries";
+import { colors } from "@styles/colors";
+import { animations } from "@styles/animations";
 
 export const CardapioStyle = styled.main`
   color: #fff;

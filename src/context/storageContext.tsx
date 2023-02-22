@@ -9,7 +9,7 @@ import {
   useState,
 } from "react";
 
-import { IPedido } from "../types/order";
+import { IPedido } from "@models/order";
 
 const StorageContext = createContext<{
   myOrder: IPedido;

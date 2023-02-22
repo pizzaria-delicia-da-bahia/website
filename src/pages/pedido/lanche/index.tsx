@@ -1,16 +1,17 @@
 import { GetServerSideProps, NextPage } from "next";
 import { useEffect, useState } from "react";
-import { LancheStyle } from "../../../styles/pages/pedido/lanche/styles";
-import { useMyOrder } from "../../../context/myOrderContext";
-import { ButtonSecondary } from "../../../styles/components/buttons";
-import { IOutro } from "../../../types/outro";
-import ItemQuantityModal from "../../../components/itemQuantityModal";
-import { formatCurrency } from "../../../utitl/functions/format";
+import { LancheStyle } from "@styles/pages/pedido/lanche/styles";
+import { useMyOrder } from "@context/myOrderContext";
+import { ButtonSecondary } from "@styles/components/buttons";
+import { IOutro } from "@models/outro";
+import ItemQuantityModal from "@components/itemQuantityModal";
+import { formatCurrency } from "@util/format";
 import { useRouter } from "next/router";
 import { v4 as uuidv4 } from "uuid";
-import { sleep } from "../../../utitl/functions/misc";
-import Loading from "../../../components/loading";
+import { sleep } from "@util/misc";
+import Loading from "@components/loading";
 import Image from "next/image";
+import { env } from "@config/env";
 
 const Lanche: NextPage = () => {
   const { addItem } = useMyOrder();
@@ -24,7 +25,9 @@ const Lanche: NextPage = () => {
   const loadItems = async () => {
     try {
       const lanchesFromBackend = (await (
-        await fetch(`${process.env.NEXT_PUBLIC_API_URL}/lanches`)
+        await fetch(`${env.apiURL}/lanches`, {
+          headers: { "Content-Type": "application/json" },
+        })
       ).json()) as IOutro[];
       setLanches(lanchesFromBackend);
     } catch (err) {

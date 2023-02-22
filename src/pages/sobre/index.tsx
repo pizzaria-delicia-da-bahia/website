@@ -1,5 +1,5 @@
 import { NextPage } from "next";
-import { SobreStyle } from "../../styles/pages/sobre/styles";
+import { SobreStyle } from "@styles/pages/sobre/styles";
 
 const Sobre: NextPage = () => {
   return (

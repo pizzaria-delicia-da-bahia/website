@@ -1,26 +1,30 @@
-# Frontend do site da Pizzaria Delicia da Bahia
+# <center>Pizzaria Delicia da Bahia</center>
 
-<img src="https://i.ibb.co/93rsyR7/home.png" alt="home" border="0">
+<center><img src="https://i.ibb.co/93rsyR7/home.png" alt="home" border="0"></center>
 
-> [Deploy](https://pizzariadeliciadanahia.com)
-> [Backend](https://github.com/anthonyvictor/backend-site-pizzaria-delicia-da-bahia) 
-> [Protótipo (Figma)](https://www.figma.com/file/NvP58fWAUspNTvx5mLnoPC/Site---Pizzaria-Delicia-da-Bahia?node-id=29%3A114&t=HOFYEilItBUG8Phu-1)
+<div align="center">
+    <a href="">
+        <img src="https://img.shields.io/badge/preview-vercel-a.svg?style=for-the-badge">
+    </a>
+    <a href="https://github.com/techdinner/techdinner-api/issues">
+        <img src="https://img.shields.io/badge/backend-github-blue.svg?style=for-the-badge">
+    </a>
+    <a href="https://github.com/techdinner/techdinner-api/pulls">
+        <img src="https://img.shields.io/badge/prototype-figma-red.svg?style=for-the-badge">
+    </a>
+</div>
 
 ### Introdução
-Site desenvolvido com Next.js no Frontend e Node.js no backend
+Site desenvolvido com `Next.js` no frontend e `Node.js` no backend
 
 ### Instalação
 ```bash
-mkdir backend
-cd backend
-git clone https://github.com/anthonyvictor/backend-site-pizzaria-delicia-da-bahia.git
+git clone https://github.com/pizzaria-delicia-da-bahia/backend.git
 npm install
 
 cd ..
 
-mkdir frontend
-cd frontend
-git clone https://github.com/anthonyvictor/site-pizzaria-delicia-da-bahia.git
+git clone https://github.com/pizzaria-delicia-da-bahia/frontend.git
 npm install
 ```
 ### Inicialização
@@ -33,3 +37,19 @@ cd ..
 cd frontend
 npm run dev
 ```
+
+### Rotas
+
+`Static`
+- /home
+- /localizacao
+- /sobre
+
+`SSR`
+- /cardapio
+
+`SPA`
+- /pedido
+  - /bebida
+  - /pizza
+  - lanche

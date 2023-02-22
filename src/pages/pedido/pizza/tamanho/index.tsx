@@ -1,12 +1,13 @@
 import { GetServerSideProps, NextPage } from "next";
 import { createRef, FC, useEffect, useState } from "react";
-import { ButtonSecondary } from "../../../../styles/components/buttons";
-import { TamanhoStyle } from "../../../../styles/pages/pedido/pizza/tamanho/styles";
+import { ButtonSecondary } from "@styles/components/buttons";
+import { TamanhoStyle } from "@styles/pages/pedido/pizza/tamanho/styles";
 import { useRouter } from "next/router";
-import Carousel from "../../../../components/carousel";
-import CarouselItem from "../../../../components/carousel/carouselItem";
-import { IPizzaTamanho } from "../../../../types/pizza";
-import Loading from "../../../../components/loading";
+import Carousel from "@components/carousel";
+import CarouselItem from "@components/carousel/carouselItem";
+import { IPizzaTamanho } from "@models/pizza";
+import Loading from "@components/loading";
+import { env } from "@config/env";
 
 const BottomInfo: FC<{
   name: string;
@@ -28,7 +29,9 @@ const Tamanho: NextPage = () => {
   const loadSizes = async () => {
     try {
       const tamanhos = (await (
-        await fetch(`${process.env.NEXT_PUBLIC_API_URL}/pizzas/tamanhos`)
+        await fetch(`${env.apiURL}/pizzas/tamanhos`, {
+          headers: { "Content-Type": "application/json" },
+        })
       ).json()) as IPizzaTamanho[];
       setSizes(tamanhos.filter((x) => x.visivel));
     } catch (err) {

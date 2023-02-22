@@ -5,7 +5,7 @@ import {
   IPizzaSabor,
   IPizzaSaborValor,
   IPizzaTamanho,
-} from "../../../types/pizza";
+} from "@models/pizza";
 import { FlavourStyle } from "./styles";
 
 export const Flavour: FC<{

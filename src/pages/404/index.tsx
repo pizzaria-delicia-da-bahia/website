@@ -1,7 +1,7 @@
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import Page from "../../components/page";
-import { FourZeroFourStyles } from "../../styles/pages/404/styles";
+import Page from "@components/page";
+import { FourZeroFourStyles } from "@styles/pages/404/styles";
 
 const FourZeroFour: NextPage = () => {
   const router = useRouter();

@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { colors } from "../../../styles/colors";
-import { breakpointsMQ } from "../../../styles/mediaQueries";
+import { colors } from "@styles/colors";
+import { breakpointsMQ } from "@styles/mediaQueries";
 export const BurgerButtonStyle = styled.button`
   padding: 0 1rem;
   font-size: 25px;

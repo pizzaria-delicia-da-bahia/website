@@ -1,6 +1,6 @@
 import { FC } from "react";
-import { IPagamento } from "../../../types/order";
-import { formatCurrency } from "../../../utitl/functions/format";
+import { IPagamento } from "@models/order";
+import { formatCurrency } from "@util/format";
 import { PaymentItemStyle } from "./styles";
 
 export const PaymentItem: FC<{ payment: IPagamento }> = ({ payment }) => {

@@ -1,9 +1,9 @@
 import Head from "next/head";
-import Layout from "../components/layout";
-import NavigationProvider from "../context/navigationContext";
-import Globals from "../styles/globals";
+import Layout from "@components/layout";
+import NavigationProvider from "@context/navigationContext";
+import Globals from "@styles/globals";
 import Favicon from "../../public/favicon.ico";
-import MyOrderProvider from "../context/myOrderContext";
+import MyOrderProvider from "@context/myOrderContext";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 

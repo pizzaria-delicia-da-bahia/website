@@ -3,15 +3,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { createRef, ReactElement, useEffect, useRef, useState } from "react";
-import { Badge } from "../../components/badge";
-import Carousel from "../../components/carousel";
-import CarouselItem from "../../components/carousel/carouselItem";
-import { useMyOrder } from "../../context/myOrderContext";
-import {
-  ButtonPrimary,
-  ButtonSecondary,
-} from "../../styles/components/buttons";
-import { PedidoStyle } from "../../styles/pages/pedido/styles";
+import { Badge } from "@components/badge";
+import Carousel from "@components/carousel";
+import CarouselItem from "@components/carousel/carouselItem";
+import { useMyOrder } from "@context/myOrderContext";
+import { ButtonPrimary, ButtonSecondary } from "@styles/components/buttons";
+import { PedidoStyle } from "@styles/pages/pedido/styles";
 
 const Pedido: NextPage = () => {
   const items = [

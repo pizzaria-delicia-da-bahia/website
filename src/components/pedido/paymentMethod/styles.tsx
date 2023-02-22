@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { animations } from "../../../styles/animations";
-import { breakpointsMQ, hover } from "../../../styles/mediaQueries";
+import { animations } from "@styles/animations";
+import { breakpointsMQ, hover } from "@styles/mediaQueries";
 
 export const PaymentMethodStyle = styled.button`
   position: relative;

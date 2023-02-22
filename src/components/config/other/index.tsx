@@ -1,6 +1,6 @@
 import { FC, useState } from "react";
 import { toast } from "react-toastify";
-import { IOutro } from "../../../types/outro";
+import { IOutro } from "@models/outro";
 import { OtherStyle } from "./styles";
 
 export const Other: FC<{ item: IOutro; api_url: string }> = ({

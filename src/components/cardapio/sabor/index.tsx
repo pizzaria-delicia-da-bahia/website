@@ -1,5 +1,4 @@
-import { MouseEventHandler } from "react";
-import { FlagEmojiToPNG } from "../../../utitl/functions/conversion";
+import { FlagEmojiToPNG } from "@util/conversion";
 import { SaborStyle } from "./styles";
 
 export const Sabor = ({

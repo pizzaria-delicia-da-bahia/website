@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import { colors } from "../../../colors";
-import { breakpointsMQ, hover } from "../../../mediaQueries";
-import { sizes } from "../../../sizes";
+import { colors } from "@styles/colors";
+import { breakpointsMQ, hover } from "@styles/mediaQueries";
+import { sizes } from "@styles/sizes";
 
 export const BebidaStyle = styled.main`
   height: 100%;
@@ -43,6 +43,7 @@ export const BebidaStyle = styled.main`
       list-style: none;
       display: grid;
       grid-template-columns: 1fr 1fr;
+      grid-auto-rows: max-content;
       position: absolute;
       padding: 0.2rem;
       height: 100%;

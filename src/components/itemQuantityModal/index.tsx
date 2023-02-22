@@ -8,11 +8,8 @@ import {
   useContext,
   useState,
 } from "react";
-import {
-  ButtonPrimary,
-  ButtonSecondary,
-} from "../../styles/components/buttons";
-import { IOutro } from "../../types/outro";
+import { ButtonPrimary, ButtonSecondary } from "@styles/components/buttons";
+import { IOutro } from "@models/outro";
 import { ItemQuantityModalStyle } from "./styles";
 
 const ItemQuantityModal: FC<{

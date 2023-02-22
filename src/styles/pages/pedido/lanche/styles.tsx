@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import { colors } from "../../../colors";
-import { breakpointsMQ, hover } from "../../../mediaQueries";
-import { sizes } from "../../../sizes";
+import { colors } from "@styles/colors";
+import { breakpointsMQ, hover } from "@styles/mediaQueries";
+import { sizes } from "@styles/sizes";
 
 export const LancheStyle = styled.main`
   height: 100%;

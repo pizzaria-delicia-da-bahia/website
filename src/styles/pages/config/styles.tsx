@@ -1,11 +1,6 @@
-import styled, { css } from "styled-components";
-import { breakpointsMQ } from "../../mediaQueries";
-import mobileShape from "../../../assets/pages/home/home-shape-center-mobile.svg";
-import tabletShape from "../../../assets/pages/home/home-shape-center-tablet.svg";
-import desktopShape from "../../../assets/pages/home/home-shape-center-desktop.svg";
-import { sizes } from "../../sizes";
-import { animations } from "../../animations";
-import { colors } from "../../colors";
+import styled from "styled-components";
+import { breakpointsMQ } from "@styles/mediaQueries";
+import { colors } from "@styles/colors";
 
 export const ConfigStyle = styled.main`
   color: #fff;

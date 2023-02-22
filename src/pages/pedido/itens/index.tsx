@@ -9,16 +9,13 @@ import {
   useRef,
   useState,
 } from "react";
-import { ItensStyle } from "../../../styles/pages/pedido/itens/styles";
-import { useMyOrder } from "../../../context/myOrderContext";
-import {
-  ButtonPrimary,
-  ButtonSecondary,
-} from "../../../styles/components/buttons";
+import { ItensStyle } from "@styles/pages/pedido/itens/styles";
+import { useMyOrder } from "@context/myOrderContext";
+import { ButtonPrimary, ButtonSecondary } from "@styles/components/buttons";
 import { useRouter } from "next/router";
-import { IPizza } from "../../../types/item";
-import { IOutro } from "../../../types/outro";
-import { formatCurrency } from "../../../utitl/functions/format";
+import { IPizza } from "@models/item";
+import { IOutro } from "@models/outro";
+import { formatCurrency } from "@util/format";
 
 const Itens: NextPage = () => {
   const { myOrder, removeItem } = useMyOrder();

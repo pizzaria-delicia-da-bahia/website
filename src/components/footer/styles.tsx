@@ -1,10 +1,10 @@
 import styled from "styled-components";
-import { colors } from "../../styles/colors";
-import { breakpointsMQ, hover } from "../../styles/mediaQueries";
-import { sizes } from "../../styles/sizes";
-import MobileShape from "../../assets/images/footer-shape-mobile.svg";
-import TabletShape from "../../assets/images/footer-shape-tablet.svg";
-import DesktopShape from "../../assets/images/footer-shape-desktop.svg";
+import { colors } from "@styles/colors";
+import { breakpointsMQ, hover } from "@styles/mediaQueries";
+import { sizes } from "@styles/sizes";
+import MobileShape from "@assets/images/footer-shape-mobile.svg";
+import TabletShape from "@assets/images/footer-shape-tablet.svg";
+import DesktopShape from "@assets/images/footer-shape-desktop.svg";
 
 export const FooterStyle = styled.footer`
   position: fixed;
