@@ -10,23 +10,16 @@ import { IEndereco } from "@models/endereco";
 import { toast } from "react-toastify";
 import { env } from "@config/env";
 
-interface IConfig {
-  sabores: Array<IPizzaSabor>;
-  tamanhos: Array<IPizzaTamanho>;
-  bebidas: Array<IOutro>;
-  lanches: Array<IOutro>;
-  enderecos: Array<IEndereco>;
-  grupos: Array<IPizzaGrupo>;
-}
+// interface IConfig {
+//   sabores: Array<IPizzaSabor>;
+//   tamanhos: Array<IPizzaTamanho>;
+//   bebidas: Array<IOutro>;
+//   lanches: Array<IOutro>;
+//   enderecos: Array<IEndereco>;
+//   grupos: Array<IPizzaGrupo>;
+// }
 
-const Config: NextPage<IConfig> = ({
-  sabores,
-  tamanhos,
-  bebidas,
-  lanches,
-  grupos,
-  enderecos,
-}) => {
+const Config: NextPage = () => {
   const [show, setShow] = useState<
     "flavours" | "sizes" | "drinks" | "snacks" | "addresses" | string
   >("flavours");
@@ -34,6 +27,13 @@ const Config: NextPage<IConfig> = ({
   const [showNew, setShowNew] = useState<boolean>(false);
   const [isAuth, setIsAuth] = useState<boolean>(false);
   const [pageCount, setPageCount] = useState<number>(1);
+  const [sabores, setSabores] = useState<IPizzaSabor[]>([]);
+  const [tamanhos, setTamanhos] = useState<IPizzaTamanho[]>([]);
+  const [bebidas, setBebidas] = useState<IOutro[]>([]);
+  const [lanches, setLanches] = useState<IOutro[]>([]);
+  const [grupos, setGrupos] = useState<IPizzaGrupo[]>([]);
+  const [enderecos, setEnderecos] = useState<IEndereco[]>([]);
+  const [password, setPassword] = useState<string>("");
   const itemsPerPage = 12;
 
   const emptyFlavour: IPizzaSabor = {
@@ -64,21 +64,66 @@ const Config: NextPage<IConfig> = ({
 
   const getAuth = async () => {
     try {
-      const pw = window.prompt("Insira a senha de acesso:", "");
-      if (pw) {
-        const response = await fetch(`${env.apiURL}/auth`, {
-          method: "POST",
-          body: JSON.stringify({ pw: Buffer.from(pw) }),
-          headers: { "Content-Type": "application/json" },
-        });
+      if (!password) throw new Error("Please, provide a password");
 
-        if (response.status === 200) {
-          toast("Bem vindo", { type: "success" });
-          setIsAuth(true);
-        }
-      }
+      const { status } = await fetch(`${env.apiURL}/auth`, {
+        method: "POST",
+        body: JSON.stringify({ pw: Buffer.from(password) }),
+        headers: { "Content-Type": "application/json" },
+      });
+
+      if (status !== 200) throw new Error("Request failed");
+
+      setSabores(
+        (await (
+          await fetch(`${env.apiURL}/pizzas/sabores?strict=true`, {
+            headers: { "Content-Type": "application/json" },
+          })
+        ).json()) ?? []
+      );
+
+      setGrupos(
+        (await (
+          await fetch(`${env.apiURL}/pizzas/grupos`, {
+            headers: { "Content-Type": "application/json" },
+          })
+        ).json()) ?? []
+      );
+
+      setTamanhos(
+        (await (
+          await fetch(`${env.apiURL}/pizzas/tamanhos`, {
+            headers: { "Content-Type": "application/json" },
+          })
+        ).json()) ?? []
+      );
+
+      setBebidas(
+        (await (
+          await fetch(`${env.apiURL}/bebidas`, {
+            headers: { "Content-Type": "application/json" },
+          })
+        ).json()) ?? []
+      );
+
+      setLanches(
+        (await (
+          await fetch(`${env.apiURL}/lanches`, {
+            headers: { "Content-Type": "application/json" },
+          })
+        ).json()) ?? []
+      );
+
+      // const { enderecos } =
+      //   (await (await fetch(`${env.apiURL}/enderecos`, {headers: { "Content-Type": "application/json" }})).json()) ?? [];
+
+      toast("Bem vindo", { type: "success" });
+      setIsAuth(true);
     } catch (err) {
       console.error((err as Error).message, (err as Error).stack);
+      toast("Erro!", { type: "error" });
+    } finally {
+      setPassword("");
     }
   };
 
@@ -211,8 +256,14 @@ const Config: NextPage<IConfig> = ({
       }}
     >
       <h1 style={{ textAlign: "center" }}>
-        ❌ Você não tem permissão para visualizar esta página ❌
+        ❌ Insira sua senha para acessar esta página ❌
       </h1>
+      <input
+        type="password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        placeholder="password"
+      />
       <button
         style={{
           height: 50,
@@ -231,61 +282,11 @@ const Config: NextPage<IConfig> = ({
 
 export default Config;
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  if (!(ctx.query.isauth === "true")) {
-    ctx.res.destroy();
-  } else {
-    try {
-      const sabores =
-        (await (
-          await fetch(`${env.apiURL}/pizzas/sabores?strict=true`, {
-            headers: { "Content-Type": "application/json" },
-          })
-        ).json()) ?? [];
+// export const getServerSideProps: GetServerSideProps = async (ctx) => {
+//   if (!(ctx.query.isauth === "true")) {
+//     ctx.res.destroy();
+//   } else {
+//     ctx.res.destroy();
 
-      const grupos =
-        (await (
-          await fetch(`${env.apiURL}/pizzas/grupos`, {
-            headers: { "Content-Type": "application/json" },
-          })
-        ).json()) ?? [];
-
-      const tamanhos =
-        (await (
-          await fetch(`${env.apiURL}/pizzas/tamanhos`, {
-            headers: { "Content-Type": "application/json" },
-          })
-        ).json()) ?? [];
-
-      const bebidas =
-        (await (
-          await fetch(`${env.apiURL}/bebidas`, {
-            headers: { "Content-Type": "application/json" },
-          })
-        ).json()) ?? [];
-
-      const lanches =
-        (await (
-          await fetch(`${env.apiURL}/lanches`, {
-            headers: { "Content-Type": "application/json" },
-          })
-        ).json()) ?? [];
-
-      // const { enderecos } =
-      //   (await (await fetch(`${env.apiURL}/enderecos`, {headers: { "Content-Type": "application/json" }})).json()) ?? [];
-      return {
-        props: {
-          sabores,
-          grupos,
-          tamanhos,
-          bebidas,
-          lanches,
-          enderecos: [],
-        },
-      };
-    } catch (err) {
-      console.error((err as Error).message, (err as Error).stack);
-      ctx.res.destroy();
-    }
-  }
-};
+//   }
+// };
