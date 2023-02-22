@@ -5,7 +5,7 @@ import NextCors from "nextjs-cors";
 export default async function handler(req: Request, res: Response) {
   await NextCors(req, res, {
     // Options
-    methods: ["POST"],
+    methods: ["POST", "CONFIGURATION"],
     origin: "*",
     optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
   });
@@ -17,7 +17,7 @@ export default async function handler(req: Request, res: Response) {
       pw = Buffer.from(pw).toString("ascii");
       console.log(pw, req.body.toString());
       if (pw === env.configPassword) {
-        res.status(200);
+        res.status(200).send({});
       }
     } catch (e: any) {
       console.error(e["message"]);
