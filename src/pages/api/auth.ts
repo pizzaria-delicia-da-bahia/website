@@ -15,7 +15,7 @@ export default async function handler(req: Request, res: Response) {
       if (!pw) throw new Error("Invalid password");
       pw = Buffer.from(pw).toString("ascii");
       if (pw === env.configPassword) {
-        res.status(200).json({});
+        res.status(200);
       }
     } catch (e: any) {
       console.error(e["message"]);
