@@ -13,6 +13,23 @@
         <img src="https://img.shields.io/badge/prototype-figma-red.svg?style=for-the-badge">
     </a>
 </center>
+<center>
+     <a>
+        <img src="https://img.shields.io/github/license/pizzaria-delicia-da-bahia/website">
+    </a>
+     <a>
+        <img src="https://img.shields.io/github/package-json/v/pizzaria-delicia-da-bahia/website/main">
+    </a>
+    <a>
+        <img src="https://img.shields.io/badge/status-active-success.svg">
+    </a>
+    <a href="https://github.com/pizzaria-delicia-da-bahia/website/issues">
+        <img src="https://img.shields.io/github/issues/pizzaria-delicia-da-bahia/website">
+    </a>
+    <a href="https://github.com/pizzaria-delicia-da-bahia/website/pulls">
+        <img src="https://img.shields.io/github/issues-pr/pizzaria-delicia-da-bahia/website">
+    </a>
+</center>
 
 ### Introduction
 Website developed with `Next.js`
