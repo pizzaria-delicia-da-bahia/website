@@ -20,6 +20,7 @@ export const ItemQuantityModalStyle = styled.div`
   .text {
     .title {
       font-size: min(2rem, 5vw);
+      font-size: min(2rem, 5vw);
     }
     .subtitle {
       font-size: min(0.7rem, 2.7vw);
