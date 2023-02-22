@@ -73,29 +73,41 @@ const Cardapio: NextPage<ICardapio> = ({ sizes, groupsLeft, groupsRight }) => {
 export default Cardapio;
 
 export const getStaticProps: GetStaticProps = async () => {
-  const sizes = ((await (
-    await fetch(`${env.apiURL}/pizzas/tamanhos`)
-  ).json()) ?? []) as IPizzaTamanho[];
+  try {
+    const sizes = ((await (
+      await fetch(`${env.apiURL}/pizzas/tamanhos`)
+    ).json()) ?? []) as IPizzaTamanho[];
 
-  const grupos = ((await (
-    await fetch(`${env.apiURL}/pizzas/sabores`, {
-      headers: { "Content-Type": "application/json" },
-    })
-  ).json()) ?? []) as IPizzaGrupo[];
+    const grupos = ((await (
+      await fetch(`${env.apiURL}/pizzas/sabores`, {
+        headers: { "Content-Type": "application/json" },
+      })
+    ).json()) ?? []) as IPizzaGrupo[];
 
-  const groupsLeft = [];
-  const groupsRight = [];
+    const groupsLeft = [];
+    const groupsRight = [];
 
-  grupos.forEach((g: IPizzaGrupo) => {
-    grupos.indexOf(g) % 2 === 0 ? groupsLeft.push(g) : groupsRight.push(g);
-  });
+    grupos.forEach((g: IPizzaGrupo) => {
+      grupos.indexOf(g) % 2 === 0 ? groupsLeft.push(g) : groupsRight.push(g);
+    });
 
-  return {
-    props: {
-      sizes,
-      groupsLeft,
-      groupsRight,
-    },
-    revalidate: 10,
-  };
+    return {
+      props: {
+        sizes,
+        groupsLeft,
+        groupsRight,
+      },
+      revalidate: 10,
+    };
+  } catch (e) {
+    console.error(e);
+    return {
+      props: {
+        sizes: [],
+        groupsLeft: [],
+        groupsRight: [],
+      },
+      revalidate: 10,
+    };
+  }
 };
