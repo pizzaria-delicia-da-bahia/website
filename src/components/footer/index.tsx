@@ -12,8 +12,8 @@ export const Footer = () => {
           target="_blank"
           aria-label="Link para o whatsapp da pizzaria"
           href={encodeURI(
-            `https://api.whatsapp.com/send${
-              env.whatsapp ? `?phone=${env.whatsapp}&` : ""
+            `https://api.whatsapp.com/send?${
+              env.whatsapp ? `phone=${env.whatsapp}&` : ""
             }text=Olá, gostaria de fazer um pedido! 🍕`
           )}
         >
