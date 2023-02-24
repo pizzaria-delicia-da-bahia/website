@@ -1,5 +1,6 @@
 import { NextPage } from "next";
 import { SobreStyle } from "@styles/pages/sobre/styles";
+import Text from "@components/text";
 
 const Sobre: NextPage = () => {
   return (
@@ -14,7 +15,7 @@ const Sobre: NextPage = () => {
         ></iframe>
       </div>
       <div className="text">
-        <h1>QUEM SOMOS</h1>
+        <Text type="title">QUEM SOMOS</Text>
         <p>
           Nascida em Janeiro de 2013, a <b>Pizzaria Delicia da Bahia</b>{" "}
           conquista seus clientes através de um trabalho de excelência, prezando

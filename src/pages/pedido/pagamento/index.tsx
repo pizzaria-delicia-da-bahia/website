@@ -9,6 +9,7 @@ import { v4 as uuidv4 } from "uuid";
 import { PaymentMethod } from "@components/pedido/paymentMethod";
 import { ButtonBankNote } from "@components/pedido/bankNoteButton";
 import { sleep } from "@util/misc";
+import TextContainer from "@components/textContainer";
 
 const Pagamento: NextPage = () => {
   const { myOrder, addPayment, removeAllPayments } = useMyOrder();
@@ -89,18 +90,18 @@ const Pagamento: NextPage = () => {
 
   return (
     <PagamentoStyle>
-      <div className="text">
-        <h1 className="title">PAGAMENTO</h1>
-        <p className="value">
-          VALOR TOTAL <b>{formatCurrency(data.valor)}</b>
-          {myOrder.tipo === "entrega" &&
-            (myOrder.taxaEntrega > 0 ? (
-              <span>{` (ITENS + ENTREGA)`}</span>
-            ) : (
-              <span>{` (ENDEREÇO NÃO ENCONTRADO, FALTA INCLUIR TAXA DE ENTREGA)`}</span>
-            ))}
-        </p>
-      </div>
+      <TextContainer
+        title="PAGAMENTO"
+        subtitle={`VALOR TOTAL ${formatCurrency(data.valor)}`}
+        description={
+          myOrder.tipo === "entrega"
+            ? myOrder.taxaEntrega > 0
+              ? ` (ITENS + ENTREGA)`
+              : ` (ENDEREÇO NÃO ENCONTRADO, FALTA INCLUIR TAXA DE ENTREGA)`
+            : undefined
+        }
+      />
+
       <div className="menu">
         <div className="inputs-changes-methods">
           <div className="methods">

@@ -1,16 +1,16 @@
 import { NextPage } from "next";
 import { LocalizacaoStyle } from "@styles/pages/localizacao/styles";
+import TextContainer from "@components/textContainer";
 
 const Localizacao: NextPage = () => {
   return (
     <LocalizacaoStyle>
-      <div className="text">
-        <h1>LOCALIZAÇÃO</h1>
-        <h3>
-          Ficamos localizados na Ladeira do Jardim Zoológico, 427-B, Alto de
-          Ondina, Salvador - BA
-        </h3>
-      </div>
+      <TextContainer
+        title="LOCALIZAÇÃO"
+        subtitle="Ficamos localizados na Ladeira do Jardim Zoológico, 427-B, Alto de
+      Ondina, Salvador - BA"
+      />
+
       <div className="frame">
         <iframe
           title="mapa"

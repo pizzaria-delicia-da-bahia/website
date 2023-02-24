@@ -16,6 +16,7 @@ import { useRouter } from "next/router";
 import { IPizza } from "@models/item";
 import { IOutro } from "@models/outro";
 import { formatCurrency } from "@util/format";
+import Text from "@components/text";
 
 const Itens: NextPage = () => {
   const { myOrder, removeItem } = useMyOrder();
@@ -31,9 +32,7 @@ const Itens: NextPage = () => {
 
   return (
     <ItensStyle>
-      <div className="text">
-        <h1>MEUS ITENS</h1>
-      </div>
+      <Text type="title">MEUS ITENS</Text>
       <div className="menu">
         <ul>
           {myOrder.itens.map((item) => (

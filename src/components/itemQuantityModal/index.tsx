@@ -11,6 +11,7 @@ import {
 import { ButtonPrimary, ButtonSecondary } from "@styles/components/buttons";
 import { IOutro } from "@models/outro";
 import { ItemQuantityModalStyle } from "./styles";
+import TextContainer from "@components/textContainer";
 
 const ItemQuantityModal: FC<{
   item: IOutro;
@@ -23,14 +24,11 @@ const ItemQuantityModal: FC<{
   if (!showModal) return <></>;
   return (
     <ItemQuantityModalStyle>
-      <div className="text">
-        <h1 className="title">QUANTIDADE</h1>
-        <h1 className="subtitle">
-          SELECIONE A QUANTIDADE DE
-          <br />
-          <b>{item.nome.toUpperCase()}</b>
-        </h1>
-      </div>
+      <TextContainer
+        title="QUANTIDADE"
+        description={`SELECIONE A QUANTIDADE DE ${item.nome.toUpperCase()}`}
+      />
+
       <div className="menu">
         <input
           type="number"

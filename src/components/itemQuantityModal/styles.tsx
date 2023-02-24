@@ -17,20 +17,6 @@ export const ItemQuantityModalStyle = styled.div`
   flex-direction: column;
   justify-content: space-evenly;
 
-  .text {
-    .title {
-      font-size: min(2rem, 5vw);
-    }
-    .subtitle {
-      font-size: min(0.7rem, 2.7vw);
-      color: #fff;
-      b {
-        font-weight: bolder;
-        font-size: min(1rem, 3vw);
-      }
-    }
-  }
-
   .menu {
     display: flex;
     flex-direction: column;

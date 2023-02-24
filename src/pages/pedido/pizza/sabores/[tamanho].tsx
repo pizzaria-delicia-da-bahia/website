@@ -16,6 +16,7 @@ import { ButtonSecondary, FloatButton } from "@styles/components/buttons";
 import { v4 as uuidv4 } from "uuid";
 import Loading from "@components/loading";
 import { env } from "@config/env";
+import TextContainer from "@components/textContainer";
 
 const Sabores: NextPage<{ tamanhoId: string }> = ({ tamanhoId }) => {
   const router = useRouter();
@@ -130,10 +131,10 @@ const Sabores: NextPage<{ tamanhoId: string }> = ({ tamanhoId }) => {
     <SaboresStyle>
       {groups.length && size ? (
         <>
-          <div className="text">
-            <h1>SABORES</h1>
-            {size && <h4>SELECIONE ATÉ {size.maxSabores}</h4>}
-          </div>
+          <TextContainer
+            title="SABORES"
+            subtitle={size && `SELECIONE ATÉ ${size.maxSabores}`}
+          />
           <div className="groups">
             <aside className="groups-left">
               {groups[0].map((g) => getGroups(g))}

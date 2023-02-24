@@ -11,9 +11,13 @@ export const LogoStyle = styled.div.attrs(
   margin-left: 30px;
   width: min(6rem, 23vw);
   height: min(6rem, 23vw);
-  padding: 0px 5px 0.8rem 5px;
   transform: scale(110%);
   transform-origin: top;
-  clip-path: polygon(0 0, 100% 0, 100% 80%, 50% 100%, 0 80%);
-  background-color: ${colors.elements};
+
+  div {
+    padding: 0px 5px 0.8rem 5px;
+    clip-path: polygon(0 0, 100% 0, 100% 80%, 50% 100%, 0 80%);
+    background-color: ${colors.elements};
+  }
+  filter: drop-shadow(2px 5px 5px rgba(0, 0, 0, 0.3));
 `;

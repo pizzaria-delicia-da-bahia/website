@@ -8,6 +8,7 @@ import CarouselItem from "@components/carousel/carouselItem";
 import { IPizzaTamanho } from "@models/pizza";
 import Loading from "@components/loading";
 import { env } from "@config/env";
+import Text from "@components/text";
 
 const BottomInfo: FC<{
   name: string;
@@ -54,9 +55,7 @@ const Tamanho: NextPage = () => {
     <TamanhoStyle>
       {sizes.length > 0 ? (
         <>
-          <div className="text">
-            <h1>TAMANHO</h1>
-          </div>
+          <Text type="title">TAMANHO</Text>
           <div className="menu">
             <Carousel
               length={sizes.length}

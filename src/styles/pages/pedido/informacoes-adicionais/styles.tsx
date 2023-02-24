@@ -14,18 +14,6 @@ export const InformacoesAdicionaisStyle = styled.main`
   position: relative;
   gap: 2rem;
   color: #fff;
-  .text {
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    h1 {
-      color: ${colors.elements};
-      font-size: min(1.8rem, 5vw);
-    }
-    p {
-      font-size: min(1rem, 3vw);
-    }
-  }
 
   .menu {
     display: flex;

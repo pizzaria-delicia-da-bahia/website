@@ -11,6 +11,7 @@ import { v4 as uuidv4 } from "uuid";
 import Loading from "@components/loading";
 import Image from "next/image";
 import { env } from "@config/env";
+import Text from "@components/text";
 
 const Bebida: NextPage = () => {
   const { addItem } = useMyOrder();
@@ -63,9 +64,7 @@ const Bebida: NextPage = () => {
     <BebidaStyle>
       {bebidas.length ? (
         <>
-          <div className="text">
-            <h1>BEBIDA</h1>
-          </div>
+          <Text type="title">BEBIDA</Text>
           <div className="menu">
             <ul>
               {bebidas.map((bebida) => (

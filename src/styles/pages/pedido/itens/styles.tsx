@@ -13,11 +13,6 @@ export const ItensStyle = styled.main`
   padding: 3rem 0.5rem 0 0.5rem;
   gap: 0.5rem;
   height: 100%;
-  .text {
-    h1 {
-      color: ${colors.elements};
-    }
-  }
 
   .menu {
     flex-grow: 1;

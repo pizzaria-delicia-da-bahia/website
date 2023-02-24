@@ -1,6 +1,7 @@
 import { createGlobalStyle } from "styled-components";
 import { breakpointsMQ } from "@styles/mediaQueries";
 import { colors } from "@styles/colors";
+import scrollbar from "./scrollbar";
 
 const Globals = createGlobalStyle`
 
@@ -12,28 +13,7 @@ const Globals = createGlobalStyle`
   font-display: swap;
 } */
 
-/* width */
-::-webkit-scrollbar {
-  width: 10px;
-}
-::-moz-scrollbar {
-  width: 10px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  background: ${colors.background}; 
-}
- 
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: ${colors.elements}; 
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #fff; 
-}
+${scrollbar(colors.elements)}
 
 body{
   background-color: ${colors.background};
@@ -81,7 +61,15 @@ body{
     pointer-events: none;
     z-index: -1;
   opacity: 0.1;
-  background: linear-gradient(135deg, ${colors.background} 25%, transparent 25%) -10px 0/ 20px 20px, linear-gradient(225deg, ${colors.backgroundLight} 25%, transparent 25%) -10px 0/ 20px 20px, linear-gradient(315deg, ${colors.background} 25%, transparent 25%) 0px 0/ 20px 20px, linear-gradient(45deg, ${colors.background} 25%, ${colors.backgroundDark} 25%) 0px 0/ 20px 20px;
+  background: linear-gradient(135deg, ${
+    colors.background
+  } 25%, transparent 25%) -10px 0/ 20px 20px, linear-gradient(225deg, ${
+  colors.backgroundLight
+} 25%, transparent 25%) -10px 0/ 20px 20px, linear-gradient(315deg, ${
+  colors.background
+} 25%, transparent 25%) 0px 0/ 20px 20px, linear-gradient(45deg, ${
+  colors.background
+} 25%, ${colors.backgroundDark} 25%) 0px 0/ 20px 20px;
     /* opacity: 15%;
     background-image: url($BackgroundImage.src});
     background-size: 60%;

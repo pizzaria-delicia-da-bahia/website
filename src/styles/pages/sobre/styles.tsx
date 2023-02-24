@@ -16,9 +16,7 @@ export const SobreStyle = styled.main`
     justify-content: center;
     flex-grow: 0;
     flex-shrink: 1;
-    h1 {
-      color: ${colors.elements};
-    }
+
     p {
       display: block;
       flex-grow: 1;
@@ -59,7 +57,7 @@ export const SobreStyle = styled.main`
         text-align: center;
       }
       p {
-        padding: 3rem 1rem;
+        padding: 0 1rem;
         height: 38vh;
       }
     }

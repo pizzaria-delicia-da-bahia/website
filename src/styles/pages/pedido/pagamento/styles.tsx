@@ -14,19 +14,6 @@ export const PagamentoStyle = styled.main`
   gap: 0.8rem;
   color: #fff;
 
-  .text {
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    .title {
-      color: ${colors.elements};
-      font-size: min(1.5rem, 5vw);
-    }
-    .value {
-      font-size: min(1rem, 3vw);
-    }
-  }
-
   .menu {
     display: flex;
     flex-direction: column;

@@ -15,6 +15,7 @@ import { removeAccents } from "@util/format";
 import { toast } from "react-toastify";
 import Loading from "@components/loading";
 import { env } from "@config/env";
+import TextContainer from "@components/textContainer";
 
 interface IData {
   cliente: ICLiente;
@@ -148,10 +149,10 @@ const InformacoesAdicionais: NextPage = () => {
         <Loading />
       ) : (
         <>
-          <div className="text">
-            <h1>INFORMAÇÕES ADICIONAIS</h1>
-            <p>OS CAMPOS COM * (ASTERISCO) SÃO OBRIGATÓRIOS</p>
-          </div>
+          <TextContainer
+            title="INFORMAÇÕES ADICIONAIS"
+            description="OS CAMPOS COM * (ASTERISCO) SÃO OBRIGATÓRIOS"
+          />
           <form className="menu">
             <section
               className={`ordertype${!data || !data.tipo ? " no-type" : ""}`}

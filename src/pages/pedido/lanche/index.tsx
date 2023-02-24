@@ -12,6 +12,7 @@ import { sleep } from "@util/misc";
 import Loading from "@components/loading";
 import Image from "next/image";
 import { env } from "@config/env";
+import Text from "@components/text";
 
 const Lanche: NextPage = () => {
   const { addItem } = useMyOrder();
@@ -60,9 +61,7 @@ const Lanche: NextPage = () => {
     <LancheStyle>
       {lanches.length ? (
         <>
-          <div className="text">
-            <h1>LANCHE</h1>
-          </div>
+          <Text type="title">LANCHE</Text>
           <div className="menu">
             <ul>
               {lanches.map((lanche) => (

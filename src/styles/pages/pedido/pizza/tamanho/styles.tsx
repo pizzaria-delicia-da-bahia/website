@@ -12,14 +12,6 @@ export const TamanhoStyle = styled.main`
   height: 100%;
   padding: 0 0 50px 0;
 
-  .text {
-    display: flex;
-    flex-direction: column;
-    h1 {
-      color: ${colors.elements};
-    }
-  }
-
   .menu {
     width: 100%;
     display: flex;

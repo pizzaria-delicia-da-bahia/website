@@ -8,26 +8,9 @@ export const LocalizacaoStyle = styled.main`
   flex-direction: column;
   align-items: center;
   justify-content: stretch;
-  padding: 1rem 2rem;
+  padding: 2rem 2rem 1rem;
   height: 100%;
-
-  .text {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 1rem;
-
-    h1 {
-      color: ${colors.elements};
-      font-size: min(1.8rem, 6vw);
-    }
-    h3 {
-      color: #fff;
-      text-align: center;
-      font-size: min(1.5rem, 3vw);
-    }
-  }
+  gap: 1rem;
 
   .frame {
     flex-grow: 1;

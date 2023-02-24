@@ -2,30 +2,23 @@ import styled from "styled-components";
 import { colors } from "@styles/colors";
 import { breakpointsMQ } from "@styles/mediaQueries";
 import { sizes } from "@styles/sizes";
+import scrollbar from "@styles/scrollbar";
 
 export const ConfirmacaoStyle = styled.main`
-  height: 100%;
-  overflow: auto;
+  height: calc(100% - 50px);
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 2rem 0.5rem 15rem 0.5rem;
+  padding: 2rem 0.5rem;
   position: relative;
-  gap: 2rem;
+  gap: 0.5rem;
   color: #fff;
 
-  .text {
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    h1 {
-      color: ${colors.elements};
-      font-size: min(1.8rem, 5vw);
-    }
-  }
-
   .menu {
+    flex: 1;
+    min-height: 0;
     display: flex;
+    overflow: auto;
     flex-direction: column;
     gap: 0.3rem;
     align-items: center;
@@ -34,6 +27,8 @@ export const ConfirmacaoStyle = styled.main`
     padding: 0.5rem;
     border: 2px solid #000;
     border-radius: 10px;
+
+    ${scrollbar(colors.background)}
   }
   & > .bottom-controls {
     background-color: ${colors.background};

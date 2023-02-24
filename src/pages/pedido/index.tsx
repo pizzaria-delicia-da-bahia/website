@@ -9,6 +9,7 @@ import CarouselItem from "@components/carousel/carouselItem";
 import { useMyOrder } from "@context/myOrderContext";
 import { ButtonPrimary, ButtonSecondary } from "@styles/components/buttons";
 import { PedidoStyle } from "@styles/pages/pedido/styles";
+import TextContainer from "@components/textContainer";
 
 const Pedido: NextPage = () => {
   const items = [
@@ -33,10 +34,8 @@ const Pedido: NextPage = () => {
 
   return (
     <PedidoStyle>
-      <div className="text">
-        <h1>MONTE SEU PEDIDO</h1>
-        <h4>ADICIONE UM ITEM</h4>
-      </div>
+      <TextContainer title="MONTE SEU PEDIDO" subtitle="ADICIONE UM ITEM" />
+
       <div className="menu">
         <Carousel length={items.length}>
           {items.map((item, index) => (

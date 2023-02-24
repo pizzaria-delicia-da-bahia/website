@@ -13,6 +13,7 @@ import { IOutro } from "@models/outro";
 import Link from "next/link";
 import { formatCurrency } from "@util/format";
 import { env } from "@config/env";
+import TextContainer from "@components/textContainer";
 
 interface IData {
   customer: ICLiente;
@@ -147,14 +148,12 @@ NÃO VOU PRECISAR DE TROCO`
 
   return (
     <ConfirmacaoStyle>
-      <div className="text">
-        <h1>CONFIRMAÇÃO</h1>
-        <h4>CONFIRME OS DADOS DO PEDIDO ANTES DE ENVIAR AO NOSSO WHATSAPP</h4>
-        <h5>
-          *Podem haver alterações nos valores. Ao enviar, aguarde a confirmação
-          dos nossos atendentes!*
-        </h5>
-      </div>
+      <TextContainer
+        title="CONFIRMAÇÃO"
+        subtitle="CONFIRME OS DADOS ANTES DE ENVIAR AO NOSSO WHATSAPP"
+        description="*Podem haver alterações nos valores. Ao enviar, aguarde a confirmação
+          dos nossos atendentes!*"
+      />
       <div className="menu">
         <Info name="Cliente" value={customer.replace(/;/g, "")} />
         {myOrder.tipo === "entrega" && <Info name="Endereço" value={address} />}

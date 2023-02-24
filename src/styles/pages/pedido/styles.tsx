@@ -12,25 +12,6 @@ export const PedidoStyle = styled.main`
   gap: 1rem;
   padding: 0 0 50px 0;
 
-  .text {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 0;
-    flex-shrink: 1;
-    align-items: center;
-    justify-content: center;
-
-    h1 {
-      color: ${colors.elements};
-      font-size: min(2rem, 9vw);
-    }
-    h4 {
-      color: #fff;
-      font-size: min(1.4rem, 6vw);
-      letter-spacing: 0.42rem;
-    }
-  }
-
   .menu {
     display: flex;
     justify-content: center;

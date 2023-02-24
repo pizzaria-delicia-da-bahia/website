@@ -11,16 +11,6 @@ export const BebidaStyle = styled.main`
   position: relative;
   gap: 0.5rem;
 
-  .text {
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    h1 {
-      font-size: min(2rem, 7vw);
-      color: ${colors.elements};
-    }
-  }
-
   display: flex;
   flex-direction: column;
   place-items: center;

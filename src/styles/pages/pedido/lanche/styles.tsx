@@ -7,21 +7,11 @@ export const LancheStyle = styled.main`
   height: 100%;
   display: flex;
   justify-content: center;
+  align-items: center;
   flex-direction: column;
   padding: 1rem 0 0 0;
   position: relative;
   gap: 0.5rem;
-
-  .text {
-    flex: 0;
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    h1 {
-      color: ${colors.elements};
-      font-size: min(2rem, 7vw);
-    }
-  }
 
   > .menu {
     flex-grow: 1;

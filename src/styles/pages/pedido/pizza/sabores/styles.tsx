@@ -14,21 +14,6 @@ export const SaboresStyle = styled.main`
   position: relative;
   gap: 2rem;
 
-  .text {
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    h1 {
-      color: ${colors.elements};
-      font-size: min(2rem, 6vw);
-    }
-    h4 {
-      color: #fff;
-      font-size: min(1.2rem, 4vw);
-      letter-spacing: 0.2rem;
-    }
-  }
-
   .groups-left {
     position: relative;
   }

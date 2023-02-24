@@ -1,15 +1,15 @@
 import styled from "styled-components";
 import { colors } from "@styles/colors";
 
-export const FourZeroFourStyles = styled.main`
+export const ErrorStyle = styled.main`
   flex-grow: 1;
   flex-shrink: 0;
+  top: 0;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   color: #fff;
-  height: 100%;
   gap: 1rem;
 
   .icon {
