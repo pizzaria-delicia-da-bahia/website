@@ -30,21 +30,6 @@ export const ConfirmacaoStyle = styled.main`
 
     ${scrollbar(colors.background)}
   }
-  & > .bottom-controls {
-    background-color: ${colors.background};
-    padding: 5px 0 0 0;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: calc(${sizes.footer}px + 50px);
-    display: flex;
-    justify-content: center;
-
-    button {
-      max-height: 50px;
-    }
-  }
 
   @media ${breakpointsMQ.desktopSmUp} {
     .menu {

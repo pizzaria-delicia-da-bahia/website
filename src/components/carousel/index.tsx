@@ -1,5 +1,3 @@
-import Image from "next/image";
-import Link from "next/link";
 import {
   createContext,
   Dispatch,
@@ -10,7 +8,6 @@ import {
   useEffect,
   useState,
 } from "react";
-import { ButtonBackForward } from "@styles/components/buttons";
 import { CarouselStyle } from "./styles";
 
 interface ICarouselProvider {
@@ -61,21 +58,6 @@ const CarouselComponent: FC<{ children: ReactElement[] }> = ({ children }) => {
     <CarouselStyle>
       <div className="carousel-container">
         <ul>{children}</ul>
-      </div>
-
-      <div className="buttons-back-forward">
-        <ButtonBackForward
-          to="back"
-          disabled={selectedIndex === 0}
-          onClick={() => {
-            setSelectedIndex((prev) => prev - 1);
-          }}
-        />
-        <ButtonBackForward
-          to="forward"
-          disabled={selectedIndex === length - 1}
-          onClick={() => setSelectedIndex((prev) => prev + 1)}
-        />
       </div>
     </CarouselStyle>
   );

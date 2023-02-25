@@ -9,6 +9,7 @@ import { IPizzaTamanho } from "@models/pizza";
 import Loading from "@components/loading";
 import { env } from "@config/env";
 import Text from "@components/text";
+import BottomControls from "@components/pedido/bottomControls";
 
 const BottomInfo: FC<{
   name: string;
@@ -91,11 +92,7 @@ const Tamanho: NextPage = () => {
               ))}
             </Carousel>
           </div>
-          <nav className="bottom-controls">
-            <ButtonSecondary onClick={() => router.back()}>
-              <p>VOLTAR</p>
-            </ButtonSecondary>
-          </nav>
+          <BottomControls backButton />
         </>
       ) : (
         <Loading />

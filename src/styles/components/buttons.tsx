@@ -36,7 +36,9 @@ export const Button = styled.button`
   }
 `;
 
-export const ButtonPrimary = styled(Button)`
+export const ButtonPrimary = styled(Button).attrs(
+  (props: { pulse: boolean }) => props
+)`
   position: relative;
   background-color: ${colors.elements};
   color: ${colors.background};
@@ -54,45 +56,6 @@ export const ButtonSecondary = styled(Button)`
   border: 5px solid ${colors.elements};
   background-color: transparent;
   color: ${colors.elements};
-`;
-
-export const ButtonBackForward = styled(Button).attrs(
-  (props: { to: "back" | "forward" }) => props
-)`
-  position: relative;
-  flex-grow: 0;
-  flex-shrink: 0;
-  width: 50px;
-  height: 50px;
-  background-color: transparent;
-  border: none;
-  font-size: 2.5rem;
-  padding: 0;
-  margin: 0 1rem;
-  animation: ${animations.pulse("00000000")} 2s ease-in infinite;
-
-  &::before {
-    ${(props) =>
-      props.to === "back"
-        ? css`
-            content: "⬅️";
-          `
-        : css`
-            content: "➡️";
-          `}
-    position: absolute;
-    color: black;
-    top: 0;
-    left: 0;
-    margin: 50% 0 0 50%;
-    transform: translate(-50%, -50%);
-  }
-
-  @media ${breakpointsMQ.tabletUp} {
-    font-size: 2rem;
-    width: 40px;
-    height: 40px;
-  }
 `;
 
 export const FloatButton = styled(ButtonPrimary)`

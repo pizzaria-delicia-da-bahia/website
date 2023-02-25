@@ -16,6 +16,7 @@ import { toast } from "react-toastify";
 import Loading from "@components/loading";
 import { env } from "@config/env";
 import TextContainer from "@components/textContainer";
+import BottomControls from "@components/pedido/bottomControls";
 
 interface IData {
   cliente: ICLiente;
@@ -385,12 +386,12 @@ const InformacoesAdicionais: NextPage = () => {
               </section>
             </section>
           </form>
-          <nav className="bottom-controls">
-            <ButtonSecondary onClick={() => router.back()}>
-              VOLTAR
-            </ButtonSecondary>
-            <ButtonPrimary
-              disabled={
+
+          <BottomControls
+            backButton
+            primaryButton={{
+              click: next,
+              disabled:
                 nextInactive ||
                 !data ||
                 data.tipo === null ||
@@ -401,13 +402,9 @@ const InformacoesAdicionais: NextPage = () => {
                 data.cliente.whatsapp.length < 8 ||
                 (data.tipo === "entrega" &&
                   (data.cliente.endereco?.rua?.length ?? 0) < 5) ||
-                (data.tipo === "entrega" && !data.cliente.endereco?.bairroId)
-              }
-              onClick={() => next()}
-            >
-              CONTINUAR
-            </ButtonPrimary>
-          </nav>
+                (data.tipo === "entrega" && !data.cliente.endereco?.bairroId),
+            }}
+          />
         </>
       )}
     </InformacoesAdicionaisStyle>

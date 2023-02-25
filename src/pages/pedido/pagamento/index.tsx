@@ -10,6 +10,7 @@ import { PaymentMethod } from "@components/pedido/paymentMethod";
 import { ButtonBankNote } from "@components/pedido/bankNoteButton";
 import { sleep } from "@util/misc";
 import TextContainer from "@components/textContainer";
+import BottomControls from "@components/pedido/bottomControls";
 
 const Pagamento: NextPage = () => {
   const { myOrder, addPayment, removeAllPayments } = useMyOrder();
@@ -76,7 +77,7 @@ const Pagamento: NextPage = () => {
     />
   );
 
-  const next = (e) => {
+  const next = () => {
     setNextInactive(true);
     addPayment({ id: uuidv4(), ...data });
     router.push(
@@ -136,15 +137,13 @@ const Pagamento: NextPage = () => {
           </div>
         </div>
       </div>
-      <nav className="bottom-controls">
-        <ButtonSecondary onClick={() => router.back()}>VOLTAR</ButtonSecondary>
-        <ButtonPrimary
-          disabled={nextInactive || !data || !data.tipo}
-          onClick={next}
-        >
-          CONTINUAR
-        </ButtonPrimary>
-      </nav>
+      <BottomControls
+        backButton
+        primaryButton={{
+          click: next,
+          disabled: nextInactive || !data || !data.tipo,
+        }}
+      />
     </PagamentoStyle>
   );
 };

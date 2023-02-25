@@ -12,6 +12,7 @@ import Loading from "@components/loading";
 import Image from "next/image";
 import { env } from "@config/env";
 import Text from "@components/text";
+import BottomControls from "@components/pedido/bottomControls";
 
 const Bebida: NextPage = () => {
   const { addItem } = useMyOrder();
@@ -99,11 +100,7 @@ const Bebida: NextPage = () => {
               cancel={cancelQuantity}
             />
           </div>
-          <nav className="bottom-controls">
-            <ButtonSecondary onClick={() => router.back()}>
-              VOLTAR
-            </ButtonSecondary>
-          </nav>
+          <BottomControls backButton />
         </>
       ) : (
         <Loading />

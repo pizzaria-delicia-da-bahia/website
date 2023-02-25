@@ -12,6 +12,7 @@ import { ButtonPrimary, ButtonSecondary } from "@styles/components/buttons";
 import { IOutro } from "@models/outro";
 import { ItemQuantityModalStyle } from "./styles";
 import TextContainer from "@components/textContainer";
+import BottomControls from "@components/pedido/bottomControls";
 
 const ItemQuantityModal: FC<{
   item: IOutro;
@@ -38,12 +39,16 @@ const ItemQuantityModal: FC<{
           onChange={(e) => setValue(Number(e.target.value))}
         />
       </div>
-      <div className="bottom-controls">
-        <ButtonSecondary onClick={cancel}>VOLTAR</ButtonSecondary>
-        <ButtonPrimary disabled={value < 1 || value > 15} onClick={confirm}>
-          ADICIONAR
-        </ButtonPrimary>
-      </div>
+
+      <BottomControls
+        fixed={false}
+        secondaryButton={{ click: cancel }}
+        primaryButton={{
+          click: confirm,
+          disabled: value < 1 || value > 15,
+          text: "ADICIONAR",
+        }}
+      />
     </ItemQuantityModalStyle>
   );
 };

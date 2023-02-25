@@ -17,6 +17,7 @@ import { IPizza } from "@models/item";
 import { IOutro } from "@models/outro";
 import { formatCurrency } from "@util/format";
 import Text from "@components/text";
+import BottomControls from "@components/pedido/bottomControls";
 
 const Itens: NextPage = () => {
   const { myOrder, removeItem } = useMyOrder();
@@ -29,6 +30,10 @@ const Itens: NextPage = () => {
   useEffect(() => {
     backToOrder();
   }, []);
+
+  const next = () => {
+    router.push(`/pedido/informacoes-adicionais`);
+  };
 
   return (
     <ItensStyle>
@@ -96,17 +101,13 @@ const Itens: NextPage = () => {
           ))}
         </ul>
       </div>
-      <nav className="bottom-controls">
-        <ButtonSecondary onClick={() => router.back()}>VOLTAR</ButtonSecondary>
-        <Link href="/pedido/informacoes-adicionais" passHref>
-          <ButtonPrimary
-            className={myOrder.itens.length ? "pulse" : undefined}
-            disabled={(myOrder?.itens?.length ?? 0) < 1}
-          >
-            CONTINUAR
-          </ButtonPrimary>
-        </Link>
-      </nav>
+      <BottomControls
+        backButton
+        primaryButton={{
+          click: next,
+          disabled: (myOrder?.itens?.length ?? 0) < 1,
+        }}
+      />
     </ItensStyle>
   );
 };

@@ -31,11 +31,6 @@ export const ItemQuantityModalStyle = styled.div`
     }
   }
 
-  .bottom-controls {
-    display: flex;
-    justify-content: center;
-  }
-
   &:before {
     content: "";
     background-color: rgba(0, 0, 0, 0.6);

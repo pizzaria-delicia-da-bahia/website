@@ -14,6 +14,7 @@ import Link from "next/link";
 import { formatCurrency } from "@util/format";
 import { env } from "@config/env";
 import TextContainer from "@components/textContainer";
+import BottomControls from "@components/pedido/bottomControls";
 
 interface IData {
   customer: ICLiente;
@@ -146,6 +147,35 @@ NÃO VOU PRECISAR DE TROCO`
 `)}`
       : "";
 
+  const confirm = () => {
+    const whatsAppLink = encodeURI(
+      `https://api.whatsapp.com/send?${
+        env.whatsapp ? `phone=${env.whatsapp}&` : ""
+      }text=${`${customer.replace(/;/g, "*")}`}${
+        address.replace(" ", "").length
+          ? `
+  
+  ${address}`
+          : ""
+      }${
+        items.replace(" ", "").length
+          ? `
+  
+  ${items.replace(/ --/g, " _").replace(/-- /g, "_ ")}`
+          : ""
+      }${
+        payment.replace(" ", "").length
+          ? `
+  
+  ${payment}`
+          : ""
+      }`
+        .replace(/---/g, "*")
+        .replace(/--/g, "_")
+    );
+
+    window.open(whatsAppLink, "_blank");
+  };
   return (
     <ConfirmacaoStyle>
       <TextContainer
@@ -161,39 +191,14 @@ NÃO VOU PRECISAR DE TROCO`
         <Info name="Total" value={total} />
         <Info name="Pagamento" value={payment} />
       </div>
-      <nav className="bottom-controls">
-        <ButtonSecondary onClick={() => router.back()}>VOLTAR</ButtonSecondary>
-        <Link
-          href={encodeURI(
-            `https://api.whatsapp.com/send?${
-              env.whatsapp ? `phone=${env.whatsapp}&` : ""
-            }text=${`${customer.replace(/;/g, "*")}`}${
-              address.replace(" ", "").length
-                ? `
 
-${address}`
-                : ""
-            }${
-              items.replace(" ", "").length
-                ? `
-
-${items.replace(/ --/g, " _").replace(/-- /g, "_ ")}`
-                : ""
-            }${
-              payment.replace(" ", "").length
-                ? `
-
-${payment}`
-                : ""
-            }`
-              .replace(/---/g, "*")
-              .replace(/--/g, "_")
-          )}
-          passHref
-        >
-          <ButtonPrimary>ENVIAR PARA A PIZZARIA</ButtonPrimary>
-        </Link>
-      </nav>
+      <BottomControls
+        backButton
+        primaryButton={{
+          click: confirm,
+          text: "ENVIAR PARA A PIZZARIA",
+        }}
+      />
     </ConfirmacaoStyle>
   );
 };

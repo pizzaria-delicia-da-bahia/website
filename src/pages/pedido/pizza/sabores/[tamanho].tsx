@@ -17,6 +17,7 @@ import { v4 as uuidv4 } from "uuid";
 import Loading from "@components/loading";
 import { env } from "@config/env";
 import TextContainer from "@components/textContainer";
+import BottomControls from "@components/pedido/bottomControls";
 
 const Sabores: NextPage<{ tamanhoId: string }> = ({ tamanhoId }) => {
   const router = useRouter();
@@ -143,11 +144,7 @@ const Sabores: NextPage<{ tamanhoId: string }> = ({ tamanhoId }) => {
               {groups[1].map((g) => getGroups(g))}
             </aside>
           </div>
-          <nav className="bottom-controls">
-            <ButtonSecondary onClick={() => router.back()}>
-              VOLTAR
-            </ButtonSecondary>
-          </nav>
+          <BottomControls backButton />
           <div className="bottom-info">
             <h3 className="selected-flavours">
               <b>Selecionados: </b>

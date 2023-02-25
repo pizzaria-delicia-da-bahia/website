@@ -29,11 +29,6 @@ export const CarouselStyle = styled.div`
     }
   }
 
-  .buttons-back-forward {
-    display: none;
-    justify-content: center;
-  }
-
   ${hover} {
     .carousel-container {
       ul {

@@ -54,17 +54,6 @@ export const SaboresStyle = styled.main`
     }
   }
 
-  & > .bottom-controls {
-    padding: 10px 0 0 0;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-
-    button {
-      max-height: 60px;
-    }
-  }
-
   @media ${breakpointsMQ.tabletUp} {
     .groups {
       display: grid;

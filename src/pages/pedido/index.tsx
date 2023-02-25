@@ -10,6 +10,7 @@ import { useMyOrder } from "@context/myOrderContext";
 import { ButtonPrimary, ButtonSecondary } from "@styles/components/buttons";
 import { PedidoStyle } from "@styles/pages/pedido/styles";
 import TextContainer from "@components/textContainer";
+import BottomControls from "@components/pedido/bottomControls";
 
 const Pedido: NextPage = () => {
   const items = [
@@ -49,23 +50,18 @@ const Pedido: NextPage = () => {
           ))}
         </Carousel>
       </div>
-      <nav className="bottom-controls">
-        <ButtonSecondary
-          disabled={(myOrder?.itens?.length ?? 0) < 1}
-          onClick={() => router.push("/pedido/itens")}
-        >
-          <p>MEUS ITENS</p>
-          <Badge number={myOrder?.itens?.length ?? 0} />
-        </ButtonSecondary>
-
-        <ButtonPrimary
-          className={myOrder?.itens?.length > 0 ? "pulse" : undefined}
-          disabled={(myOrder?.itens?.length ?? 0) < 1}
-          onClick={() => router.push("/pedido/informacoes-adicionais")}
-        >
-          CONTINUAR
-        </ButtonPrimary>
-      </nav>
+      <BottomControls
+        secondaryButton={{
+          click: () => router.push("/pedido/itens"),
+          disabled: (myOrder?.itens?.length ?? 0) < 1,
+          text: "MEUS ITENS",
+          badge: myOrder?.itens?.length ?? 0,
+        }}
+        primaryButton={{
+          click: () => router.push("/pedido/informacoes-adicionais"),
+          disabled: (myOrder?.itens?.length ?? 0) < 1,
+        }}
+      />
     </PedidoStyle>
   );
 };
