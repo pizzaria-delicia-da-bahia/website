@@ -15,10 +15,10 @@ export const BottomControlsStyle = styled.nav.attrs(
       position: fixed;
       bottom: 0;
       left: 0;
-      height: calc(${sizes.footer}px + ${sizes.bottomButton}px);
+      height: calc(${sizes.footer}px + ${sizes.bottomControls}px);
     `}
 
   button {
-    max-height: ${sizes.bottomButton}px;
+    max-height: ${sizes.bottomControls}px;
   }
 `;

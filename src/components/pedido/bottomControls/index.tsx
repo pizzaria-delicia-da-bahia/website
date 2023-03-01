@@ -6,7 +6,7 @@ import { BottomControlsStyle } from "./styles";
 
 interface BottomControlsProps {
   backButton?: boolean;
-  fixed?: boolean;
+  notFixed?: boolean;
   secondaryButton?: {
     click: () => void;
     disabled?: boolean;
@@ -25,11 +25,11 @@ const BottomControls: FC<BottomControlsProps> = ({
   primaryButton,
   secondaryButton,
   backButton,
-  fixed = true,
+  notFixed = false,
 }) => {
   const router = useRouter();
   return (
-    <BottomControlsStyle fixed={fixed}>
+    <BottomControlsStyle fixed={!notFixed}>
       {backButton && (
         <ButtonSecondary onClick={router.back}>VOLTAR</ButtonSecondary>
       )}
@@ -39,7 +39,7 @@ const BottomControls: FC<BottomControlsProps> = ({
           onClick={secondaryButton.click}
         >
           {secondaryButton.text || "VOLTAR"}
-          {secondaryButton.badge && <Badge number={secondaryButton.badge} />}
+          {!!secondaryButton.badge && <Badge number={secondaryButton.badge} />}
         </ButtonSecondary>
       )}
       {primaryButton && (

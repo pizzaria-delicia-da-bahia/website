@@ -14,6 +14,7 @@ export const PecaJaButtonStyle = styled.button`
   align-items: center;
   gap: 20px;
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.4);
+  transition: all 0.2s ease-in-out;
   .title {
     color: ${colors.background};
     line-height: 100%;
@@ -47,10 +48,18 @@ export const PecaJaButtonStyle = styled.button`
     }
     @media ${breakpointsMQ.tvSmUp} {
       .title {
-        font-size: 4rem;
+        font-size: 3rem;
       }
       .icon {
-        font-size: 5rem;
+        font-size: 4rem;
+      }
+    }
+    @media ${breakpointsMQ.tvLg} {
+      .title {
+        font-size: 6rem;
+      }
+      .icon {
+        font-size: 7rem;
       }
     }
   }

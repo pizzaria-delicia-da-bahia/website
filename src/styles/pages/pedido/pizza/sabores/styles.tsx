@@ -10,7 +10,7 @@ export const SaboresStyle = styled.main`
   scroll-behavior: smooth;
   display: flex;
   flex-direction: column;
-  padding: 2rem 0.3rem 15rem 0.3rem;
+  padding: 2rem 0.3rem 5rem 0.3rem;
   position: relative;
   gap: 2rem;
 
@@ -39,8 +39,9 @@ export const SaboresStyle = styled.main`
 
   .bottom-info {
     position: fixed;
-    bottom: 0;
-    height: calc(${sizes.footer}px + 60px);
+    left: 0;
+    bottom: ${sizes.footer}px;
+    /* height: calc(${sizes.footer}px + 1rem); */
     background-color: ${colors.background};
     padding: 1rem;
     display: flex;

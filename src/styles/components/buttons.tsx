@@ -56,6 +56,7 @@ export const ButtonSecondary = styled(Button)`
   border: 5px solid ${colors.elements};
   background-color: transparent;
   color: ${colors.elements};
+  background-color: ${colors.background};
 `;
 
 export const FloatButton = styled(ButtonPrimary)`

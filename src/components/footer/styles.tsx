@@ -5,11 +5,12 @@ import { sizes } from "@styles/sizes";
 import MobileShape from "@assets/images/footer-shape-mobile.svg";
 import TabletShape from "@assets/images/footer-shape-tablet.svg";
 import DesktopShape from "@assets/images/footer-shape-desktop.svg";
+import TvShape from "@assets/images/footer-shape-tv.svg";
 
 export const FooterStyle = styled.footer`
   position: fixed;
   min-height: ${sizes.footer}px;
-  bottom: 0;
+  bottom: 0px;
   width: 100vw;
   flex-shrink: 0;
   background-image: url(${MobileShape.src});
@@ -23,6 +24,9 @@ export const FooterStyle = styled.footer`
   }
   @media ${breakpointsMQ.desktopSmUp} {
     background-image: url(${DesktopShape.src});
+  }
+  @media ${breakpointsMQ.tvSmUp} {
+    background-image: url(${TvShape.src});
   }
 
   .icons {
@@ -46,7 +50,10 @@ export const FooterStyle = styled.footer`
       bottom: 3px;
     }
     @media ${breakpointsMQ.tvSmUp} {
-      bottom: 0px;
+      bottom: 3px;
+    }
+    @media ${breakpointsMQ.tvLg} {
+      bottom: 3px;
     }
 
     a {
@@ -68,11 +75,12 @@ export const FooterStyle = styled.footer`
         font-size: clamp(5vmin, 50%, 2rem);
       }
     }
+
     @media ${breakpointsMQ.desktopSmUp} {
-      transform: rotate(4deg);
-      a {
-        font-size: clamp(5vmin, 50%, 2rem);
-      }
+      transform: rotate(2deg);
+    }
+    @media ${breakpointsMQ.tvLg} {
+      transform: rotate(1deg);
     }
   }
   .line {

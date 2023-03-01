@@ -1,4 +1,4 @@
-import { GetStaticProps, NextPage } from "next";
+import { NextPage } from "next";
 import Image from "next/image";
 import { PecaJaButton } from "@components/pecaja";
 import { HomeStyle } from "@styles/pages/home/styles";
@@ -10,16 +10,17 @@ const Home: NextPage = () => {
   return (
     <HomeStyle menuOpen={menuOpen}>
       <div className="left">
-        <h3>TÁ NA HORA</h3>
-        <h1>DA PIZZA</h1>
+        <div className="text-container">
+          <h3 className="text little-text">TÁ NA HORA</h3>
+          <h1 className="text large-text">DA PIZZA</h1>
+        </div>
         <PecaJaButton style="large" />
       </div>
       <div className="right">
         <div className="image-wrapper">
           <Image
             className="pizza-image"
-            width={1000}
-            height={1000}
+            layout="fill"
             src={PizzaImage}
             alt="Image of a pizza floating by the window."
           />

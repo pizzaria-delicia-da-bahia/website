@@ -41,7 +41,7 @@ const ItemQuantityModal: FC<{
       </div>
 
       <BottomControls
-        fixed={false}
+        notFixed
         secondaryButton={{ click: cancel }}
         primaryButton={{
           click: confirm,

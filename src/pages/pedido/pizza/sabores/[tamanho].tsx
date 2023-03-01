@@ -144,7 +144,7 @@ const Sabores: NextPage<{ tamanhoId: string }> = ({ tamanhoId }) => {
               {groups[1].map((g) => getGroups(g))}
             </aside>
           </div>
-          <BottomControls backButton />
+          <BottomControls backButton notFixed />
           <div className="bottom-info">
             <h3 className="selected-flavours">
               <b>Selecionados: </b>

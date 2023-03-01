@@ -55,7 +55,7 @@ const Pedido: NextPage = () => {
           click: () => router.push("/pedido/itens"),
           disabled: (myOrder?.itens?.length ?? 0) < 1,
           text: "MEUS ITENS",
-          badge: myOrder?.itens?.length ?? 0,
+          badge: myOrder?.itens?.length,
         }}
         primaryButton={{
           click: () => router.push("/pedido/informacoes-adicionais"),
