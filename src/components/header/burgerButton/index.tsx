@@ -5,6 +5,7 @@ export const BurgerButton = ({ setMenuOpen }) => {
   return (
     <BurgerButtonStyle
       id="burger-button"
+      name="burger-button"
       onClick={() => setMenuOpen((prev) => !prev)}
     >
       <CgMenu />

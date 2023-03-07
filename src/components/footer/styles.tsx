@@ -19,42 +19,13 @@ export const FooterStyle = styled.footer`
   background-size: cover;
   background-position: 0% 0%;
 
-  @media ${breakpointsMQ.tablet} {
-    background-image: url(${TabletShape.src});
-  }
-  @media ${breakpointsMQ.desktopSmUp} {
-    background-image: url(${DesktopShape.src});
-  }
-  @media ${breakpointsMQ.tvSmUp} {
-    background-image: url(${TvShape.src});
-  }
-
-  .icons {
+  .content {
     position: absolute;
     display: flex;
     gap: 4rem;
     left: 50%;
     transform: translateX(-55%) rotate(1deg);
     bottom: 0px;
-
-    @media ${breakpointsMQ.tabletUp} {
-      transform: rotate(4deg);
-      gap: 1.5rem;
-      left: 10px;
-      bottom: -1px;
-    }
-    @media ${breakpointsMQ.tablet} {
-      bottom: 1px;
-    }
-    @media ${breakpointsMQ.desktopSmUp} {
-      bottom: 3px;
-    }
-    @media ${breakpointsMQ.tvSmUp} {
-      bottom: 3px;
-    }
-    @media ${breakpointsMQ.tvLg} {
-      bottom: 3px;
-    }
 
     a {
       font-size: 1.8rem;
@@ -66,21 +37,6 @@ export const FooterStyle = styled.footer`
           transform: scale(120%);
         }
       }
-    }
-
-    @media ${breakpointsMQ.tablet} {
-      transform: rotate(3deg);
-
-      a {
-        font-size: clamp(5vmin, 50%, 2rem);
-      }
-    }
-
-    @media ${breakpointsMQ.desktopSmUp} {
-      transform: rotate(2deg);
-    }
-    @media ${breakpointsMQ.tvLg} {
-      transform: rotate(1deg);
     }
   }
   .line {
@@ -100,5 +56,80 @@ export const FooterStyle = styled.footer`
   .second-line {
     background-color: blue;
     height: 7px;
+  }
+
+  @media ${breakpointsMQ.tabletUp} {
+    .content {
+      transform: rotate(4deg);
+      gap: 1.5rem;
+      left: 10px;
+      bottom: -1px;
+    }
+  }
+  @media ${breakpointsMQ.tablet} {
+    background-image: url(${TabletShape.src});
+
+    .content {
+      transform: rotate(3deg);
+      bottom: 1px;
+      a {
+        font-size: clamp(5vmin, 50%, 2rem);
+      }
+    }
+  }
+  @media ${breakpointsMQ.desktopSmUp} {
+    background-image: url(${DesktopShape.src});
+    .content {
+      transform: rotate(2deg);
+      bottom: 3px;
+    }
+  }
+  @media ${breakpointsMQ.tvSmUp} {
+    background-image: url(${TvShape.src});
+  }
+  @media ${breakpointsMQ.tvLg} {
+    .content {
+      transform: rotate(1deg);
+    }
+  }
+
+  @media print {
+    background-image: url(${TabletShape.src});
+    /* background-repeat: repeat-x; */
+    min-height: calc(${sizes.footer}px + 10px);
+
+    .icons {
+      display: none;
+    }
+
+    .text {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      left: 0;
+      transform: rotate(1deg);
+      bottom: calc((${sizes.footer}px / 2) - (40px / 2) - 6px);
+      margin-left: 1.2rem;
+      * {
+        color: ${colors.background};
+      }
+      .worktime {
+        display: flex;
+        gap: 2px;
+        transform: rotate(1deg);
+        .left {
+          *,
+          img,
+          svg {
+            color: ${colors.background};
+            fill: ${colors.background};
+          }
+        }
+      }
+      .social {
+        transform: rotate(1deg);
+      }
+    }
   }
 `;

@@ -15,7 +15,7 @@ export const PecaJaButton: FC<{
     >
       <PecaJaButtonStyle
         onClick={() => closeMenu && closeMenu()}
-        className={`peca-ja-button ${style}`}
+        className={`noprint peca-ja-button ${style}`}
       >
         <span className="title">PEÇA JÁ</span>
         {style === "large" && <MdDeliveryDining className="icon" />}

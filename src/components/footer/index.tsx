@@ -2,12 +2,14 @@ import { FooterStyle } from "./styles";
 import Facebook from "@assets/images/footer-icon-facebook.svg";
 import Instagram from "@assets/images/footer-icon-instagram.svg";
 import Whatsapp from "@assets/images/footer-icon-whatsapp.svg";
+import Clock from "@assets/images/clock.svg";
 import { env } from "@config/env";
+import Image from "next/image";
 
 export const Footer = () => {
   return (
     <FooterStyle>
-      <span className="icons">
+      <span className="content icons">
         <a
           target="_blank"
           aria-label="Link para o whatsapp da pizzaria"
@@ -17,7 +19,7 @@ export const Footer = () => {
             }text=Olá, gostaria de fazer um pedido! 🍕`
           )}
         >
-          <img
+          <Image
             alt="link to our whatsapp chat"
             title="Whatsapp"
             width={40}
@@ -30,7 +32,7 @@ export const Footer = () => {
           aria-label="Link para o facebook da pizzaria"
           href="https://www.facebook.com/pizzadeliciadabahia"
         >
-          <img
+          <Image
             alt="link to our facebook profile"
             title="Facebook"
             width={40}
@@ -43,7 +45,7 @@ export const Footer = () => {
           aria-label="Link para o instagram da pizzaria"
           href="https://www.instagram.com/pizzadeliciadabahia"
         >
-          <img
+          <Image
             alt="link to our instagram page"
             title="Instagram"
             width={40}
@@ -51,6 +53,27 @@ export const Footer = () => {
             src={Instagram.src}
           />
         </a>
+      </span>
+      <span className="content text onlyprint">
+        <div className="worktime">
+          <span className="left">
+            <img
+              alt="our working time"
+              title="Horario"
+              width={40}
+              height={40}
+              src={Clock.src}
+            />
+          </span>
+          <span className="right">
+            <h3>TER-DOM</h3>
+            <p>18:30-23:30</p>
+          </span>
+        </div>
+        <div className="social">
+          <h4>@pizzadeliciadabahia</h4>
+          <h6>www.pizzariadeliciadabahia.com</h6>
+        </div>
       </span>
     </FooterStyle>
   );

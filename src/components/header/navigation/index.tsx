@@ -9,7 +9,7 @@ import { useNavigation } from "@context/navigationContext";
 export const Navigation: FC = () => {
   const { menuOpen, setMenuOpen } = useNavigation();
   return (
-    <NavigationStyle menuOpen={menuOpen}>
+    <NavigationStyle menuOpen={menuOpen} className="noprint">
       <ul>
         {navigationItems.map((navigationItem) => (
           <NaviItem key={navigationItem.route} item={navigationItem} />

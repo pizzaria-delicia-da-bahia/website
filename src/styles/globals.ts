@@ -28,29 +28,6 @@ body{
   .toast{
     z-index: 999;
   }
-
-  &:after {
-    /* content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh; 
-    pointer-events: none;
-    opacity: 100%;
-    z-index: 999;
-    background-size: cover;
-    opacity: 0;
-    
-    background-image: url($Filter.src});
-    background-repeat: no-repeat;
-
-    @supports ((mix-blend-mode: multiply)) {
-      opacity: 1;
-      mix-blend-mode: multiply;
-    }; */
-  }
-
   
   &:before {
     content: '';
@@ -63,18 +40,6 @@ body{
     z-index: -1;
   opacity: 0.1;
   background: ${shapes.background}
-    /* opacity: 15%;
-    background-image: url($BackgroundImage.src});
-    background-size: 60%;
-      @media ${breakpointsMQ.tablet}{
-        background-size: 40%;
-      }
-      @media ${breakpointsMQ.desktopSmUp}{
-        background-size: 30%;
-      }
-      @media ${breakpointsMQ.tvSmUp}{
-        background-size: 20%;
-      } */
     }
 
   }
@@ -97,6 +62,19 @@ body{
     input{
       user-select: auto;
     }
+
+
+    @media only screen {
+      .onlyprint{
+        display: none!important;
+      } 
+    }
+    @media only print {
+      .noprint{
+        display: none!important;
+      } 
+    }
+
 `;
 
 export default Globals;

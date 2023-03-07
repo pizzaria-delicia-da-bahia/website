@@ -76,7 +76,7 @@ const Config: NextPage = () => {
 
       setSabores(
         (await (
-          await fetch(`${env.apiURL}/pizzas/sabores?strict=true`, {
+          await fetch(`${env.apiURL}/pizzas/sabores?somenteSabores=true`, {
             headers: { "Content-Type": "application/json" },
           })
         ).json()) ?? []
