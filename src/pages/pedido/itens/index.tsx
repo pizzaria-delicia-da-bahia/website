@@ -1,17 +1,8 @@
-import { GetServerSideProps, NextPage } from "next";
-import Image from "next/image";
-import Link from "next/link";
-import {
-  Context,
-  createRef,
-  ReactElement,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { NextPage } from "next";
+
+import { useEffect } from "react";
 import { ItensStyle } from "@styles/pages/pedido/itens/styles";
 import { useMyOrder } from "@context/myOrderContext";
-import { ButtonPrimary, ButtonSecondary } from "@styles/components/buttons";
 import { useRouter } from "next/router";
 import { IPizza } from "@models/item";
 import { IOutro } from "@models/outro";
