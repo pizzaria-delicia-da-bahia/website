@@ -33,10 +33,10 @@ const Pagamento: NextPage = () => {
   useEffect(() => {
     if (
       !myOrder ||
-      (myOrder.itens?.length ?? []) < 1 ||
-      (myOrder.cliente?.nome ?? "") === "" ||
-      (myOrder.cliente?.whatsapp ?? "") === "" ||
-      (myOrder.tipo === "entrega" && (myOrder.cliente?.endereco ?? "") === "")
+      (myOrder?.itens?.length ?? []) < 1 ||
+      (myOrder?.cliente?.nome ?? "") === "" ||
+      (myOrder?.cliente?.whatsapp ?? "") === "" ||
+      (myOrder?.tipo === "entrega" && (myOrder.cliente?.endereco ?? "") === "")
     ) {
       router.push("/pedido");
     } else {
@@ -95,8 +95,8 @@ const Pagamento: NextPage = () => {
         title="PAGAMENTO"
         subtitle={`VALOR TOTAL ${formatCurrency(data.valor)}`}
         description={
-          myOrder.tipo === "entrega"
-            ? myOrder.taxaEntrega > 0
+          myOrder?.tipo === "entrega"
+            ? myOrder?.taxaEntrega > 0
               ? ` (ITENS + ENTREGA)`
               : ` (ENDEREÇO NÃO ENCONTRADO, FALTA INCLUIR TAXA DE ENTREGA)`
             : undefined

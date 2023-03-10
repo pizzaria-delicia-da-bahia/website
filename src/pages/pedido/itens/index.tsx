@@ -15,7 +15,7 @@ const Itens: NextPage = () => {
   const router = useRouter();
 
   const backToOrder = () => {
-    if (myOrder.itens.length === 0) router.push("/pedido");
+    if (myOrder?.itens?.length ?? 0 === 0) router.push("/pedido");
   };
 
   useEffect(() => {
@@ -31,7 +31,7 @@ const Itens: NextPage = () => {
       <Text type="title">MEUS ITENS</Text>
       <div className="menu">
         <ul>
-          {myOrder.itens.map((item) => (
+          {(myOrder?.itens ?? []).map((item) => (
             <li key={item.id}>
               {item.hasOwnProperty("sabores") ? (
                 <div className="left">
