@@ -5,6 +5,8 @@ const t = (min: String, max: String) =>
 export const breakpointsMQ = {
   mobile: t("0px", breakpoints.tablet),
   mobileUp: t("0px", null),
+  tabletSm: t(breakpoints.tabletSm, breakpoints.tablet),
+  tabletSmUp: t(breakpoints.tabletSm, null),
   tablet: t(breakpoints.tablet, breakpoints.desktopSm),
   tabletUp: t(breakpoints.tablet, null),
   desktopSm: t(breakpoints.desktopSm, breakpoints.desktopMd),

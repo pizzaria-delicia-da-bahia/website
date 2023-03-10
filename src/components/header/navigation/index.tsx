@@ -1,4 +1,4 @@
-import { Dispatch, FC, SetStateAction } from "react";
+import { FC } from "react";
 import { NavigationStyle } from "./styles";
 import { navigationItems } from "@data/navigationItems";
 import NaviItem from "./navitem";

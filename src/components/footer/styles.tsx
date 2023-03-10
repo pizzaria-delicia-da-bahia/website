@@ -25,10 +25,13 @@ export const FooterStyle = styled.footer`
     gap: 4rem;
     left: 50%;
     transform: translateX(-55%) rotate(1deg);
-    bottom: 0px;
+    bottom: 7px;
 
     a {
-      font-size: 1.8rem;
+      position: relative;
+      font-size: 2rem;
+      width: 40px;
+      height: 40px;
       color: ${colors.background};
       transition: all 0.2s ease-in-out;
 
@@ -58,20 +61,20 @@ export const FooterStyle = styled.footer`
     height: 7px;
   }
 
-  @media ${breakpointsMQ.tabletUp} {
+  @media ${breakpointsMQ.tabletSmUp} {
     .content {
-      transform: rotate(4deg);
+      transform: rotate(2deg);
       gap: 1.5rem;
       left: 10px;
-      bottom: -1px;
+      bottom: 7px;
     }
   }
-  @media ${breakpointsMQ.tablet} {
+  @media ${breakpointsMQ.tabletUp} {
     background-image: url(${TabletShape.src});
 
     .content {
       transform: rotate(3deg);
-      bottom: 1px;
+      bottom: 10px;
       a {
         font-size: clamp(5vmin, 50%, 2rem);
       }
@@ -81,7 +84,7 @@ export const FooterStyle = styled.footer`
     background-image: url(${DesktopShape.src});
     .content {
       transform: rotate(2deg);
-      bottom: 3px;
+      bottom: 10px;
     }
   }
   @media ${breakpointsMQ.tvSmUp} {

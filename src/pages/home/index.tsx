@@ -3,12 +3,10 @@ import Image from "next/image";
 import { PecaJaButton } from "@components/pecaja";
 import { HomeStyle } from "@styles/pages/home/styles";
 import PizzaImage from "@assets/pages/home/pizza_1.png";
-import { useNavigation } from "@context/navigationContext";
 
 const Home: NextPage = () => {
-  const { menuOpen } = useNavigation();
   return (
-    <HomeStyle menuOpen={menuOpen}>
+    <HomeStyle>
       <div className="left">
         <div className="text-container">
           <h3 className="text little-text">TÁ NA HORA</h3>
@@ -23,6 +21,7 @@ const Home: NextPage = () => {
             layout="fill"
             src={PizzaImage}
             alt="Image of a pizza floating by the window."
+            priority
           />
         </div>
       </div>

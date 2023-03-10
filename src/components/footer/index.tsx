@@ -22,8 +22,7 @@ export const Footer = () => {
           <Image
             alt="link to our whatsapp chat"
             title="Whatsapp"
-            width={40}
-            height={40}
+            layout="fill"
             src={Whatsapp.src}
           />
         </a>
@@ -35,8 +34,7 @@ export const Footer = () => {
           <Image
             alt="link to our facebook profile"
             title="Facebook"
-            width={40}
-            height={40}
+            layout="fill"
             src={Facebook.src}
           />
         </a>
@@ -48,8 +46,7 @@ export const Footer = () => {
           <Image
             alt="link to our instagram page"
             title="Instagram"
-            width={40}
-            height={40}
+            layout="fill"
             src={Instagram.src}
           />
         </a>

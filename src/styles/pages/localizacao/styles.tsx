@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { breakpointsMQ } from "@styles/mediaQueries";
 import { colors } from "@styles/colors";
-import { sizes } from "@styles/sizes";
 
 export const LocalizacaoStyle = styled.main`
   display: flex;

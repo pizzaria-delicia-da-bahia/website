@@ -6,9 +6,7 @@ import desktopShape from "@assets/pages/home/home-shape-center-desktop.svg";
 import { sizes } from "@styles/sizes";
 import { animations } from "@styles/animations";
 
-export const HomeStyle = styled.main.attrs(
-  (props: { menuOpen: Boolean }) => props
-)`
+export const HomeStyle = styled.main`
   flex-grow: 1;
   flex-shrink: 0;
   height: 100%;
@@ -102,18 +100,6 @@ export const HomeStyle = styled.main.attrs(
           letter-spacing: 0.3rem;
         }
       }
-    }
-  }
-
-  @media ${breakpointsMQ.mobile}, ${breakpointsMQ.tablet} {
-    ${(props) =>
-      props.menuOpen &&
-      css`
-        .right {
-          display: none;
-        }
-      `}
-    .right {
     }
   }
 
