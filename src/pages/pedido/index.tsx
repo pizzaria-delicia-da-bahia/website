@@ -11,6 +11,7 @@ import { ButtonPrimary, ButtonSecondary } from "@styles/components/buttons";
 import { PedidoStyle } from "@styles/pages/pedido/styles";
 import TextContainer from "@components/textContainer";
 import BottomControls from "@components/pedido/bottomControls";
+import { Dots } from "@components/dots";
 
 const Pedido: NextPage = () => {
   const items = [
@@ -50,6 +51,7 @@ const Pedido: NextPage = () => {
           ))}
         </Carousel>
       </div>
+      <Dots items={items} />
       <BottomControls
         secondaryButton={{
           click: () => router.push("/pedido/itens"),

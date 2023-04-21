@@ -1,3 +1,4 @@
+import { colors } from "@styles/colors";
 import styled from "styled-components";
 
 export const PedidoStyle = styled.main`

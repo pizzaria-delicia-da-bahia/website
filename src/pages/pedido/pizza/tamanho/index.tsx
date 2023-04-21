@@ -10,6 +10,7 @@ import Loading from "@components/loading";
 import { env } from "@config/env";
 import Text from "@components/text";
 import BottomControls from "@components/pedido/bottomControls";
+import { Dots } from "@components/dots";
 
 const BottomInfo: FC<{
   name: string;
@@ -92,6 +93,7 @@ const Tamanho: NextPage = () => {
               ))}
             </Carousel>
           </div>
+          <Dots items={sizes} />
           <BottomControls backButton />
         </>
       ) : (
