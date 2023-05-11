@@ -5,8 +5,11 @@ import Whatsapp from "@assets/images/footer-icon-whatsapp.svg";
 import Clock from "@assets/images/clock.svg";
 import { env } from "@config/env";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 export const Footer = () => {
+  const router = useRouter();
+  if (["/cardapio-"].some((x) => router.pathname.includes(x))) return <></>;
   return (
     <FooterStyle>
       <span className="content icons">

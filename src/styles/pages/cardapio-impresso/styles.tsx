@@ -6,12 +6,13 @@ import { sizes } from "@styles/sizes";
 
 export const CardapioImpressoStyle = styled.main`
   color: #fff;
-  width: 100vw;
-  max-height: calc(100vh - ${sizes.header}px - ${sizes.footer}px);
+  width: 100%;
+  /* max-height: calc(100vh - ${sizes.header}px - ${sizes.footer}px); */
+  height: 100%;
   /* aspect-ratio: 1.414; */
   overflow: auto;
   scroll-behavior: smooth;
-  padding: 0.8rem 1.2rem 0 1.2rem;
+  /* padding: 0.8rem 1.2rem 0 1.2rem; */
   position: relative;
   display: flex;
   flex-direction: column;
@@ -27,14 +28,13 @@ export const CardapioImpressoStyle = styled.main`
     display: flex;
     flex-direction: column;
     flex-grow: 1;
+    gap: 0.3rem;
     .sabor-valores {
       display: flex;
       padding: 0.25rem 0.2rem;
 
-      .sabor,
-      .sabor.disabled {
-        flex-grow: 1;
-        margin-bottom: 2px;
+      .sabor {
+        flex: 1;
         display: flex;
         align-items: center;
 
@@ -57,21 +57,37 @@ export const CardapioImpressoStyle = styled.main`
         list-style: none;
         display: grid;
         grid-template-columns: repeat(4, 1fr);
-        gap: 0.5rem;
+        gap: 0.8rem;
         grid-column: 2;
         align-items: center;
 
         .valor {
           color: ${colors.background};
-          min-width: 5.1rem;
+          min-width: 5.5rem;
+          min-height: 2.4rem;
           font-size: 0.7rem;
           padding: 0.5rem 0.8rem;
           border-radius: 0.3rem;
           flex-grow: 1;
           text-align: center;
+          position: relative;
           background-color: #fff;
+
+          p {
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-color: #fff;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            padding: 0.2rem;
+          }
+
           &:nth-child(even) {
             background-color: ${colors.elements};
+            p {
+              background-color: ${colors.elements};
+            }
           }
         }
       }

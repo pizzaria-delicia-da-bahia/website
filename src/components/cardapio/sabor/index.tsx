@@ -6,6 +6,7 @@ export const Sabor = ({
   ingredientes,
   valuesString,
   showCheckBox = false,
+  ingredientesDoLado = false,
   active,
   checked,
   setChecked,
@@ -16,6 +17,7 @@ export const Sabor = ({
   ingredientes: string[];
   valuesString: string;
   showCheckBox?: boolean;
+  ingredientesDoLado?: boolean;
   active: boolean;
   checked?: boolean;
   className?: string;
@@ -25,6 +27,7 @@ export const Sabor = ({
   <SaborStyle
     style={!forPrint && !active ? { opacity: 0.4, pointerEvents: "none" } : {}}
     showCheckBox={showCheckBox}
+    ingredientesDoLado={ingredientesDoLado}
     className={`${className ?? ""}${!forPrint && !active ? "disabled" : ""}`}
     onClick={(e) =>
       showCheckBox &&

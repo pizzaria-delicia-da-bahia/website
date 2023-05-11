@@ -2,10 +2,10 @@ import styled, { css } from "styled-components";
 import { colors } from "@styles/colors";
 
 export const SaborStyle = styled.li.attrs(
-  (props: { showCheckBox: boolean }) => props
+  (props: { showCheckBox: boolean; ingredientesDoLado: boolean }) => props
 )`
   display: flex;
-  margin-bottom: 1rem;
+  /* margin-bottom: 1rem; */
 
   * {
     pointer-events: none;
@@ -39,12 +39,30 @@ export const SaborStyle = styled.li.attrs(
       font-size: 0.8rem;
       display: block;
       width: 100%;
+      flex: 1;
       opacity: 0.8;
     }
     .flavour-values {
       font-size: 0.8rem;
     }
   }
+
+  ${(props) =>
+    !!props.ingredientesDoLado &&
+    css`
+      padding: 0.3rem 0.2rem;
+      .right {
+        flex-direction: row;
+
+        .flavour-name {
+          &:after {
+            content: "•";
+            margin: 0 0.5rem;
+            color: #fff;
+          }
+        }
+      }
+    `}
 
   ${(props) =>
     !props.showCheckBox &&

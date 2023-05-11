@@ -12,3 +12,13 @@ export const PageStyle = styled.main`
   position: fixed;
   /* background-color: blue; */
 `;
+
+export const PageStyleWithoutElements = styled.main`
+  z-index: 1;
+  height: 100vh;
+  width: 100vw;
+  left: 0;
+  top: 0;
+  position: fixed;
+  padding: 1rem;
+`;

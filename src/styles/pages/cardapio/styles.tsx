@@ -69,8 +69,9 @@ export const CardapioStyle = styled.main`
     .group-flavours {
       display: flex;
       flex-direction: column;
-      padding: 0.5em;
+      padding: 0.5rem;
       justify-content: center;
+      gap: 0.8rem;
     }
   }
 

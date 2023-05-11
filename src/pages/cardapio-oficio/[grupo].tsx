@@ -3,52 +3,40 @@ import { IPizzaGrupo, IPizzaTamanho } from "@models/pizza";
 import { formatCurrency } from "@util/format";
 import { Sabor } from "@components/cardapio/sabor";
 import { env } from "@config/env";
-import { CardapioImpressoStyle } from "@styles/pages/cardapio-impresso/styles";
+import { CardapioOficioStyle } from "@styles/pages/cardapio-oficio/styles";
 import { Fragment } from "react";
 
-export interface ICardapioImpresso {
+export interface ICardapioOficio {
   sizes: Array<IPizzaTamanho>;
   groups: IPizzaGrupo[];
 }
 
-const CardapioImpresso: NextPage<ICardapioImpresso> = ({ sizes, groups }) => {
+const CardapioOficio: NextPage<ICardapioOficio> = ({ sizes, groups }) => {
   return (
-    <CardapioImpressoStyle>
+    <CardapioOficioStyle>
       {groups.map((group) => (
         <Fragment key={group.id}>
           <h2 className="grupo">{group.nome}</h2>
           <div className="sabores">
-            <div className="sabor-valores">
-              <p className="sabor">Sabor</p>
-              <div className="valores">
-                {sizes
-                  .filter((x) => x.visivel)
-                  .map((s) => (
-                    <li className="valor" key={s.id}>
-                      {s.nome.slice(0, 3)}
-                    </li>
-                  ))}
-              </div>
-            </div>
-
             {group.sabores.map((s) => (
               <div className="sabor-valores" key={s.id}>
                 <Sabor
                   className="sabor"
                   nome={s.nome}
+                  ingredientesDoLado={true}
                   ingredientes={s.ingredientes.map((i) =>
                     i === "Mussarela"
-                      ? "Mussarela"
+                      ? "Mussar."
                       : i === "Orégano"
                       ? "Orég."
                       : i === "Calabresa"
-                      ? "Calabresa"
+                      ? "Calabr."
                       : i === "Carne de Hambúrguer"
-                      ? "Carne de Hambúrguer"
+                      ? "Carne de Hamb."
                       : i === "Peito de Peru"
                       ? "P. de Peru"
                       : i === "Requeijão"
-                      ? "Requeijão"
+                      ? "Requeij."
                       : i === "Molho Especial"
                       ? "Molho Esp"
                       : i
@@ -64,8 +52,7 @@ const CardapioImpresso: NextPage<ICardapioImpresso> = ({ sizes, groups }) => {
                     )
                     .map((v) => (
                       <li className="valor" key={s.id + v.tamanhoId}>
-                        {/* {formatCurrency(v.valor)} */}
-                        <p>R$</p>
+                        {formatCurrency(v.valor)}
                       </li>
                     ))}
                 </div>
@@ -74,11 +61,11 @@ const CardapioImpresso: NextPage<ICardapioImpresso> = ({ sizes, groups }) => {
           </div>
         </Fragment>
       ))}
-    </CardapioImpressoStyle>
+    </CardapioOficioStyle>
   );
 };
 
-export default CardapioImpresso;
+export default CardapioOficio;
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   try {

@@ -34,6 +34,7 @@ export const SaboresStyle = styled.main`
       flex-direction: column;
       padding: 0.5em;
       justify-content: center;
+      gap: 0.8rem;
     }
   }
 
