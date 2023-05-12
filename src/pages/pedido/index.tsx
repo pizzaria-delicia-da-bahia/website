@@ -8,6 +8,10 @@ import TextContainer from "@components/textContainer";
 import BottomControls from "@components/pedido/bottomControls";
 import { Dots } from "@components/dots";
 import { getWorkingTime } from "@data/workingTime";
+import { env } from "@config/env";
+import { IOutro } from "@models/outro";
+import { useState } from "react";
+import Modal from "@components/modal";
 
 const Pedido: NextPage<{ isWorking: boolean }> = ({ isWorking }) => {
   const items = [
@@ -29,6 +33,11 @@ const Pedido: NextPage<{ isWorking: boolean }> = ({ isWorking }) => {
   ];
   const { myOrder } = useMyOrder();
   const router = useRouter();
+  const [showModal, setShowModal] = useState<boolean>(false);
+
+  const askIfCustomerWantsDrink = () => {
+    setShowModal(true);
+  };
 
   if (!isWorking)
     return (
@@ -67,10 +76,28 @@ const Pedido: NextPage<{ isWorking: boolean }> = ({ isWorking }) => {
           badge: myOrder?.itens?.length,
         }}
         primaryButton={{
-          click: () => router.push("/pedido/informacoes-adicionais"),
+          click: () => {
+            if (
+              myOrder?.itens.some((x) =>
+                (x as IOutro)?.nome?.includes("REFRIGERANTE")
+              )
+            ) {
+              router.push("/pedido/informacoes-adicionais");
+            } else {
+              askIfCustomerWantsDrink();
+            }
+          },
           disabled: (myOrder?.itens?.length ?? 0) < 1,
         }}
       />
+      {showModal && (
+        <Modal
+          label="Adicionar Refrigerante?"
+          type={"true-false"}
+          onTrue={() => router.push("/pedido/bebida")}
+          onFalse={() => router.push("/pedido/informacoes-adicionais")}
+        />
+      )}
     </PedidoStyle>
   );
 };
@@ -105,7 +132,11 @@ export const getServerSideProps: GetServerSideProps = async () => {
 
   return {
     props: {
-      isWorking: dataAtual < dataInicio || dataAtual > dataFim ? false : true,
+      isWorking:
+        // env.environment === "development"
+        // ? true
+        //     : dataAtual < dataInicio || dataAtual > dataFim
+        dataAtual < dataInicio || dataAtual > dataFim ? false : true,
     },
   };
 };

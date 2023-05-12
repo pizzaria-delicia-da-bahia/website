@@ -9,6 +9,7 @@ export const PedidoStyle = styled.main`
   height: 100%;
   gap: 1rem;
   padding: 0 0 50px 0;
+  position: relative;
 
   .menu {
     display: flex;
