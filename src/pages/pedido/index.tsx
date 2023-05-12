@@ -110,6 +110,8 @@ export const getServerSideProps: GetServerSideProps = async () => {
 
   const dia = result.find((x) => String(x.dia).startsWith(hoje));
 
+  console.log("dia:", dia, result);
+
   if (!!!dia.inicio) {
     return {
       props: {
@@ -130,6 +132,11 @@ export const getServerSideProps: GetServerSideProps = async () => {
 
   const dataAtual = new Date();
 
+  console.log(
+    "working:",
+    dataAtual < dataInicio || dataAtual > dataFim ? false : true
+  );
+  console.log(dataAtual, dataInicio, dataFim);
   return {
     props: {
       isWorking:
