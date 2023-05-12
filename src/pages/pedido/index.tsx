@@ -121,6 +121,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
   }
 
   const dataInicio = new Date();
+  dataInicio.getHours() < 5 && dataInicio.setDate(dataInicio.getDate() - 1);
   dataInicio.setHours(Number(dia.inicio.split(":")[0]) - 2);
   dataInicio.setMinutes(Number(dia.inicio.split(":")[1]));
   dataInicio.setSeconds(0);
@@ -136,7 +137,11 @@ export const getServerSideProps: GetServerSideProps = async () => {
     "working:",
     dataAtual < dataInicio || dataAtual > dataFim ? false : true
   );
-  console.log(dataAtual, dataInicio, dataFim);
+  console.log(
+    dataAtual.toLocaleString(),
+    dataInicio.toLocaleString(),
+    dataFim.toLocaleString()
+  );
   return {
     props: {
       isWorking:

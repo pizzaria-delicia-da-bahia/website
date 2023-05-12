@@ -1,3 +1,44 @@
 export function sleep(time?: number) {
   return new Promise((resolve) => setTimeout(resolve, time ?? 200));
 }
+
+export function getPeriod(): {
+  initialDate: Date;
+  finalDate: Date;
+} {
+  const currentDate = new Date();
+  const currentHour = currentDate.getHours();
+  if (currentHour >= 5 && currentHour) {
+    const initialDate = new Date();
+    initialDate.setHours(5);
+    initialDate.setMinutes(0);
+    initialDate.setSeconds(0);
+
+    const finalDate = new Date();
+    finalDate.setDate(finalDate.getDate() + 1);
+    finalDate.setHours(4);
+    finalDate.setMinutes(59);
+    finalDate.setSeconds(59);
+
+    return {
+      initialDate,
+      finalDate,
+    };
+  } else {
+    const initialDate = new Date();
+    initialDate.setDate(initialDate.getDate() - 1);
+    initialDate.setHours(5);
+    initialDate.setMinutes(0);
+    initialDate.setSeconds(0);
+
+    const finalDate = new Date();
+    finalDate.setHours(4);
+    finalDate.setMinutes(59);
+    finalDate.setSeconds(59);
+
+    return {
+      initialDate,
+      finalDate,
+    };
+  }
+}
