@@ -127,6 +127,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
   dataInicio.setSeconds(0);
 
   const dataFim = new Date();
+  dataFim.getHours() < 5 && dataFim.setDate(dataFim.getDate() - 1);
   dataFim.setHours(Number(dia.fim.split(":")[0]));
   dataFim.setMinutes(Number(dia.fim.split(":")[1]) + 10);
   dataFim.setSeconds(0);
