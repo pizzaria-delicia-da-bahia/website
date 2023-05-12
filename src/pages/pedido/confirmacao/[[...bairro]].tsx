@@ -99,12 +99,13 @@ Sabor${(item as IPizza).sabores.length > 1 ? "es" : ""}: ${(
       ).sabores
         .map((s) => s.nome.split(" ").slice(0, -1).join(" ").toUpperCase())
         .join(", ")}${
-        !!item.observacao &&
-        `
+        !!item.observacao
+          ? `
 ${item.observacao}`
+          : ""
       }`
     : `- --${(item as IOutro).nome.toUpperCase()}${
-        item.observacao
+        !!item.observacao
           ? `
 ${item.observacao}`
           : "--"
