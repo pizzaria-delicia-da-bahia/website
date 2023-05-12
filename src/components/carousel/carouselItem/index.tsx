@@ -21,7 +21,7 @@ const CarouselItem: FC<ICarouselItem> = ({
   const { selectedIndex, length } = useCarousel();
 
   return (
-    <Link href={route} passHref key={title}>
+    <Link href={route} passHref key={route}>
       <CarouselItemStyle
         className={`${
           selectedIndex === index
@@ -34,18 +34,19 @@ const CarouselItem: FC<ICarouselItem> = ({
         }${index < selectedIndex - 1 ? " hidden" : ""}`}
         index={index}
         selectedIndex={selectedIndex}
+        style={!title ? { padding: 0 } : undefined}
         length={length}
-        key={title}
+        key={route}
       >
         <div className="image-wrapper">
           <img
             src={image.src}
-            width={image.w}
+            width={!title ? "100%" : image.w}
             height={image.h ?? image.w}
             alt=""
           />
         </div>
-        <h3>{title}</h3>
+        {!!title && <h3>{title}</h3>}
         {children && <div className="bottom-elements">{children}</div>}
       </CarouselItemStyle>
     </Link>

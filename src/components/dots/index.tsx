@@ -4,7 +4,7 @@ export const Dots = ({ items }) => {
   return (
     <DotsStyle>
       {items.map((x) => (
-        <span key={x} />
+        <span key={JSON.stringify(x)} />
       ))}
     </DotsStyle>
   );

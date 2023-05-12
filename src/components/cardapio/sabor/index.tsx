@@ -15,7 +15,7 @@ export const Sabor = ({
 }: {
   nome: string;
   ingredientes: string[];
-  valuesString: string;
+  valuesString?: string;
   showCheckBox?: boolean;
   ingredientesDoLado?: boolean;
   active: boolean;
@@ -54,7 +54,7 @@ export const Sabor = ({
         <h5>{FlagEmojiToPNG(nome.split(" ").pop())}</h5>
       </span>
       <p className="flavour-ingredients">{ingredientes.join(", ")}</p>
-      <p className="flavour-values">{valuesString}</p>
+      {!!valuesString && <p className="flavour-values">{valuesString}</p>}
     </div>
   </SaborStyle>
 );

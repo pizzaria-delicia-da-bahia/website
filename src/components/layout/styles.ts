@@ -7,4 +7,5 @@ export const LayoutStyle = styled.div`
   align-items: stretch;
   height: 100%;
   width: 100vw;
+  position: relative;
 `;

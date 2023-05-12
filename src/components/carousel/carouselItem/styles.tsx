@@ -18,8 +18,9 @@ export const CarouselItemStyle = styled.li.attrs(
   border-radius: 1rem;
   cursor: pointer;
   padding: 2rem 5rem;
-  /* min-width: 70vw; */
+  min-width: 70vw;
   transition: all 0.1s linear;
+  overflow: hidden;
   /* max-height: 30vh; */
   gap: 0.2rem;
 

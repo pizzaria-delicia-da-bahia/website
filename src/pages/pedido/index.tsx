@@ -26,6 +26,10 @@ const Pedido: NextPage<{ isWorking: boolean }> = ({ isWorking }) => {
       image: "/images/pedido-pizza.svg",
     },
     {
+      route: "pedido/dia-das-maes",
+      image: "/images/promocao.svg",
+    },
+    {
       name: "BEBIDAS",
       route: "pedido/bebida",
       image: "/images/pedido-bebida.svg",
@@ -55,10 +59,10 @@ const Pedido: NextPage<{ isWorking: boolean }> = ({ isWorking }) => {
       <TextContainer title="MONTE SEU PEDIDO" subtitle="ADICIONE UM ITEM" />
 
       <div className="menu">
-        <Carousel length={items.length}>
+        <Carousel length={items.length} defaultSelectedIndex={2}>
           {items.map((item, index) => (
             <CarouselItem
-              key={item.name}
+              key={item.route}
               image={{ src: item.image, w: 100 }}
               title={item.name}
               route={item.route}
@@ -109,8 +113,6 @@ export const getServerSideProps: GetServerSideProps = async () => {
     .replace(".", "");
 
   const dia = result.find((x) => String(x.dia).startsWith(hoje));
-
-  console.log("dia:", dia, result);
 
   if (!!!dia.inicio) {
     return {

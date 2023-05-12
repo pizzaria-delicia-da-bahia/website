@@ -1,3 +1,4 @@
+import ModalPromo from "@components/modalPromo";
 import {
   createContext,
   Dispatch,
@@ -11,12 +12,24 @@ import {
 const NavigationContext = createContext<{
   menuOpen: Boolean;
   setMenuOpen: Dispatch<SetStateAction<Boolean>>;
+  modalPromo: ReactNode;
+  setModalPromo: Dispatch<SetStateAction<ReactNode>>;
 }>(null);
 
 const NavigationProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [menuOpen, setMenuOpen] = useState<Boolean>(false);
+  const [modalPromo, setModalPromo] = useState(
+    <ModalPromo
+      goItURL="/pedido/dia-das-maes"
+      goItButtonBg="#FF7CFF"
+      goItButtonColor="#42210B"
+    />
+  );
+
   return (
-    <NavigationContext.Provider value={{ menuOpen, setMenuOpen }}>
+    <NavigationContext.Provider
+      value={{ menuOpen, setMenuOpen, modalPromo, setModalPromo }}
+    >
       {children}
     </NavigationContext.Provider>
   );
