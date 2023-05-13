@@ -147,11 +147,11 @@ export const getServerSideProps: GetServerSideProps = async () => {
   );
   return {
     props: {
-      isWorking: true,
-      // env.environment === "development"
-      // ? true
-      //     : dataAtual < dataInicio || dataAtual > dataFim
-      // dataAtual < dataInicio || dataAtual > dataFim ? false : true,
+      isWorking:
+        // env.environment === "development"
+        // ? true
+        //     : dataAtual < dataInicio || dataAtual > dataFim
+        dataAtual < dataInicio || dataAtual > dataFim ? false : true,
     },
   };
 };

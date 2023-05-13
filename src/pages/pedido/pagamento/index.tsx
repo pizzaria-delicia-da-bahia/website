@@ -108,12 +108,14 @@ const Pagamento: NextPage = () => {
           <div className="methods">
             <span className="input-label">SELECIONE UM MÉTODO:</span>
             <ul>
-              {["especie", "cartao", "pix"].map((x) => (
-                <MakePaymentMethod
-                  key={x}
-                  type={x as "especie" | "cartao" | "pix"}
-                />
-              ))}
+              {myOrder.itens.some((x) => x.observacao.includes("DIA DAS MÃES"))
+                ? ["especie", "pix"]
+                : ["especie", "cartao", "pix"].map((x) => (
+                    <MakePaymentMethod
+                      key={x}
+                      type={x as "especie" | "cartao" | "pix"}
+                    />
+                  ))}
             </ul>
           </div>
 
