@@ -83,7 +83,7 @@ const Pedido: NextPage<{ isWorking: boolean }> = ({ isWorking }) => {
           click: () => {
             if (
               myOrder?.itens.some((x) =>
-                (x as IOutro)?.nome?.includes("REFRIGERANTE")
+                (x as IOutro)?.nome?.toUpperCase().includes("REFRIGERANTE")
               )
             ) {
               router.push("/pedido/informacoes-adicionais");

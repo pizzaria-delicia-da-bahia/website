@@ -21,7 +21,7 @@ export const ModalStyle = styled.div`
     align-items: center;
     flex-direction: column;
     gap: 1rem;
-    background-color: #fff;
+    background-color: ${colors.background};
     padding: 3rem 2rem;
     border-radius: 1rem;
     position: relative;
