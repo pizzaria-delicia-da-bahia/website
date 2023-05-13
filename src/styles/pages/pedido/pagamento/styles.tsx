@@ -60,6 +60,7 @@ export const PagamentoStyle = styled.main`
           grid-template-columns: repeat(3, 1fr);
           align-items: center;
           justify-content: center;
+          flex: 1;
         }
       }
 
