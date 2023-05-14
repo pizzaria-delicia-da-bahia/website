@@ -141,17 +141,20 @@ export const getServerSideProps: GetServerSideProps = async () => {
     dataAtual < dataInicio || dataAtual > dataFim ? false : true
   );
   console.log(
+    "atual",
     dataAtual.toLocaleString(),
+    "inicio",
     dataInicio.toLocaleString(),
+    "fim",
     dataFim.toLocaleString()
   );
   return {
     props: {
-      isWorking: true,
-      // env.environment === "development"
-      // ? true
-      //     : dataAtual < dataInicio || dataAtual > dataFim
-      // dataAtual < dataInicio || dataAtual > dataFim ? false : true,
+      isWorking:
+        // env.environment === "development"
+        // ? true
+        //     : dataAtual < dataInicio || dataAtual > dataFim
+        dataAtual < dataInicio || dataAtual > dataFim ? false : true,
     },
   };
 };

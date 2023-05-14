@@ -109,7 +109,7 @@ const Pagamento: NextPage = () => {
             <span className="input-label">SELECIONE UM MÉTODO:</span>
             <ul>
               {((myOrder?.itens ?? []).some((x) =>
-                x.observacao.toUpperCase().includes("PROMO")
+                (x.observacao ?? "").toUpperCase().includes("PROMO")
               )
                 ? ["especie", "pix"]
                 : ["especie", "cartao", "pix"]
