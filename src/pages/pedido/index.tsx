@@ -117,7 +117,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
   if (!!!dia.inicio) {
     return {
       props: {
-        isWorking: false,
+        isWorking: true,
       },
     };
   }
