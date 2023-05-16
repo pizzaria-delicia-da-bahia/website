@@ -26,10 +26,6 @@ const Pedido: NextPage<{ isWorking: boolean }> = ({ isWorking }) => {
       image: "/images/pedido-pizza.svg",
     },
     {
-      route: "pedido/dia-das-maes",
-      image: "/images/promocao.svg",
-    },
-    {
       name: "BEBIDAS",
       route: "pedido/bebida",
       image: "/images/pedido-bebida.svg",
@@ -59,7 +55,7 @@ const Pedido: NextPage<{ isWorking: boolean }> = ({ isWorking }) => {
       <TextContainer title="MONTE SEU PEDIDO" subtitle="ADICIONE UM ITEM" />
 
       <div className="menu">
-        <Carousel length={items.length} defaultSelectedIndex={2}>
+        <Carousel length={items.length}>
           {items.map((item, index) => (
             <CarouselItem
               key={item.route}
