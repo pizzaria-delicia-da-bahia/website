@@ -106,14 +106,17 @@ const Sabores: NextPage<{ tamanhoId: string }> = ({ tamanhoId }) => {
   };
 
   const getValorFormatted = (v: number) =>
-    formatCurrency(v / checkedList.length);
+    formatCurrency(Number(Number(v / checkedList.length).toFixed(1)));
 
   const next = () => {
     try {
       setNextInactive(true);
-      const midValue =
-        checkedList.reduce((max, curr) => getSaborValor(curr) + max, 0) /
-        checkedList.length;
+      const midValue = Number(
+        Number(
+          checkedList.reduce((max, curr) => getSaborValor(curr) + max, 0) /
+            checkedList.length
+        ).toFixed(1)
+      );
       const novaPizza: IPizza = {
         valor: midValue,
         sabores: checkedList,
