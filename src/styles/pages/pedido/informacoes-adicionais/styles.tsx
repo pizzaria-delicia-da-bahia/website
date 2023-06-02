@@ -80,7 +80,7 @@ export const InformacoesAdicionaisStyle = styled.main`
         * {
           pointer-events: none;
           user-select: none;
-          opacity: 0.8;
+          opacity: 0.4;
         }
 
         .input-group {

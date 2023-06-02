@@ -4,8 +4,11 @@ import { colors } from "@styles/colors";
 import { breakpointsMQ, hover } from "@styles/mediaQueries";
 import { sizes } from "@styles/sizes";
 
-export const Button = styled.button`
+export const Button = styled.button.attrs(
+  (props: { bgcolor?: string; forecolor?: string }) => props
+)`
   padding: 0.8rem 1rem;
+  border: 3px solid black;
   font-size: min(0.9rem, 4vw);
   margin: 0 0.5rem;
   border-radius: 2rem;
@@ -15,6 +18,9 @@ export const Button = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  color: ${(props) => props.forecolor ?? "#000"};
+  background-color: ${(props) => props.bgcolor ?? "#fff"};
 
   &:not(:disabled) {
     cursor: pointer;
@@ -56,7 +62,7 @@ export const ButtonSecondary = styled(Button)`
   border: 5px solid ${colors.elements};
   background-color: transparent;
   color: ${colors.elements};
-  background-color: ${colors.background};
+  background-color: transparent;
 `;
 
 export const FloatButton = styled(ButtonPrimary)`

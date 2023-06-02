@@ -27,7 +27,8 @@ const ItemQuantityModal: FC<{
     <ItemQuantityModalStyle>
       <TextContainer
         title="QUANTIDADE"
-        description={`SELECIONE A QUANTIDADE DE ${item.nome.toUpperCase()}`}
+        subtitle={`VOCÊ DESEJA QUANTAS UND DE:`}
+        description={item.nome.toUpperCase()}
       />
 
       <div className="menu">

@@ -11,7 +11,6 @@ export const SaboresStyle = styled.main`
   display: flex;
   flex-direction: column;
   padding: 2rem 0.3rem 5rem 0.3rem;
-  position: relative;
   gap: 2rem;
 
   .groups-left {
@@ -53,6 +52,15 @@ export const SaboresStyle = styled.main`
       b {
         color: ${colors.elements};
       }
+    }
+  }
+
+  .observacoes-modal {
+    input {
+      padding: 0.5rem;
+      border: 1px solid #000;
+      border-radius: 10px;
+      font-size: 1rem;
     }
   }
 

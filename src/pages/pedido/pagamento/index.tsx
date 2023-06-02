@@ -1,7 +1,11 @@
 import { NextPage } from "next";
 import { useEffect, useState } from "react";
 import { useMyOrder } from "@context/myOrderContext";
-import { ButtonPrimary, ButtonSecondary } from "@styles/components/buttons";
+import {
+  Button,
+  ButtonPrimary,
+  ButtonSecondary,
+} from "@styles/components/buttons";
 import { formatCurrency } from "@util/format";
 import { useRouter } from "next/router";
 import { PagamentoStyle } from "@styles/pages/pedido/pagamento/styles";
@@ -11,11 +15,14 @@ import { ButtonBankNote } from "@components/pedido/bankNoteButton";
 import { sleep } from "@util/misc";
 import TextContainer from "@components/textContainer";
 import BottomControls from "@components/pedido/bottomControls";
+import Modal from "@components/modal";
+import { colors } from "@styles/colors";
 
 const Pagamento: NextPage = () => {
   const { myOrder, addPayment, removeAllPayments } = useMyOrder();
   const router = useRouter();
   const [nextInactive, setNextInactive] = useState<boolean>(false);
+  const [trocoParaInput, setTrocoParaInput] = useState<string>("");
   const [data, setData] = useState<{
     valor: number;
     trocoPara: number;
@@ -29,6 +36,9 @@ const Pagamento: NextPage = () => {
     trocoPara: 0,
     tipo: null,
   });
+  const [showNeedChangeModal, setShowNeedChangeModal] =
+    useState<boolean>(false);
+  const [showChangeModal, setShowChangeModal] = useState<boolean>(false);
 
   useEffect(() => {
     if (
@@ -55,13 +65,19 @@ const Pagamento: NextPage = () => {
     setData((prev) => ({ ...prev, tipo: prev.tipo === value ? null : value }));
   };
 
-  const MakeButtonBankNote = ({ value }: { value: number }) => {
+  const MakeButtonBankNote = ({
+    value,
+    click,
+  }: {
+    value: number;
+    click: () => void;
+  }) => {
     return (
       <ButtonBankNote
         value={value}
         disabled={data.tipo !== "especie" || data.valor >= value}
         selected={data.tipo === "especie" && data.trocoPara === value}
-        click={setSelectedBankNote}
+        click={click || setSelectedBankNote}
       />
     );
   };
@@ -77,9 +93,13 @@ const Pagamento: NextPage = () => {
     />
   );
 
-  const next = () => {
+  const next = (trocoPara?: number) => {
     setNextInactive(true);
-    addPayment({ id: uuidv4(), ...data });
+    addPayment({
+      id: uuidv4(),
+      ...data,
+      trocoPara: trocoPara ?? data.trocoPara,
+    });
     router.push(
       `/pedido/confirmacao${
         myOrder.tipo === "entrega"
@@ -112,7 +132,7 @@ const Pagamento: NextPage = () => {
                 (x.observacao ?? "").toUpperCase().includes("PROMO")
               )
                 ? ["especie", "pix"]
-                : ["especie", "cartao", "pix"]
+                : ["cartao", "especie", "pix"]
               ).map((x) => (
                 <MakePaymentMethod
                   key={x}
@@ -121,34 +141,107 @@ const Pagamento: NextPage = () => {
               ))}
             </ul>
           </div>
-
-          <div className="changes">
-            <span className="input-label">TROCO PARA:</span>
-            <div className="changes-wrapper">
-              {[5, 10, 20, 50, 100, 200].map((x) => (
-                <MakeButtonBankNote key={x} value={x} />
-              ))}
-            </div>
-            <span className="input-label no-change-container">
-              <input
-                type={"checkbox"}
-                id="no-change"
-                checked={data.trocoPara === 0}
-                disabled={data.tipo !== "especie"}
-                onChange={() => setSelectedBankNote(0)}
-              />
-              <label htmlFor="no-change">Não vou precisar de troco</label>
-            </span>
-          </div>
         </div>
       </div>
       <BottomControls
         backButton
         primaryButton={{
-          click: next,
+          click: () => {
+            data.tipo === "especie" ? setShowNeedChangeModal(true) : next();
+          },
           disabled: nextInactive || !data || !data.tipo,
         }}
       />
+      {showNeedChangeModal && (
+        <Modal
+          className="change-modal"
+          label="Você vai precisar de troco?"
+          type={"custom"}
+        >
+          <div style={{ display: "flex" }}>
+            <Button
+              bgcolor={colors.elements}
+              forecolor={colors.background}
+              onClick={() => {
+                setShowNeedChangeModal(false);
+                setShowChangeModal(false);
+                if (!(nextInactive || !data || !data.tipo)) next();
+              }}
+            >
+              O dinheiro está trocado!
+            </Button>
+
+            <Button
+              bgcolor={colors.elements}
+              forecolor={colors.background}
+              onClick={() => {
+                setShowNeedChangeModal(false);
+                setShowChangeModal(true);
+              }}
+            >
+              Preciso de troco para...
+            </Button>
+          </div>
+        </Modal>
+      )}
+      {showChangeModal && (
+        <Modal
+          className="change-modal"
+          label="Troco para quanto?"
+          description="Se for possível, facilita o troco pra gente.. 💞"
+          type={"custom"}
+          buttons={
+            <>
+              <ButtonPrimary
+                disabled={
+                  !trocoParaInput ||
+                  isNaN(Number(trocoParaInput)) ||
+                  Number(trocoParaInput) < data.valor
+                }
+                onClick={() => {
+                  setShowNeedChangeModal(false);
+                  setShowChangeModal(false);
+                  if (!(nextInactive || !data || !data.tipo))
+                    next(Number(trocoParaInput));
+                }}
+              >
+                Pronto!
+              </ButtonPrimary>
+            </>
+          }
+        >
+          <input
+            type="number"
+            autoFocus
+            placeholder="Ex: R$ 50,00"
+            step={0.5}
+            value={trocoParaInput}
+            onChange={(e) => setTrocoParaInput(e.target.value)}
+            onKeyUp={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                if (
+                  !(
+                    !trocoParaInput ||
+                    isNaN(Number(trocoParaInput)) ||
+                    Number(trocoParaInput) < data.valor
+                  )
+                ) {
+                  setShowNeedChangeModal(false);
+                  setShowChangeModal(false);
+                  if (!(nextInactive || !data || !data.tipo))
+                    next(Number(trocoParaInput));
+                }
+              }
+            }}
+          />
+          <div className="changes-wrapper">
+            {[5, 10, 20, 50, 100, 200].map((x) => (
+              <MakeButtonBankNote key={x} value={x} click={() => next(x)} />
+            ))}
+          </div>
+        </Modal>
+      )}
     </PagamentoStyle>
   );
 };

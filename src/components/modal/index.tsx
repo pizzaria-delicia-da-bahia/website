@@ -1,25 +1,38 @@
 import BottomControls from "@components/pedido/bottomControls";
 import Text from "@components/text";
-import { ButtonPrimary, ButtonSecondary } from "@styles/components/buttons";
-import type { FC } from "react";
+import type { FC, ReactNode } from "react";
 import { ModalStyle } from "./styles";
 
 interface IModal {
-  type: "true-false";
+  type: "true-false" | "custom";
   label: string;
+  description?: string;
   onTrue?: () => void;
   onFalse?: () => void;
+  children?: ReactNode | ReactNode[];
+  buttons?: ReactNode | ReactNode[];
+  className?: string;
 }
 
-const Modal: FC<IModal> = ({ label, type, onTrue, onFalse }) => {
+const Modal: FC<IModal> = ({
+  label,
+  description,
+  type,
+  onTrue,
+  onFalse,
+  children,
+  buttons,
+  className,
+}) => {
   return (
-    <ModalStyle>
+    <ModalStyle className={className}>
       <main>
         <header>
           <Text type="title">{label}</Text>
+          {!!description && <Text type="subtitle">{description}</Text>}
         </header>
-
-        <footer>
+        {children}
+        <footer style={{ display: "flex", justifyContent: "center" }}>
           {type === "true-false" ? (
             <>
               <BottomControls
@@ -33,6 +46,8 @@ const Modal: FC<IModal> = ({ label, type, onTrue, onFalse }) => {
                 }}
               />
             </>
+          ) : type === "custom" ? (
+            buttons
           ) : (
             <></>
           )}

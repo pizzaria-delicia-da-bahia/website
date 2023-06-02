@@ -12,12 +12,17 @@ import { formatCurrency, getValueString } from "@util/format";
 import { Sabor } from "@components/cardapio/sabor";
 import { SaboresStyle } from "@styles/pages/pedido/pizza/sabores/styles";
 import { useMyOrder } from "@context/myOrderContext";
-import { ButtonSecondary, FloatButton } from "@styles/components/buttons";
+import {
+  ButtonPrimary,
+  ButtonSecondary,
+  FloatButton,
+} from "@styles/components/buttons";
 import { v4 as uuidv4 } from "uuid";
 import Loading from "@components/loading";
 import { env } from "@config/env";
 import TextContainer from "@components/textContainer";
 import BottomControls from "@components/pedido/bottomControls";
+import Modal from "@components/modal";
 
 const Sabores: NextPage<{ tamanhoId: string }> = ({ tamanhoId }) => {
   const router = useRouter();
@@ -26,6 +31,10 @@ const Sabores: NextPage<{ tamanhoId: string }> = ({ tamanhoId }) => {
   const [size, setSize] = useState<IPizzaTamanho | null>(null);
   const [groups, setGroups] = useState<Array<IPizzaGrupo[]>>([]);
   const [nextInactive, setNextInactive] = useState<boolean>(false);
+
+  const [showModal, setShowModal] = useState<boolean>(false);
+
+  const [observacao, setObservacao] = useState<string>("");
 
   const loadAll = async () => {
     try {
@@ -121,6 +130,7 @@ const Sabores: NextPage<{ tamanhoId: string }> = ({ tamanhoId }) => {
         valor: midValue,
         sabores: checkedList,
         tamanho: size,
+        observacao,
         id: uuidv4(),
       };
 
@@ -159,7 +169,7 @@ const Sabores: NextPage<{ tamanhoId: string }> = ({ tamanhoId }) => {
           <FloatButton
             className={`${checkedList.length === 0 ? "hidden" : undefined}`}
             disabled={nextInactive}
-            onClick={next}
+            onClick={() => setShowModal(true)}
           >
             <p>Pronto! {">>"}</p>
             <b>
@@ -171,6 +181,39 @@ const Sabores: NextPage<{ tamanhoId: string }> = ({ tamanhoId }) => {
         </>
       ) : (
         <Loading />
+      )}
+
+      {showModal && (
+        <Modal
+          className="observacoes-modal"
+          label="Alguma observação à fazer?"
+          description={`Por ex: "Sem cebola", ou "Bem assada"...`}
+          type={"custom"}
+          buttons={
+            <>
+              <ButtonPrimary
+                onClick={() => {
+                  next();
+                }}
+              >
+                Pronto!
+              </ButtonPrimary>
+            </>
+          }
+        >
+          <input
+            type="text"
+            placeholder="Ex: Pouco orégano..."
+            value={observacao}
+            onChange={(e) => setObservacao(e.target.value)}
+            onKeyUp={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                next();
+              }
+            }}
+          />
+        </Modal>
       )}
     </SaboresStyle>
   );

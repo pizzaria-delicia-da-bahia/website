@@ -6,9 +6,13 @@ import {
 } from "@styles/pages/pedido/informacoes-adicionais/styles";
 import { useMyOrder } from "@context/myOrderContext";
 import { queryString } from "js-query-string-object";
-import { ButtonPrimary, ButtonSecondary } from "@styles/components/buttons";
+import {
+  Button,
+  ButtonPrimary,
+  ButtonSecondary,
+} from "@styles/components/buttons";
 import { useRouter } from "next/router";
-import { ICLiente } from "@models/order";
+import { ICliente } from "@models/order";
 import { MyInput } from "@components/pedido/myInput";
 import { IBairro } from "@models/endereco";
 import { removeAccents } from "@util/format";
@@ -17,22 +21,25 @@ import Loading from "@components/loading";
 import { env } from "@config/env";
 import TextContainer from "@components/textContainer";
 import BottomControls from "@components/pedido/bottomControls";
+import Modal from "@components/modal";
+import { colors } from "@styles/colors";
 
 interface IData {
-  cliente: ICLiente;
+  cliente: ICliente;
   tipo: "retirada" | "entrega" | null;
 }
 
 const InformacoesAdicionais: NextPage = () => {
-  const { setInfo } = useMyOrder();
+  const { setInfo, myOrder } = useMyOrder();
   const [data, setData] = useState<IData | null>(null);
   const router = useRouter();
   const [nextInactive, setNextInactive] = useState<boolean>(false);
   const [neighbourhoods, setNeighbourhoods] = useState<IBairro[]>([]);
+  const [showModal, setShowModal] = useState<boolean>(true);
 
   const getCustomerFromLocalStorage = () => {
     const customer =
-      (JSON.parse(localStorage.getItem("customer")) as ICLiente) ?? null;
+      (JSON.parse(localStorage.getItem("customer")) as ICliente) ?? null;
 
     setData({
       cliente: {
@@ -99,7 +106,14 @@ const InformacoesAdicionais: NextPage = () => {
         Number(endereco?.taxa ?? 0)
       );
 
-      router.push(`/pedido/pagamento`);
+      if (
+        data.tipo === "retirada" ||
+        (data.tipo === "entrega" && !data.cliente?.endereco?.cep)
+      ) {
+        router.push(`/pedido/pagamento`);
+      } else {
+        router.push(`/pedido/confirmacao/${data.cliente.endereco.bairroId}`);
+      }
     } catch (err) {
       console.error(err, err.stack);
       setNextInactive(false);
@@ -144,91 +158,136 @@ const InformacoesAdicionais: NextPage = () => {
     }
   };
 
+  useEffect(() => {
+    if (!showModal) {
+      (document.querySelector("#NOME") as HTMLElement)?.focus();
+    }
+  }, [showModal]);
+
   return (
-    <InformacoesAdicionaisStyle>
-      {!neighbourhoods.length ? (
-        <Loading />
-      ) : (
-        <>
-          <TextContainer
-            title="INFORMAÇÕES ADICIONAIS"
-            description="OS CAMPOS COM * (ASTERISCO) SÃO OBRIGATÓRIOS"
-          />
-          <form className="menu">
-            <section
-              className={`ordertype${!data || !data.tipo ? " no-type" : ""}`}
-            >
-              <span>
-                <input
-                  name="ordertype"
-                  id="delivery"
-                  type={"radio"}
-                  checked={(data && data.tipo === "entrega") ?? false}
-                  onChange={(e) =>
-                    e.target.checked &&
-                    setData((prev) => ({ ...prev, tipo: "entrega" }))
-                  }
-                />
-                <label htmlFor="delivery">QUERO DELIVERY</label>
-              </span>
-              <span>
-                <input
-                  name="ordertype"
-                  id="withdraw"
-                  type={"radio"}
-                  checked={(data && data.tipo === "retirada") ?? false}
-                  onChange={(e) =>
-                    e.target.checked &&
-                    setData((prev) => ({ ...prev, tipo: "retirada" }))
-                  }
-                />
-                <label htmlFor="withdraw">VOU BUSCAR</label>
-              </span>
-            </section>
-            <section
-              className={`customer-info${
-                !data || !data.tipo ? " disabled" : ""
-              }`}
-            >
-              <MyInput
-                name="NOME *"
-                type="name"
-                value={(data && data.cliente.nome) ?? ""}
-                setValue={(value) =>
-                  setData((prev) => ({
-                    ...prev,
-                    cliente: { ...prev.cliente, nome: value as string },
-                  }))
-                }
-              />
-              <MyInput
-                name="WHATSAPP *"
-                type="phoneNumber"
-                value={(data && data.cliente.whatsapp) ?? ""}
-                setValue={(value) =>
-                  setData((prev) => ({
-                    ...prev,
-                    cliente: { ...prev.cliente, whatsapp: value as string },
-                  }))
-                }
-              />
+    <>
+      <InformacoesAdicionaisStyle>
+        {!neighbourhoods.length ? (
+          <Loading />
+        ) : (
+          <>
+            <TextContainer
+              title="INFORMAÇÕES ADICIONAIS"
+              description="OS CAMPOS COM * (ASTERISCO) SÃO OBRIGATÓRIOS"
+            />
+            <form className="menu">
               <section
-                className={`address-info${
-                  !data || data.tipo !== "entrega" ? " disabled" : ""
+                className={`ordertype${!data || !data.tipo ? " no-type" : ""}`}
+              >
+                <span>
+                  <input
+                    name="ordertype"
+                    id="delivery"
+                    type={"radio"}
+                    checked={(data && data.tipo === "entrega") ?? false}
+                    onChange={(e) =>
+                      e.target.checked &&
+                      setData((prev) => ({ ...prev, tipo: "entrega" }))
+                    }
+                  />
+                  <label htmlFor="delivery">QUERO DELIVERY</label>
+                </span>
+                <span>
+                  <input
+                    name="ordertype"
+                    id="withdraw"
+                    type={"radio"}
+                    checked={(data && data.tipo === "retirada") ?? false}
+                    onChange={(e) =>
+                      e.target.checked &&
+                      setData((prev) => ({ ...prev, tipo: "retirada" }))
+                    }
+                  />
+                  <label htmlFor="withdraw">VOU BUSCAR</label>
+                </span>
+              </section>
+              <section
+                className={`customer-info${
+                  !data || !data.tipo ? " disabled" : ""
                 }`}
               >
-                <div className={`input-group cep-endereco-n`}>
-                  <div className="cep">
+                <MyInput
+                  name="NOME *"
+                  type="name"
+                  value={(data && data.cliente.nome) ?? ""}
+                  setValue={(value) =>
+                    setData((prev) => ({
+                      ...prev,
+                      cliente: { ...prev.cliente, nome: value as string },
+                    }))
+                  }
+                />
+                <MyInput
+                  name="WHATSAPP *"
+                  type="phoneNumber"
+                  value={(data && data.cliente.whatsapp) ?? ""}
+                  setValue={(value) =>
+                    setData((prev) => ({
+                      ...prev,
+                      cliente: { ...prev.cliente, whatsapp: value as string },
+                    }))
+                  }
+                />
+                <section
+                  className={`address-info${
+                    !data || data.tipo !== "entrega" ? " disabled" : ""
+                  }`}
+                >
+                  <div className={`input-group cep-endereco-n`}>
+                    <div className="cep">
+                      <MyInput
+                        tabIndex={
+                          !data || data.tipo != "entrega" ? -1 : undefined
+                        }
+                        name="CEP"
+                        type="zipCode"
+                        placeholder="EX: 40000-000"
+                        value={
+                          data?.tipo === "entrega"
+                            ? data?.cliente?.endereco?.cep ?? ""
+                            : ""
+                        }
+                        setValue={(value) =>
+                          setData((prev) => ({
+                            ...prev,
+                            cliente: {
+                              ...prev.cliente,
+                              endereco: {
+                                ...prev.cliente.endereco,
+                                cep: value as string,
+                              },
+                            },
+                          }))
+                        }
+                      />
+                      <button
+                        type="button"
+                        disabled={
+                          String(data?.cliente?.endereco?.cep).replace(
+                            /[^0-9]/g,
+                            ""
+                          ).length !== 8
+                        }
+                        onClick={searchCEP}
+                      >
+                        🔎
+                      </button>
+                    </div>
                     <MyInput
                       tabIndex={
                         !data || data.tipo != "entrega" ? -1 : undefined
                       }
-                      name="CEP"
-                      type="zipCode"
-                      placeholder="EX: 40000-000"
+                      name="ENDEREÇO (RUA/AVENIDA) *"
+                      placeholder="EX: AVENIDA ANITA GARIBALDI"
+                      type="address"
                       value={
                         data?.tipo === "entrega"
-                          ? data?.cliente?.endereco?.cep ?? ""
+                          ? data?.cliente?.endereco?.rua ?? ""
                           : ""
                       }
                       setValue={(value) =>
@@ -238,176 +297,184 @@ const InformacoesAdicionais: NextPage = () => {
                             ...prev.cliente,
                             endereco: {
                               ...prev.cliente.endereco,
-                              cep: value as string,
+                              rua: value as string,
                             },
                           },
                         }))
                       }
                     />
-                    <button
-                      type="button"
-                      disabled={
-                        String(data?.cliente?.endereco?.cep).replace(
-                          /[^0-9]/g,
-                          ""
-                        ).length !== 8
+                    <MyInput
+                      tabIndex={
+                        !data || data.tipo != "entrega" ? -1 : undefined
                       }
-                      onClick={searchCEP}
-                    >
-                      🔎
-                    </button>
-                  </div>
-                  <MyInput
-                    tabIndex={!data || data.tipo != "entrega" ? -1 : undefined}
-                    name="ENDEREÇO (RUA/AVENIDA) *"
-                    placeholder="EX: AVENIDA ANITA GARIBALDI"
-                    type="address"
-                    value={
-                      data?.tipo === "entrega"
-                        ? data?.cliente?.endereco?.rua ?? ""
-                        : ""
-                    }
-                    setValue={(value) =>
-                      setData((prev) => ({
-                        ...prev,
-                        cliente: {
-                          ...prev.cliente,
-                          endereco: {
-                            ...prev.cliente.endereco,
-                            rua: value as string,
-                          },
-                        },
-                      }))
-                    }
-                  />
-                  <MyInput
-                    tabIndex={!data || data.tipo != "entrega" ? -1 : undefined}
-                    name="Nº"
-                    placeholder="EX: 427-B"
-                    type="text"
-                    value={
-                      data?.tipo === "entrega"
-                        ? data?.cliente?.endereco?.numero ?? ""
-                        : ""
-                    }
-                    setValue={(value) =>
-                      setData((prev) => ({
-                        ...prev,
-                        cliente: {
-                          ...prev.cliente,
-                          endereco: {
-                            ...prev.cliente.endereco,
-                            numero: value as string,
-                          },
-                        },
-                      }))
-                    }
-                  />
-                </div>
-                <div className={`input-group bairro-local-referencia`}>
-                  <BairroSelect>
-                    <label htmlFor="bairro-select">BAIRRO *</label>
-                    <select
-                      name="bairro-select"
+                      name="Nº"
+                      placeholder="EX: 427-B"
+                      type="text"
                       value={
                         data?.tipo === "entrega"
-                          ? data?.cliente?.endereco?.bairroId ?? ""
+                          ? data?.cliente?.endereco?.numero ?? ""
                           : ""
                       }
-                      onChange={(e) =>
+                      setValue={(value) =>
                         setData((prev) => ({
                           ...prev,
                           cliente: {
                             ...prev.cliente,
                             endereco: {
                               ...prev.cliente.endereco,
-                              bairroId: e.target.value,
+                              numero: value as string,
                             },
                           },
                         }))
                       }
-                    >
-                      <option value={""}>--Selecione--</option>
-                      {neighbourhoods.map((n) => (
-                        <option value={n.id} key={n.id}>
-                          {n.nome}
-                        </option>
-                      ))}
-                    </select>
-                  </BairroSelect>
+                    />
+                  </div>
+                  <div className={`input-group bairro-local-referencia`}>
+                    <BairroSelect>
+                      <label htmlFor="bairro-select">BAIRRO *</label>
+                      <select
+                        name="bairro-select"
+                        value={
+                          data?.tipo === "entrega"
+                            ? data?.cliente?.endereco?.bairroId ?? ""
+                            : ""
+                        }
+                        onChange={(e) =>
+                          setData((prev) => ({
+                            ...prev,
+                            cliente: {
+                              ...prev.cliente,
+                              endereco: {
+                                ...prev.cliente.endereco,
+                                bairroId: e.target.value,
+                              },
+                            },
+                          }))
+                        }
+                      >
+                        <option value={""}>--Selecione--</option>
+                        {neighbourhoods.map((n) => (
+                          <option value={n.id} key={n.id}>
+                            {n.nome}
+                          </option>
+                        ))}
+                      </select>
+                    </BairroSelect>
 
-                  <MyInput
-                    tabIndex={!data || data.tipo != "entrega" ? -1 : undefined}
-                    name="LOCAL DE ENTREGA"
-                    placeholder="EX: COND. ONDINA TOP, EDF. FLORES, AP. 101"
-                    type="text"
-                    value={
-                      data?.tipo === "entrega"
-                        ? data?.cliente?.endereco?.localDeEntrega ?? ""
-                        : ""
-                    }
-                    setValue={(value) =>
-                      setData((prev) => ({
-                        ...prev,
-                        cliente: {
-                          ...prev.cliente,
-                          endereco: {
-                            ...prev.cliente.endereco,
-                            localDeEntrega: value as string,
+                    <MyInput
+                      tabIndex={
+                        !data || data.tipo != "entrega" ? -1 : undefined
+                      }
+                      name="LOCAL DE ENTREGA"
+                      placeholder="EX: COND. ONDINA TOP, EDF. FLORES, AP. 101"
+                      type="text"
+                      value={
+                        data?.tipo === "entrega"
+                          ? data?.cliente?.endereco?.localDeEntrega ?? ""
+                          : ""
+                      }
+                      setValue={(value) =>
+                        setData((prev) => ({
+                          ...prev,
+                          cliente: {
+                            ...prev.cliente,
+                            endereco: {
+                              ...prev.cliente.endereco,
+                              localDeEntrega: value as string,
+                            },
                           },
-                        },
-                      }))
-                    }
-                  />
-                  <MyInput
-                    tabIndex={!data || data.tipo != "entrega" ? -1 : undefined}
-                    name="PONTO DE REFERÊNCIA"
-                    placeholder="EX: EM FRENTE AO MERCADO NOVA ESPERANÇA"
-                    type="text"
-                    value={
-                      (data?.tipo === "entrega" &&
-                        data?.cliente?.endereco?.pontoDeReferencia) ??
-                      ""
-                    }
-                    setValue={(value) =>
-                      setData((prev) => ({
-                        ...prev,
-                        cliente: {
-                          ...prev.cliente,
-                          endereco: {
-                            ...prev.cliente.endereco,
-                            pontoDeReferencia: value as string,
+                        }))
+                      }
+                    />
+                    <MyInput
+                      tabIndex={
+                        !data || data.tipo != "entrega" ? -1 : undefined
+                      }
+                      name="PONTO DE REFERÊNCIA"
+                      placeholder="EX: EM FRENTE AO MERCADO NOVA ESPERANÇA"
+                      type="text"
+                      value={
+                        (data?.tipo === "entrega" &&
+                          data?.cliente?.endereco?.pontoDeReferencia) ??
+                        ""
+                      }
+                      setValue={(value) =>
+                        setData((prev) => ({
+                          ...prev,
+                          cliente: {
+                            ...prev.cliente,
+                            endereco: {
+                              ...prev.cliente.endereco,
+                              pontoDeReferencia: value as string,
+                            },
                           },
-                        },
-                      }))
-                    }
-                  />
-                </div>
+                        }))
+                      }
+                    />
+                  </div>
+                </section>
               </section>
-            </section>
-          </form>
+            </form>
 
-          <BottomControls
-            backButton
-            primaryButton={{
-              click: next,
-              disabled:
-                nextInactive ||
-                !data ||
-                data.tipo === null ||
-                data.cliente.nome === "" ||
-                data.cliente.whatsapp === "" ||
-                (data.tipo === "entrega" && data.cliente.endereco.rua === "") ||
-                data.cliente.nome.length < 2 ||
-                data.cliente.whatsapp.length < 8 ||
-                (data.tipo === "entrega" &&
-                  (data.cliente.endereco?.rua?.length ?? 0) < 5) ||
-                (data.tipo === "entrega" && !data.cliente.endereco?.bairroId),
-            }}
-          />
-        </>
+            <BottomControls
+              backButton
+              primaryButton={{
+                click: next,
+                disabled:
+                  nextInactive ||
+                  !data ||
+                  data.tipo === null ||
+                  data.cliente.nome === "" ||
+                  data.cliente.whatsapp === "" ||
+                  (data.tipo === "entrega" &&
+                    data.cliente.endereco.rua === "") ||
+                  data.cliente.nome.length < 2 ||
+                  data.cliente.whatsapp.length < 8 ||
+                  (data.tipo === "entrega" &&
+                    (data.cliente.endereco?.rua?.length ?? 0) < 5) ||
+                  (data.tipo === "entrega" && !data.cliente.endereco?.bairroId),
+              }}
+            />
+          </>
+        )}
+      </InformacoesAdicionaisStyle>
+      {showModal && (
+        <Modal
+          className="withdraw-delivery-modal"
+          label="Você vai retirar na pizzaria ou quer o delivery?"
+          type={"custom"}
+          buttons={
+            <>
+              <Button
+                bgcolor={colors.elements}
+                forecolor={colors.background}
+                onClick={() => {
+                  setData((prev) => ({ ...prev, tipo: "retirada" }));
+                  setShowModal(false);
+                }}
+              >
+                Vou buscar
+                <br />
+                🏭🍕
+              </Button>
+
+              <Button
+                bgcolor={colors.elements}
+                forecolor={colors.background}
+                onClick={() => {
+                  setData((prev) => ({ ...prev, tipo: "entrega" }));
+                  setShowModal(false);
+                }}
+              >
+                Quero delivery
+                <br />
+                🛵🏠
+              </Button>
+            </>
+          }
+        />
       )}
-    </InformacoesAdicionaisStyle>
+    </>
   );
 };
 

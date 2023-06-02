@@ -14,6 +14,16 @@ const Globals = createGlobalStyle`
   font-display: swap;
 } */
 
+@media (prefers-color-scheme: dark) {
+body {
+  background-color: ${colors.background};
+    
+}
+}
+:root {
+     color-scheme: light only;
+}
+
 ${scrollbar(colors.elements)}
 
 body{

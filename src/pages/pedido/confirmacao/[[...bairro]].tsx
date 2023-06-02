@@ -7,7 +7,7 @@ import {
 import { useMyOrder } from "@context/myOrderContext";
 import { ButtonPrimary, ButtonSecondary } from "@styles/components/buttons";
 import { useRouter } from "next/router";
-import { ICLiente } from "@models/order";
+import { ICliente } from "@models/order";
 import { IPizza } from "@models/item";
 import { IOutro } from "@models/outro";
 import Link from "next/link";
@@ -15,31 +15,20 @@ import { formatCurrency } from "@util/format";
 import { env } from "@config/env";
 import TextContainer from "@components/textContainer";
 import BottomControls from "@components/pedido/bottomControls";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 interface IData {
-  customer: ICLiente;
+  customer: ICliente;
   type: "retirada" | "entrega";
 }
 
-const Confirmacao: NextPage<{ bairroNome: string }> = ({ bairroNome }) => {
-  const { myOrder, setInfo } = useMyOrder();
+const Confirmacao: NextPage<{ api_url: string; bairroNome: string }> = ({
+  api_url,
+  bairroNome,
+}) => {
+  const { myOrder, setId, newOrder } = useMyOrder();
   const router = useRouter();
-
-  useEffect(() => {
-    if (
-      !myOrder ||
-      (myOrder.itens?.length ?? []) < 1 ||
-      (myOrder.cliente?.nome ?? "") === "" ||
-      (myOrder.cliente?.whatsapp ?? "") === "" ||
-      (myOrder.tipo === "entrega" && (myOrder.cliente?.endereco ?? "") === "")
-    ) {
-      router.push("/pedido");
-    }
-  }, []);
-
-  useEffect(() => {
-    if (!myOrder) router.back();
-  }, []);
 
   const Info = ({ name, value }: { name: string; value: string }) => {
     return (
@@ -51,7 +40,7 @@ const Confirmacao: NextPage<{ bairroNome: string }> = ({ bairroNome }) => {
   };
 
   const customer =
-    myOrder?.cliente?.nome?.length > 0
+    !!myOrder && myOrder?.cliente?.nome?.length > 0
       ? `---CLIENTE---
 NOME: ${myOrder.cliente.nome.toUpperCase()}
 WHATSAPP: ${myOrder.cliente.whatsapp}
@@ -63,7 +52,7 @@ ${
       : "";
 
   const address =
-    myOrder.tipo === "entrega" && myOrder?.cliente?.endereco?.rua
+    !!myOrder && myOrder.tipo === "entrega" && myOrder?.cliente?.endereco?.rua
       ? `---ENTREGA---
 ENDEREÇO: ${myOrder.cliente.endereco.rua.toUpperCase()}${
           myOrder.cliente.endereco.numero?.length > 0
@@ -89,7 +78,7 @@ PONTO DE REFERÊNCIA: ${myOrder.cliente.endereco.pontoDeReferencia.toUpperCase()
       : "";
 
   const items =
-    myOrder?.itens?.length > 0
+    !!myOrder && myOrder?.itens?.length > 0
       ? `---ITENS---
 ${myOrder.itens.map((item) =>
   item.hasOwnProperty("sabores")
@@ -115,25 +104,27 @@ ${item.observacao}`
 `)}`
       : "";
 
-  const total = `---TOTAL---
+  const total =
+    !!myOrder &&
+    `---TOTAL---
 ITENS: ${formatCurrency(
-    myOrder.itens.reduce((acc, item) => acc + item.valor, 0)
-  )}${
-    myOrder.tipo === "entrega"
-      ? myOrder.taxaEntrega ?? 0 > 0
-        ? `
+      myOrder.itens.reduce((acc, item) => acc + item.valor, 0)
+    )}${
+      myOrder.tipo === "entrega"
+        ? myOrder.taxaEntrega ?? 0 > 0
+          ? `
 ENTREGA: ${formatCurrency(myOrder.taxaEntrega)}`
-        : `
+          : `
 (FALTA TAXA DE ENTREGA)`
-      : ""
-  }${`
+        : ""
+    }${`
 VALOR TOTAL: ${formatCurrency(
-    myOrder.itens.reduce((acc, item) => acc + item.valor, 0) +
-      (myOrder.tipo === "entrega" ? myOrder.taxaEntrega : 0)
-  )}`}`;
+      myOrder.itens.reduce((acc, item) => acc + item.valor, 0) +
+        (myOrder.tipo === "entrega" ? myOrder.taxaEntrega : 0)
+    )}`}`;
 
   const payment =
-    myOrder?.pagamentos?.length > 0
+    !!myOrder && myOrder?.pagamentos?.length > 0
       ? `---PAGAMENTO---
 ${myOrder.pagamentos.map(
   (payment) =>
@@ -155,9 +146,43 @@ NÃO VOU PRECISAR DE TROCO`
 ).join(`
 
 `)}`
-      : "";
+      : `---PAGAMENTO---
+NÃO INFORMADO.
+      `;
 
   const confirm = () => {
+    const sendOrder = async () => {
+      const order = {
+        ...myOrder,
+        itens: myOrder.itens.map((x) => ({
+          ...x,
+          tamanho: (x as IPizza)?.tamanho?.nome ?? undefined,
+          observacoes: x.observacao,
+        })),
+        endereco:
+          myOrder.tipo === "entrega"
+            ? {
+                ...myOrder.cliente?.endereco,
+                local: myOrder.cliente?.endereco?.localDeEntrega,
+                referencia: myOrder.cliente?.endereco?.pontoDeReferencia,
+                bairro: bairroNome,
+              }
+            : null,
+        historico: [{ tipo: "enviado", data: new Date() }],
+        pagamento: myOrder.pagamentos,
+      };
+
+      const { data } = await axios.post<any>(`${api_url}/pedidos`, order, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (data?.id) {
+        setId(data.id);
+      }
+    };
+
     const whatsAppLink = encodeURI(
       `https://api.whatsapp.com/send?${
         env.whatsapp ? `phone=${env.whatsapp}&` : ""
@@ -184,31 +209,55 @@ NÃO VOU PRECISAR DE TROCO`
         .replace(/--/g, "_")
     );
 
+    sendOrder()
+      .then(() => console.info("Pedido enviado ao backend"))
+      .catch((e) => console.error(e.message, e.stack));
+
     window.open(whatsAppLink, "_blank");
   };
+
+  if (!myOrder) return <></>;
   return (
     <ConfirmacaoStyle>
-      <TextContainer
-        title="CONFIRMAÇÃO"
-        subtitle="CONFIRME OS DADOS ANTES DE ENVIAR AO NOSSO WHATSAPP"
-        description="*Podem haver alterações nos valores. Ao enviar, aguarde a confirmação
+      {myOrder.id ? (
+        <TextContainer title="Pronto! Você enviou seu pedido!" />
+      ) : (
+        <TextContainer
+          title="CONFIRMAÇÃO"
+          subtitle="CONFIRME OS DADOS ANTES DE ENVIAR AO NOSSO WHATSAPP"
+          description="*Podem haver alterações nos valores. Ao enviar, aguarde a confirmação
           dos nossos atendentes!*"
-      />
+        />
+      )}
       <div className="menu">
         <Info name="Cliente" value={customer.replace(/;/g, "")} />
-        {myOrder.tipo === "entrega" && <Info name="Endereço" value={address} />}
+        {!!myOrder && myOrder.tipo === "entrega" && (
+          <Info name="Endereço" value={address} />
+        )}
         <Info name="Itens" value={items.replace(/-- | --/g, "")} />
         <Info name="Total" value={total} />
         <Info name="Pagamento" value={payment} />
       </div>
 
-      <BottomControls
-        backButton
-        primaryButton={{
-          click: confirm,
-          text: "ENVIAR PARA A PIZZARIA",
-        }}
-      />
+      {myOrder.id ? (
+        <BottomControls
+          secondaryButton={{
+            click: () => {
+              newOrder();
+              router.push("/pedido");
+            },
+            text: "QUERO FAZER MAIS UM PEDIDO!",
+          }}
+        />
+      ) : (
+        <BottomControls
+          backButton
+          primaryButton={{
+            click: confirm,
+            text: "ENVIAR PARA A PIZZARIA",
+          }}
+        />
+      )}
     </ConfirmacaoStyle>
   );
 };
@@ -237,6 +286,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
     return {
       props: {
+        api_url: env.apiURL,
         bairroNome,
       },
     };

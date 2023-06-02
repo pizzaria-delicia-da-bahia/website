@@ -10,10 +10,12 @@ import { Dots } from "@components/dots";
 import { getWorkingTime } from "@data/workingTime";
 import { env } from "@config/env";
 import { IOutro } from "@models/outro";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "@components/modal";
+import { ButtonPrimary, ButtonSecondary } from "@styles/components/buttons";
 
-const Pedido: NextPage<{ isWorking: boolean }> = ({ isWorking }) => {
+const isWorking = true;
+const Pedido: NextPage = () => {
   const items = [
     {
       name: "LANCHES",
@@ -50,8 +52,18 @@ const Pedido: NextPage<{ isWorking: boolean }> = ({ isWorking }) => {
       </PedidoStyle>
     );
 
+  useEffect(() => {
+    if (myOrder?.id) {
+      router.push("/pedido/confirmacao");
+    }
+  }, [myOrder]);
+
   return (
-    <PedidoStyle>
+    <PedidoStyle
+      onContextMenu={(e) => {
+        e.preventDefault();
+      }}
+    >
       <TextContainer title="MONTE SEU PEDIDO" subtitle="ADICIONE UM ITEM" />
 
       <div className="menu">
@@ -79,7 +91,9 @@ const Pedido: NextPage<{ isWorking: boolean }> = ({ isWorking }) => {
           click: () => {
             if (
               myOrder?.itens.some((x) =>
-                (x as IOutro)?.nome?.toUpperCase().includes("REFRIGERANTE")
+                ["CERVEJA", "SUCO", "REFRIGERANTE", "ÁGUA"].some((y) =>
+                  (x as IOutro)?.nome?.toUpperCase().includes(y)
+                )
               )
             ) {
               router.push("/pedido/informacoes-adicionais");
@@ -92,67 +106,84 @@ const Pedido: NextPage<{ isWorking: boolean }> = ({ isWorking }) => {
       />
       {showModal && (
         <Modal
-          label="Adicionar Refrigerante?"
-          type={"true-false"}
-          onTrue={() => router.push("/pedido/bebida")}
-          onFalse={() => router.push("/pedido/informacoes-adicionais")}
+          label="Adicionar bebida?"
+          type={"custom"}
+          buttons={
+            <>
+              <ButtonSecondary
+                onClick={() => {
+                  router.push("/pedido/informacoes-adicionais");
+                }}
+              >
+                Não quero bebida
+              </ButtonSecondary>
+
+              <ButtonPrimary
+                onClick={() => {
+                  router.push("/pedido/bebida");
+                }}
+              >
+                Adicionar bebida
+              </ButtonPrimary>
+            </>
+          }
         />
       )}
     </PedidoStyle>
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  const result = await getWorkingTime();
-  const hoje = new Date()
-    .toLocaleString("pt-BR", { weekday: "short" })
-    .replace(".", "");
+// export const getServerSideProps: GetServerSideProps = async () => {
+//   const result = await getWorkingTime();
+//   const hoje = new Date()
+//     .toLocaleString("pt-BR", { weekday: "short" })
+//     .replace(".", "");
 
-  const dia = result.find((x) => String(x.dia).startsWith(hoje));
+//   const dia = result.find((x) => String(x.dia).startsWith(hoje));
 
-  if (!!!dia.inicio) {
-    return {
-      props: {
-        isWorking: true,
-      },
-    };
-  }
+//   if (!!!dia.inicio) {
+//     return {
+//       props: {
+//         isWorking: true,
+//       },
+//     };
+//   }
 
-  const dataInicio = new Date();
-  dataInicio.getHours() < 5 && dataInicio.setDate(dataInicio.getDate() - 1);
-  dataInicio.setHours(Number(dia.inicio.split(":")[0]) - 2);
-  dataInicio.setMinutes(Number(dia.inicio.split(":")[1]));
-  dataInicio.setSeconds(0);
+//   const dataInicio = new Date();
+//   dataInicio.getHours() < 5 && dataInicio.setDate(dataInicio.getDate() - 1);
+//   dataInicio.setHours(Number(dia.inicio.split(":")[0]) - 2);
+//   dataInicio.setMinutes(Number(dia.inicio.split(":")[1]));
+//   dataInicio.setSeconds(0);
 
-  const dataFim = new Date();
-  dataFim.getHours() < 5 && dataFim.setDate(dataFim.getDate() - 1);
-  dataFim.setHours(Number(dia.fim.split(":")[0]));
-  dataFim.setMinutes(Number(dia.fim.split(":")[1]) + 10);
-  dataFim.setSeconds(0);
+//   const dataFim = new Date();
+//   dataFim.getHours() < 5 && dataFim.setDate(dataFim.getDate() - 1);
+//   dataFim.setHours(Number(dia.fim.split(":")[0]));
+//   dataFim.setMinutes(Number(dia.fim.split(":")[1]) + 10);
+//   dataFim.setSeconds(0);
 
-  const dataAtual = new Date();
+//   const dataAtual = new Date();
 
-  console.log(
-    "working:",
-    dataAtual < dataInicio || dataAtual > dataFim ? false : true
-  );
-  console.log(
-    "atual",
-    dataAtual.toLocaleString(),
-    "inicio",
-    dataInicio.toLocaleString(),
-    "fim",
-    dataFim.toLocaleString()
-  );
-  return {
-    props: {
-      isWorking: true,
-      // env.environment === "development"
-      // ? true
-      //     : dataAtual < dataInicio || dataAtual > dataFim
-      // dataAtual < dataInicio || dataAtual > dataFim ? false : true,
-    },
-  };
-};
+//   console.log(
+//     "working:",
+//     dataAtual < dataInicio || dataAtual > dataFim ? false : true
+//   );
+//   console.log(
+//     "atual",
+//     dataAtual.toLocaleString(),
+//     "inicio",
+//     dataInicio.toLocaleString(),
+//     "fim",
+//     dataFim.toLocaleString()
+//   );
+//   return {
+//     props: {
+//       isWorking: true,
+//       // env.environment === "development"
+//       // ? true
+//       //     : dataAtual < dataInicio || dataAtual > dataFim
+//       // dataAtual < dataInicio || dataAtual > dataFim ? false : true,
+//     },
+//   };
+// };
 
 export default Pedido;

@@ -5,15 +5,22 @@ import { sizes } from "@styles/sizes";
 export const ModalStyle = styled.div`
   width: 100vw;
   height: 100vh;
-  top: calc(0 - ${sizes.header}px);
+  top: calc(0px - ${sizes.header}px);
+  left: 0;
+  /* top: 0; */
   position: absolute;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  background-color: rgba(0, 0, 0, 0.95);
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(20px);
   transition: all 0.2s ease-out;
   gap: 1rem;
+  z-index: 999;
+  padding: 0.5rem;
+
+  text-align: center;
 
   > main {
     display: flex;

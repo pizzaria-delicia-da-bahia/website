@@ -10,7 +10,6 @@ export const PagamentoStyle = styled.main`
   flex-direction: column;
   justify-content: center;
   padding: 1rem 0.3rem calc(50px + 1rem) 0.3rem;
-  position: relative;
   gap: 0.8rem;
   color: #fff;
 
@@ -54,17 +53,22 @@ export const PagamentoStyle = styled.main`
 
       .methods {
         ul {
-          padding: 0.5rem 0.5rem;
+          padding: 0.5rem;
           width: 100%;
-          display: grid;
+          display: flex;
+          flex-direction: column;
           grid-template-columns: repeat(3, 1fr);
           align-items: center;
           justify-content: center;
           flex: 1;
+          gap: 0.5rem;
         }
       }
 
       .changes {
+        &.disabled {
+          opacity: 0;
+        }
         .changes-wrapper {
           display: flex;
           justify-content: center;
@@ -75,11 +79,21 @@ export const PagamentoStyle = styled.main`
     }
   }
 
+  .change-modal {
+    input {
+      padding: 0.5rem;
+      border: 1px solid #000;
+      border-radius: 10px;
+      font-size: 1rem;
+    }
+  }
+
   @media ${breakpointsMQ.desktopSmUp} {
     .menu {
       .inputs-changes-methods {
         .methods {
           ul {
+            display: grid;
             padding: 1rem 2rem;
           }
         }

@@ -9,7 +9,7 @@ import {
 import { toast } from "react-toastify";
 import { IItem } from "@models/item";
 
-import { IEnderecoCliente, ICLiente, IPedido, IPagamento } from "@models/order";
+import { IEnderecoCliente, ICliente, IPedido, IPagamento } from "@models/order";
 
 const MyOrderContext = createContext<{
   myOrder: IPedido;
@@ -20,11 +20,13 @@ const MyOrderContext = createContext<{
   removePayment: (PaymentId: string) => void;
   removeAllPayments: () => void;
   setInfo: (
-    customer: ICLiente,
+    customer: ICliente,
     type: "retirada" | "entrega" | null,
     fee: number
   ) => void;
   setFee: (fee: number) => void;
+  setId: (id: string) => void;
+  newOrder: () => void;
 }>(null);
 
 const MyOrderProvider: FC<{ children: ReactNode }> = ({ children }) => {
@@ -40,6 +42,7 @@ const MyOrderProvider: FC<{ children: ReactNode }> = ({ children }) => {
   };
 
   const EmptyOrder: IPedido = {
+    id: "",
     itens: [],
     tipo: null,
     cliente: { nome: "", whatsapp: "", endereco: EmptyAddress },
@@ -62,6 +65,12 @@ const MyOrderProvider: FC<{ children: ReactNode }> = ({ children }) => {
     }
   }, []);
 
+  const setId = (id: string) => {
+    saveMyOrderLocalAndState({
+      ...myOrder,
+      id,
+    });
+  };
   const addItem = (item: IItem | IItem[]) => {
     const itens = Array.isArray(item) ? item : [item];
     const novosItens = [...(myOrder.itens ?? []), ...itens];
@@ -101,13 +110,13 @@ const MyOrderProvider: FC<{ children: ReactNode }> = ({ children }) => {
   };
 
   const setInfo = (
-    customer: ICLiente,
+    customer: ICliente,
     type: "retirada" | "entrega" | null,
     fee: number
   ) => {
     const localCustomer =
-      (JSON.parse(localStorage.getItem("customer")) as ICLiente) ?? null;
-    const newLocalCustomer: ICLiente = {
+      (JSON.parse(localStorage.getItem("customer")) as ICliente) ?? null;
+    const newLocalCustomer: ICliente = {
       nome: customer.nome === "" ? localCustomer?.nome ?? "" : customer.nome,
       endereco:
         customer.endereco.rua === ""
@@ -136,6 +145,12 @@ const MyOrderProvider: FC<{ children: ReactNode }> = ({ children }) => {
     });
   };
 
+  const newOrder = () => {
+    saveMyOrderLocalAndState({
+      ...EmptyOrder,
+    });
+  };
+
   const removeAllPayments = () => {
     saveMyOrderLocalAndState({ ...myOrder, pagamentos: [] });
   };
@@ -151,7 +166,9 @@ const MyOrderProvider: FC<{ children: ReactNode }> = ({ children }) => {
         removePayment,
         removeAllPayments,
         setInfo,
+        setId,
         setFee,
+        newOrder,
       }}
     >
       {children}

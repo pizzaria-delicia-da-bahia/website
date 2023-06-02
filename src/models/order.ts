@@ -2,8 +2,9 @@ import { IEndereco } from "./endereco";
 import { IItem } from "./item";
 
 export interface IPedido {
+  id?: string;
   data: Date;
-  cliente: ICLiente;
+  cliente: ICliente;
   taxaEntrega: number;
   tipo: "retirada" | "entrega" | null;
   itens: Array<IItem>;
@@ -17,7 +18,7 @@ export interface IPagamento {
   trocoPara: number;
 }
 
-export interface ICLiente {
+export interface ICliente {
   nome: string;
   whatsapp: string;
   endereco: IEnderecoCliente;

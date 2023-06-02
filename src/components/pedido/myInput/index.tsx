@@ -27,7 +27,7 @@ export const MyInput: FC<{
       <label htmlFor={name}>{name}</label>
       <input
         name={name}
-        id={name}
+        id={name.replace(/[* ]/g, "")}
         disabled={disabled}
         placeholder={placeholder}
         tabIndex={tabIndex}

@@ -34,6 +34,7 @@ export const ItemQuantityModalStyle = styled.div`
   &:before {
     content: "";
     background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(20px);
     position: absolute;
     top: -30vh;
     left: -35vw;
