@@ -106,10 +106,7 @@ const InformacoesAdicionais: NextPage = () => {
         Number(endereco?.taxa ?? 0)
       );
 
-      if (
-        data.tipo === "retirada" ||
-        (data.tipo === "entrega" && !data.cliente?.endereco?.cep)
-      ) {
+      if (data.tipo === "retirada" || endereco?.cep) {
         router.push(`/pedido/pagamento`);
       } else {
         router.push(`/pedido/confirmacao/${data.cliente.endereco.bairroId}`);
