@@ -13,6 +13,14 @@ export const SaboresStyle = styled.main`
   padding: 2rem 0.3rem 5rem 0.3rem;
   gap: 2rem;
 
+  > .title {
+    text-align: center;
+
+    h1 {
+      color: ${colors.elements};
+    }
+  }
+
   .groups-left {
     position: relative;
   }

@@ -12,19 +12,17 @@ import { formatCurrency, getValueString } from "@util/format";
 import { Sabor } from "@components/cardapio/sabor";
 import { SaboresStyle } from "@styles/pages/pedido/pizza/sabores/styles";
 import { useMyOrder } from "@context/myOrderContext";
-import {
-  ButtonPrimary,
-  ButtonSecondary,
-  FloatButton,
-} from "@styles/components/buttons";
+import { ButtonSecondary, FloatButton } from "@styles/components/buttons";
 import { v4 as uuidv4 } from "uuid";
 import Loading from "@components/loading";
 import { env } from "@config/env";
 import TextContainer from "@components/textContainer";
 import BottomControls from "@components/pedido/bottomControls";
-import Modal from "@components/modal";
+import { toast } from "react-toastify";
 
-const Sabores: NextPage<{ tamanhoId: string }> = ({ tamanhoId }) => {
+const tamanhoId = "4d29fd7f-2635-474a-a2ec-2cd8560244d5";
+
+const Sabores: NextPage = () => {
   const router = useRouter();
   const [checkedList, setCheckedList] = useState<IPizzaSabor[]>([]);
   const { addItem } = useMyOrder();
@@ -32,9 +30,33 @@ const Sabores: NextPage<{ tamanhoId: string }> = ({ tamanhoId }) => {
   const [groups, setGroups] = useState<Array<IPizzaGrupo[]>>([]);
   const [nextInactive, setNextInactive] = useState<boolean>(false);
 
-  const [showModal, setShowModal] = useState<boolean>(false);
+  const [itensEscolhidos, setItensEscolhidos] = useState<IPizza[]>([]);
 
-  const [observacao, setObservacao] = useState<string>("");
+  const addItemPromo = (item: IPizza | IPizza[]) => {
+    const itens = Array.isArray(item) ? item : [item];
+    setItensEscolhidos((prev) => [
+      ...prev,
+      ...itens.map((x) => ({
+        ...x,
+        observacao: [x.observacao, "PROMOÇÃO RELÂMPAGO"]
+          .filter(Boolean)
+          .join(" "),
+      })),
+    ]);
+  };
+  useEffect(() => {
+    if (itensEscolhidos.length === 1) {
+      toast("Pizza adicionada! Agora adicione a segunda pizza.", {
+        type: "success",
+      });
+
+      setCheckedList([]);
+      setNextInactive(false);
+    } else if (itensEscolhidos.length === 2) {
+      addItem(itensEscolhidos);
+      router.push("/pedido");
+    }
+  }, [itensEscolhidos]);
 
   const loadAll = async () => {
     try {
@@ -48,7 +70,7 @@ const Sabores: NextPage<{ tamanhoId: string }> = ({ tamanhoId }) => {
       setSize(sizesFromBackend[0]);
 
       const groupsFromBackend = (await (
-        await fetch(`${env.apiURL}/pizzas/sabores`, {
+        await fetch(`${env.apiURL}/pizzas/sabores?promocionais=true`, {
           headers: { "Content-Type": "application/json" },
         })
       ).json()) as IPizzaGrupo[];
@@ -73,16 +95,6 @@ const Sabores: NextPage<{ tamanhoId: string }> = ({ tamanhoId }) => {
     loadAll();
   }, []);
 
-  const getAllValues = (valores: IPizzaSaborValor[]) => {
-    return (
-      size &&
-      getValueString({
-        name: size.nome,
-        value: valores.find((x) => x.tamanhoId === size.id).valor,
-      })
-    );
-  };
-
   const getGroups = (g: IPizzaGrupo) => (
     <div className="group" key={g.nome}>
       <h2 className="group-name">{g.nome}</h2>
@@ -92,13 +104,12 @@ const Sabores: NextPage<{ tamanhoId: string }> = ({ tamanhoId }) => {
             key={s.id}
             nome={s.nome}
             ingredientes={s.ingredientes}
-            valuesString={getAllValues(s.valores)}
             showCheckBox={true}
             active={s.disponivel}
             checked={!!checkedList.find((x) => x.nome === s.nome)}
             setChecked={(value) => {
               value
-                ? size.maxSabores > checkedList.length &&
+                ? 2 > checkedList.length &&
                   setCheckedList((prev) => [...prev, s])
                 : setCheckedList((prev) => {
                     return prev.filter((x) => x.nome !== s.nome);
@@ -110,33 +121,26 @@ const Sabores: NextPage<{ tamanhoId: string }> = ({ tamanhoId }) => {
     </div>
   );
   const getSaborValor = (s) => {
-    const value = s.valores.find((v) => v.tamanhoId === size.id).valor;
-    return value;
+    return 25;
   };
 
   const getValorFormatted = (v: number) =>
-    formatCurrency(Number(Number(v / checkedList.length).toFixed(1)));
+    formatCurrency(v / checkedList.length);
 
   const next = () => {
-    console.log(size);
     try {
       setNextInactive(true);
-      const midValue = Number(
-        Number(
-          checkedList.reduce((max, curr) => getSaborValor(curr) + max, 0) /
-            checkedList.length
-        ).toFixed(1)
-      );
+      const midValue =
+        checkedList.reduce((max, curr) => getSaborValor(curr) + max, 0) /
+        checkedList.length;
       const novaPizza: IPizza = {
-        valor: midValue,
+        valor: 25,
         sabores: checkedList,
         tamanho: size,
-        observacao,
         id: uuidv4(),
       };
 
-      addItem(novaPizza);
-      router.push("/pedido");
+      addItemPromo(novaPizza);
     } catch (e) {
       console.error((e as Error).message, (e as Error).stack);
       setNextInactive(false);
@@ -144,12 +148,15 @@ const Sabores: NextPage<{ tamanhoId: string }> = ({ tamanhoId }) => {
   };
   return (
     <SaboresStyle>
+      <p className="title">
+        <h5 className="title">
+          2 pizzas GRANDES de: <s>R$ 66,00</s> por apenas
+        </h5>
+        <h1>R$ 50,00</h1>
+      </p>
       {groups.length && size ? (
         <>
-          <TextContainer
-            title="SABORES"
-            subtitle={size && `SELECIONE ATÉ ${size.maxSabores}`}
-          />
+          <TextContainer title="SABORES" subtitle={size && `SELECIONE ATÉ 2`} />
           <div className="groups">
             <aside className="groups-left">
               {groups[0].map((g) => getGroups(g))}
@@ -170,7 +177,7 @@ const Sabores: NextPage<{ tamanhoId: string }> = ({ tamanhoId }) => {
           <FloatButton
             className={`${checkedList.length === 0 ? "hidden" : undefined}`}
             disabled={nextInactive}
-            onClick={() => setShowModal(true)}
+            onClick={next}
           >
             <p>Pronto! {">>"}</p>
             <b>
@@ -183,49 +190,8 @@ const Sabores: NextPage<{ tamanhoId: string }> = ({ tamanhoId }) => {
       ) : (
         <Loading />
       )}
-
-      {showModal && (
-        <Modal
-          className="observacoes-modal"
-          label="Alguma observação à fazer?"
-          description={`Por ex: "Sem cebola", ou "Bem assada"...`}
-          type={"custom"}
-          buttons={
-            <>
-              <ButtonPrimary
-                onClick={() => {
-                  next();
-                }}
-              >
-                Pronto!
-              </ButtonPrimary>
-            </>
-          }
-        >
-          <input
-            type="text"
-            placeholder="Ex: Pouco orégano..."
-            value={observacao}
-            onChange={(e) => setObservacao(e.target.value)}
-            onKeyUp={(e) => {
-              if (e.key === "Enter") {
-                e.preventDefault();
-                next();
-              }
-            }}
-          />
-        </Modal>
-      )}
     </SaboresStyle>
   );
 };
 
 export default Sabores;
-
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  return {
-    props: {
-      tamanhoId: ctx.query["tamanho"],
-    },
-  };
-};

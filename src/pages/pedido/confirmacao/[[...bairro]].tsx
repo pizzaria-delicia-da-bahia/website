@@ -172,6 +172,7 @@ NÃO INFORMADO.
         pagamento: myOrder.pagamentos,
       };
 
+      console.log(order);
       const { data } = await axios.post<any>(`${api_url}/pedidos`, order, {
         headers: {
           "Content-Type": "application/json",

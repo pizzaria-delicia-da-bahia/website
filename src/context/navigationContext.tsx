@@ -18,13 +18,15 @@ const NavigationContext = createContext<{
 
 const NavigationProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [menuOpen, setMenuOpen] = useState<Boolean>(false);
-  const [modalPromo, setModalPromo] = useState(<></>);
-
-  // <ModalPromo
-  //     goItURL="/pedido/dia-das-maes"
-  //     goItButtonBg="#FF7CFF"
-  //     goItButtonColor="#42210B"
-  //   />
+  const [modalPromo, setModalPromo] = useState(
+    <>
+      <ModalPromo
+        goItURL="/pedido/promocao-relampago"
+        goItButtonBg="#FF7CFF"
+        goItButtonColor="#42210B"
+      />
+    </>
+  );
 
   return (
     <NavigationContext.Provider

@@ -23,6 +23,7 @@ export const CarouselItemStyle = styled.li.attrs(
   overflow: hidden;
   /* max-height: 30vh; */
   gap: 0.2rem;
+  position: relative;
 
   .image-wrapper {
     display: flex;
@@ -36,6 +37,18 @@ export const CarouselItemStyle = styled.li.attrs(
   .bottom-elements {
     display: flex;
     gap: 1rem;
+  }
+
+  .tooltip {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    margin-left: auto;
+
+    background-color: #dddddd;
+    backdrop-filter: blur(20px);
+    padding: 0.5em;
+    font-size: 0.8rem;
   }
 
   @media ${breakpointsMQ.desktopSmUp} {
