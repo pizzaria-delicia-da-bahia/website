@@ -14,7 +14,7 @@ import { useEffect, useState } from "react";
 import Modal from "@components/modal";
 import { ButtonPrimary, ButtonSecondary } from "@styles/components/buttons";
 
-const isWorking = true;
+const isWorking = false;
 const Pedido: NextPage = () => {
   const items = [
     {
@@ -49,10 +49,14 @@ const Pedido: NextPage = () => {
   if (!isWorking)
     return (
       <PedidoStyle>
-        <TextContainer
+        {/* <TextContainer
           title="OPA! ESTAMOS FECHADOS NESTE MOMENTO."
           subtitle="NOSSO HORÁRIO 
        DE FUNCIONAMENTO É DE TERÇA À DOMINGO, DAS 18:30 ATÉ ÀS 23:30"
+        /> */}
+        <TextContainer
+          title="Opa! Estamos fechados agora."
+          subtitle="Entramos em recesso de São João, retornamos dia 27/06 💞"
         />
       </PedidoStyle>
     );
