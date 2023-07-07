@@ -118,7 +118,6 @@ const Sabores: NextPage<{ tamanhoId: string }> = ({ tamanhoId }) => {
     formatCurrency(Number(Number(v / checkedList.length).toFixed(1)));
 
   const next = () => {
-    console.log(size);
     try {
       setNextInactive(true);
       const midValue = Number(
@@ -128,6 +127,7 @@ const Sabores: NextPage<{ tamanhoId: string }> = ({ tamanhoId }) => {
         ).toFixed(1)
       );
       const novaPizza: IPizza = {
+        tipo: "PIZZA",
         valor: midValue,
         sabores: checkedList,
         tamanho: size,

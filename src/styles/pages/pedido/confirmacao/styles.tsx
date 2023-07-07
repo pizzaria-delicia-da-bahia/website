@@ -31,6 +31,10 @@ export const ConfirmacaoStyle = styled.main`
     ${scrollbar(colors.background)}
   }
 
+  .icon-center {
+    font-size: 15rem;
+  }
+
   @media ${breakpointsMQ.desktopSmUp} {
     .menu {
       width: max-content;

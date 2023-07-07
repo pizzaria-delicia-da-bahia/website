@@ -1,3 +1,4 @@
+import { formatPhoneNumber } from "@util/format";
 import { FC } from "react";
 import { MyInputStyle } from "./styles";
 
@@ -57,6 +58,10 @@ export const MyInput: FC<{
         max={max ?? undefined}
         step={type === "number" ? 0.5 : undefined}
         value={value || ""}
+        onBlur={(e) => {
+          if (type === "phoneNumber")
+            setValue(formatPhoneNumber(e.target.value, true, false));
+        }}
         onChange={(e) => setValue(e.target.value)}
         onKeyDown={(e) => {
           const onlyNumbers = e.key.match(/[^\d-)(\s]/g);

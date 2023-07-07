@@ -13,9 +13,9 @@ export const ModalStyle = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.8);
   backdrop-filter: blur(20px);
-  transition: all 0.2s ease-out;
+  transition: all 0.5s ease-out;
   gap: 1rem;
   z-index: 999;
   padding: 0.5rem;
@@ -32,6 +32,7 @@ export const ModalStyle = styled.div`
     padding: 3rem 2rem;
     border-radius: 1rem;
     position: relative;
+    transition: all 0.5s ease-out;
 
     footer {
       position: relative;

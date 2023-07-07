@@ -117,11 +117,15 @@ ENTREGA: ${formatCurrency(myOrder.taxaEntrega)}`
           : `
 (FALTA TAXA DE ENTREGA)`
         : ""
-    }${`
+    }${
+      myOrder.tipo === "retirada" || myOrder.taxaEntrega
+        ? `
 VALOR TOTAL: ${formatCurrency(
-      myOrder.itens.reduce((acc, item) => acc + item.valor, 0) +
-        (myOrder.tipo === "entrega" ? myOrder.taxaEntrega : 0)
-    )}`}`;
+            myOrder.itens.reduce((acc, item) => acc + item.valor, 0) +
+              (myOrder.tipo === "entrega" ? myOrder.taxaEntrega : 0)
+          )}`
+        : ""
+    }`;
 
   const payment =
     !!myOrder && myOrder?.pagamentos?.length > 0
@@ -163,6 +167,7 @@ NÃO INFORMADO.
           myOrder.tipo === "entrega"
             ? {
                 ...myOrder.cliente?.endereco,
+                logradouro: myOrder.cliente?.endereco?.rua,
                 local: myOrder.cliente?.endereco?.localDeEntrega,
                 referencia: myOrder.cliente?.endereco?.pontoDeReferencia,
                 bairro: bairroNome,
@@ -172,7 +177,6 @@ NÃO INFORMADO.
         pagamento: myOrder.pagamentos,
       };
 
-      console.log(order);
       const { data } = await axios.post<any>(`${api_url}/pedidos`, order, {
         headers: {
           "Content-Type": "application/json",
@@ -217,28 +221,44 @@ NÃO INFORMADO.
     window.open(whatsAppLink, "_blank");
   };
 
-  if (!myOrder) return <></>;
+  // if (!myOrder || !myOrder.cliente?.nome || !myOrder.cliente?.whatsapp)
+  //   return <ConfirmacaoStyle>
+
+  //   </ConfirmacaoStyle>;
   return (
     <ConfirmacaoStyle>
       {myOrder.id ? (
         <TextContainer title="Pronto! Você enviou seu pedido!" />
-      ) : (
+      ) : !!myOrder.cliente?.nome && !!myOrder.cliente?.whatsapp ? (
         <TextContainer
           title="CONFIRMAÇÃO"
           subtitle="CONFIRME OS DADOS ANTES DE ENVIAR AO NOSSO WHATSAPP"
           description="*Podem haver alterações nos valores. Ao enviar, aguarde a confirmação
           dos nossos atendentes!*"
         />
+      ) : (
+        <>
+          {" "}
+          <TextContainer
+            title="VOLTAR PARA A TELA INICIAL"
+            subtitle="Retorne à tela inicial para fazer um pedido!"
+          />
+        </>
       )}
-      <div className="menu">
-        <Info name="Cliente" value={customer.replace(/;/g, "")} />
-        {!!myOrder && myOrder.tipo === "entrega" && (
-          <Info name="Endereço" value={address} />
-        )}
-        <Info name="Itens" value={items.replace(/-- | --/g, "")} />
-        <Info name="Total" value={total} />
-        <Info name="Pagamento" value={payment} />
-      </div>
+
+      {!!myOrder.cliente?.nome && !!myOrder.cliente?.whatsapp ? (
+        <div className="menu">
+          <Info name="Cliente" value={customer.replace(/;/g, "")} />
+          {!!myOrder && myOrder.tipo === "entrega" && (
+            <Info name="Endereço" value={address} />
+          )}
+          <Info name="Itens" value={items.replace(/-- | --/g, "")} />
+          <Info name="Total" value={total} />
+          <Info name="Pagamento" value={payment} />
+        </div>
+      ) : (
+        <h1 className="icon-center">🍕</h1>
+      )}
 
       {myOrder.id ? (
         <BottomControls
@@ -250,12 +270,22 @@ NÃO INFORMADO.
             text: "QUERO FAZER MAIS UM PEDIDO!",
           }}
         />
-      ) : (
+      ) : !!myOrder.cliente?.nome && !!myOrder.cliente?.whatsapp ? (
         <BottomControls
           backButton
           primaryButton={{
             click: confirm,
             text: "ENVIAR PARA A PIZZARIA",
+          }}
+        />
+      ) : (
+        <BottomControls
+          primaryButton={{
+            click: () => {
+              newOrder();
+              router.push("/pedido");
+            },
+            text: "VOLTAR PARA A TELA INICIAL",
           }}
         />
       )}

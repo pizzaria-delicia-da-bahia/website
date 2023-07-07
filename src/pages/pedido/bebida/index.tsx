@@ -30,7 +30,7 @@ const Bebida: NextPage = () => {
           headers: { "Content-Type": "application/json" },
         })
       ).json()) as IOutro[];
-      setBebidas(bebidasFromBackend);
+      setBebidas(bebidasFromBackend.map((x) => ({ ...x, tipo: "BEBIDA" })));
     } catch (err) {
       console.error((err as Error).message, (err as Error).stack);
     }

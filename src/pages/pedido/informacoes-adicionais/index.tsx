@@ -411,6 +411,24 @@ const InformacoesAdicionais: NextPage = () => {
                   </div>
                 </section>
               </section>
+              {/* {"geolocation" in navigator && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    navigator.geolocation.getCurrentPosition(function (
+                      position
+                    ) {
+                      console.log("asdasdasdasd", position);
+                      //  toast(
+                      //    `${position.coords.latitude} ${position.coords.longitude}`,
+                      //    { type: "success" }
+                      //  );
+                    });
+                  }}
+                >
+                  Obter localização automaticamente
+                </button>
+              )} */}
             </form>
 
             <BottomControls

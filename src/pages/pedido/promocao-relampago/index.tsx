@@ -134,6 +134,7 @@ const Sabores: NextPage = () => {
         checkedList.reduce((max, curr) => getSaborValor(curr) + max, 0) /
         checkedList.length;
       const novaPizza: IPizza = {
+        tipo: "PIZZA",
         valor: 25,
         sabores: checkedList,
         tamanho: size,
