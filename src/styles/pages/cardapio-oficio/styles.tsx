@@ -79,6 +79,41 @@ export const CardapioOficioStyle = styled.main`
     }
   }
 
+  .espaco-tamanhos {
+    display: flex;
+
+    .espaco {
+      flex-grow: 1;
+    }
+
+    .tamanhos {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.2rem;
+      grid-column: 2;
+      align-items: center;
+      justify-content: flex-end;
+
+      .tamanho {
+        color: ${colors.background};
+        min-width: 4rem;
+        font-size: 0.8rem;
+        font-weight: 800;
+        padding: 0.2rem;
+        border-radius: 0.3rem;
+        text-align: center;
+
+        &:nth-child(even) {
+          background-color: ${colors.elements};
+        }
+        &:nth-child(odd) {
+          background-color: #fff;
+        }
+      }
+    }
+  }
+
   @media print {
     overflow: visible;
   }
