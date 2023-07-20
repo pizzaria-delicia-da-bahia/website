@@ -15,8 +15,12 @@ const Globals = createGlobalStyle`
 } */
 
 @media (prefers-color-scheme: dark) {
-body {
-  background-color: ${colors.background};
+  html {
+    color-scheme: dark;
+  }
+  body {
+    color: white;
+    background-color: ${colors.background};
     
 }
 }
