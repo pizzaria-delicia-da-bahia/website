@@ -71,7 +71,7 @@ const Itens: NextPage = () => {
                     </span>
                     <span className="subright">
                       <h3 className="item-title">
-                        {(item as IOutro).nome.toUpperCase()}
+                        {(item as IOutro)?.nome.toUpperCase()}
                       </h3>
                       <h5 className="item-info">
                         Preço: {formatCurrency(item.valor)}
