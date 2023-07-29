@@ -20,11 +20,11 @@ const NavigationProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [menuOpen, setMenuOpen] = useState<Boolean>(false);
   const [modalPromo, setModalPromo] = useState(
     <>
-      {/* <ModalPromo
-        goItURL="/pedido/combo-barbie"
+      <ModalPromo
+        goItURL="/pedido/promocao-relampago"
         goItButtonBg="#FF7CFF"
         goItButtonColor="#42210B"
-      /> */}
+      />
     </>
   );
 

@@ -7,8 +7,9 @@ import {
   IPizzaSaborValor,
   IPizzaTamanho,
 } from "@models/pizza";
-import { IPizza } from "@models/item";
 import { formatCurrency, getValueString } from "@util/format";
+import { IPizza } from "@models/item";
+import { IOutro } from "@models/outro";
 import { Sabor } from "@components/cardapio/sabor";
 import { SaboresStyle } from "@styles/pages/pedido/pizza/sabores/styles";
 import { useMyOrder } from "@context/myOrderContext";
@@ -53,7 +54,17 @@ const Sabores: NextPage = () => {
       setCheckedList([]);
       setNextInactive(false);
     } else if (itensEscolhidos.length === 2) {
-      addItem(itensEscolhidos);
+      const novaBebida: IOutro = {
+        id: "468a1c21-98da-438b-a915-7eb925ff3187",
+        nome: "COCA COLA 1l",
+        disponivel: true,
+        imagemUrl: "https://i.ibb.co/XpRF5ry/FRENTE.jpg",
+        valor: 7,
+        observacao: "",
+        tipo: "BEBIDA",
+      };
+
+      addItem([...itensEscolhidos, novaBebida]);
       router.push("/pedido");
     }
   }, [itensEscolhidos]);
@@ -121,7 +132,7 @@ const Sabores: NextPage = () => {
     </div>
   );
   const getSaborValor = (s) => {
-    return 25;
+    return 26.5;
   };
 
   const getValorFormatted = (v: number) =>
@@ -135,7 +146,7 @@ const Sabores: NextPage = () => {
         checkedList.length;
       const novaPizza: IPizza = {
         tipo: "PIZZA",
-        valor: 25,
+        valor: 26.5,
         sabores: checkedList,
         tamanho: size,
         id: uuidv4(),
@@ -150,10 +161,8 @@ const Sabores: NextPage = () => {
   return (
     <SaboresStyle>
       <p className="title">
-        <h5 className="title">
-          2 pizzas GRANDES de: <s>R$ 66,00</s> por apenas
-        </h5>
-        <h1>R$ 50,00</h1>
+        <h5 className="title">2 pizzas G + 1 Coca 1L por:</h5>
+        <h1>R$ 60,00</h1>
       </p>
       {groups.length && size ? (
         <>
