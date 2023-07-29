@@ -19,7 +19,6 @@ const Globals = createGlobalStyle`
     color-scheme: dark;
   }
   body {
-    color: white;
     background-color: ${colors.background};
     
 }
