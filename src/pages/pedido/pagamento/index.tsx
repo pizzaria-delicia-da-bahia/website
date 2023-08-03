@@ -22,6 +22,7 @@ const Pagamento: NextPage = () => {
   const { myOrder, addPayment, removeAllPayments } = useMyOrder();
   const router = useRouter();
   const [nextInactive, setNextInactive] = useState<boolean>(false);
+  const [bankNoteInactive, setBankNoteInactive] = useState<boolean>(false);
   const [trocoParaInput, setTrocoParaInput] = useState<string>("");
   const [data, setData] = useState<{
     valor: number;
@@ -75,9 +76,14 @@ const Pagamento: NextPage = () => {
     return (
       <ButtonBankNote
         value={value}
-        disabled={data.tipo !== "especie" || data.valor >= value}
+        disabled={
+          data.tipo !== "especie" || data.valor >= value || bankNoteInactive
+        }
         selected={data.tipo === "especie" && data.trocoPara === value}
-        click={click || setSelectedBankNote}
+        click={() => {
+          setBankNoteInactive(true);
+          click || setSelectedBankNote;
+        }}
       />
     );
   };
