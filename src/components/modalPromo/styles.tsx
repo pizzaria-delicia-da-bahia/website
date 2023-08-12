@@ -53,10 +53,12 @@ export const ModalPromoStyle = styled.div`
 
     .mobile {
       display: block !important;
+      object-fit: scale-down;
     }
 
     .desktop {
       display: none !important;
+      object-fit: scale-down;
     }
   }
 
