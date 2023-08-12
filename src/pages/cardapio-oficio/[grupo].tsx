@@ -14,6 +14,16 @@ export interface ICardapioOficio {
 const CardapioOficio: NextPage<ICardapioOficio> = ({ sizes, groups }) => {
   return (
     <CardapioOficioStyle>
+      <div className="sabor-valores">
+        <div className="sabor"></div>
+        <div className="valores">
+          {sizes
+            .filter((size) => size.visivel)
+            .map((size) => (
+              <small className="valor">{size.nome.slice(0, 3)}.</small>
+            ))}
+        </div>
+      </div>
       {groups.map((group) => (
         <Fragment key={group.id}>
           <h2 className="grupo">{group.nome}</h2>
