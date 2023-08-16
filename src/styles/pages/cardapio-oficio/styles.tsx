@@ -73,6 +73,21 @@ export const CardapioOficioStyle = styled.main`
           color: ${colors.elements};
         }
       }
+      .valor {
+        color: #fff;
+        min-width: 4rem;
+        /* min-height: 2.2rem; */
+        font-size: 0.6rem;
+        /* padding: 0.2rem 0.8rem;
+          border-radius: 0.3rem; */
+        flex-grow: 1;
+        text-align: center;
+        /* background-color: #fff; */
+
+        &:nth-child(even) {
+          color: ${colors.elements};
+        }
+      }
     }
 
     &:nth-child(even) {
