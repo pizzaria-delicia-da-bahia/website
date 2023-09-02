@@ -80,6 +80,7 @@ const Sabores: NextPage = () => {
           nome: "PEQUENA",
           fatias: 4,
           tamanhoAprox: 25,
+          valorMin: 0,
           visivel: true,
           maxSabores: 1,
         },
