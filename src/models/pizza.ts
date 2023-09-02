@@ -17,6 +17,7 @@ export interface IPizzaTamanho {
   fatias: number;
   tamanhoAprox: number;
   maxSabores: number;
+  valorMin: number;
   visivel: boolean;
 }
 export interface IPizzaSaborValor {

@@ -11,6 +11,7 @@ import { env } from "@config/env";
 import Text from "@components/text";
 import BottomControls from "@components/pedido/bottomControls";
 import { Dots } from "@components/dots";
+import { formatCurrency } from "@util/format";
 
 const BottomInfo: FC<{
   name: string;
@@ -67,6 +68,7 @@ const Tamanho: NextPage = () => {
                 <CarouselItem
                   key={item.nome}
                   title={item.nome}
+                  subtitle={`(À partir de ${formatCurrency(item.valorMin)})`}
                   image={{
                     src: "/images/pedido-pizza.svg",
                     w: getImageSize(index),

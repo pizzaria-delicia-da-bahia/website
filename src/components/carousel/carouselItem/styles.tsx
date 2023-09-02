@@ -34,6 +34,11 @@ export const CarouselItemStyle = styled.li.attrs(
       height: 100%;
     }
   }
+  .subtitle {
+    font-size: 0.8rem;
+    font-style: italic;
+    white-space: nowrap;
+  }
   .bottom-elements {
     display: flex;
     gap: 1rem;

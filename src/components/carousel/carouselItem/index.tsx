@@ -6,6 +6,7 @@ import { CarouselItemStyle } from "./styles";
 interface ICarouselItem {
   route: string;
   title: string;
+  subtitle?: string;
   description?: string;
   image: { src: string; w: number; h?: number };
   index: number;
@@ -15,6 +16,7 @@ interface ICarouselItem {
 const CarouselItem: FC<ICarouselItem> = ({
   route,
   title,
+  subtitle,
   description,
   image,
   index,
@@ -48,7 +50,8 @@ const CarouselItem: FC<ICarouselItem> = ({
             alt=""
           />
         </div>
-        {!!title && <h3>{title}</h3>}
+        {!!title && <h3 className="title">{title}</h3>}
+        {!!subtitle && <small className="subtitle">{subtitle}</small>}
         {!!description && <p className="tooltip">{description}</p>}
         {children && <div className="bottom-elements">{children}</div>}
       </CarouselItemStyle>
