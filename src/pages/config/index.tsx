@@ -49,6 +49,7 @@ const Config: NextPage = () => {
     id: "",
     fatias: 0,
     maxSabores: 0,
+    valorMin: 0,
     nome: "",
     tamanhoAprox: 0,
     visivel: true,
