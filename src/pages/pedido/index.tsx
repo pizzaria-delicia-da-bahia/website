@@ -27,11 +27,11 @@ const Pedido: NextPage = () => {
       route: "pedido/pizza/tamanho",
       image: "/images/pedido-pizza.svg",
     },
-    // {
-    //   name: "",
-    //   route: "pedido/promocao-relampago",
-    //   image: "/images/promocao.png",
-    // },
+    {
+      name: "",
+      route: "pedido/promocao-relampago",
+      image: "/images/promocao.png",
+    },
     {
       name: "BEBIDAS",
       route: "pedido/bebida",
