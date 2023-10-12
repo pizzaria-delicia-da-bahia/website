@@ -4,8 +4,8 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { FC } from "react";
 import { ModalPromoStyle } from "./styles";
-import MobilePromoImage from "@assets/images/promo-mobile.png";
-import DesktopPromoImage from "@assets/images/promo-desktop.png";
+import MobilePromoImage from "@assets/images/promo-mobile.svg";
+import DesktopPromoImage from "@assets/images/promo-desktop.svg";
 
 const ModalPromo: FC<{
   goItURL?: string;
