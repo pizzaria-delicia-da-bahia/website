@@ -66,7 +66,7 @@ const Sabores: NextPage = () => {
       //   tipo: "BEBIDA",
       // };
 
-      // addItem([...itensEscolhidos, novaBebida]);
+      addItem([...itensEscolhidos]); //, novaBebida]);
       router.push("/pedido");
     }
   }, [itensEscolhidos]);
