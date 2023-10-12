@@ -30,7 +30,7 @@ const Pedido: NextPage = () => {
     {
       name: "",
       route: "pedido/promocao-relampago",
-      image: "/images/promocao.png",
+      image: "/images/promocao.svg",
     },
     {
       name: "BEBIDAS",
