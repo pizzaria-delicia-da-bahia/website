@@ -19,7 +19,9 @@ const NavigationContext = createContext<{
 const NavigationProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [menuOpen, setMenuOpen] = useState<Boolean>(false);
   const [modalPromo, setModalPromo] = useState(
-    <>{/* <ModalPromo goItURL="/pedido/promocao-relampago" /> */}</>
+    <>
+      <ModalPromo goItURL="/pedido/promocao-relampago" />
+    </>
   );
 
   return (

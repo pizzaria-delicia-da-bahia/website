@@ -32,9 +32,11 @@ const Sabores: NextPage = () => {
   const [nextInactive, setNextInactive] = useState<boolean>(false);
 
   const [itensEscolhidos, setItensEscolhidos] = useState<IPizza[]>([]);
+  const valorSaborFixo = 25; //26.5
 
   const addItemPromo = (item: IPizza | IPizza[]) => {
     const itens = Array.isArray(item) ? item : [item];
+
     setItensEscolhidos((prev) => [
       ...prev,
       ...itens.map((x) => ({
@@ -54,17 +56,17 @@ const Sabores: NextPage = () => {
       setCheckedList([]);
       setNextInactive(false);
     } else if (itensEscolhidos.length === 2) {
-      const novaBebida: IOutro = {
-        id: "468a1c21-98da-438b-a915-7eb925ff3187",
-        nome: "COCA COLA 1l",
-        disponivel: true,
-        imagemUrl: "https://i.ibb.co/XpRF5ry/FRENTE.jpg",
-        valor: 7,
-        observacao: "",
-        tipo: "BEBIDA",
-      };
+      // const novaBebida: IOutro = {
+      //   id: "468a1c21-98da-438b-a915-7eb925ff3187",
+      //   nome: "COCA COLA 1l",
+      //   disponivel: true,
+      //   imagemUrl: "https://i.ibb.co/XpRF5ry/FRENTE.jpg",
+      //   valor: 7,
+      //   observacao: "",
+      //   tipo: "BEBIDA",
+      // };
 
-      addItem([...itensEscolhidos, novaBebida]);
+      // addItem([...itensEscolhidos, novaBebida]);
       router.push("/pedido");
     }
   }, [itensEscolhidos]);
@@ -132,7 +134,7 @@ const Sabores: NextPage = () => {
     </div>
   );
   const getSaborValor = (s) => {
-    return 26.5;
+    return valorSaborFixo;
   };
 
   const getValorFormatted = (v: number) =>
@@ -146,7 +148,7 @@ const Sabores: NextPage = () => {
         checkedList.length;
       const novaPizza: IPizza = {
         tipo: "PIZZA",
-        valor: 26.5,
+        valor: valorSaborFixo,
         sabores: checkedList,
         tamanho: size,
         id: uuidv4(),
@@ -161,8 +163,10 @@ const Sabores: NextPage = () => {
   return (
     <SaboresStyle>
       <p className="title">
-        <h5 className="title">2 pizzas G + 1 Coca 1L por:</h5>
-        <h1>R$ 60,00</h1>
+        {/* <h5 className="title">2 pizzas G + 1 Coca 1L por:</h5> */}
+        {/* <h1>R$ 60,00</h1> */}
+        <h5 className="title">2 pizzas GRANDES por:</h5>
+        <h1>R$ 50,00</h1>
       </p>
       {groups.length && size ? (
         <>
