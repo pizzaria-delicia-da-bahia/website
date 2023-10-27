@@ -15,7 +15,7 @@ import Modal from "@components/modal";
 import { ButtonPrimary, ButtonSecondary } from "@styles/components/buttons";
 
 const isWorking = true;
-const Pedido: NextPage = () => {
+const Pedido: NextPage = ({closedUntil}:{closedUntil: Date | null | undefined}) => {
   const items = [
     {
       name: "LANCHES",
@@ -46,7 +46,7 @@ const Pedido: NextPage = () => {
     setShowModal(true);
   };
 
-  if (!isWorking)
+  if (closedUntil && new Date(closedUntil) > new Date())
     return (
       <PedidoStyle>
         <TextContainer
@@ -142,57 +142,68 @@ const Pedido: NextPage = () => {
   );
 };
 
-// export const getServerSideProps: GetServerSideProps = async () => {
-//   const result = await getWorkingTime();
-//   const hoje = new Date()
-//     .toLocaleString("pt-BR", { weekday: "short" })
-//     .replace(".", "");
+export const getServerSideProps: GetServerSideProps = async () => {
 
-//   const dia = result.find((x) => String(x.dia).startsWith(hoje));
+const { closedUntil } = 
+   (await (await fetch(`${env.apiURL}/loja`)).json()) ?? {closedUntil: null};
 
-//   if (!!!dia.inicio) {
-//     return {
-//       props: {
-//         isWorking: true,
-//       },
-//     };
-//   }
+   return {
+    props: {
+      closedUntil
+    }
+   }
 
-//   const dataInicio = new Date();
-//   dataInicio.getHours() < 5 && dataInicio.setDate(dataInicio.getDate() - 1);
-//   dataInicio.setHours(Number(dia.inicio.split(":")[0]) - 2);
-//   dataInicio.setMinutes(Number(dia.inicio.split(":")[1]));
-//   dataInicio.setSeconds(0);
 
-//   const dataFim = new Date();
-//   dataFim.getHours() < 5 && dataFim.setDate(dataFim.getDate() - 1);
-//   dataFim.setHours(Number(dia.fim.split(":")[0]));
-//   dataFim.setMinutes(Number(dia.fim.split(":")[1]) + 10);
-//   dataFim.setSeconds(0);
+  // const result = await getWorkingTime();
+  // const hoje = new Date()
+  //   .toLocaleString("pt-BR", { weekday: "short" })
+  //   .replace(".", "");
 
-//   const dataAtual = new Date();
+  // const dia = result.find((x) => String(x.dia).startsWith(hoje));
 
-//   console.log(
-//     "working:",
-//     dataAtual < dataInicio || dataAtual > dataFim ? false : true
-//   );
-//   console.log(
-//     "atual",
-//     dataAtual.toLocaleString(),
-//     "inicio",
-//     dataInicio.toLocaleString(),
-//     "fim",
-//     dataFim.toLocaleString()
-//   );
-//   return {
-//     props: {
-//       isWorking: true,
-//       // env.environment === "development"
-//       // ? true
-//       //     : dataAtual < dataInicio || dataAtual > dataFim
-//       // dataAtual < dataInicio || dataAtual > dataFim ? false : true,
-//     },
-//   };
-// };
+  // if (!!!dia.inicio) {
+  //   return {
+  //     props: {
+  //       isWorking: true,
+  //     },
+  //   };
+  // }
+
+  // const dataInicio = new Date();
+  // dataInicio.getHours() < 5 && dataInicio.setDate(dataInicio.getDate() - 1);
+  // dataInicio.setHours(Number(dia.inicio.split(":")[0]) - 2);
+  // dataInicio.setMinutes(Number(dia.inicio.split(":")[1]));
+  // dataInicio.setSeconds(0);
+
+  // const dataFim = new Date();
+  // dataFim.getHours() < 5 && dataFim.setDate(dataFim.getDate() - 1);
+  // dataFim.setHours(Number(dia.fim.split(":")[0]));
+  // dataFim.setMinutes(Number(dia.fim.split(":")[1]) + 10);
+  // dataFim.setSeconds(0);
+
+  // const dataAtual = new Date();
+
+  // console.log(
+  //   "working:",
+  //   dataAtual < dataInicio || dataAtual > dataFim ? false : true
+  // );
+  // console.log(
+  //   "atual",
+  //   dataAtual.toLocaleString(),
+  //   "inicio",
+  //   dataInicio.toLocaleString(),
+  //   "fim",
+  //   dataFim.toLocaleString()
+  // );
+  // return {
+  //   props: {
+  //     isWorking: true,
+  //     // env.environment === "development"
+  //     // ? true
+  //     //     : dataAtual < dataInicio || dataAtual > dataFim
+  //     // dataAtual < dataInicio || dataAtual > dataFim ? false : true,
+  //   },
+  // };
+};
 
 export default Pedido;

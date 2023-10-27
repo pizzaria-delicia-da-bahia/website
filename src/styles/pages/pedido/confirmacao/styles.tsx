@@ -38,6 +38,7 @@ export const ConfirmacaoStyle = styled.main`
   @media ${breakpointsMQ.desktopSmUp} {
     .menu {
       width: max-content;
+      max-width: 90vw;
       padding: 0.5rem 2rem;
       .ordertype {
         gap: 3rem;
