@@ -149,7 +149,7 @@ const { closedUntil } =
 
    return {
     props: {
-      closedUntil
+      closedUntil: closedUntil ?? null
     }
    }
 
