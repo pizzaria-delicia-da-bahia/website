@@ -8,7 +8,7 @@ import {
   IPizzaTamanho,
 } from "@models/pizza";
 import { formatCurrency, getValueString } from "@util/format";
-import { IPizza } from "@models/item";
+import { IItem, IPizza } from "@models/item";
 import { IOutro } from "@models/outro";
 import { Sabor } from "@components/cardapio/sabor";
 import { SaboresStyle } from "@styles/pages/pedido/pizza/sabores/styles";
@@ -32,7 +32,8 @@ const Sabores: NextPage = () => {
   const [nextInactive, setNextInactive] = useState<boolean>(false);
 
   const [itensEscolhidos, setItensEscolhidos] = useState<IPizza[]>([]);
-  const valorSaborFixo = 25; //26.5
+  const comCoca = true;
+  const valorSaborFixo = comCoca ? 26.5 : 25;
 
   const addItemPromo = (item: IPizza | IPizza[]) => {
     const itens = Array.isArray(item) ? item : [item];
@@ -56,17 +57,23 @@ const Sabores: NextPage = () => {
       setCheckedList([]);
       setNextInactive(false);
     } else if (itensEscolhidos.length === 2) {
-      // const novaBebida: IOutro = {
-      //   id: "468a1c21-98da-438b-a915-7eb925ff3187",
-      //   nome: "COCA COLA 1l",
-      //   disponivel: true,
-      //   imagemUrl: "https://i.ibb.co/XpRF5ry/FRENTE.jpg",
-      //   valor: 7,
-      //   observacao: "",
-      //   tipo: "BEBIDA",
-      // };
+      const novaBebida: IOutro | undefined = comCoca
+        ? {
+            id: "656a212781f555282589ba9b",
+            nome: "COCA COLA 1l",
+            disponivel: true,
+            imagemUrl: "https://i.ibb.co/XpRF5ry/FRENTE.jpg",
+            valor: 7,
+            observacao: "",
+            tipo: "BEBIDA",
+          }
+        : undefined;
 
-      addItem([...itensEscolhidos]); //, novaBebida]);
+      const itensFinais: IItem[] = [...itensEscolhidos];
+
+      if (comCoca) itensFinais.push(novaBebida);
+
+      addItem(itensFinais);
       router.push("/pedido");
     }
   }, [itensEscolhidos]);
@@ -163,10 +170,17 @@ const Sabores: NextPage = () => {
   return (
     <SaboresStyle>
       <p className="title">
-        {/* <h5 className="title">2 pizzas G + 1 Coca 1L por:</h5> */}
-        {/* <h1>R$ 60,00</h1> */}
-        <h5 className="title">2 pizzas GRANDES por:</h5>
-        <h1>R$ 50,00</h1>
+        {comCoca ? (
+          <>
+            <h5 className="title">2 pizzas G + 1 Coca 1L por:</h5>
+            <h1>R$ 60,00</h1>
+          </>
+        ) : (
+          <>
+            <h5 className="title">2 pizzas GRANDES por:</h5>
+            <h1>R$ 50,00</h1>
+          </>
+        )}
       </p>
       {groups.length && size ? (
         <>
