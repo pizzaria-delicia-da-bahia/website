@@ -21,7 +21,7 @@ import TextContainer from "@components/textContainer";
 import BottomControls from "@components/pedido/bottomControls";
 import { toast } from "react-toastify";
 
-const tamanhoId = "4d29fd7f-2635-474a-a2ec-2cd8560244d5";
+const tamanhoId = "656a0b4781f555282573eb4a";
 
 const Sabores: NextPage = () => {
   const router = useRouter();
