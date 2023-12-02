@@ -13,13 +13,18 @@ import { IOutro } from "@models/outro";
 import { Sabor } from "@components/cardapio/sabor";
 import { SaboresStyle } from "@styles/pages/pedido/pizza/sabores/styles";
 import { useMyOrder } from "@context/myOrderContext";
-import { ButtonSecondary, FloatButton } from "@styles/components/buttons";
+import {
+  ButtonPrimary,
+  ButtonSecondary,
+  FloatButton,
+} from "@styles/components/buttons";
 import { v4 as uuidv4 } from "uuid";
 import Loading from "@components/loading";
 import { env } from "@config/env";
 import TextContainer from "@components/textContainer";
 import BottomControls from "@components/pedido/bottomControls";
 import { toast } from "react-toastify";
+import Modal from "@components/modal";
 
 const tamanhoId = "656a0b4781f555282573eb4a";
 
@@ -30,6 +35,10 @@ const Sabores: NextPage = () => {
   const [size, setSize] = useState<IPizzaTamanho | null>(null);
   const [groups, setGroups] = useState<Array<IPizzaGrupo[]>>([]);
   const [nextInactive, setNextInactive] = useState<boolean>(false);
+
+  const [showModal, setShowModal] = useState<boolean>(false);
+
+  const [observacao, setObservacao] = useState<string>("");
 
   const [itensEscolhidos, setItensEscolhidos] = useState<IPizza[]>([]);
   const comCoca = true;
@@ -159,6 +168,7 @@ const Sabores: NextPage = () => {
         sabores: checkedList,
         tamanho: size,
         id: uuidv4(),
+        observacao,
       };
 
       addItemPromo(novaPizza);
@@ -167,18 +177,19 @@ const Sabores: NextPage = () => {
       setNextInactive(false);
     }
   };
+
   return (
     <SaboresStyle>
       <p className="title">
         {comCoca ? (
           <>
             <h5 className="title">2 pizzas G + 1 Coca 1L por:</h5>
-            <h1>R$ 60,00</h1>
+            <h1>R$ 59,99</h1>
           </>
         ) : (
           <>
             <h5 className="title">2 pizzas GRANDES por:</h5>
-            <h1>R$ 50,00</h1>
+            <h1>R$ 49,99</h1>
           </>
         )}
       </p>
@@ -205,7 +216,7 @@ const Sabores: NextPage = () => {
           <FloatButton
             className={`${checkedList.length === 0 ? "hidden" : undefined}`}
             disabled={nextInactive}
-            onClick={next}
+            onClick={() => setShowModal(true)}
           >
             <p>Pronto! {">>"}</p>
             <b>
@@ -217,6 +228,38 @@ const Sabores: NextPage = () => {
         </>
       ) : (
         <Loading />
+      )}
+      {showModal && (
+        <Modal
+          className="observacoes-modal"
+          label="Alguma observação à fazer?"
+          description={`Por ex: "Sem cebola", ou "Bem assada"...`}
+          type={"custom"}
+          buttons={
+            <>
+              <ButtonPrimary
+                onClick={() => {
+                  next();
+                }}
+              >
+                Pronto!
+              </ButtonPrimary>
+            </>
+          }
+        >
+          <input
+            type="text"
+            placeholder="Ex: Pouco orégano..."
+            value={observacao}
+            onChange={(e) => setObservacao(e.target.value)}
+            onKeyUp={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                next();
+              }
+            }}
+          />
+        </Modal>
       )}
     </SaboresStyle>
   );
