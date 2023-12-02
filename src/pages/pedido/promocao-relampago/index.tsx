@@ -159,6 +159,7 @@ const Sabores: NextPage = () => {
   const next = () => {
     try {
       setNextInactive(true);
+      setShowModal(false);
       const midValue =
         checkedList.reduce((max, curr) => getSaborValor(curr) + max, 0) /
         checkedList.length;
