@@ -44,7 +44,7 @@ const Pagamento: NextPage = () => {
   useEffect(() => {
     if (
       !myOrder ||
-      (myOrder?.itens?.length ?? []) < 1 ||
+      (myOrder?.itens ?? [])?.length < 1 ||
       (myOrder?.cliente?.nome ?? "") === "" ||
       (myOrder?.cliente?.whatsapp ?? "") === "" ||
       (myOrder?.tipo === "entrega" && (myOrder.cliente?.endereco ?? "") === "")
@@ -82,7 +82,11 @@ const Pagamento: NextPage = () => {
         selected={data.tipo === "especie" && data.trocoPara === value}
         click={() => {
           setBankNoteInactive(true);
-          click || setSelectedBankNote;
+          if (click) {
+            click();
+          } else if (setSelectedBankNote) {
+            setSelectedBankNote(value);
+          }
         }}
       />
     );

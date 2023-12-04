@@ -15,7 +15,11 @@ import Modal from "@components/modal";
 import { ButtonPrimary, ButtonSecondary } from "@styles/components/buttons";
 
 const isWorking = true;
-const Pedido: NextPage = ({closedUntil}:{closedUntil: Date | null | undefined}) => {
+const Pedido: NextPage = ({
+  closedUntil,
+}: {
+  closedUntil: Date | null | undefined;
+}) => {
   const items = [
     {
       name: "LANCHES",
@@ -54,10 +58,6 @@ const Pedido: NextPage = ({closedUntil}:{closedUntil: Date | null | undefined}) 
           subtitle="NOSSO HORÁRIO 
        DE FUNCIONAMENTO É DE TERÇA À DOMINGO, DAS 18:30 ATÉ ÀS 23:30"
         />
-        {/* <TextContainer
-          title="Opa! Estamos fechados agora."
-          subtitle="Entramos em recesso de São João, retornamos dia 27/06 💞"
-        /> */}
       </PedidoStyle>
     );
 
@@ -143,16 +143,15 @@ const Pedido: NextPage = ({closedUntil}:{closedUntil: Date | null | undefined}) 
 };
 
 export const getServerSideProps: GetServerSideProps = async () => {
+  const { closedUntil } = (await (
+    await fetch(`${env.apiURL}/loja`)
+  ).json()) ?? { closedUntil: null };
 
-const { closedUntil } = 
-   (await (await fetch(`${env.apiURL}/loja`)).json()) ?? {closedUntil: null};
-
-   return {
+  return {
     props: {
-      closedUntil: closedUntil ?? null
-    }
-   }
-
+      closedUntil: closedUntil ?? null,
+    },
+  };
 
   // const result = await getWorkingTime();
   // const hoje = new Date()
