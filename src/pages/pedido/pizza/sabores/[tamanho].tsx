@@ -36,7 +36,7 @@ const Sabores: NextPage<{ tamanhoId: string }> = ({ tamanhoId }) => {
 
   const [observacao, setObservacao] = useState<string>("");
 
-  const bordaGratis = true;
+  const bordaGratis = false;
 
   const [borda, setBorda] = useState<String | null>(null);
 
