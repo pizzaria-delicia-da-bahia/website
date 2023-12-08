@@ -1,5 +1,5 @@
 import { GetServerSideProps, NextPage } from "next";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import {
   IPizzaSabor,
@@ -35,6 +35,10 @@ const Sabores: NextPage<{ tamanhoId: string }> = ({ tamanhoId }) => {
   const [showModal, setShowModal] = useState<boolean>(false);
 
   const [observacao, setObservacao] = useState<string>("");
+
+  const bordaGratis = true;
+
+  const [borda, setBorda] = useState<String | null>(null);
 
   const loadAll = async () => {
     try {
@@ -131,7 +135,12 @@ const Sabores: NextPage<{ tamanhoId: string }> = ({ tamanhoId }) => {
         valor: midValue,
         sabores: checkedList,
         tamanho: size,
-        observacao,
+        observacao: [
+          (observacao ?? "").trim(),
+          borda ? `BORDA DE ${borda}` : "",
+        ]
+          .filter(Boolean)
+          .join(", "),
         id: uuidv4(),
       };
 
@@ -187,7 +196,7 @@ const Sabores: NextPage<{ tamanhoId: string }> = ({ tamanhoId }) => {
       {showModal && (
         <Modal
           className="observacoes-modal"
-          label="Alguma observação à fazer?"
+          label="Alguma observação?"
           description={`Por ex: "Sem cebola", ou "Bem assada"...`}
           type={"custom"}
           buttons={
@@ -214,6 +223,40 @@ const Sabores: NextPage<{ tamanhoId: string }> = ({ tamanhoId }) => {
               }
             }}
           />
+
+          {bordaGratis && (
+            <div className="borda-gratis">
+              <h3 className="borda-gratis-title">Borda recheada grátis!</h3>
+              <p className="borda-gratis-subtitle">
+                Selecione o sabor da borda:
+              </p>
+              <ul className="borda-gratis-list">
+                {[
+                  { name: "noborder", label: "Sem borda", value: null },
+                  {
+                    name: "border1",
+                    label: "Requeijão",
+                    value: "REQUEIJÃO",
+                  },
+                  {
+                    name: "border2",
+                    label: "Cheddar",
+                    value: "CHEDDAR",
+                  },
+                ].map((x) => (
+                  <li
+                    className={`borda-gratis-item ${
+                      borda === x.value ? "checked" : ""
+                    }`}
+                    key={x.label}
+                    onClick={() => setBorda(x.value)}
+                  >
+                    {x.label}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </Modal>
       )}
     </SaboresStyle>

@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { breakpointsMQ, hover } from "@styles/mediaQueries";
-import { sizes } from "@styles/sizes";
 import { colors } from "@styles/colors";
 
 export const ItensStyle = styled.main`
@@ -51,6 +50,10 @@ export const ItensStyle = styled.main`
           }
           .item-info {
             font-size: min(1.3rem, 3.2vw);
+          }
+          .item-obs {
+            font-size: min(1rem, 3vw);
+            color: ${colors.background};
           }
         }
         .right {

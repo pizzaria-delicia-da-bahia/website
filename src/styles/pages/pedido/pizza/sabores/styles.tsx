@@ -64,11 +64,45 @@ export const SaboresStyle = styled.main`
   }
 
   .observacoes-modal {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
     input {
       padding: 0.5rem;
       border: 1px solid #000;
       border-radius: 10px;
       font-size: 1rem;
+    }
+
+    .borda-gratis {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      width: 100%;
+
+      .borda-gratis-list {
+        display: flex;
+        list-style: none;
+        border: 4px solid ${colors.elements};
+        border-radius: 10px;
+        width: 100%;
+        justify-content: stretch;
+        overflow: hidden;
+        background-color: ${colors.elements};
+
+        .borda-gratis-item {
+          flex: 1;
+          padding-block: 0.7rem;
+          transform: scale(102%);
+          background-color: ${colors.background};
+
+          &.checked {
+            background-color: ${colors.elements};
+            color: ${colors.background};
+          }
+        }
+      }
     }
   }
 

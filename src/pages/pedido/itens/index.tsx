@@ -53,6 +53,9 @@ const Itens: NextPage = () => {
                           .map((s) => s.nome.split(" ").slice(0, -1).join(" "))
                           .join(", ")}
                       </h5>
+                      {item?.observacao && (
+                        <p className="item-obs">{item.observacao}</p>
+                      )}
                       <h5 className="item-info">
                         Preço: {formatCurrency(item.valor)}
                       </h5>
