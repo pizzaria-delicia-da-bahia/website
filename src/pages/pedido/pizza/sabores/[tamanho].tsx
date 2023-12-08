@@ -36,7 +36,12 @@ const Sabores: NextPage<{ tamanhoId: string }> = ({ tamanhoId }) => {
 
   const [observacao, setObservacao] = useState<string>("");
 
-  const bordaGratis = false;
+  const bordaGratis =
+    size &&
+    size.valorMin &&
+    size.fatias &&
+    size.fatias >= 8 &&
+    size.valorMin >= 33;
 
   const [borda, setBorda] = useState<String | null>(null);
 
