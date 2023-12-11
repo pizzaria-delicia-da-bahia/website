@@ -23,6 +23,7 @@ import { env } from "@config/env";
 import TextContainer from "@components/textContainer";
 import BottomControls from "@components/pedido/bottomControls";
 import Modal from "@components/modal";
+import { toast } from "react-toastify";
 
 const Sabores: NextPage<{ tamanhoId: string }> = ({ tamanhoId }) => {
   const router = useRouter();
@@ -36,14 +37,17 @@ const Sabores: NextPage<{ tamanhoId: string }> = ({ tamanhoId }) => {
 
   const [observacao, setObservacao] = useState<string>("");
 
-  const bordaGratis =
+  const TRUE_FREE_EDGE_CONDITIONALS =
     size &&
     size.valorMin &&
     size.fatias &&
     size.fatias >= 8 &&
     size.valorMin >= 33;
 
-  const [borda, setBorda] = useState<String | null>(null);
+  const bordaGratis = false;
+  // const bordaGratis = TRUE_FREE_EDGE_CONDITIONALS
+
+  const [borda, setBorda] = useState<String | null>();
 
   const loadAll = async () => {
     try {
@@ -126,9 +130,14 @@ const Sabores: NextPage<{ tamanhoId: string }> = ({ tamanhoId }) => {
   const getValorFormatted = (v: number) =>
     formatCurrency(Number(Number(v / checkedList.length).toFixed(1)));
 
+  enum Erros {
+    saborBorda = "Selecione o sabor da borda!",
+  }
+
   const next = () => {
     try {
       setNextInactive(true);
+      if (bordaGratis && borda === undefined) throw new Error(Erros.saborBorda);
       const midValue = Number(
         Number(
           checkedList.reduce((max, curr) => getSaborValor(curr) + max, 0) /
@@ -152,6 +161,15 @@ const Sabores: NextPage<{ tamanhoId: string }> = ({ tamanhoId }) => {
       addItem(novaPizza);
       router.push("/pedido");
     } catch (e) {
+      switch ((e as Error).message) {
+        case Erros.saborBorda:
+          toast.error(e.message);
+          break;
+
+        default:
+          break;
+      }
+
       console.error((e as Error).message, (e as Error).stack);
       setNextInactive(false);
     }
