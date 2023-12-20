@@ -6,21 +6,29 @@ import Clock from "@assets/images/clock.svg";
 import { env } from "@config/env";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 export const Footer = () => {
   const router = useRouter();
+
   if (["/cardapio-"].some((x) => router.pathname.includes(x))) return <></>;
+
+  // useEffect(() => {})
   return (
     <FooterStyle>
       <span className="content icons">
         <a
-          target="_blank"
+          target={router.pathname.includes("/pedido") ? "_self" : "_blank"}
           aria-label="Link para o whatsapp da pizzaria"
-          href={encodeURI(
-            `https://api.whatsapp.com/send?${
-              env.whatsapp ? `phone=${env.whatsapp}&` : ""
-            }text=Olá, gostaria de fazer um pedido! 🍕`
-          )}
+          href={
+            router.pathname.includes("/pedido")
+              ? "#"
+              : encodeURI(
+                  `https://api.whatsapp.com/send?${
+                    env.whatsapp ? `phone=${env.whatsapp}&` : ""
+                  }text=Olá, gostaria de fazer um pedido! 🍕`
+                )
+          }
         >
           <Image
             alt="link to our whatsapp chat"
@@ -30,9 +38,13 @@ export const Footer = () => {
           />
         </a>
         <a
-          target="_blank"
+          target={router.pathname.includes("/pedido") ? "_self" : "_blank"}
           aria-label="Link para o facebook da pizzaria"
-          href="https://www.facebook.com/pizzadeliciadabahia"
+          href={
+            router.pathname.includes("/pedido")
+              ? "#"
+              : "https://www.facebook.com/pizzadeliciadabahia"
+          }
         >
           <Image
             alt="link to our facebook profile"
@@ -42,9 +54,13 @@ export const Footer = () => {
           />
         </a>
         <a
-          target="_blank"
+          target={router.pathname.includes("/pedido") ? "_self" : "_blank"}
           aria-label="Link para o instagram da pizzaria"
-          href="https://www.instagram.com/pizzadeliciadabahia"
+          href={
+            router.pathname.includes("/pedido")
+              ? "#"
+              : "https://www.instagram.com/pizzadeliciadabahia"
+          }
         >
           <Image
             alt="link to our instagram page"

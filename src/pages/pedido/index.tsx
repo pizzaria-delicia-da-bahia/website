@@ -1,4 +1,4 @@
-import { GetServerSideProps, NextPage } from "next";
+import { NextPage } from "next";
 import { useRouter } from "next/router";
 import Carousel from "@components/carousel";
 import CarouselItem from "@components/carousel/carouselItem";
@@ -7,19 +7,14 @@ import { PedidoStyle } from "@styles/pages/pedido/styles";
 import TextContainer from "@components/textContainer";
 import BottomControls from "@components/pedido/bottomControls";
 import { Dots } from "@components/dots";
-import { getWorkingTime } from "@data/workingTime";
 import { env } from "@config/env";
 import { IOutro } from "@models/outro";
 import { useEffect, useState } from "react";
 import Modal from "@components/modal";
 import { ButtonPrimary, ButtonSecondary } from "@styles/components/buttons";
+import Loading from "@components/loading";
 
-const isWorking = true;
-const Pedido: NextPage = ({
-  closedUntil,
-}: {
-  closedUntil: Date | null | undefined;
-}) => {
+const Pedido: NextPage = () => {
   const items = [
     {
       name: "LANCHES",
@@ -45,10 +40,30 @@ const Pedido: NextPage = ({
   const { myOrder } = useMyOrder();
   const router = useRouter();
   const [showModal, setShowModal] = useState<boolean>(false);
+  const [isLoaded, setIsLoaded] = useState<boolean>(false);
+  const [closedUntil, setClosedUntil] = useState<Date | null | undefined>();
 
   const askIfCustomerWantsDrink = () => {
     setShowModal(true);
   };
+
+  useEffect(() => {
+    (async () => {
+      const { closedUntil: _closedUntil } = (await (
+        await fetch(`${env.apiURL}/loja`)
+      ).json()) ?? { closedUntil: null };
+      setIsLoaded(true);
+      setClosedUntil(_closedUntil);
+    })();
+  }, []);
+
+  useEffect(() => {
+    if (myOrder?.id) {
+      router.push("/pedido/confirmacao");
+    }
+  }, [myOrder]);
+
+  if (!isLoaded) return <Loading />;
 
   if (closedUntil && new Date(closedUntil) > new Date())
     return (
@@ -60,12 +75,6 @@ const Pedido: NextPage = ({
         />
       </PedidoStyle>
     );
-
-  useEffect(() => {
-    if (myOrder?.id) {
-      router.push("/pedido/confirmacao");
-    }
-  }, [myOrder]);
 
   return (
     <PedidoStyle
@@ -100,9 +109,18 @@ const Pedido: NextPage = ({
           click: () => {
             if (
               myOrder?.itens.some((x) =>
-                ["CERVEJA", "SUCO", "REFRIGERANTE", "ÁGUA"].some((y) =>
-                  (x as IOutro)?.nome?.toUpperCase().includes(y)
-                )
+                [
+                  "CERVEJA",
+                  "SUCO",
+                  "REFRIGERANTE",
+                  "REFRI",
+                  "COCA",
+                  "AGUA",
+                  "SUKITA",
+                  "PEPSI",
+                  "ANTÁRCTICA",
+                  "ÁGUA",
+                ].some((y) => (x as IOutro)?.nome?.toUpperCase().includes(y))
               )
             ) {
               router.push("/pedido/informacoes-adicionais");
@@ -142,67 +160,55 @@ const Pedido: NextPage = ({
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  const { closedUntil } = (await (
-    await fetch(`${env.apiURL}/loja`)
-  ).json()) ?? { closedUntil: null };
+// const result = await getWorkingTime();
+// const hoje = new Date()
+//   .toLocaleString("pt-BR", { weekday: "short" })
+//   .replace(".", "");
 
-  return {
-    props: {
-      closedUntil: closedUntil ?? null,
-    },
-  };
+// const dia = result.find((x) => String(x.dia).startsWith(hoje));
 
-  // const result = await getWorkingTime();
-  // const hoje = new Date()
-  //   .toLocaleString("pt-BR", { weekday: "short" })
-  //   .replace(".", "");
+// if (!!!dia.inicio) {
+//   return {
+//     props: {
+//       isWorking: true,
+//     },
+//   };
+// }
 
-  // const dia = result.find((x) => String(x.dia).startsWith(hoje));
+// const dataInicio = new Date();
+// dataInicio.getHours() < 5 && dataInicio.setDate(dataInicio.getDate() - 1);
+// dataInicio.setHours(Number(dia.inicio.split(":")[0]) - 2);
+// dataInicio.setMinutes(Number(dia.inicio.split(":")[1]));
+// dataInicio.setSeconds(0);
 
-  // if (!!!dia.inicio) {
-  //   return {
-  //     props: {
-  //       isWorking: true,
-  //     },
-  //   };
-  // }
+// const dataFim = new Date();
+// dataFim.getHours() < 5 && dataFim.setDate(dataFim.getDate() - 1);
+// dataFim.setHours(Number(dia.fim.split(":")[0]));
+// dataFim.setMinutes(Number(dia.fim.split(":")[1]) + 10);
+// dataFim.setSeconds(0);
 
-  // const dataInicio = new Date();
-  // dataInicio.getHours() < 5 && dataInicio.setDate(dataInicio.getDate() - 1);
-  // dataInicio.setHours(Number(dia.inicio.split(":")[0]) - 2);
-  // dataInicio.setMinutes(Number(dia.inicio.split(":")[1]));
-  // dataInicio.setSeconds(0);
+// const dataAtual = new Date();
 
-  // const dataFim = new Date();
-  // dataFim.getHours() < 5 && dataFim.setDate(dataFim.getDate() - 1);
-  // dataFim.setHours(Number(dia.fim.split(":")[0]));
-  // dataFim.setMinutes(Number(dia.fim.split(":")[1]) + 10);
-  // dataFim.setSeconds(0);
-
-  // const dataAtual = new Date();
-
-  // console.log(
-  //   "working:",
-  //   dataAtual < dataInicio || dataAtual > dataFim ? false : true
-  // );
-  // console.log(
-  //   "atual",
-  //   dataAtual.toLocaleString(),
-  //   "inicio",
-  //   dataInicio.toLocaleString(),
-  //   "fim",
-  //   dataFim.toLocaleString()
-  // );
-  // return {
-  //   props: {
-  //     isWorking: true,
-  //     // env.environment === "development"
-  //     // ? true
-  //     //     : dataAtual < dataInicio || dataAtual > dataFim
-  //     // dataAtual < dataInicio || dataAtual > dataFim ? false : true,
-  //   },
-  // };
-};
+// console.log(
+//   "working:",
+//   dataAtual < dataInicio || dataAtual > dataFim ? false : true
+// );
+// console.log(
+//   "atual",
+//   dataAtual.toLocaleString(),
+//   "inicio",
+//   dataInicio.toLocaleString(),
+//   "fim",
+//   dataFim.toLocaleString()
+// );
+// return {
+//   props: {
+//     isWorking: true,
+//     // env.environment === "development"
+//     // ? true
+//     //     : dataAtual < dataInicio || dataAtual > dataFim
+//     // dataAtual < dataInicio || dataAtual > dataFim ? false : true,
+//   },
+// };
 
 export default Pedido;
