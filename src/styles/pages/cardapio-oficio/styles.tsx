@@ -20,6 +20,9 @@ export const CardapioOficioStyle = styled.main`
   .grupo {
     text-align: center;
   }
+  .tamanhos {
+    transform: translateY(200%);
+  }
   .sabores {
     display: flex;
     flex-direction: column;
@@ -38,10 +41,12 @@ export const CardapioOficioStyle = styled.main`
       .right {
         gap: 0;
         user-select: auto;
+        display: flex;
+        align-items: center;
 
         .flavour-name {
           font-size: min(1rem, 5.5vw) !important;
-          gap: 5px;
+          gap: 2px;
           color: ${colors.elements};
         }
         .flavour-ingredients {

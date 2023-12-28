@@ -5,18 +5,19 @@ import { env } from "@config/env";
 import { CardapioCozinhaStyle } from "@styles/pages/cardapio-cozinha/styles";
 
 export interface ICardapioImpresso {
+  index: number;
   flavours: IPizzaSabor[];
 }
 
-const CardapioCozinha: NextPage<ICardapioImpresso> = ({ flavours }) => {
+const CardapioCozinha: NextPage<ICardapioImpresso> = ({ index, flavours }) => {
   return (
     <CardapioCozinhaStyle>
       <div className="sabores">
-        {flavours.map((s) => (
+        {flavours.map((s, i) => (
           <Sabor
             className="sabor"
             key={s.id}
-            nome={s.nome}
+            nome={`${i + index + 1}º - ${s.nome}`}
             ingredientes={s.ingredientes
               .filter((x) =>
                 s.ingredientes.length > 2 ? !["Mussarela"].includes(x) : true
@@ -30,14 +31,32 @@ const CardapioCozinha: NextPage<ICardapioImpresso> = ({ flavours }) => {
                   ? "Calab."
                   : i === "Carne de Hambúrguer"
                   ? "Carne Hb."
-                  : i === "Peito"
-                  ? "P."
+                  : i === "Peito de Peru"
+                  ? "P.Peru"
                   : i === "Requeijão"
                   ? "Reqj."
                   : i === "Molho Especial"
                   ? "Molho Esp."
                   : i === "Uva Passas"
                   ? "Passas"
+                  : i === "Presunto"
+                  ? "Pres."
+                  : i === "Carne do Sol"
+                  ? "C.Sol"
+                  : i === "Carne de Sertão"
+                  ? "C.Sert."
+                  : i === "Creme de Leite"
+                  ? "C.Leite"
+                  : i === "Leite Condensado"
+                  ? "Leite Cond."
+                  : i === "Gorgonzola"
+                  ? "Gorgon."
+                  : i === "Barbecue"
+                  ? "Barbq."
+                  : i === "Parmesão"
+                  ? "Parme."
+                  : i === "Chocolate"
+                  ? "Choco."
                   : i
               )}
             active={s.disponivel}
@@ -66,6 +85,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     return {
       props: {
         flavours,
+        index: Number(ctx.query.index),
       },
     };
   } catch (e) {

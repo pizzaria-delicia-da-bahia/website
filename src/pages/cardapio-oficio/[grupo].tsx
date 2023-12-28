@@ -14,7 +14,7 @@ export interface ICardapioOficio {
 const CardapioOficio: NextPage<ICardapioOficio> = ({ sizes, groups }) => {
   return (
     <CardapioOficioStyle>
-      <div className="sabor-valores">
+      <div className="tamanhos sabor-valores">
         <div className="sabor"></div>
         <div className="valores">
           {sizes
@@ -43,6 +43,12 @@ const CardapioOficio: NextPage<ICardapioOficio> = ({ sizes, groups }) => {
                       ? "Calabr."
                       : i === "Carne de Hambúrguer"
                       ? "Carne de Hamb."
+                      : i === "Carne de Sertão"
+                      ? "C. de Sertão"
+                      : i === "Carne do Sol"
+                      ? "C. do Sol"
+                      : i === "Uva Passas"
+                      ? "Passas"
                       : i === "Peito de Peru"
                       ? "P. de Peru"
                       : i === "Requeijão"

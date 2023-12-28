@@ -6,7 +6,7 @@ export const CardapioCozinhaStyle = styled.main`
   color: #fff;
   width: 100%;
   max-height: 100%;
-  overflow: auto;
+  /* overflow: auto; */
   scroll-behavior: smooth;
   position: relative;
   display: flex;
@@ -19,14 +19,27 @@ export const CardapioCozinhaStyle = styled.main`
 
   .sabores {
     display: flex;
+    flex: 1;
+    flex-direction: column;
     flex-wrap: wrap;
+    flex-flow: column;
+    overflow: auto;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 1rem;
+
+    width: 100%;
 
     .sabor {
       padding: 0.15rem 0.2rem;
       display: flex;
       align-items: center;
-      min-width: 40%;
-      flex: 1;
+      min-width: 49%;
+      max-width: 49%;
+      /* flex: 1; */
+      /* flex: 1 1 80px; */
 
       .right {
         gap: 0;
