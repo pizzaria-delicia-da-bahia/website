@@ -162,13 +162,28 @@ NÃO INFORMADO.
 
   const confirm = () => {
     const sendOrder = async () => {
+      const pizzas = (
+        myOrder.itens.filter((x) => x.tipo === "PIZZA") as IPizza[]
+      ).map((x) => ({
+        ...x,
+        tamanho: x.tamanho.nome,
+        observacoes: entregaGratis
+          ? `PROMOCIONAL ${x.observacao}`
+          : x.observacao,
+        valor: entregaGratis
+          ? x.valor - Number((3 / pizzas.length).toFixed())
+          : x.valor,
+      }));
+      const outros = myOrder.itens
+        .filter((x) => x.tipo !== "PIZZA")
+        .map((x) => ({
+          ...x,
+          observacoes: x.observacao,
+        }));
+
       const order = {
         ...myOrder,
-        itens: myOrder.itens.map((x) => ({
-          ...x,
-          tamanho: (x as IPizza)?.tamanho?.nome ?? undefined,
-          observacoes: x.observacao,
-        })),
+        itens: [...pizzas, outros],
         endereco:
           myOrder.tipo === "entrega"
             ? {

@@ -55,6 +55,7 @@ const PromoProvider: FC<{ children: ReactNode }> = ({ children }) => {
     if (!getEhDia(promo)) return false;
 
     const CONDICAO =
+      myOrder.itens.filter((x) => x.tipo === "PIZZA").length > 0 &&
       myOrder.itens.reduce((acc, item) => acc + item.valor, 0) >= 39;
 
     return CONDICAO;

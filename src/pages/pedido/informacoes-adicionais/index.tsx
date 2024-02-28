@@ -103,7 +103,7 @@ const InformacoesAdicionais: NextPage = () => {
         ...data.cliente,
         endereco: { ...data.cliente.endereco, ...(endereco ?? {}) },
       };
-      customer.endereco.taxa = getTaxaGratis() ? 0 : customer.endereco.taxa;
+      customer.endereco.taxa = getTaxaGratis() ? 3 : customer.endereco.taxa;
       setInfo(
         customer,
         data.tipo,
