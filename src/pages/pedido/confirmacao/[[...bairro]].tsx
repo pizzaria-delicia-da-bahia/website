@@ -184,7 +184,7 @@ NÃO INFORMADO.
 
       const order = {
         ...myOrder,
-        itens: [...pizzas, outros],
+        itens: [...pizzas, ...outros],
         endereco:
           myOrder.tipo === "entrega"
             ? {
