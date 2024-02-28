@@ -1,18 +1,13 @@
 import { NextPage } from "next";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useMyOrder } from "@context/myOrderContext";
-import {
-  Button,
-  ButtonPrimary,
-  ButtonSecondary,
-} from "@styles/components/buttons";
+import { Button, ButtonPrimary } from "@styles/components/buttons";
 import { formatCurrency } from "@util/format";
 import { useRouter } from "next/router";
 import { PagamentoStyle } from "@styles/pages/pedido/pagamento/styles";
 import { v4 as uuidv4 } from "uuid";
 import { PaymentMethod } from "@components/pedido/paymentMethod";
 import { ButtonBankNote } from "@components/pedido/bankNoteButton";
-import { sleep } from "@util/misc";
 import TextContainer from "@components/textContainer";
 import BottomControls from "@components/pedido/bottomControls";
 import Modal from "@components/modal";
@@ -22,12 +17,6 @@ import { usePromo } from "@context/promoContext";
 const Pagamento: NextPage = () => {
   const { myOrder, addPayment, removeAllPayments, setFee } = useMyOrder();
   const { getTaxaGratis } = usePromo();
-
-  useLayoutEffect(() => {
-    if (getTaxaGratis()) {
-      setFee(0);
-    }
-  }, []);
 
   const router = useRouter();
   const [nextInactive, setNextInactive] = useState<boolean>(false);
@@ -41,7 +30,7 @@ const Pagamento: NextPage = () => {
     valor:
       myOrder && myOrder.itens?.length
         ? myOrder.itens.reduce((acc, item) => acc + item.valor, 0) +
-          myOrder.taxaEntrega
+          (getTaxaGratis() ? 0 : myOrder.taxaEntrega)
         : 0,
     trocoPara: 0,
     tipo: null,
@@ -135,10 +124,10 @@ const Pagamento: NextPage = () => {
         subtitle={`VALOR TOTAL ${formatCurrency(data.valor)}`}
         description={
           myOrder?.tipo === "entrega"
-            ? myOrder?.taxaEntrega > 0
-              ? ` (ITENS + ENTREGA)`
-              : getTaxaGratis()
+            ? getTaxaGratis()
               ? " (Hoje a entrega é GRÁTIS!)"
+              : myOrder?.taxaEntrega > 0
+              ? ` (ITENS + ENTREGA)`
               : ` (ENDEREÇO NÃO ENCONTRADO, FALTA INCLUIR TAXA DE ENTREGA)`
             : undefined
         }

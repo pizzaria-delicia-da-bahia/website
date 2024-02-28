@@ -3,7 +3,7 @@ import {
   FC,
   ReactNode,
   useContext,
-  useLayoutEffect,
+  useEffect,
   useState,
 } from "react";
 import { useMyOrder } from "./myOrderContext";
@@ -20,7 +20,7 @@ const PromoContext = createContext<{
 const PromoProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [promos, setPromos] = useState<Promo[]>([]);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     (async () => {
       try {
         const promosFromBackend = (await (
@@ -75,6 +75,12 @@ const PromoProvider: FC<{ children: ReactNode }> = ({ children }) => {
     const CONDICAO = true;
     return CONDICAO;
   };
+
+  //   const a:Omit<Promo, 'id'>[] = [
+  //     {"nome": "taxa-gratis", "ativa": true, "dias":  ["terça", "tuesday", "quarta", "wednesday"]},
+  //     {"nome": "borda-gratis", "ativa": true, "dias": ["quinta", "thursday", "sexta", "friday"] },
+  //     {"nome": "duas-refri-60", "ativa": true, "dias":  ["sábado", "saturday", "domingo", "sunday"] },
+  //   ]
 
   return (
     <PromoContext.Provider

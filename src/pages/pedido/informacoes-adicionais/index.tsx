@@ -23,6 +23,7 @@ import TextContainer from "@components/textContainer";
 import BottomControls from "@components/pedido/bottomControls";
 import Modal from "@components/modal";
 import { colors } from "@styles/colors";
+import { usePromo } from "@context/promoContext";
 
 interface IData {
   cliente: ICliente;
@@ -31,6 +32,7 @@ interface IData {
 
 const InformacoesAdicionais: NextPage = () => {
   const { setInfo, myOrder } = useMyOrder();
+  const { getTaxaGratis } = usePromo();
   const [data, setData] = useState<IData | null>(null);
   const router = useRouter();
   const [nextInactive, setNextInactive] = useState<boolean>(false);
@@ -97,13 +99,15 @@ const InformacoesAdicionais: NextPage = () => {
         ).json()) as { cep: string; rua: string; bairroId: string } | null;
       }
 
+      const customer = {
+        ...data.cliente,
+        endereco: { ...data.cliente.endereco, ...(endereco ?? {}) },
+      };
+      customer.endereco.taxa = getTaxaGratis() ? 0 : customer.endereco.taxa;
       setInfo(
-        {
-          ...data.cliente,
-          endereco: { ...data.cliente.endereco, ...(endereco ?? {}) },
-        },
+        customer,
         data.tipo,
-        Number(endereco?.taxa ?? 0)
+        getTaxaGratis() ? 0 : Number(endereco?.taxa ?? 0)
       );
 
       if (data.tipo === "retirada" || endereco?.cep) {

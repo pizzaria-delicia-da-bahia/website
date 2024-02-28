@@ -106,30 +106,30 @@ ${item.observacao}`
 `)}`
       : "";
 
+  console.log(myOrder);
+  const valorItens = myOrder.itens.reduce((acc, item) => acc + item.valor, 0);
+  const entregaGratis = getTaxaGratis();
+  const valorEntrega = myOrder.taxaEntrega ?? 0;
+
   const total =
     !!myOrder &&
     `---TOTAL---
-ITENS: ${formatCurrency(
-      myOrder.itens.reduce((acc, item) => acc + item.valor, 0)
-    )}${
+  ITENS: ${formatCurrency(valorItens)}${
       myOrder.tipo === "entrega"
-        ? myOrder.taxaEntrega ?? 0 > 0
+        ? entregaGratis
           ? `
-ENTREGA: ${formatCurrency(myOrder.taxaEntrega)}`
-          : getTaxaGratis()
+  ENTREGA: GRÁTIS
+        `
+          : valorEntrega > 0
           ? `
-(ENTREGA GRÁTIS)
-          `
-          : `
-(FALTA TAXA DE ENTREGA)`
+  ENTREGA: ${formatCurrency(valorEntrega)}`
+          : ""
         : ""
-    }${
-      myOrder.tipo === "retirada"
+    }${`
+  VALOR TOTAL: ${formatCurrency(valorItens + valorEntrega)}`}${
+      myOrder.tipo === "entrega" && !entregaGratis
         ? `
-VALOR TOTAL: ${formatCurrency(
-            myOrder.itens.reduce((acc, item) => acc + item.valor, 0) +
-              myOrder.taxaEntrega ?? 0
-          )}`
+    (FALTA INCLUIR A TAXA DE ENTREGA)`
         : ""
     }`;
 

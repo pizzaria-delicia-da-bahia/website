@@ -139,6 +139,7 @@ const MyOrderProvider: FC<{ children: ReactNode }> = ({ children }) => {
   };
 
   const setFee = (fee: number) => {
+    console.log("taxa", fee);
     saveMyOrderLocalAndState({
       ...myOrder,
       taxaEntrega: fee,
