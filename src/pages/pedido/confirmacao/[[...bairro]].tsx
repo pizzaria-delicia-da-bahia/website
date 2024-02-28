@@ -199,11 +199,17 @@ NÃO INFORMADO.
         pagamento: myOrder.pagamentos,
       };
 
-      const { data } = await axios.post<any>(`${api_url}/pedidos`, order, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      // const { data } = await axios.post<any>(`${api_url}/pedidos`, order, {
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      // });
+
+      const { data } = (await fetch(`${env.apiURL}/pedidos`, {
+        method: "POST",
+        body: JSON.stringify(order),
+        headers: { "Content-Type": "application/json" },
+      })) as unknown as { data: { id: string } };
 
       if (data?.id) {
         setId(data.id);
