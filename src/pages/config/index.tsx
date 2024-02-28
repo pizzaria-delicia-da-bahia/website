@@ -9,6 +9,7 @@ import { Other } from "@components/config/other";
 import { IEndereco } from "@models/endereco";
 import { toast } from "react-toastify";
 import { env } from "@config/env";
+import { FloatButton } from "@styles/components/buttons";
 
 // interface IConfig {
 //   sabores: Array<IPizzaSabor>;
@@ -28,11 +29,23 @@ const Config: NextPage = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
   const [pageCount, setPageCount] = useState<number>(1);
   const [sabores, setSabores] = useState<IPizzaSabor[]>([]);
+  const [saboresModificados, setSaboresModificados] = useState<IPizzaSabor[]>(
+    []
+  );
   const [tamanhos, setTamanhos] = useState<IPizzaTamanho[]>([]);
+  const [tamanhosModificados, setTamanhosModificados] = useState<
+    IPizzaTamanho[]
+  >([]);
   const [bebidas, setBebidas] = useState<IOutro[]>([]);
+  const [bebidasModificados, setBebidasModificados] = useState<IOutro[]>([]);
   const [lanches, setLanches] = useState<IOutro[]>([]);
+  const [lanchesModificados, setLanchesModificados] = useState<IOutro[]>([]);
   const [grupos, setGrupos] = useState<IPizzaGrupo[]>([]);
+  const [gruposModificados, setGruposModificados] = useState<IPizzaGrupo[]>([]);
   const [enderecos, setEnderecos] = useState<IEndereco[]>([]);
+  const [enderecosModificados, setEnderecosModificados] = useState<IEndereco[]>(
+    []
+  );
   const [password, setPassword] = useState<string>("");
   const itemsPerPage = 12;
 
@@ -246,6 +259,7 @@ const Config: NextPage = () => {
             />
           ))}
       </ul> */}
+      <FloatButton>Salvar</FloatButton>
     </ConfigStyle>
   ) : (
     <ConfigStyle
@@ -263,6 +277,11 @@ const Config: NextPage = () => {
         type="password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key == "Enter") {
+            getAuth();
+          }
+        }}
         placeholder="password"
       />
       <button

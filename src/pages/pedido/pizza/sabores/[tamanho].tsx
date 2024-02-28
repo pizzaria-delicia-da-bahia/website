@@ -24,6 +24,7 @@ import TextContainer from "@components/textContainer";
 import BottomControls from "@components/pedido/bottomControls";
 import Modal from "@components/modal";
 import { toast } from "react-toastify";
+import { usePromo } from "@context/promoContext";
 
 const Sabores: NextPage<{ tamanhoId: string }> = ({ tamanhoId }) => {
   const router = useRouter();
@@ -32,20 +33,11 @@ const Sabores: NextPage<{ tamanhoId: string }> = ({ tamanhoId }) => {
   const [size, setSize] = useState<IPizzaTamanho | null>(null);
   const [groups, setGroups] = useState<Array<IPizzaGrupo[]>>([]);
   const [nextInactive, setNextInactive] = useState<boolean>(false);
+  const { getBordaGratis } = usePromo();
 
   const [showModal, setShowModal] = useState<boolean>(false);
 
   const [observacao, setObservacao] = useState<string>("");
-
-  const TRUE_FREE_EDGE_CONDITIONALS =
-    size &&
-    size.valorMin &&
-    size.fatias &&
-    size.fatias >= 8 &&
-    size.valorMin >= 33;
-
-  const bordaGratis = false;
-  // const bordaGratis = TRUE_FREE_EDGE_CONDITIONALS
 
   const [borda, setBorda] = useState<String | null>();
 
@@ -137,7 +129,8 @@ const Sabores: NextPage<{ tamanhoId: string }> = ({ tamanhoId }) => {
   const next = () => {
     try {
       setNextInactive(true);
-      if (bordaGratis && borda === undefined) throw new Error(Erros.saborBorda);
+      if (getBordaGratis(size) && borda === undefined)
+        throw new Error(Erros.saborBorda);
       const midValue = Number(
         Number(
           checkedList.reduce((max, curr) => getSaborValor(curr) + max, 0) /
@@ -247,7 +240,7 @@ const Sabores: NextPage<{ tamanhoId: string }> = ({ tamanhoId }) => {
             }}
           />
 
-          {bordaGratis && (
+          {getBordaGratis(size) && (
             <div className="borda-gratis">
               <h3 className="borda-gratis-title">Borda recheada grátis!</h3>
               <p className="borda-gratis-subtitle">

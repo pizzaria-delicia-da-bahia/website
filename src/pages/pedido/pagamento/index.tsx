@@ -1,5 +1,5 @@
 import { NextPage } from "next";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { useMyOrder } from "@context/myOrderContext";
 import {
   Button,
@@ -17,9 +17,18 @@ import TextContainer from "@components/textContainer";
 import BottomControls from "@components/pedido/bottomControls";
 import Modal from "@components/modal";
 import { colors } from "@styles/colors";
+import { usePromo } from "@context/promoContext";
 
 const Pagamento: NextPage = () => {
-  const { myOrder, addPayment, removeAllPayments } = useMyOrder();
+  const { myOrder, addPayment, removeAllPayments, setFee } = useMyOrder();
+  const { getTaxaGratis } = usePromo();
+
+  useLayoutEffect(() => {
+    if (getTaxaGratis()) {
+      setFee(0);
+    }
+  }, []);
+
   const router = useRouter();
   const [nextInactive, setNextInactive] = useState<boolean>(false);
   const [bankNoteInactive, setBankNoteInactive] = useState<boolean>(false);
@@ -128,6 +137,8 @@ const Pagamento: NextPage = () => {
           myOrder?.tipo === "entrega"
             ? myOrder?.taxaEntrega > 0
               ? ` (ITENS + ENTREGA)`
+              : getTaxaGratis()
+              ? " (Hoje a entrega é GRÁTIS!)"
               : ` (ENDEREÇO NÃO ENCONTRADO, FALTA INCLUIR TAXA DE ENTREGA)`
             : undefined
         }

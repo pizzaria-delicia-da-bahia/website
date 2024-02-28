@@ -17,6 +17,7 @@ import TextContainer from "@components/textContainer";
 import BottomControls from "@components/pedido/bottomControls";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { usePromo } from "@context/promoContext";
 
 interface IData {
   customer: ICliente;
@@ -28,6 +29,7 @@ const Confirmacao: NextPage<{ api_url: string; bairroNome: string }> = ({
   bairroNome,
 }) => {
   const { myOrder, setId, newOrder } = useMyOrder();
+  const { getTaxaGratis } = usePromo();
   const router = useRouter();
 
   const Info = ({ name, value }: { name: string; value: string }) => {
@@ -114,15 +116,19 @@ ITENS: ${formatCurrency(
         ? myOrder.taxaEntrega ?? 0 > 0
           ? `
 ENTREGA: ${formatCurrency(myOrder.taxaEntrega)}`
+          : getTaxaGratis()
+          ? `
+(ENTREGA GRÁTIS)
+          `
           : `
 (FALTA TAXA DE ENTREGA)`
         : ""
     }${
-      myOrder.tipo === "retirada" || myOrder.taxaEntrega
+      myOrder.tipo === "retirada"
         ? `
 VALOR TOTAL: ${formatCurrency(
             myOrder.itens.reduce((acc, item) => acc + item.valor, 0) +
-              (myOrder.tipo === "entrega" ? myOrder.taxaEntrega : 0)
+              myOrder.taxaEntrega ?? 0
           )}`
         : ""
     }`;

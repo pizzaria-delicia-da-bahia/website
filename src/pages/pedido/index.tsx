@@ -133,7 +133,7 @@ const Pedido: NextPage = () => {
       />
       {showModal && (
         <Modal
-          label="Adicionar bebida?"
+          label="Adicionar bebida? 🍹🍻"
           type={"custom"}
           buttons={
             <>

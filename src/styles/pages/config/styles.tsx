@@ -88,13 +88,13 @@ export const ConfigStyle = styled.main`
   .snacks {
     flex-direction: column;
     display: flex;
-    gap: 0.8rem;
+    gap: 0.5rem;
   }
 
   @media ${breakpointsMQ.desktopSmUp} {
     .flavours {
       grid-template-columns: repeat(2, 1fr);
-      display: grid;
+      /* display: grid; */
     }
     .sizes,
     .drinks,
@@ -111,6 +111,8 @@ export const ConfigStyle = styled.main`
   }
   @media ${breakpointsMQ.tvMdUp} {
     .flavours {
+      display: flex;
+      flex-direction: column;
       grid-template-columns: repeat(3, 1fr);
     }
   }

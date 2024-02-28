@@ -6,6 +6,7 @@ import Favicon from "../../public/favicon.ico";
 import MyOrderProvider from "@context/myOrderContext";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import PromoProvider from "@context/promoContext";
 
 export default function App({ Component, pageProps }) {
   return (
@@ -27,16 +28,18 @@ export default function App({ Component, pageProps }) {
       </Head>
       <NavigationProvider>
         <MyOrderProvider>
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-          <ToastContainer
-            position="top-center"
-            autoClose={2000}
-            closeOnClick
-            theme="colored"
-            className="toast"
-          />
+          <PromoProvider>
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+            <ToastContainer
+              position="top-center"
+              autoClose={2000}
+              closeOnClick
+              theme="colored"
+              className="toast"
+            />
+          </PromoProvider>
         </MyOrderProvider>
       </NavigationProvider>
       <Globals />
