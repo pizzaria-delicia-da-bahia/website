@@ -6,13 +6,13 @@ import {
   useEffect,
   useState,
 } from "react";
-import { useMyOrder } from "./myOrderContext";
 import { IPizzaTamanho } from "@models/pizza";
 import { Promo } from "@models/promo";
 import { env } from "@config/env";
+import { IItem } from "@models/item";
 
 const PromoContext = createContext<{
-  getTaxaGratis: () => boolean;
+  getTaxaGratis: (itens: IItem[]) => boolean;
   getBordaGratis: (tamanho: IPizzaTamanho) => boolean;
   getDuasRefri60: () => boolean;
 }>(null);
@@ -35,8 +35,6 @@ const PromoProvider: FC<{ children: ReactNode }> = ({ children }) => {
     })();
   }, []);
 
-  const { myOrder } = useMyOrder();
-
   const getEhDia = (promo: Promo) => {
     return promo.dias.some((x) => {
       const hoje = new Date();
@@ -49,14 +47,14 @@ const PromoProvider: FC<{ children: ReactNode }> = ({ children }) => {
     });
   };
 
-  const getTaxaGratis = () => {
+  const getTaxaGratis = (itens: IItem[]) => {
     const promo = promos.find((x) => x.nome.includes("taxa-gratis"));
     if (!promo || !promo.ativa) return false;
     if (!getEhDia(promo)) return false;
 
     const CONDICAO =
-      myOrder.itens.filter((x) => x.tipo === "PIZZA").length > 0 &&
-      myOrder.itens.reduce((acc, item) => acc + item.valor, 0) >= 39;
+      itens.filter((x) => x.tipo === "PIZZA").length > 0 &&
+      itens.reduce((acc, item) => acc + item.valor, 0) >= 39;
 
     return CONDICAO;
   };

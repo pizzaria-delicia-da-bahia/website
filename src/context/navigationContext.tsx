@@ -8,6 +8,8 @@ import {
   useContext,
   useState,
 } from "react";
+import { usePromo } from "./promoContext";
+import ModalPromo2 from "@components/modalPromo2";
 
 const NavigationContext = createContext<{
   menuOpen: Boolean;
@@ -18,8 +20,18 @@ const NavigationContext = createContext<{
 
 const NavigationProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [menuOpen, setMenuOpen] = useState<Boolean>(false);
+  const { getDuasRefri60 } = usePromo();
   const [modalPromo, setModalPromo] = useState(
-    <>{/* <ModalPromo goItURL="/pedido/promocao-relampago" /> */}</>
+    getDuasRefri60() ? (
+      <>
+        <ModalPromo2
+          url="/pedido/promocao-duas"
+          image="/images/promo-duas-refri-60-modal.png"
+        />
+      </>
+    ) : (
+      <></>
+    )
   );
 
   return (

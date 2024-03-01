@@ -26,9 +26,9 @@ export default function App({ Component, pageProps }) {
           content="width=device-width, initial-scale=1.0, maximum-scale=5.0"
         />
       </Head>
-      <NavigationProvider>
-        <MyOrderProvider>
-          <PromoProvider>
+      <PromoProvider>
+        <NavigationProvider>
+          <MyOrderProvider>
             <Layout>
               <Component {...pageProps} />
             </Layout>
@@ -39,9 +39,9 @@ export default function App({ Component, pageProps }) {
               theme="colored"
               className="toast"
             />
-          </PromoProvider>
-        </MyOrderProvider>
-      </NavigationProvider>
+          </MyOrderProvider>
+        </NavigationProvider>
+      </PromoProvider>
       <Globals />
     </>
   );

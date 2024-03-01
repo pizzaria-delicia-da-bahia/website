@@ -91,9 +91,15 @@ const MyOrderProvider: FC<{ children: ReactNode }> = ({ children }) => {
   };
 
   const removeItem = (itemId: string) => {
+    const item = myOrder.itens.find((i) => i.id === itemId);
+
+    const combo: IItem[] = !!item.comboId
+      ? myOrder.itens.filter((i) => i.comboId === item.comboId)
+      : [item];
+
     saveMyOrderLocalAndState({
       ...myOrder,
-      itens: myOrder.itens.filter((i) => i.id !== itemId),
+      itens: myOrder.itens.filter((i) => combo.every((x) => x.id !== i.id)),
     });
   };
 

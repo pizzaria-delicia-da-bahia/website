@@ -30,7 +30,7 @@ const Pagamento: NextPage = () => {
     valor:
       myOrder && myOrder.itens?.length
         ? myOrder.itens.reduce((acc, item) => acc + item.valor, 0) +
-          (getTaxaGratis() ? 0 : myOrder.taxaEntrega)
+          (getTaxaGratis(myOrder.itens) ? 0 : myOrder.taxaEntrega)
         : 0,
     trocoPara: 0,
     tipo: null,
@@ -124,7 +124,7 @@ const Pagamento: NextPage = () => {
         subtitle={`VALOR TOTAL ${formatCurrency(data.valor)}`}
         description={
           myOrder?.tipo === "entrega"
-            ? getTaxaGratis()
+            ? getTaxaGratis(myOrder.itens)
               ? " (Hoje a entrega é GRÁTIS!)"
               : myOrder?.taxaEntrega > 0
               ? ` (ITENS + ENTREGA)`

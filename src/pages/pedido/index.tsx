@@ -13,8 +13,11 @@ import { useEffect, useState } from "react";
 import Modal from "@components/modal";
 import { ButtonPrimary, ButtonSecondary } from "@styles/components/buttons";
 import Loading from "@components/loading";
+import { usePromo } from "@context/promoContext";
 
 const Pedido: NextPage = () => {
+  const { getDuasRefri60 } = usePromo();
+
   const items = [
     {
       name: "LANCHES",
@@ -26,6 +29,11 @@ const Pedido: NextPage = () => {
       route: "pedido/pizza/tamanho",
       image: "/images/pedido-pizza.svg",
     },
+    getDuasRefri60() && {
+      name: "",
+      route: "pedido/promocao-duas",
+      image: "/images/promocao-duas-refri-60.png",
+    },
     // {
     //   name: "",
     //   route: "pedido/promocao-relampago",
@@ -36,7 +44,7 @@ const Pedido: NextPage = () => {
       route: "pedido/bebida",
       image: "/images/pedido-bebida.svg",
     },
-  ];
+  ].filter(Boolean);
   const { myOrder } = useMyOrder();
   const router = useRouter();
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -85,7 +93,10 @@ const Pedido: NextPage = () => {
       <TextContainer title="MONTE SEU PEDIDO" subtitle="ADICIONE UM ITEM" />
 
       <div className="menu">
-        <Carousel length={items.length}>
+        <Carousel
+          length={items.length}
+          defaultSelectedIndex={getDuasRefri60() ? 2 : undefined}
+        >
           {items.map((item, index) => (
             <CarouselItem
               key={item.route}

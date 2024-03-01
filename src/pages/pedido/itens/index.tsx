@@ -1,6 +1,6 @@
 import { NextPage } from "next";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { ItensStyle } from "@styles/pages/pedido/itens/styles";
 import { useMyOrder } from "@context/myOrderContext";
 import { useRouter } from "next/router";
@@ -9,6 +9,8 @@ import { IOutro } from "@models/outro";
 import { formatCurrency } from "@util/format";
 import Text from "@components/text";
 import BottomControls from "@components/pedido/bottomControls";
+import Modal from "@components/modal";
+import { ButtonSecondary } from "@styles/components/buttons";
 
 const Itens: NextPage = () => {
   const { myOrder, removeItem } = useMyOrder();
@@ -20,12 +22,15 @@ const Itens: NextPage = () => {
 
   useEffect(() => {
     backToOrder();
-  }, []);
+  }, [myOrder?.itens]);
 
   const next = () => {
     router.push(`/pedido/informacoes-adicionais`);
   };
-
+  const [showModalRemoverItem, setShowModalRemoverItem] = useState<{
+    show: boolean;
+    id?: string;
+  }>({ show: false });
   return (
     <ItensStyle>
       <Text type="title">MEUS ITENS</Text>
@@ -53,7 +58,7 @@ const Itens: NextPage = () => {
                           .map((s) => s.nome.split(" ").slice(0, -1).join(" "))
                           .join(", ")}
                       </h5>
-                      {item?.observacao && (
+                      {item?.observacao.replace("PROMOCIONAL", "").trim() && (
                         <p className="item-obs">{item.observacao}</p>
                       )}
                       <h5 className="item-info">
@@ -86,7 +91,9 @@ const Itens: NextPage = () => {
               <div className="right">
                 <button
                   title="Remover item"
-                  onClick={() => removeItem(item.id)}
+                  onClick={() => {
+                    setShowModalRemoverItem({ show: true, id: item.id });
+                  }}
                 >
                   x
                 </button>
@@ -102,6 +109,32 @@ const Itens: NextPage = () => {
           disabled: (myOrder?.itens?.length ?? 0) < 1,
         }}
       />
+      {showModalRemoverItem.show && (
+        <Modal
+          label="Excluir item? Se ele for parte de um combo, os outros itens do combo também serão excluídos."
+          type={"custom"}
+          buttons={
+            <>
+              <ButtonSecondary
+                onClick={() => {
+                  setShowModalRemoverItem({ show: false });
+                }}
+              >
+                Voltar
+              </ButtonSecondary>
+
+              <ButtonSecondary
+                onClick={() => {
+                  removeItem(showModalRemoverItem.id);
+                  setShowModalRemoverItem({ show: false });
+                }}
+              >
+                Remover
+              </ButtonSecondary>
+            </>
+          }
+        />
+      )}
     </ItensStyle>
   );
 };

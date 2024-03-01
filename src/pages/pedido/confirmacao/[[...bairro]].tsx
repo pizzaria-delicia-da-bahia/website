@@ -32,6 +32,11 @@ const Confirmacao: NextPage<{ api_url: string; bairroNome: string }> = ({
   const { getTaxaGratis } = usePromo();
   const router = useRouter();
 
+  const valorItens = myOrder.itens.reduce((acc, item) => acc + item.valor, 0);
+  const entregaGratis = getTaxaGratis(myOrder.itens);
+  const valorEntrega = myOrder.taxaEntrega ?? 0;
+  const ehEntrega = myOrder.tipo === "entrega";
+
   const Info = ({ name, value }: { name: string; value: string }) => {
     return (
       <InfoStyle>
@@ -54,7 +59,7 @@ ${
       : "";
 
   const address =
-    !!myOrder && myOrder.tipo === "entrega" && myOrder?.cliente?.endereco?.rua
+    !!myOrder && ehEntrega && myOrder?.cliente?.endereco?.rua
       ? `---ENTREGA---
 ENDEREÇO: ${myOrder.cliente.endereco.rua.toUpperCase()}${
           myOrder.cliente.endereco.numero?.length > 0
@@ -106,16 +111,11 @@ ${item.observacao}`
 `)}`
       : "";
 
-  console.log(myOrder);
-  const valorItens = myOrder.itens.reduce((acc, item) => acc + item.valor, 0);
-  const entregaGratis = getTaxaGratis();
-  const valorEntrega = myOrder.taxaEntrega ?? 0;
-
   const total =
     !!myOrder &&
     `---TOTAL---
   ITENS: ${formatCurrency(valorItens)}${
-      myOrder.tipo === "entrega"
+      ehEntrega
         ? entregaGratis
           ? `
   ENTREGA: GRÁTIS
@@ -127,7 +127,7 @@ ${item.observacao}`
         : ""
     }${`
   VALOR TOTAL: ${formatCurrency(valorItens + valorEntrega)}`}${
-      myOrder.tipo === "entrega" && !entregaGratis
+      ehEntrega && !entregaGratis
         ? `
     (FALTA INCLUIR A TAXA DE ENTREGA)`
         : ""
@@ -168,12 +168,14 @@ NÃO INFORMADO.
       const pizzas = _pizzas.map((x) => ({
         ...x,
         tamanho: x.tamanho.nome,
-        observacoes: entregaGratis
-          ? `PROMOCIONAL ${x.observacao}`
-          : x.observacao,
-        valor: entregaGratis
-          ? x.valor - Number((3 / _pizzas.length).toFixed())
-          : x.valor,
+        observacoes:
+          entregaGratis && ehEntrega
+            ? `PROMOCIONAL${x.observacao ? ` ${x.observacao}` : ""}`
+            : x.observacao,
+        valor:
+          entregaGratis && ehEntrega
+            ? x.valor - Number((3 / _pizzas.length).toFixed())
+            : x.valor,
       }));
       const outros = myOrder.itens
         .filter((x) => x.tipo !== "PIZZA")
@@ -185,16 +187,15 @@ NÃO INFORMADO.
       const order = {
         ...myOrder,
         itens: [...pizzas, ...outros],
-        endereco:
-          myOrder.tipo === "entrega"
-            ? {
-                ...myOrder.cliente?.endereco,
-                logradouro: myOrder.cliente?.endereco?.rua,
-                local: myOrder.cliente?.endereco?.localDeEntrega,
-                referencia: myOrder.cliente?.endereco?.pontoDeReferencia,
-                bairro: bairroNome,
-              }
-            : null,
+        endereco: ehEntrega
+          ? {
+              ...myOrder.cliente?.endereco,
+              logradouro: myOrder.cliente?.endereco?.rua,
+              local: myOrder.cliente?.endereco?.localDeEntrega,
+              referencia: myOrder.cliente?.endereco?.pontoDeReferencia,
+              bairro: bairroNome,
+            }
+          : null,
         historico: [{ tipo: "enviado", data: new Date() }],
         pagamento: myOrder.pagamentos,
       };
@@ -278,9 +279,7 @@ NÃO INFORMADO.
       {!!myOrder.cliente?.nome && !!myOrder.cliente?.whatsapp ? (
         <div className="menu">
           <Info name="Cliente" value={customer.replace(/;/g, "")} />
-          {!!myOrder && myOrder.tipo === "entrega" && (
-            <Info name="Endereço" value={address} />
-          )}
+          {!!myOrder && ehEntrega && <Info name="Endereço" value={address} />}
           <Info name="Itens" value={items.replace(/-- | --/g, "")} />
           <Info name="Total" value={total} />
           <Info name="Pagamento" value={payment} />

@@ -25,6 +25,7 @@ import TextContainer from "@components/textContainer";
 import BottomControls from "@components/pedido/bottomControls";
 import { toast } from "react-toastify";
 import Modal from "@components/modal";
+import { usePromo } from "@context/promoContext";
 
 const tamanhoId = "656a0b4781f555282573eb4a";
 
@@ -35,14 +36,15 @@ const Sabores: NextPage = () => {
   const [size, setSize] = useState<IPizzaTamanho | null>(null);
   const [groups, setGroups] = useState<Array<IPizzaGrupo[]>>([]);
   const [nextInactive, setNextInactive] = useState<boolean>(false);
-  const [comboId] = useState<string>(uuidv4());
+  const { getDuasRefri60 } = usePromo();
 
   const [showModal, setShowModal] = useState<boolean>(false);
 
   const [observacao, setObservacao] = useState<string>("");
+  const [comboId] = useState<string>(uuidv4());
 
   const [itensEscolhidos, setItensEscolhidos] = useState<IPizza[]>([]);
-  const comCoca = true;
+  const comCoca = getDuasRefri60();
   const valorSaborFixo = comCoca ? 26.5 : 25;
 
   const addItemPromo = (item: IPizza | IPizza[]) => {
@@ -74,8 +76,8 @@ const Sabores: NextPage = () => {
             imagemUrl: "https://i.ibb.co/XpRF5ry/FRENTE.jpg",
             valor: 7,
             observacao: "",
-            tipo: "BEBIDA",
             comboId,
+            tipo: "BEBIDA",
           }
         : undefined;
 
@@ -185,7 +187,7 @@ const Sabores: NextPage = () => {
       <p className="title">
         {comCoca ? (
           <>
-            <h5 className="title">2 pizzas G + 1 Coca 1L por:</h5>
+            <h5 className="title">2 pizzas G + 1 Refri 1L por:</h5>
             <h1>R$ 59,99</h1>
           </>
         ) : (

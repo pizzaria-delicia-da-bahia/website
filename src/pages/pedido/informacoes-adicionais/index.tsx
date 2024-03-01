@@ -103,11 +103,13 @@ const InformacoesAdicionais: NextPage = () => {
         ...data.cliente,
         endereco: { ...data.cliente.endereco, ...(endereco ?? {}) },
       };
-      customer.endereco.taxa = getTaxaGratis() ? 3 : customer.endereco.taxa;
+      customer.endereco.taxa = getTaxaGratis(myOrder.itens)
+        ? 3
+        : customer.endereco.taxa;
       setInfo(
         customer,
         data.tipo,
-        getTaxaGratis() ? 0 : Number(endereco?.taxa ?? 0)
+        getTaxaGratis(myOrder.itens) ? 0 : Number(endereco?.taxa ?? 0)
       );
 
       if (data.tipo === "retirada" || endereco?.cep) {
@@ -311,6 +313,7 @@ const InformacoesAdicionais: NextPage = () => {
                       name="Nº"
                       placeholder="EX: 427-B"
                       type="text"
+                      max={7}
                       value={
                         data?.tipo === "entrega"
                           ? data?.cliente?.endereco?.numero ?? ""
