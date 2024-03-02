@@ -81,11 +81,12 @@ export const MyInput: FC<{
           value={value || ""}
           onBlur={(e) => {
             const val = e.target.value.trim();
-            // if (type === "phoneNumber") {
-            //   setValue(formatPhoneNumber(val, true, false));
-            // } else
             if (tag === "local") {
-              if (val === "CASA") setValue("");
+              if (val === "CASA") {
+                setValue("");
+              } else {
+                setValue(val);
+              }
             } else if (type === "zipCode") {
               if (val.replace(/[^0-9]/g, "").length !== 8) {
                 setValue("");
@@ -93,7 +94,7 @@ export const MyInput: FC<{
                 setValue(formatCEP(val));
               }
             } else {
-              setValue(e.target.value.trim());
+              setValue(val);
             }
           }}
           onChange={(e) => setValue(e.target.value)}

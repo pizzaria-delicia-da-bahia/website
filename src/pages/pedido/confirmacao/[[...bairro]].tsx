@@ -127,7 +127,7 @@ ${item.observacao}`
         : ""
     }${`
   VALOR TOTAL: ${formatCurrency(valorItens + valorEntrega)}`}${
-      ehEntrega && !entregaGratis
+      ehEntrega && !entregaGratis && !valorEntrega
         ? `
     (FALTA INCLUIR A TAXA DE ENTREGA)`
         : ""
