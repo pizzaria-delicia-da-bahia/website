@@ -24,7 +24,6 @@ import BottomControls from "@components/pedido/bottomControls";
 import Modal from "@components/modal";
 import { colors } from "@styles/colors";
 import { usePromo } from "@context/promoContext";
-
 interface IData {
   cliente: ICliente;
   tipo: "retirada" | "entrega" | null;
@@ -40,8 +39,15 @@ const InformacoesAdicionais: NextPage = () => {
   const [showModal, setShowModal] = useState<boolean>(true);
 
   const getCustomerFromLocalStorage = () => {
+    // const customer =
+    //   (JSON.parse(localStorage.getItem("customer")) as ICliente) ?? null;
+
+    const _ltex = localStorage.getItem("lastExclusion");
+    const lastExclusion = _ltex ? new Date(_ltex) : null;
     const customer =
-      (JSON.parse(localStorage.getItem("customer")) as ICliente) ?? null;
+      !lastExclusion || lastExclusion < new Date("2024-03-02 00:00:00")
+        ? null
+        : (JSON.parse(localStorage.getItem("customer")) as ICliente) ?? null;
 
     setData({
       cliente: {
@@ -236,6 +242,7 @@ const InformacoesAdicionais: NextPage = () => {
                     }))
                   }
                 />
+
                 <section
                   className={`address-info${
                     !data || data.tipo !== "entrega" ? " disabled" : ""
@@ -313,7 +320,7 @@ const InformacoesAdicionais: NextPage = () => {
                       name="Nº"
                       placeholder="EX: 427-B"
                       type="text"
-                      max={7}
+                      maxLength={7}
                       value={
                         data?.tipo === "entrega"
                           ? data?.cliente?.endereco?.numero ?? ""
@@ -370,6 +377,7 @@ const InformacoesAdicionais: NextPage = () => {
                         !data || data.tipo != "entrega" ? -1 : undefined
                       }
                       name="LOCAL DE ENTREGA"
+                      tag="local"
                       placeholder="EX: COND. ONDINA TOP, EDF. FLORES, AP. 101"
                       type="text"
                       value={
@@ -451,7 +459,7 @@ const InformacoesAdicionais: NextPage = () => {
                   (data.tipo === "entrega" &&
                     data.cliente.endereco.rua === "") ||
                   data.cliente.nome.length < 2 ||
-                  data.cliente.whatsapp.length < 8 ||
+                  (data.cliente.whatsapp ?? "").length < 8 ||
                   (data.tipo === "entrega" &&
                     (data.cliente.endereco?.rua?.length ?? 0) < 5) ||
                   (data.tipo === "entrega" && !data.cliente.endereco?.bairroId),

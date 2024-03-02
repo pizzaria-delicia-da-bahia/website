@@ -5,8 +5,9 @@ import Globals from "@styles/globals";
 import Favicon from "../../public/favicon.ico";
 import MyOrderProvider from "@context/myOrderContext";
 import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import PromoProvider from "@context/promoContext";
+import "react-toastify/dist/ReactToastify.css";
+import "react-phone-number-input/style.css";
 
 export default function App({ Component, pageProps }) {
   return (

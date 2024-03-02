@@ -8,6 +8,7 @@ import {
 } from "react";
 import { toast } from "react-toastify";
 import { IItem } from "@models/item";
+import { format } from "date-fns";
 
 import { IEnderecoCliente, ICliente, IPedido, IPagamento } from "@models/order";
 
@@ -120,21 +121,26 @@ const MyOrderProvider: FC<{ children: ReactNode }> = ({ children }) => {
     type: "retirada" | "entrega" | null,
     fee: number
   ) => {
-    const localCustomer =
-      (JSON.parse(localStorage.getItem("customer")) as ICliente) ?? null;
-    const newLocalCustomer: ICliente = {
-      nome: customer.nome === "" ? localCustomer?.nome ?? "" : customer.nome,
-      endereco:
-        customer.endereco.rua === ""
-          ? localCustomer?.endereco ?? EmptyAddress
-          : customer.endereco,
-      whatsapp:
-        customer.whatsapp === ""
-          ? localCustomer?.whatsapp ?? ""
-          : customer.whatsapp,
-    };
+    // const localCustomer = (JSON.parse(localStorage.getItem("customer")) as ICliente) ?? null;
+
+    // const newLocalCustomer: ICliente = {
+    //   nome: customer.nome === "" ? localCustomer?.nome ?? "" : customer.nome,
+    //   endereco:
+    //     customer.endereco.rua === ""
+    //       ? localCustomer?.endereco ?? EmptyAddress
+    //       : customer.endereco,
+    //   whatsapp:
+    //     customer.whatsapp === ""
+    //       ? localCustomer?.whatsapp ?? ""
+    //       : customer.whatsapp,
+    // };
+    const newLocalCustomer: ICliente = customer;
 
     localStorage.setItem("customer", JSON.stringify(newLocalCustomer));
+    localStorage.setItem(
+      "lastExclusion",
+      format(new Date(), "yyyy-MM-dd hh:mm:ss")
+    );
 
     saveMyOrderLocalAndState({
       ...myOrder,
