@@ -188,14 +188,15 @@ const Sabores: NextPage = () => {
         {comCoca ? (
           <>
             <h5 className="title">2 pizzas G + 1 Refri 1L por:</h5>
-            <h1>R$ 59,99 (Pagamento em Espécie ou PIX)</h1>
+            <h1>R$ 59,99</h1>
           </>
         ) : (
           <>
             <h5 className="title">2 pizzas GRANDES por:</h5>
-            <h1>R$ 49,99 (Pagamento em Espécie ou PIX)</h1>
+            <h1>R$ 49,99</h1>
           </>
         )}
+        <h5 className="title">(Pagamento em Espécie ou PIX)</h5>
       </p>
       {groups.length && size ? (
         <>
