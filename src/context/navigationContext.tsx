@@ -6,6 +6,7 @@ import {
   ReactNode,
   SetStateAction,
   useContext,
+  useEffect,
   useState,
 } from "react";
 import { usePromo } from "./promoContext";
@@ -20,19 +21,22 @@ const NavigationContext = createContext<{
 
 const NavigationProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [menuOpen, setMenuOpen] = useState<Boolean>(false);
-  const { getDuasRefri60 } = usePromo();
-  const [modalPromo, setModalPromo] = useState(
-    getDuasRefri60() ? (
-      <>
+  const { getDuasRefri60, promosCarregadas } = usePromo();
+  const [modalPromo, setModalPromo] = useState(<></>);
+
+  useEffect(() => {
+    if (!promosCarregadas) return;
+    setModalPromo(
+      getDuasRefri60() ? (
         <ModalPromo2
           url="/pedido/promocao-duas"
           image="/images/promo-duas-refri-60-modal.png"
         />
-      </>
-    ) : (
-      <></>
-    )
-  );
+      ) : (
+        <></>
+      )
+    );
+  }, [promosCarregadas]);
 
   return (
     <NavigationContext.Provider

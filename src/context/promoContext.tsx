@@ -15,10 +15,12 @@ const PromoContext = createContext<{
   getTaxaGratis: (itens: IItem[]) => boolean;
   getBordaGratis: (tamanho: IPizzaTamanho) => boolean;
   getDuasRefri60: () => boolean;
+  promosCarregadas: boolean;
 }>(null);
 
 const PromoProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [promos, setPromos] = useState<Promo[]>([]);
+  const [promosCarregadas, setPromosCarregadas] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -29,6 +31,7 @@ const PromoProvider: FC<{ children: ReactNode }> = ({ children }) => {
           })
         ).json()) as Promo[];
         setPromos(promosFromBackend);
+        setPromosCarregadas(true);
       } catch (err) {
         console.error((err as Error).message, (err as Error).stack);
       }
@@ -83,7 +86,12 @@ const PromoProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
   return (
     <PromoContext.Provider
-      value={{ getTaxaGratis, getBordaGratis, getDuasRefri60 }}
+      value={{
+        getTaxaGratis,
+        getBordaGratis,
+        getDuasRefri60,
+        promosCarregadas,
+      }}
     >
       {children}
     </PromoContext.Provider>
