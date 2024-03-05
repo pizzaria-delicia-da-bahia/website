@@ -25,6 +25,7 @@ import TextContainer from "@components/textContainer";
 import BottomControls from "@components/pedido/bottomControls";
 import { toast } from "react-toastify";
 import Modal from "@components/modal";
+import { usePromo } from "@context/promoContext";
 
 const tamanhoId = "656a0b4781f555282573eb4a";
 
@@ -36,6 +37,8 @@ const Sabores: NextPage = () => {
   const [groups, setGroups] = useState<Array<IPizzaGrupo[]>>([]);
   const [nextInactive, setNextInactive] = useState<boolean>(false);
   const [comboId] = useState<string>(uuidv4());
+
+  const { getDuasRefri60, promosCarregadas } = usePromo();
 
   const [showModal, setShowModal] = useState<boolean>(false);
 
@@ -87,6 +90,14 @@ const Sabores: NextPage = () => {
       router.push("/pedido");
     }
   }, [itensEscolhidos]);
+
+  useEffect(() => {
+    if (promosCarregadas) {
+      if (getDuasRefri60()) {
+        router.push("/pedido");
+      }
+    }
+  }, [promosCarregadas]);
 
   const loadAll = async () => {
     try {
@@ -180,6 +191,7 @@ const Sabores: NextPage = () => {
     }
   };
 
+  if (getDuasRefri60()) return <></>;
   return (
     <SaboresStyle>
       <p className="title">

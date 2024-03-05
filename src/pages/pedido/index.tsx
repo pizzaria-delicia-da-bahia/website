@@ -35,7 +35,7 @@ const Pedido: NextPage = () => {
         route: "pedido/promocao-duas",
         image: "/images/promocao-duas-refri-60.png",
       },
-      // {
+      // getRelampago() && {
       //   name: "",
       //   route: "pedido/promocao-relampago",
       //   image: "/images/promocao.svg",
