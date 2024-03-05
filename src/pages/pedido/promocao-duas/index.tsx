@@ -36,7 +36,7 @@ const Sabores: NextPage = () => {
   const [size, setSize] = useState<IPizzaTamanho | null>(null);
   const [groups, setGroups] = useState<Array<IPizzaGrupo[]>>([]);
   const [nextInactive, setNextInactive] = useState<boolean>(false);
-  const { getDuasRefri60 } = usePromo();
+  const { getDuasRefri60, promosCarregadas } = usePromo();
 
   const [showModal, setShowModal] = useState<boolean>(false);
 
@@ -45,7 +45,16 @@ const Sabores: NextPage = () => {
 
   const [itensEscolhidos, setItensEscolhidos] = useState<IPizza[]>([]);
   const comCoca = getDuasRefri60();
+
   const valorSaborFixo = comCoca ? 26.5 : 25;
+
+  useEffect(() => {
+    if (promosCarregadas) {
+      if (!getDuasRefri60()) {
+        router.push("/pedido");
+      }
+    }
+  }, [promosCarregadas]);
 
   const addItemPromo = (item: IPizza | IPizza[]) => {
     const itens = Array.isArray(item) ? item : [item];
@@ -181,6 +190,8 @@ const Sabores: NextPage = () => {
       setNextInactive(false);
     }
   };
+
+  if (!promosCarregadas) return <></>;
 
   return (
     <SaboresStyle>
