@@ -16,35 +16,46 @@ import Loading from "@components/loading";
 import { usePromo } from "@context/promoContext";
 
 const Pedido: NextPage = () => {
-  const { getDuasRefri60 } = usePromo();
+  const { getDuasRefri60, promosCarregadas } = usePromo();
 
-  const items = [
-    {
-      name: "LANCHES",
-      route: "pedido/lanche",
-      image: "/images/pedido-lanche.svg",
-    },
-    {
-      name: "PIZZAS",
-      route: "pedido/pizza/tamanho",
-      image: "/images/pedido-pizza.svg",
-    },
-    getDuasRefri60() && {
-      name: "",
-      route: "pedido/promocao-duas",
-      image: "/images/promocao-duas-refri-60.png",
-    },
-    // {
-    //   name: "",
-    //   route: "pedido/promocao-relampago",
-    //   image: "/images/promocao.svg",
-    // },
-    {
-      name: "BEBIDAS",
-      route: "pedido/bebida",
-      image: "/images/pedido-bebida.svg",
-    },
-  ].filter(Boolean);
+  const getItems = () => {
+    return [
+      {
+        name: "LANCHES",
+        route: "pedido/lanche",
+        image: "/images/pedido-lanche.svg",
+      },
+      {
+        name: "PIZZAS",
+        route: "pedido/pizza/tamanho",
+        image: "/images/pedido-pizza.svg",
+      },
+      getDuasRefri60() && {
+        name: "",
+        route: "pedido/promocao-duas",
+        image: "/images/promocao-duas-refri-60.png",
+      },
+      // {
+      //   name: "",
+      //   route: "pedido/promocao-relampago",
+      //   image: "/images/promocao.svg",
+      // },
+      {
+        name: "BEBIDAS",
+        route: "pedido/bebida",
+        image: "/images/pedido-bebida.svg",
+      },
+    ].filter(Boolean);
+  };
+
+  const [items, setItems] = useState(getItems());
+
+  useEffect(() => {
+    if (promosCarregadas) {
+      setItems(getItems());
+    }
+  }, [promosCarregadas]);
+
   const { myOrder } = useMyOrder();
   const router = useRouter();
   const [showModal, setShowModal] = useState<boolean>(false);
