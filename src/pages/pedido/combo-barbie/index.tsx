@@ -139,6 +139,10 @@ const Sabores: NextPage = () => {
     loadAll();
   }, []);
 
+  useEffect(() => {
+    router.push("/pedido");
+  }, []);
+
   const getGroups = (g: IPizzaGrupo) => (
     <div className="group" key={g.nome}>
       <h2 className="group-name">{g.nome}</h2>
