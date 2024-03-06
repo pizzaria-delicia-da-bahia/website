@@ -168,7 +168,7 @@ NÃO INFORMADO.
       const pizzas = _pizzas.map((x) => ({
         ...x,
         tamanho: x.tamanho.nome,
-        observacoes:
+        observacao:
           entregaGratis && ehEntrega
             ? `PROMOCIONAL${x.observacao ? ` ${x.observacao}` : ""}`
             : x.observacao,
@@ -181,7 +181,7 @@ NÃO INFORMADO.
         .filter((x) => x.tipo !== "PIZZA")
         .map((x) => ({
           ...x,
-          observacoes: x.observacao,
+          observacao: x.observacao,
         }));
 
       const order = {
