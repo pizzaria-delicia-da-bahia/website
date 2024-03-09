@@ -11,6 +11,7 @@ import {
 } from "react";
 import { usePromo } from "./promoContext";
 import ModalPromo2 from "@components/modalPromo2";
+import { useRouter } from "next/router";
 
 const NavigationContext = createContext<{
   menuOpen: Boolean;
@@ -23,11 +24,13 @@ const NavigationProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [menuOpen, setMenuOpen] = useState<Boolean>(false);
   const { getDuasRefri60, promosCarregadas } = usePromo();
   const [modalPromo, setModalPromo] = useState(<></>);
+  const router = useRouter();
 
   useEffect(() => {
     if (!promosCarregadas) return;
+    console.log(router.asPath, router.pathname);
     setModalPromo(
-      getDuasRefri60() ? (
+      getDuasRefri60() && router.pathname.startsWith("/home") ? (
         <ModalPromo2
           url="/pedido/promocao-duas"
           image="/images/promo-duas-refri-60-modal.png"

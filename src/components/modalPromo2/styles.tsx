@@ -44,8 +44,8 @@ export const ModalPromoStyle = styled.div`
   }
 
   > main {
-    height: 80%;
-    width: 80%;
+    min-height: 80%;
+    min-width: 50%;
     position: relative;
     display: flex;
     flex-direction: column;

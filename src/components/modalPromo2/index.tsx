@@ -16,7 +16,13 @@ const ModalPromo2: FC<{
     router.push(url);
   }
   return (
-    <ModalPromoStyle>
+    <ModalPromoStyle
+      onClick={(e) => {
+        if (e.target === e.currentTarget) {
+          setModalPromo(<></>);
+        }
+      }}
+    >
       <button
         className="close-button"
         onClick={() => {
@@ -25,8 +31,17 @@ const ModalPromo2: FC<{
       >
         x
       </button>
-      <main onClick={() => goToPromo()}>
-        <Image layout={"fill"} priority src={image} />
+      <main>
+        <Image
+          layout={"fill"}
+          priority
+          src={image}
+          onClick={(e) => {
+            if (e.target === e.currentTarget) {
+              goToPromo();
+            }
+          }}
+        />
       </main>
     </ModalPromoStyle>
   );

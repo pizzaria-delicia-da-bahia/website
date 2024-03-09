@@ -87,6 +87,21 @@ export function formatNumber(valor: string) {
 //   return valor
 // }
 
+export const formatRua = (rua: string) => {
+  return rua
+    .toUpperCase()
+    .replace(/[^A-Z0-9]/g, "")
+    .replace("LAD", "LADEIRA")
+    .replace("AV", "AVENIDA")
+    .replace(/\b(R)\b/g, "RUA")
+    .replace(/\b(DR)\b/g, "DOUTOR")
+    .replace(/\b(LADEIRA DO ZOOLOGICO)\b/g, "LADEIRA DO JARDIM ZOOLOGICO")
+    .replace(/\b(MANUEL RANGEL)\b/g, "MANOEL RANGEL")
+    .replace(/\b(BIAO)\b/g, "TRAVESSA ASSEMBLEIA DE DEUS")
+    .replace(/\s\s/g, " ")
+    .trim();
+};
+
 export function formatPhoneNumber(
   valor: string,
   manterDDD: boolean = true,

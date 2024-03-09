@@ -26,11 +26,14 @@ const CarouselContext = createContext<ICarouselContext>({} as ICarouselContext);
 const Carousel: FC<ICarouselProvider> = ({
   children,
   length,
-  defaultSelectedIndex,
+  defaultSelectedIndex = 1,
 }) => {
-  const [selectedIndex, setSelectedIndex] = useState<number>(
-    defaultSelectedIndex ?? 1
-  );
+  const [selectedIndex, setSelectedIndex] =
+    useState<number>(defaultSelectedIndex);
+
+  useEffect(() => {
+    console.log(defaultSelectedIndex, selectedIndex);
+  });
 
   return (
     <CarouselContext.Provider
