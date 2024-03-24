@@ -3,7 +3,6 @@ import { MyInputStyle } from "@components/pedido/myInput/styles";
 import { animations } from "@styles/animations";
 import { colors } from "@styles/colors";
 import { breakpointsMQ, hover } from "@styles/mediaQueries";
-import { sizes } from "@styles/sizes";
 
 export const InformacoesAdicionaisStyle = styled.main`
   height: calc(100% - 50px);

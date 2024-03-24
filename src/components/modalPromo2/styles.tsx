@@ -45,12 +45,16 @@ export const ModalPromoStyle = styled.div`
 
   > main {
     min-height: 80%;
-    min-width: 50%;
+    min-width: 90%;
     position: relative;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
     align-items: center;
     padding: 1rem;
+
+    @media ${breakpointsMQ.desktopSmUp} {
+      min-width: 50%;
+    }
   }
 `;

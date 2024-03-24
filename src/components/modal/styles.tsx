@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { colors } from "@styles/colors";
 import { sizes } from "@styles/sizes";
+import { animations } from "@styles/animations";
 
 export const ModalStyle = styled.div`
   width: 100vw;
@@ -29,10 +30,11 @@ export const ModalStyle = styled.div`
     flex-direction: column;
     gap: 1rem;
     background-color: ${colors.background};
-    padding: 3rem 2rem;
+    padding: 2rem;
     border-radius: 1rem;
     position: relative;
     transition: all 0.5s ease-out;
+    animation: ${animations.showDown} 0.8s ease-in-out;
 
     footer {
       position: relative;

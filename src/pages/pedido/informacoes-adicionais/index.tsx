@@ -6,11 +6,7 @@ import {
 } from "@styles/pages/pedido/informacoes-adicionais/styles";
 import { useMyOrder } from "@context/myOrderContext";
 import { queryString } from "js-query-string-object";
-import {
-  Button,
-  ButtonPrimary,
-  ButtonSecondary,
-} from "@styles/components/buttons";
+
 import { useRouter } from "next/router";
 import { ICliente } from "@models/order";
 import { MyInput } from "@components/pedido/myInput";
@@ -22,8 +18,8 @@ import { env } from "@config/env";
 import TextContainer from "@components/textContainer";
 import BottomControls from "@components/pedido/bottomControls";
 import Modal from "@components/modal";
-import { colors } from "@styles/colors";
 import { usePromo } from "@context/promoContext";
+import { Cards } from "@components/modalCards";
 interface IData {
   cliente: ICliente;
   tipo: "retirada" | "entrega" | null;
@@ -471,38 +467,32 @@ const InformacoesAdicionais: NextPage = () => {
       {showModal && (
         <Modal
           className="withdraw-delivery-modal"
-          label="Você vai retirar na pizzaria ou quer o delivery?"
+          label="O pedido é pra entrega ou vem buscar?"
           type={"custom"}
-          buttons={
-            <>
-              <Button
-                bgcolor={colors.elements}
-                forecolor={colors.background}
-                onClick={() => {
+        >
+          <Cards
+            items={[
+              {
+                id: "r",
+                label: "Retirada",
+                image: "/images/card-retirada.png",
+                click: () => {
                   setData((prev) => ({ ...prev, tipo: "retirada" }));
                   setShowModal(false);
-                }}
-              >
-                Vou buscar
-                <br />
-                🏭🍕
-              </Button>
-
-              <Button
-                bgcolor={colors.elements}
-                forecolor={colors.background}
-                onClick={() => {
+                },
+              },
+              {
+                id: "e",
+                label: "Entrega",
+                image: "/images/card-entrega.png",
+                click: () => {
                   setData((prev) => ({ ...prev, tipo: "entrega" }));
                   setShowModal(false);
-                }}
-              >
-                Quero delivery
-                <br />
-                🛵🏠
-              </Button>
-            </>
-          }
-        />
+                },
+              },
+            ]}
+          />
+        </Modal>
       )}
     </>
   );

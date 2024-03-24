@@ -14,6 +14,7 @@ import Modal from "@components/modal";
 import { ButtonPrimary, ButtonSecondary } from "@styles/components/buttons";
 import Loading from "@components/loading";
 import { usePromo } from "@context/promoContext";
+import { Cards } from "@components/modalCards";
 
 const Pedido: NextPage = () => {
   const { getDuasRefri60, promosCarregadas } = usePromo();
@@ -154,29 +155,28 @@ const Pedido: NextPage = () => {
         }}
       />
       {showModal && (
-        <Modal
-          label="Adicionar bebida? 🍹🍻"
-          type={"custom"}
-          buttons={
-            <>
-              <ButtonSecondary
-                onClick={() => {
+        <Modal label="Adicionar bebida? 🍹🍻" type={"custom"}>
+          <Cards
+            items={[
+              {
+                id: "n",
+                label: "Sem bebida",
+                image: "/images/card-sem-bebida.png",
+                click: () => {
                   router.push("/pedido/informacoes-adicionais");
-                }}
-              >
-                Não quero bebida
-              </ButtonSecondary>
-
-              <ButtonPrimary
-                onClick={() => {
+                },
+              },
+              {
+                id: "a",
+                label: "Quero bebida",
+                image: "/images/card-com-bebida.png",
+                click: () => {
                   router.push("/pedido/bebida");
-                }}
-              >
-                Adicionar bebida
-              </ButtonPrimary>
-            </>
-          }
-        />
+                },
+              },
+            ]}
+          />
+        </Modal>
       )}
     </PedidoStyle>
   );
