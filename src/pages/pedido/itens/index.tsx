@@ -111,7 +111,8 @@ const Itens: NextPage = () => {
       />
       {showModalRemoverItem.show && (
         <Modal
-          label="Excluir item? Se ele for parte de um combo, os outros itens do combo também serão excluídos."
+          label="Excluir item?"
+          description="Se ele for parte de um combo, isso irá excluir o combo completo."
           type={"custom"}
           buttons={
             <>
