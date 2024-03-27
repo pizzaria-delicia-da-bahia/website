@@ -78,6 +78,8 @@ const Sabores: NextPage = () => {
             valor: 7,
             observacao: "",
             tipo: "BEBIDA",
+            vendidos: 50,
+            visivel: true,
             comboId,
           }
         : undefined;
