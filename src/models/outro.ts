@@ -5,4 +5,6 @@ export interface IOutro extends IItem {
   nome: string;
   disponivel: boolean;
   imagemUrl: string;
+  visivel: boolean;
+  vendidos: number;
 }
