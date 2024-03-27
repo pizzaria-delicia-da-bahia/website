@@ -94,6 +94,8 @@ const Sabores: NextPage = () => {
         imagemUrl: "https://i.ibb.co/XpRF5ry/FRENTE.jpg",
         valor: 7,
         observacao: "",
+        vendidos: 50,
+        visivel: true,
         tipo: "BEBIDA",
       };
 

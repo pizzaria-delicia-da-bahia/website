@@ -73,6 +73,8 @@ const Config: NextPage = () => {
     disponivel: true,
     imagemUrl: "",
     nome: "",
+    vendidos: 0,
+    visivel: true,
     valor: 0,
   };
 
