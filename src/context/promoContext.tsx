@@ -63,6 +63,7 @@ const PromoProvider: FC<{ children: ReactNode }> = ({ children }) => {
   };
 
   const getTaxaGratis = (itens: IItem[]) => {
+    if (getDuasRefri60()) return false;
     const promo = promos.find((x) => x.nome.includes("taxa-gratis"));
     if (!promo || !promo.ativa) return false;
     if (!getEhDia(promo)) return false;
@@ -75,6 +76,7 @@ const PromoProvider: FC<{ children: ReactNode }> = ({ children }) => {
   };
 
   const getBordaGratis = (tamanho: IPizzaTamanho) => {
+    if (getDuasRefri60()) return false;
     const promo = promos.find((x) => x.nome.includes("borda-gratis"));
     if (!promo || !promo.ativa) return false;
     if (!getEhDia(promo)) return false;
