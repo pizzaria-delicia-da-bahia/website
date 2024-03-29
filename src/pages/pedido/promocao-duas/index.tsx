@@ -44,9 +44,10 @@ const Sabores: NextPage = () => {
   const [comboId] = useState<string>(uuidv4());
 
   const [itensEscolhidos, setItensEscolhidos] = useState<IPizza[]>([]);
-  const comCoca = getDuasRefri60();
+  const comCoca = false; //getDuasRefri60();
+  const comGoob = comCoca ? false : getDuasRefri60();
 
-  const valorSaborFixo = comCoca ? 26.5 : 25;
+  const valorSaborFixo = comCoca ? 26.5 : comGoob ? 27.5 : 25;
 
   useEffect(() => {
     if (promosCarregadas) {
@@ -80,7 +81,7 @@ const Sabores: NextPage = () => {
       const novaBebida: IOutro | undefined = comCoca
         ? {
             id: "656a212781f555282589ba9b",
-            nome: "COCA COLA 1l",
+            nome: "refrigerante COCA COLA 1l",
             disponivel: true,
             imagemUrl: "https://i.ibb.co/XpRF5ry/FRENTE.jpg",
             valor: 7,
@@ -90,11 +91,24 @@ const Sabores: NextPage = () => {
             visivel: true,
             tipo: "BEBIDA",
           }
+        : comGoob
+        ? {
+            id: "66072dae306179b1c780659a",
+            nome: "refrigerante Goob Guaraná 1L",
+            valor: 5,
+            disponivel: true,
+            imagemUrl: "https://i.ibb.co/S53JdwH/ylhq3wwi.png",
+            comboId,
+            observacao: "",
+            tipo: "BEBIDA",
+            vendidos: 200,
+            visivel: true,
+          }
         : undefined;
 
       const itensFinais: IItem[] = [...itensEscolhidos];
 
-      if (comCoca) itensFinais.push(novaBebida);
+      if (comCoca || comGoob) itensFinais.push(novaBebida);
 
       addItem(itensFinais);
       router.push("/pedido");
@@ -198,7 +212,7 @@ const Sabores: NextPage = () => {
   return (
     <SaboresStyle>
       <p className="title">
-        {comCoca ? (
+        {comCoca || comGoob ? (
           <>
             <h5 className="title">2 pizzas G + 1 Refri 1L por:</h5>
             <h1>R$ 59,99</h1>

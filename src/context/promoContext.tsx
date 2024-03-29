@@ -37,16 +37,28 @@ const PromoProvider: FC<{ children: ReactNode }> = ({ children }) => {
       }
     })();
   }, []);
-
+  function isValidDate(date) {
+    return (
+      date &&
+      Object.prototype.toString.call(date) === "[object Date]" &&
+      !isNaN(date)
+    );
+  }
   const getEhDia = (promo: Promo) => {
     return promo.dias.some((x) => {
       const hoje = new Date();
-      return x instanceof Date
-        ? hoje === x
+      hoje.setHours(0, 0, 0);
+      const d = new Date(x);
+      const isDValid = isValidDate(d);
+      if (isDValid) {
+        d.setHours(0, 0, 0);
+      }
+      return isDValid
+        ? hoje.getDate() === d.getDate()
         : hoje
             .toLocaleDateString("pt-BR", { weekday: "long" })
             .toLowerCase()
-            .includes(x);
+            .includes(x as string);
     });
   };
 

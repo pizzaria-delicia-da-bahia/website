@@ -130,6 +130,7 @@ const Pedido: NextPage = () => {
         }}
         primaryButton={{
           click: () => {
+            console.log(myOrder?.itens);
             if (
               myOrder?.itens.some((x) =>
                 [

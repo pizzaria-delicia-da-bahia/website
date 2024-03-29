@@ -96,8 +96,14 @@ Sabor${(item as IPizza).sabores.length > 1 ? "es" : ""}: ${(
         .map((s) => s.nome.split(" ").slice(0, -1).join(" ").toUpperCase())
         .join(", ")}${
         !!item.observacao
+          .replace(/\b(PROMOCIONAL|PROMOCAO RELAMPAGO)\b/g, "")
+          .replace(/\s+/g, " ")
+          .trim()
           ? `
-${item.observacao}`
+${item.observacao
+  .replace(/\b(PROMOCIONAL|PROMOCAO RELAMPAGO)\b/g, "")
+  .replace(/\s+/g, " ")
+  .trim()}`
           : ""
       }`
     : `- --${(item as IOutro).nome.toUpperCase()}${
