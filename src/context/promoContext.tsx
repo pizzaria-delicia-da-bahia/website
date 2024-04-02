@@ -9,7 +9,7 @@ import {
 import { IPizzaTamanho } from "@models/pizza";
 import { Promo } from "@models/promo";
 import { env } from "@config/env";
-import { IItem } from "@models/item";
+import { IItem, IPizza } from "@models/item";
 
 const PromoContext = createContext<{
   getTaxaGratis: (itens: IItem[]) => boolean;
@@ -68,9 +68,10 @@ const PromoProvider: FC<{ children: ReactNode }> = ({ children }) => {
     if (!promo || !promo.ativa) return false;
     if (!getEhDia(promo)) return false;
 
+    const pizzas = itens.filter((x) => x.tipo === "PIZZA") as IPizza[];
     const CONDICAO =
-      itens.filter((x) => x.tipo === "PIZZA").length > 0 &&
-      itens.reduce((acc, item) => acc + item.valor, 0) >= 39;
+      pizzas.length > 0 &&
+      pizzas.some((x) => x.tamanho.valorMin >= 27 && x.tamanho.fatias >= 8);
 
     return CONDICAO;
   };
