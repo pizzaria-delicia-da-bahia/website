@@ -250,6 +250,7 @@ const InformacoesAdicionais: NextPage = () => {
                     name="WHATSAPP *"
                     type="phoneNumber"
                     value={(data && data.cliente.whatsapp) ?? ""}
+                    minLength={8}
                     setValue={(value) =>
                       setData((prev) => ({
                         ...prev,
