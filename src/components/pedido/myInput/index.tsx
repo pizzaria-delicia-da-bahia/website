@@ -6,6 +6,7 @@ import PhoneInput from "react-phone-number-input";
 export const MyInput: FC<{
   disabled?: boolean;
   name: string;
+  id?: string;
   placeholder?: string;
   type: "text" | "name" | "address" | "phoneNumber" | "zipCode" | "number";
   value: string | number;
@@ -16,8 +17,10 @@ export const MyInput: FC<{
   minLength?: number;
   maxLength?: number;
   tag?: string;
+  autoFocus?: boolean;
 }> = ({
   disabled = false,
+  id = "",
   name,
   type,
   placeholder,
@@ -29,6 +32,7 @@ export const MyInput: FC<{
   maxLength,
   setValue,
   tag,
+  autoFocus = false,
 }) => {
   return (
     <MyInputStyle>
@@ -44,10 +48,11 @@ export const MyInput: FC<{
         />
       ) : (
         <input
-          name={name}
-          id={name.replace(/[* ]/g, "")}
+          name={id || name}
+          id={(id || name).replace(/[* ]/g, "")}
           disabled={disabled}
           placeholder={placeholder}
+          autoFocus={autoFocus}
           tabIndex={tabIndex}
           type={
             type === "zipCode"

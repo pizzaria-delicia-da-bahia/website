@@ -20,6 +20,7 @@ import BottomControls from "@components/pedido/bottomControls";
 import Modal from "@components/modal";
 import { usePromo } from "@context/promoContext";
 import { Cards } from "@components/modalCards";
+import { ButtonPrimary, ButtonSecondary } from "@styles/components/buttons";
 interface IData {
   cliente: ICliente;
   tipo: "retirada" | "entrega" | null;
@@ -33,6 +34,10 @@ const InformacoesAdicionais: NextPage = () => {
   const [nextInactive, setNextInactive] = useState<boolean>(false);
   const [neighbourhoods, setNeighbourhoods] = useState<IBairro[]>([]);
   const [showModal, setShowModal] = useState<boolean>(true);
+  const [isDataLoaded, setIsDataLoaded] = useState<boolean>(false);
+  const [isFormUnlocked, setIsFormUnlocked] = useState<boolean>(false);
+
+  const [showModalCEP, setShowModalCEP] = useState<boolean>(false);
 
   const getCustomerFromLocalStorage = () => {
     // const customer =
@@ -60,7 +65,18 @@ const InformacoesAdicionais: NextPage = () => {
       },
       tipo: null,
     });
+    setIsDataLoaded(true);
   };
+
+  useEffect(() => {
+    if (isDataLoaded && !showModal) {
+      if (data?.tipo === "entrega" && !data?.cliente?.endereco?.cep) {
+        setShowModalCEP(true);
+      } else {
+        setIsFormUnlocked(true);
+      }
+    }
+  }, [showModal]);
 
   const getNeighbourhoods = async () => {
     const response = await (
@@ -164,98 +180,139 @@ const InformacoesAdicionais: NextPage = () => {
   };
 
   useEffect(() => {
-    if (!showModal) {
+    if (isFormUnlocked) {
       (document.querySelector("#NOME") as HTMLElement)?.focus();
     }
-  }, [showModal]);
+  }, [showModal, showModalCEP, isDataLoaded]);
 
   return (
     <>
-      <InformacoesAdicionaisStyle>
-        {!neighbourhoods.length ? (
-          <Loading />
-        ) : (
-          <>
-            <TextContainer
-              title="INFORMAÇÕES ADICIONAIS"
-              description="OS CAMPOS COM * (ASTERISCO) SÃO OBRIGATÓRIOS"
-            />
-            <form className="menu">
-              <section
-                className={`ordertype${!data || !data.tipo ? " no-type" : ""}`}
-              >
-                <span>
-                  <input
-                    name="ordertype"
-                    id="delivery"
-                    type={"radio"}
-                    checked={(data && data.tipo === "entrega") ?? false}
-                    onChange={(e) =>
-                      e.target.checked &&
-                      setData((prev) => ({ ...prev, tipo: "entrega" }))
-                    }
-                  />
-                  <label htmlFor="delivery">QUERO DELIVERY</label>
-                </span>
-                <span>
-                  <input
-                    name="ordertype"
-                    id="withdraw"
-                    type={"radio"}
-                    checked={(data && data.tipo === "retirada") ?? false}
-                    onChange={(e) =>
-                      e.target.checked &&
-                      setData((prev) => ({ ...prev, tipo: "retirada" }))
-                    }
-                  />
-                  <label htmlFor="withdraw">VOU BUSCAR</label>
-                </span>
-              </section>
-              <section
-                className={`customer-info${
-                  !data || !data.tipo ? " disabled" : ""
-                }`}
-              >
-                <MyInput
-                  name="NOME *"
-                  type="name"
-                  value={(data && data.cliente.nome) ?? ""}
-                  setValue={(value) =>
-                    setData((prev) => ({
-                      ...prev,
-                      cliente: { ...prev.cliente, nome: value as string },
-                    }))
-                  }
-                />
-                <MyInput
-                  name="WHATSAPP *"
-                  type="phoneNumber"
-                  value={(data && data.cliente.whatsapp) ?? ""}
-                  setValue={(value) =>
-                    setData((prev) => ({
-                      ...prev,
-                      cliente: { ...prev.cliente, whatsapp: value as string },
-                    }))
-                  }
-                />
-
+      {isDataLoaded && isFormUnlocked && (
+        <InformacoesAdicionaisStyle>
+          {!neighbourhoods.length ? (
+            <Loading />
+          ) : (
+            <>
+              <TextContainer
+                title="INFORMAÇÕES ADICIONAIS"
+                description="OS CAMPOS COM * (ASTERISCO) SÃO OBRIGATÓRIOS"
+              />
+              <form className="menu">
                 <section
-                  className={`address-info${
-                    !data || data.tipo !== "entrega" ? " disabled" : ""
+                  className={`ordertype${
+                    !data || !data.tipo ? " no-type" : ""
                   }`}
                 >
-                  <div className={`input-group cep-endereco-n`}>
-                    <div className="cep">
+                  <span>
+                    <input
+                      name="ordertype"
+                      id="delivery"
+                      type={"radio"}
+                      checked={(data && data.tipo === "entrega") ?? false}
+                      onChange={(e) =>
+                        e.target.checked &&
+                        setData((prev) => ({ ...prev, tipo: "entrega" }))
+                      }
+                    />
+                    <label htmlFor="delivery">QUERO DELIVERY</label>
+                  </span>
+                  <span>
+                    <input
+                      name="ordertype"
+                      id="withdraw"
+                      type={"radio"}
+                      checked={(data && data.tipo === "retirada") ?? false}
+                      onChange={(e) =>
+                        e.target.checked &&
+                        setData((prev) => ({ ...prev, tipo: "retirada" }))
+                      }
+                    />
+                    <label htmlFor="withdraw">VOU BUSCAR</label>
+                  </span>
+                </section>
+                <section
+                  className={`customer-info${
+                    !data || !data.tipo ? " disabled" : ""
+                  }`}
+                >
+                  <MyInput
+                    name="NOME *"
+                    type="name"
+                    value={(data && data.cliente.nome) ?? ""}
+                    setValue={(value) =>
+                      setData((prev) => ({
+                        ...prev,
+                        cliente: { ...prev.cliente, nome: value as string },
+                      }))
+                    }
+                  />
+                  <MyInput
+                    name="WHATSAPP *"
+                    type="phoneNumber"
+                    value={(data && data.cliente.whatsapp) ?? ""}
+                    setValue={(value) =>
+                      setData((prev) => ({
+                        ...prev,
+                        cliente: { ...prev.cliente, whatsapp: value as string },
+                      }))
+                    }
+                  />
+
+                  <section
+                    className={`address-info${
+                      !data || data.tipo !== "entrega" ? " disabled" : ""
+                    }`}
+                  >
+                    <div className={`input-group cep-endereco-n`}>
+                      <div className="cep">
+                        <MyInput
+                          tabIndex={
+                            !data || data.tipo != "entrega" ? -1 : undefined
+                          }
+                          name="CEP"
+                          type="zipCode"
+                          placeholder="EX: 40000-000"
+                          value={
+                            data?.tipo === "entrega"
+                              ? data?.cliente?.endereco?.cep ?? ""
+                              : ""
+                          }
+                          setValue={(value) =>
+                            setData((prev) => ({
+                              ...prev,
+                              cliente: {
+                                ...prev.cliente,
+                                endereco: {
+                                  ...prev.cliente.endereco,
+                                  cep: value as string,
+                                },
+                              },
+                            }))
+                          }
+                        />
+                        <button
+                          type="button"
+                          disabled={
+                            String(data?.cliente?.endereco?.cep).replace(
+                              /[^0-9]/g,
+                              ""
+                            ).length !== 8
+                          }
+                          onClick={searchCEP}
+                        >
+                          🔎
+                        </button>
+                      </div>
                       <MyInput
                         tabIndex={
                           !data || data.tipo != "entrega" ? -1 : undefined
                         }
-                        name="CEP"
-                        type="zipCode"
-                        placeholder="EX: 40000-000"
+                        name="ENDEREÇO (RUA/AVENIDA) *"
+                        placeholder="EX: AVENIDA ANITA GARIBALDI"
+                        type="address"
                         value={
                           data?.tipo === "entrega"
-                            ? data?.cliente?.endereco?.cep ?? ""
+                            ? data?.cliente?.endereco?.rua ?? ""
                             : ""
                         }
                         setValue={(value) =>
@@ -265,164 +322,126 @@ const InformacoesAdicionais: NextPage = () => {
                               ...prev.cliente,
                               endereco: {
                                 ...prev.cliente.endereco,
-                                cep: value as string,
+                                rua: value as string,
                               },
                             },
                           }))
                         }
                       />
-                      <button
-                        type="button"
-                        disabled={
-                          String(data?.cliente?.endereco?.cep).replace(
-                            /[^0-9]/g,
-                            ""
-                          ).length !== 8
+                      <MyInput
+                        tabIndex={
+                          !data || data.tipo != "entrega" ? -1 : undefined
                         }
-                        onClick={searchCEP}
-                      >
-                        🔎
-                      </button>
-                    </div>
-                    <MyInput
-                      tabIndex={
-                        !data || data.tipo != "entrega" ? -1 : undefined
-                      }
-                      name="ENDEREÇO (RUA/AVENIDA) *"
-                      placeholder="EX: AVENIDA ANITA GARIBALDI"
-                      type="address"
-                      value={
-                        data?.tipo === "entrega"
-                          ? data?.cliente?.endereco?.rua ?? ""
-                          : ""
-                      }
-                      setValue={(value) =>
-                        setData((prev) => ({
-                          ...prev,
-                          cliente: {
-                            ...prev.cliente,
-                            endereco: {
-                              ...prev.cliente.endereco,
-                              rua: value as string,
-                            },
-                          },
-                        }))
-                      }
-                    />
-                    <MyInput
-                      tabIndex={
-                        !data || data.tipo != "entrega" ? -1 : undefined
-                      }
-                      name="Nº"
-                      placeholder="EX: 427-B"
-                      type="text"
-                      maxLength={7}
-                      value={
-                        data?.tipo === "entrega"
-                          ? data?.cliente?.endereco?.numero ?? ""
-                          : ""
-                      }
-                      setValue={(value) =>
-                        setData((prev) => ({
-                          ...prev,
-                          cliente: {
-                            ...prev.cliente,
-                            endereco: {
-                              ...prev.cliente.endereco,
-                              numero: value as string,
-                            },
-                          },
-                        }))
-                      }
-                    />
-                  </div>
-                  <div className={`input-group bairro-local-referencia`}>
-                    <BairroSelect>
-                      <label htmlFor="bairro-select">BAIRRO *</label>
-                      <select
-                        name="bairro-select"
+                        name="Nº"
+                        placeholder="EX: 427-B"
+                        type="text"
+                        maxLength={7}
                         value={
                           data?.tipo === "entrega"
-                            ? data?.cliente?.endereco?.bairroId ?? ""
+                            ? data?.cliente?.endereco?.numero ?? ""
                             : ""
                         }
-                        onChange={(e) =>
+                        setValue={(value) =>
                           setData((prev) => ({
                             ...prev,
                             cliente: {
                               ...prev.cliente,
                               endereco: {
                                 ...prev.cliente.endereco,
-                                bairroId: e.target.value,
+                                numero: value as string,
                               },
                             },
                           }))
                         }
-                      >
-                        <option value={""}>--Selecione--</option>
-                        {neighbourhoods.map((n) => (
-                          <option value={n.id} key={n.id}>
-                            {n.nome}
-                          </option>
-                        ))}
-                      </select>
-                    </BairroSelect>
+                      />
+                    </div>
+                    <div className={`input-group bairro-local-referencia`}>
+                      <BairroSelect>
+                        <label htmlFor="bairro-select">BAIRRO *</label>
+                        <select
+                          name="bairro-select"
+                          value={
+                            data?.tipo === "entrega"
+                              ? data?.cliente?.endereco?.bairroId ?? ""
+                              : ""
+                          }
+                          onChange={(e) =>
+                            setData((prev) => ({
+                              ...prev,
+                              cliente: {
+                                ...prev.cliente,
+                                endereco: {
+                                  ...prev.cliente.endereco,
+                                  bairroId: e.target.value,
+                                },
+                              },
+                            }))
+                          }
+                        >
+                          <option value={""}>--Selecione--</option>
+                          {neighbourhoods.map((n) => (
+                            <option value={n.id} key={n.id}>
+                              {n.nome}
+                            </option>
+                          ))}
+                        </select>
+                      </BairroSelect>
 
-                    <MyInput
-                      tabIndex={
-                        !data || data.tipo != "entrega" ? -1 : undefined
-                      }
-                      name="LOCAL DE ENTREGA"
-                      tag="local"
-                      placeholder="EX: COND. ONDINA TOP, EDF. FLORES, AP. 101"
-                      type="text"
-                      value={
-                        data?.tipo === "entrega"
-                          ? data?.cliente?.endereco?.localDeEntrega ?? ""
-                          : ""
-                      }
-                      setValue={(value) =>
-                        setData((prev) => ({
-                          ...prev,
-                          cliente: {
-                            ...prev.cliente,
-                            endereco: {
-                              ...prev.cliente.endereco,
-                              localDeEntrega: value as string,
+                      <MyInput
+                        tabIndex={
+                          !data || data.tipo != "entrega" ? -1 : undefined
+                        }
+                        name="LOCAL DE ENTREGA"
+                        tag="local"
+                        placeholder="EX: COND. ONDINA TOP, EDF. FLORES, AP. 101"
+                        type="text"
+                        value={
+                          data?.tipo === "entrega"
+                            ? data?.cliente?.endereco?.localDeEntrega ?? ""
+                            : ""
+                        }
+                        setValue={(value) =>
+                          setData((prev) => ({
+                            ...prev,
+                            cliente: {
+                              ...prev.cliente,
+                              endereco: {
+                                ...prev.cliente.endereco,
+                                localDeEntrega: value as string,
+                              },
                             },
-                          },
-                        }))
-                      }
-                    />
-                    <MyInput
-                      tabIndex={
-                        !data || data.tipo != "entrega" ? -1 : undefined
-                      }
-                      name="PONTO DE REFERÊNCIA"
-                      placeholder="EX: EM FRENTE AO MERCADO NOVA ESPERANÇA"
-                      type="text"
-                      value={
-                        (data?.tipo === "entrega" &&
-                          data?.cliente?.endereco?.pontoDeReferencia) ??
-                        ""
-                      }
-                      setValue={(value) =>
-                        setData((prev) => ({
-                          ...prev,
-                          cliente: {
-                            ...prev.cliente,
-                            endereco: {
-                              ...prev.cliente.endereco,
-                              pontoDeReferencia: value as string,
+                          }))
+                        }
+                      />
+                      <MyInput
+                        tabIndex={
+                          !data || data.tipo != "entrega" ? -1 : undefined
+                        }
+                        name="PONTO DE REFERÊNCIA"
+                        placeholder="EX: EM FRENTE AO MERCADO NOVA ESPERANÇA"
+                        type="text"
+                        value={
+                          (data?.tipo === "entrega" &&
+                            data?.cliente?.endereco?.pontoDeReferencia) ??
+                          ""
+                        }
+                        setValue={(value) =>
+                          setData((prev) => ({
+                            ...prev,
+                            cliente: {
+                              ...prev.cliente,
+                              endereco: {
+                                ...prev.cliente.endereco,
+                                pontoDeReferencia: value as string,
+                              },
                             },
-                          },
-                        }))
-                      }
-                    />
-                  </div>
+                          }))
+                        }
+                      />
+                    </div>
+                  </section>
                 </section>
-              </section>
-              {/* {"geolocation" in navigator && (
+                {/* {"geolocation" in navigator && (
                 <button
                   type="button"
                   onClick={() => {
@@ -440,34 +459,37 @@ const InformacoesAdicionais: NextPage = () => {
                   Obter localização automaticamente
                 </button>
               )} */}
-            </form>
+              </form>
 
-            <BottomControls
-              backButton
-              primaryButton={{
-                click: next,
-                disabled:
-                  nextInactive ||
-                  !data ||
-                  data.tipo === null ||
-                  data.cliente.nome === "" ||
-                  data.cliente.whatsapp === "" ||
-                  (data.tipo === "entrega" &&
-                    data.cliente.endereco.rua === "") ||
-                  data.cliente.nome.length < 2 ||
-                  (data.cliente.whatsapp ?? "").length < 8 ||
-                  (data.tipo === "entrega" &&
-                    (data.cliente.endereco?.rua?.length ?? 0) < 5) ||
-                  (data.tipo === "entrega" && !data.cliente.endereco?.bairroId),
-              }}
-            />
-          </>
-        )}
-      </InformacoesAdicionaisStyle>
+              <BottomControls
+                backButton
+                primaryButton={{
+                  click: next,
+                  disabled:
+                    nextInactive ||
+                    !data ||
+                    data.tipo === null ||
+                    data.cliente.nome === "" ||
+                    data.cliente.whatsapp === "" ||
+                    (data.tipo === "entrega" &&
+                      data.cliente.endereco.rua === "") ||
+                    data.cliente.nome.length < 2 ||
+                    (data.cliente.whatsapp ?? "").length < 8 ||
+                    (data.tipo === "entrega" &&
+                      (data.cliente.endereco?.rua?.length ?? 0) < 5) ||
+                    (data.tipo === "entrega" &&
+                      !data.cliente.endereco?.bairroId),
+                }}
+              />
+            </>
+          )}
+        </InformacoesAdicionaisStyle>
+      )}
       {showModal && (
         <Modal
           className="withdraw-delivery-modal"
-          label="O pedido é pra entrega ou vem buscar?"
+          label="Qual o tipo do seu pedido?"
+          description="Você vem buscar ou é pra entrega?"
           type={"custom"}
         >
           <Cards
@@ -491,6 +513,68 @@ const InformacoesAdicionais: NextPage = () => {
                 },
               },
             ]}
+          />
+        </Modal>
+      )}
+      {showModalCEP && (
+        <Modal
+          className="cep-modal"
+          label="Qual seu CEP?"
+          description="Se não souber, não tem problema!"
+          type={"custom"}
+          buttons={
+            <>
+              <ButtonSecondary
+                onClick={() => {
+                  setShowModalCEP(false);
+                  setIsFormUnlocked(true);
+                }}
+              >
+                Não sei meu CEP
+              </ButtonSecondary>
+
+              <ButtonPrimary
+                id={"CEP-OK"}
+                disabled={
+                  (data?.cliente?.endereco?.cep ?? "").replace(/[^0-9]/g, "")
+                    .length !== 8
+                }
+                onClick={() => {
+                  searchCEP();
+                  setShowModalCEP(false);
+                  setIsFormUnlocked(true);
+                }}
+              >
+                Pronto!
+              </ButtonPrimary>
+            </>
+          }
+        >
+          <MyInput
+            tabIndex={!data || data.tipo != "entrega" ? -1 : undefined}
+            name=""
+            id="cepmodal"
+            type="zipCode"
+            placeholder="EX: 40000-000"
+            value={
+              data?.tipo === "entrega" ? data?.cliente?.endereco?.cep ?? "" : ""
+            }
+            setValue={(value) => {
+              setData((prev) => ({
+                ...prev,
+                cliente: {
+                  ...prev.cliente,
+                  endereco: {
+                    ...prev.cliente.endereco,
+                    cep: value as string,
+                  },
+                },
+              }));
+
+              if ((value as string).replace(/[^0-9]/g, "").length === 8) {
+                (document.querySelector("#cepmodal") as HTMLElement)?.blur();
+              }
+            }}
           />
         </Modal>
       )}
