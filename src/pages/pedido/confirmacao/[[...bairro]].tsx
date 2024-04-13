@@ -1,5 +1,5 @@
 import { GetServerSideProps, NextPage } from "next";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   ConfirmacaoStyle,
   InfoStyle,
@@ -18,6 +18,7 @@ import BottomControls from "@components/pedido/bottomControls";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { usePromo } from "@context/promoContext";
+import Loading from "@components/loading";
 
 interface IData {
   customer: ICliente;
@@ -36,6 +37,9 @@ const Confirmacao: NextPage<{ api_url: string; bairroNome: string }> = ({
   const entregaGratis = getTaxaGratis(myOrder.itens);
   const valorEntrega = myOrder.taxaEntrega ?? 0;
   const ehEntrega = myOrder.tipo === "entrega";
+
+  const [tries, setTries] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   const Info = ({ name, value }: { name: string; value: string }) => {
     return (
@@ -160,11 +164,12 @@ NÃO VOU PRECISAR DE TROCO`
 NÃO INFORMADO.
       `;
 
-  const confirm = () => {
+  const confirm = async () => {
     const sendOrder = async () => {
       const _pizzas = myOrder.itens.filter(
         (x) => x.tipo === "PIZZA"
       ) as IPizza[];
+
       const pizzas = _pizzas.map((x) => ({
         ...x,
         tamanho: x.tamanho.nome,
@@ -177,6 +182,7 @@ NÃO INFORMADO.
             ? x.valor - Number((3 / _pizzas.length).toFixed())
             : x.valor,
       }));
+
       const outros = myOrder.itens
         .filter((x) => x.tipo !== "PIZZA")
         .map((x) => ({
@@ -244,17 +250,34 @@ NÃO INFORMADO.
         .replace(/--/g, "_")
     );
 
-    sendOrder()
-      .then(() => console.info("Pedido enviado ao backend"))
-      .catch((e) => console.error(e.message, e.stack));
+    try {
+      if (tries >= 3) throw new Error("Numero de tentativas excedidas");
+      setLoading(true);
+      setTries((prev) => prev + 1);
+      await sendOrder();
+      window.open(whatsAppLink, "_blank");
+      setLoading(false);
+    } catch (err: unknown) {
+      if (tries < 3) {
+        confirm();
+      } else {
+        if ((err as Error)?.message) {
+          console.error((err as Error).message, (err as Error).stack);
+        } else {
+          console.error(JSON.stringify(err));
+        }
+        setLoading(false);
 
-    window.open(whatsAppLink, "_blank");
+        window.open(whatsAppLink, "_blank");
+      }
+    }
   };
 
   // if (!myOrder || !myOrder.cliente?.nome || !myOrder.cliente?.whatsapp)
   //   return <ConfirmacaoStyle>
 
   //   </ConfirmacaoStyle>;
+  if (loading) return <Loading />;
   return (
     <ConfirmacaoStyle>
       {myOrder.id ? (
