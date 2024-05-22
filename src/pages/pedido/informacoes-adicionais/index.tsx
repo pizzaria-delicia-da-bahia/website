@@ -11,7 +11,7 @@ import { useRouter } from "next/router";
 import { ICliente } from "@models/order";
 import { MyInput } from "@components/pedido/myInput";
 import { IBairro } from "@models/endereco";
-import { removeAccents } from "@util/format";
+import { formatPhoneNumber, removeAccents } from "@util/format";
 import { toast } from "react-toastify";
 import Loading from "@components/loading";
 import { env } from "@config/env";
@@ -43,10 +43,16 @@ const InformacoesAdicionais: NextPage = () => {
     // const customer =
     //   (JSON.parse(localStorage.getItem("customer")) as ICliente) ?? null;
 
+    /**
+     * EXCLUSÕES
+     * new Date("2024-03-02 00:00:00")
+     * new Date("2024-05-14 00:00:00")
+     */
+
     const _ltex = localStorage.getItem("lastExclusion");
     const lastExclusion = _ltex ? new Date(_ltex) : null;
     const customer =
-      !lastExclusion || lastExclusion < new Date("2024-03-02 00:00:00")
+      !lastExclusion || lastExclusion < new Date("2024-05-14 00:00:00")
         ? null
         : (JSON.parse(localStorage.getItem("customer")) as ICliente) ?? null;
 
@@ -579,6 +585,44 @@ const InformacoesAdicionais: NextPage = () => {
           />
         </Modal>
       )}
+      {/* {showModalWhatsapp && (
+        <Modal
+          className="whatsapp-modal"
+          label={formatPhoneNumber(data?.cliente?.whatsapp)}
+          description="Está correto esse número?"
+          type={"custom"}
+          buttons={
+            <>
+              <ButtonSecondary
+                onClick={() => {
+                  setShowModalCEP(false);
+                  setIsFormUnlocked(true);
+                }}
+              >
+                Está errado
+              </ButtonSecondary>
+
+              <ButtonPrimary
+                disabled={
+                  (data?.cliente?.endereco?.cep ?? "").replace(/[^0-9]/g, "")
+                    .length !== 8
+                }
+                onClick={() => {
+                  searchCEP();
+                  setShowModalCEP(false);
+                  setIsFormUnlocked(true);
+                }}
+              >
+                Está correto!
+              </ButtonPrimary>
+            </>
+          }
+        >
+          
+          
+
+        </Modal>
+      )} */}
     </>
   );
 };
