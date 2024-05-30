@@ -10,6 +10,7 @@ import { IPizzaTamanho } from "@models/pizza";
 import { Promo } from "@models/promo";
 import { env } from "@config/env";
 import { IItem, IPizza } from "@models/item";
+import { removeAccents } from "@util/format";
 
 const PromoContext = createContext<{
   getTaxaGratis: (itens: IItem[]) => boolean;
@@ -47,18 +48,22 @@ const PromoProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const getEhDia = (promo: Promo) => {
     return promo.dias.some((x) => {
       const hoje = new Date();
-      hoje.setHours(0, 0, 0);
-      const d = new Date(x);
-      const isDValid = isValidDate(d);
-      if (isDValid) {
-        d.setHours(0, 0, 0);
+      hoje.setHours(16, 0, 0, 0);
+
+      const p = removeAccents(
+        hoje.toLocaleDateString("pt-BR", { weekday: "long" }).toLowerCase()
+      );
+
+      let r = false;
+
+      if (x instanceof Date) {
+        x.setHours(16, 0, 0, 0);
+        r = hoje.toString() === x.toString();
+      } else {
+        r = p.includes(removeAccents(x.toLowerCase()));
       }
-      return isDValid
-        ? hoje.getDate() === d.getDate()
-        : hoje
-            .toLocaleDateString("pt-BR", { weekday: "long" })
-            .toLowerCase()
-            .includes(x as string);
+
+      return r;
     });
   };
 
