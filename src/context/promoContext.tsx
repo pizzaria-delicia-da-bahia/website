@@ -48,6 +48,7 @@ const PromoProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const getEhDia = (promo: Promo) => {
     return promo.dias.some((x) => {
       const hoje = new Date();
+      const _x = new Date(x);
       hoje.setHours(16, 0, 0, 0);
 
       const p = removeAccents(
@@ -56,11 +57,11 @@ const PromoProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
       let r = false;
 
-      if (x instanceof Date) {
-        x.setHours(16, 0, 0, 0);
-        r = hoje.toString() === x.toString();
+      if (typeof _x === "object") {
+        _x.setHours(16, 0, 0, 0);
+        r = hoje.toString() === _x.toString();
       } else {
-        r = p.includes(removeAccents(x.toLowerCase()));
+        r = p.includes(removeAccents((x as string).toLowerCase()));
       }
 
       return r;
@@ -93,7 +94,11 @@ const PromoProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const getDuasRefri60 = () => {
     const promo = promos.find((x) => x.nome.includes("duas-refri-60"));
     if (!promo || !promo.ativa) return false;
-    if (!getEhDia(promo)) return false;
+    console.log(promo);
+    const ehDia = getEhDia(promo);
+    console.log(ehDia);
+    if (!ehDia) return false;
+
     const CONDICAO = true;
     return CONDICAO;
   };
