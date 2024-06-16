@@ -11,6 +11,7 @@ import { Promo } from "@models/promo";
 import { env } from "@config/env";
 import { IItem, IPizza } from "@models/item";
 import { removeAccents } from "@util/format";
+import moment from "moment";
 
 const PromoContext = createContext<{
   getTaxaGratis: (itens: IItem[]) => boolean;
@@ -48,7 +49,7 @@ const PromoProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const getEhDia = (promo: Promo) => {
     return promo.dias.some((x) => {
       const hoje = new Date();
-      const _x = new Date(x);
+      const _x = moment(x);
       hoje.setHours(16, 0, 0, 0);
 
       const p = removeAccents(
@@ -57,9 +58,10 @@ const PromoProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
       let r = false;
 
-      if (typeof _x === "object") {
-        _x.setHours(16, 0, 0, 0);
-        r = hoje.toString() === _x.toString();
+      if (_x.isValid()) {
+        const _y = _x.toDate()
+        _y.setHours(16, 0, 0, 0);
+        r = hoje.toString() === _y.toString();
       } else {
         r = p.includes(removeAccents((x as string).toLowerCase()));
       }
