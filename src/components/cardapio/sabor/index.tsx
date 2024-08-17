@@ -50,8 +50,9 @@ export const Sabor = ({
     )}
     <div className="right">
       <span className="flavour-name">
-        <h5>{`${nome.split(" ").slice(0, -1).join(" ")}`}</h5>
-        <h5>{FlagEmojiToPNG(nome.split(" ").pop())}</h5>
+        <h5>{`${nome}`}</h5>
+        {/* <h5>{`${nome.split(" ").slice(0, -1).join(" ")}`}</h5> */}
+        {/* <h5>{FlagEmojiToPNG(nome.split(" ").pop())}</h5> */}
       </span>
       <p className="flavour-ingredients">{ingredientes.join(", ")}</p>
       {!!valuesString && <p className="flavour-values">{valuesString}</p>}

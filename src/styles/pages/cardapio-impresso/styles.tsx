@@ -14,9 +14,11 @@ export const CardapioImpressoStyle = styled.main`
   scroll-behavior: smooth;
   /* padding: 0.8rem 1.2rem 0 1.2rem; */
   position: relative;
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-auto-rows: auto;
   flex-direction: column;
-  gap: 0.8rem;
+  gap: 0.3rem;
 
   * {
     user-select: text;

@@ -6,6 +6,10 @@ export const getValueString = ({
   value: number;
 }) => `${name}: ${formatCurrency(value)}`;
 
+export function capitalize(str: string) {
+  return str[0].toUpperCase() + str.slice(1).toLowerCase();
+}
+
 export const formatCurrency = (n: number) =>
   n.toLocaleString("pt-BR", {
     style: "currency",

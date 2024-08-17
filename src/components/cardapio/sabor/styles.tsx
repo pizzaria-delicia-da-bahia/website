@@ -53,14 +53,6 @@ export const SaborStyle = styled.li.attrs(
       padding: 0.3rem 0.2rem;
       .right {
         flex-direction: row;
-
-        .flavour-name {
-          &:after {
-            content: "•";
-            margin: 0 0.5rem;
-            color: #fff;
-          }
-        }
       }
     `}
 

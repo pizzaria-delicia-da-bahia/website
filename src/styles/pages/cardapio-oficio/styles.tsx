@@ -1,21 +1,73 @@
 import styled from "styled-components";
 import { colors } from "@styles/colors";
-import { sizes } from "@styles/sizes";
+
+export const SizesStyle = styled.div`
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+  justify-content: end;
+
+  li {
+    display: flex;
+    background-color: #00000020;
+    gap: 1rem;
+    padding: 0.5rem;
+
+    .nome {
+      color: ${colors.elements};
+    }
+
+    .descricao {
+      color: #fff;
+    }
+
+    .apartir {
+      color: #fff;
+      font-size: small;
+    }
+
+    .valor {
+      color: #fff;
+    }
+  }
+`;
 
 export const CardapioOficioStyle = styled.main`
   color: #fff;
   width: 100%;
   height: 100%;
   overflow: auto;
+  /* max-height: 100svh; */
   scroll-behavior: smooth;
   position: relative;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: start;
+  /* align-items: start; */
+  /* justify-items: start; */
+  /* align-content: start; */
   gap: 0.3rem;
-  padding: 0 2rem;
+  /* padding: 0 2rem; */
+  /* background: pink; */
+
+  > aside {
+    display: flex;
+    flex-direction: column;
+    flex: 0.5;
+    gap: 0.6rem;
+  }
 
   * {
     user-select: text;
+  }
+  .grupo-sabores {
+    /* width: 48.99%; */
+    /* flex: 0.5; */
+    /* background: green; */
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
   }
   .grupo {
     text-align: center;
@@ -26,8 +78,8 @@ export const CardapioOficioStyle = styled.main`
   .sabores {
     display: flex;
     flex-direction: column;
-    flex-grow: 1;
-    gap: 0.3rem;
+    /* flex-grow: 1; */
+    gap: 0.05rem;
   }
 
   .sabor-valores {
@@ -42,16 +94,20 @@ export const CardapioOficioStyle = styled.main`
         gap: 0;
         user-select: auto;
         display: flex;
-        align-items: center;
+        flex-direction: column;
+        /* align-items: center; */
 
         .flavour-name {
-          font-size: min(1rem, 5.5vw) !important;
+          /* font-size: min(1rem, 5.5vw) !important; */
+          font-size: 1.2rem;
           gap: 2px;
           color: ${colors.elements};
         }
         .flavour-ingredients {
           font-size: 0.75rem;
           opacity: 0.8;
+          font-weight: bold;
+          /* color: #fff; */
         }
       }
     }
@@ -67,7 +123,13 @@ export const CardapioOficioStyle = styled.main`
         color: #fff;
         min-width: 4rem;
         /* min-height: 2.2rem; */
-        font-size: 0.6rem;
+        p {
+          font-size: 0.7rem;
+          letter-spacing: 0.1rem;
+        }
+        strong {
+          font-size: 0.8rem;
+        }
         /* padding: 0.2rem 0.8rem;
           border-radius: 0.3rem; */
         flex-grow: 1;

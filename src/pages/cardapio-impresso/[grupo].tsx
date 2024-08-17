@@ -15,22 +15,9 @@ const CardapioImpresso: NextPage<ICardapioImpresso> = ({ sizes, groups }) => {
   return (
     <CardapioImpressoStyle>
       {groups.map((group) => (
-        <Fragment key={group.id}>
+        <div className="grupo-sabores" key={group.id}>
           <h2 className="grupo">{group.nome}</h2>
           <div className="sabores">
-            <div className="sabor-valores">
-              <p className="sabor">Sabor</p>
-              <div className="valores">
-                {sizes
-                  .filter((x) => x.visivel)
-                  .map((s) => (
-                    <li className="valor" key={s.id}>
-                      {s.nome.slice(0, 3)}
-                    </li>
-                  ))}
-              </div>
-            </div>
-
             {group.sabores.map((s) => (
               <div className="sabor-valores" key={s.id}>
                 <Sabor
@@ -57,22 +44,10 @@ const CardapioImpresso: NextPage<ICardapioImpresso> = ({ sizes, groups }) => {
                   valuesString=""
                   forPrint
                 />
-                <div className="valores">
-                  {s.valores
-                    .filter(
-                      (x) => sizes.find((s) => x.tamanhoId === s.id).visivel
-                    )
-                    .map((v) => (
-                      <li className="valor" key={s.id + v.tamanhoId}>
-                        {/* {formatCurrency(v.valor)} */}
-                        <p>R$</p>
-                      </li>
-                    ))}
-                </div>
               </div>
             ))}
           </div>
-        </Fragment>
+        </div>
       ))}
     </CardapioImpressoStyle>
   );

@@ -47,7 +47,7 @@ const Sabores: NextPage = () => {
   const comCoca = false; //getDuasRefri60();
   const comGoob = comCoca ? false : false; //getDuasRefri60();
 
-  const valorSaborFixo = comCoca ? 26.5 : comGoob ? 27.5 : 27.5;
+  const valorSaborFixo = comCoca ? 26.5 : comGoob ? 29 : 29;
 
   useEffect(() => {
     if (promosCarregadas) {
@@ -220,7 +220,7 @@ const Sabores: NextPage = () => {
         ) : (
           <>
             <h5 className="title">2 pizzas GRANDES por:</h5>
-            <h1>R$ 54,99</h1>
+            <h1>R$ 57,99</h1>
           </>
         )}
         <h5 className="title">(Pagamento em Espécie ou PIX)</h5>
