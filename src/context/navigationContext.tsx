@@ -34,6 +34,11 @@ const NavigationProvider: FC<{ children: ReactNode }> = ({ children }) => {
           url="/pedido/promocao-duas"
           image="/images/promo-duas-refri-60-modal.png"
         />
+      ) : getKids() && router.pathname.startsWith("/home") ? (
+        <ModalPromo2
+          url="/pedido/promocao-dia-das-criancas"
+          image="/images/promo-dia-das-criancas-modal.png"
+        />
       ) : (
         <></>
       )
