@@ -17,7 +17,7 @@ import { usePromo } from "@context/promoContext";
 import { Cards } from "@components/modalCards";
 
 const Pedido: NextPage = () => {
-  const { getDuasRefri60, promosCarregadas } = usePromo();
+  const { getKids, getDuasRefri60, promosCarregadas } = usePromo();
 
   const getItems = () => {
     return [
@@ -31,16 +31,16 @@ const Pedido: NextPage = () => {
         route: "pedido/pizza/tamanho",
         image: "/images/pedido-pizza.svg",
       },
+      getKids() && {
+        name: "",
+        route: "pedido/promocao-dia-das-criancas",
+        image: "/images/kids.png",
+      },
       getDuasRefri60() && {
         name: "",
         route: "pedido/promocao-duas",
         image: "/images/promocao-duas-refri-60.png",
       },
-      // getRelampago() && {
-      //   name: "",
-      //   route: "pedido/promocao-relampago",
-      //   image: "/images/promocao.svg",
-      // },
       {
         name: "BEBIDAS",
         route: "pedido/bebida",

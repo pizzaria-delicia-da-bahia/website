@@ -121,10 +121,9 @@ const CardapioOficio: NextPage<ICardapioOficio> = ({ sizes, groups }) => {
                                   .nome.slice(0, 3)}
                               </p>
                               <strong>
-                                {formatCurrency(v.valor).replace(",00", "")}
-                                {/* {formatCurrency(
-                                  (((v.valor + 5 + 2) * 100) / 70)
-                                ).replace(",000", "")} */}
+                                {formatCurrency(
+                                  ((v.valor + 5 + 2) * 100) / 70
+                                ).replace(",000", "")}
                               </strong>
                             </li>
                           ))}
@@ -141,6 +140,7 @@ const CardapioOficio: NextPage<ICardapioOficio> = ({ sizes, groups }) => {
   );
 };
 
+// {formatCurrency(v.valor).replace(",00", "")}
 export default CardapioOficio;
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {

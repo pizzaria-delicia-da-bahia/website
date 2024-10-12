@@ -17,6 +17,8 @@ const PromoContext = createContext<{
   getTaxaGratis: (itens: IItem[]) => boolean;
   getBordaGratis: (tamanho: IPizzaTamanho) => boolean;
   getDuasRefri60: () => boolean;
+  getGFRefri: () => boolean;
+  getKids: () => boolean;
   promosCarregadas: boolean;
 }>(null);
 
@@ -59,7 +61,7 @@ const PromoProvider: FC<{ children: ReactNode }> = ({ children }) => {
       let r = false;
 
       if (_x.isValid()) {
-        const _y = _x.toDate()
+        const _y = _x.toDate();
         _y.setHours(16, 0, 0, 0);
         r = hoje.toString() === _y.toString();
       } else {
@@ -96,10 +98,28 @@ const PromoProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const getDuasRefri60 = () => {
     const promo = promos.find((x) => x.nome.includes("duas-refri-60"));
     if (!promo || !promo.ativa) return false;
-    console.log(promo);
     const ehDia = getEhDia(promo);
-    console.log(ehDia);
     if (!ehDia) return false;
+
+    const CONDICAO = true;
+    return CONDICAO;
+  };
+
+  const getGFRefri = () => {
+    const promo = promos.find((x) => x.nome.includes("gf-refri"));
+    if (!promo || !promo.ativa) return false;
+    const ehDia = getEhDia(promo);
+    if (!ehDia) return false;
+
+    const CONDICAO = true;
+    return CONDICAO;
+  };
+
+  const getKids = () => {
+    const promo = promos.find((x) => x.nome.includes("kids"));
+
+    console.log(promo);
+    if (!promo || !promo.ativa) return false;
 
     const CONDICAO = true;
     return CONDICAO;
@@ -117,6 +137,8 @@ const PromoProvider: FC<{ children: ReactNode }> = ({ children }) => {
         getTaxaGratis,
         getBordaGratis,
         getDuasRefri60,
+        getGFRefri,
+        getKids,
         promosCarregadas,
       }}
     >
