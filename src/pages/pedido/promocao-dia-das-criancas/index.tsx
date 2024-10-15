@@ -188,6 +188,7 @@ const Sabores: NextPage = () => {
                 tamanhoAprox: 20,
                 valorMin: 10,
                 visivel: false,
+                ativado: false,
               }
             : size,
         id: uuidv4(),

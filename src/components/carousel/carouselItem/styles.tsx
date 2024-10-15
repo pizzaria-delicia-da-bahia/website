@@ -3,7 +3,12 @@ import { colors } from "@styles/colors";
 import { breakpointsMQ } from "@styles/mediaQueries";
 
 export const CarouselItemStyle = styled.li.attrs(
-  (props: { index: number; length: number; selectedIndex: number }) => props
+  (props: {
+    index: number;
+    length: number;
+    selectedIndex: number;
+    enabled: boolean;
+  }) => props
 )`
   -moz-user-select: none;
   scroll-snap-stop: always;
@@ -16,7 +21,6 @@ export const CarouselItemStyle = styled.li.attrs(
   flex-direction: column;
   box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.5);
   border-radius: 1rem;
-  cursor: pointer;
   padding: 2rem 5rem;
   min-width: 70vw;
   transition: all 0.1s linear;
@@ -24,6 +28,18 @@ export const CarouselItemStyle = styled.li.attrs(
   /* max-height: 30vh; */
   gap: 0.2rem;
   position: relative;
+
+  ${(props) =>
+    props.enabled
+      ? `
+      cursor: pointer;
+      opacity: 1;
+      
+      `
+      : `
+      opacity: 0.5;
+
+    `}
 
   .image-wrapper {
     display: flex;

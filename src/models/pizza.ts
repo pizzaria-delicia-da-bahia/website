@@ -19,6 +19,7 @@ export interface IPizzaTamanho {
   maxSabores: number;
   valorMin: number;
   visivel: boolean;
+  ativado: boolean;
 }
 export interface IPizzaSaborValor {
   tamanhoId: string;

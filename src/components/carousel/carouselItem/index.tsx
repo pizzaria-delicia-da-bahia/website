@@ -10,6 +10,7 @@ interface ICarouselItem {
   description?: string;
   image: { src: string; w: number; h?: number };
   index: number;
+  enabled?: boolean;
   children?: ReactElement[];
 }
 
@@ -20,12 +21,25 @@ const CarouselItem: FC<ICarouselItem> = ({
   description,
   image,
   index,
+  enabled,
   children,
 }) => {
   const { selectedIndex, length } = useCarousel();
 
+  const _enabled = !!enabled || enabled === undefined;
+
+  const Wrapper = ({ children }) => {
+    return _enabled ? (
+      <Link href={_enabled ? route : "#"} passHref key={route}>
+        {children}
+      </Link>
+    ) : (
+      <>{children}</>
+    );
+  };
+
   return (
-    <Link href={route} passHref key={route}>
+    <Wrapper>
       <CarouselItemStyle
         className={`${
           selectedIndex === index
@@ -40,6 +54,7 @@ const CarouselItem: FC<ICarouselItem> = ({
         selectedIndex={selectedIndex}
         style={!title ? { padding: 0 } : undefined}
         length={length}
+        enabled={_enabled}
         key={route}
       >
         <div className="image-wrapper">
@@ -55,7 +70,7 @@ const CarouselItem: FC<ICarouselItem> = ({
         {!!description && <p className="tooltip">{description}</p>}
         {children && <div className="bottom-elements">{children}</div>}
       </CarouselItemStyle>
-    </Link>
+    </Wrapper>
   );
 };
 export default CarouselItem;

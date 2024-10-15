@@ -68,6 +68,7 @@ const Tamanho: NextPage = () => {
                 <CarouselItem
                   key={item.nome}
                   title={item.nome}
+                  enabled={item.ativado}
                   subtitle={`(À partir de ${formatCurrency(item.valorMin)})`}
                   image={{
                     src: "/images/pedido-pizza.svg",

@@ -82,6 +82,7 @@ const Sabores: NextPage = () => {
           tamanhoAprox: 25,
           valorMin: 0,
           visivel: true,
+          ativado: true,
           maxSabores: 1,
         },
         id: uuidv4(),
