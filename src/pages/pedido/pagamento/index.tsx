@@ -13,6 +13,7 @@ import BottomControls from "@components/pedido/bottomControls";
 import Modal from "@components/modal";
 import { colors } from "@styles/colors";
 import { usePromo } from "@context/promoContext";
+import { taxaGratisAteTalHoras } from "@util/promo";
 
 const Pagamento: NextPage = () => {
   const { myOrder, addPayment, removeAllPayments, setFee } = useMyOrder();
@@ -124,7 +125,7 @@ const Pagamento: NextPage = () => {
         subtitle={`VALOR TOTAL ${formatCurrency(data.valor)}`}
         description={
           myOrder?.tipo === "entrega"
-            ? getTaxaGratis(myOrder.itens)
+            ? getTaxaGratis(myOrder.itens) || taxaGratisAteTalHoras(myOrder)
               ? " (Hoje a entrega é GRÁTIS!)"
               : myOrder?.taxaEntrega > 0
               ? ` (ITENS + ENTREGA)`

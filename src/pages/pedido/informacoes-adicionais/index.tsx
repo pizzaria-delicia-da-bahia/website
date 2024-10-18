@@ -21,6 +21,7 @@ import Modal from "@components/modal";
 import { usePromo } from "@context/promoContext";
 import { Cards } from "@components/modalCards";
 import { ButtonPrimary, ButtonSecondary } from "@styles/components/buttons";
+import { taxaGratisAteTalHoras } from "@util/promo";
 interface IData {
   cliente: ICliente;
   tipo: "retirada" | "entrega" | null;
@@ -131,23 +132,13 @@ const InformacoesAdicionais: NextPage = () => {
         ? 3
         : customer.endereco.taxa;
 
-      const taxaGratisAteTalHoras = () => {
-        const dataPromo = new Date("2024-10-18 20:05:00");
-
-        const now = new Date();
-
-        return (
-          dataPromo.getTime() > now.getTime() &&
-          myOrder.itens.some((x) => !!x.comboId)
-        );
-      };
       setInfo(
         customer,
         data.tipo,
         getTaxaGratis(myOrder.itens)
           ? 0
-          : taxaGratisAteTalHoras()
-          ? 0
+          : taxaGratisAteTalHoras(myOrder)
+          ? 3
           : Number(endereco?.taxa ?? 0)
       );
 

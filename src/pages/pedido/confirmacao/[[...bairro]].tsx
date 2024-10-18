@@ -19,6 +19,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { usePromo } from "@context/promoContext";
 import Loading from "@components/loading";
+import { taxaGratisAteTalHoras } from "@util/promo";
 
 interface IData {
   customer: ICliente;
@@ -34,7 +35,8 @@ const Confirmacao: NextPage<{ api_url: string; bairroNome: string }> = ({
   const router = useRouter();
 
   const valorItens = myOrder.itens.reduce((acc, item) => acc + item.valor, 0);
-  const entregaGratis = getTaxaGratis(myOrder.itens);
+  const entregaGratis =
+    getTaxaGratis(myOrder.itens) || taxaGratisAteTalHoras(myOrder);
   const valorEntrega = myOrder.taxaEntrega ?? 0;
   const ehEntrega = myOrder.tipo === "entrega";
 
