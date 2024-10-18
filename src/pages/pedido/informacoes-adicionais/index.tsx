@@ -130,10 +130,25 @@ const InformacoesAdicionais: NextPage = () => {
       customer.endereco.taxa = getTaxaGratis(myOrder.itens)
         ? 3
         : customer.endereco.taxa;
+
+      const taxaGratisAteTalHoras = () => {
+        const dataPromo = new Date("2024-10-18 20:05:00");
+
+        const now = new Date();
+
+        return (
+          dataPromo.getTime() > now.getTime() &&
+          myOrder.itens.some((x) => !!x.comboId)
+        );
+      };
       setInfo(
         customer,
         data.tipo,
-        getTaxaGratis(myOrder.itens) ? 0 : Number(endereco?.taxa ?? 0)
+        getTaxaGratis(myOrder.itens)
+          ? 0
+          : taxaGratisAteTalHoras()
+          ? 0
+          : Number(endereco?.taxa ?? 0)
       );
 
       if (data.tipo === "retirada" || endereco?.cep) {
