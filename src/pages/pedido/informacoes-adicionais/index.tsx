@@ -138,7 +138,7 @@ const InformacoesAdicionais: NextPage = () => {
         getTaxaGratis(myOrder.itens)
           ? 0
           : taxaGratisAteTalHoras(myOrder)
-          ? 3
+          ? 0
           : Number(endereco?.taxa ?? 0)
       );
 
