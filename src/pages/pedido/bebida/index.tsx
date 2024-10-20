@@ -68,28 +68,30 @@ const Bebida: NextPage = () => {
           <Text type="title">BEBIDA</Text>
           <div className="menu">
             <ul>
-              {bebidas.map((bebida) => (
-                <li
-                  key={bebida.nome}
-                  className={`${!bebida.disponivel ? "disabled" : undefined}`}
-                  onClick={() => selectItem(bebida)}
-                >
-                  <div className="left">
-                    <Image
-                      loader={() => bebida.imagemUrl}
-                      src={bebida.imagemUrl}
-                      layout="fill"
-                    />
-                  </div>
+              {bebidas
+                .filter((x) => x.visivel)
+                .map((bebida) => (
+                  <li
+                    key={bebida.nome}
+                    className={`${!bebida.disponivel ? "disabled" : undefined}`}
+                    onClick={() => selectItem(bebida)}
+                  >
+                    <div className="left">
+                      <Image
+                        loader={() => bebida.imagemUrl}
+                        src={bebida.imagemUrl}
+                        layout="fill"
+                      />
+                    </div>
 
-                  <div className="right">
-                    <h5 className="title">
-                      {replaceType(bebida.nome.toUpperCase())}
-                    </h5>
-                    <p className="value">{formatCurrency(bebida.valor)}</p>
-                  </div>
-                </li>
-              ))}
+                    <div className="right">
+                      <h5 className="title">
+                        {replaceType(bebida.nome.toUpperCase())}
+                      </h5>
+                      <p className="value">{formatCurrency(bebida.valor)}</p>
+                    </div>
+                  </li>
+                ))}
             </ul>
             <ItemQuantityModal
               item={selectedItem}
