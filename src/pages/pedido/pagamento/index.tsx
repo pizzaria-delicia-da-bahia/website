@@ -126,7 +126,7 @@ const Pagamento: NextPage = () => {
         description={
           myOrder?.tipo === "entrega"
             ? getTaxaGratis(myOrder.itens) || taxaGratisAteTalHoras(myOrder)
-              ? " (Hoje a entrega é GRÁTIS!)"
+              ? ` (Você ganhou entrega GRÁTIS!)`
               : myOrder?.taxaEntrega > 0
               ? ` (ITENS + ENTREGA)`
               : ` (ENDEREÇO NÃO ENCONTRADO, FALTA INCLUIR TAXA DE ENTREGA)`
