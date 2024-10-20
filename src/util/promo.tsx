@@ -6,6 +6,7 @@ export const taxaGratisAteTalHoras = (order: IPedido) => {
   const now = new Date();
 
   return (
-    dataPromo.getTime() > now.getTime() && order.itens.some((x) => !!x.comboId)
+    dataPromo.getTime() > now.getTime() &&
+    order.itens.reduce((acc, curr) => acc + curr.valor, 0) >= 36
   );
 };
