@@ -25,6 +25,7 @@ import BottomControls from "@components/pedido/bottomControls";
 import Modal from "@components/modal";
 import { toast } from "react-toastify";
 import { usePromo } from "@context/promoContext";
+import { IOutro } from "@models/outro";
 
 const Sabores: NextPage<{ tamanhoId: string }> = ({ tamanhoId }) => {
   const router = useRouter();
@@ -33,7 +34,7 @@ const Sabores: NextPage<{ tamanhoId: string }> = ({ tamanhoId }) => {
   const [size, setSize] = useState<IPizzaTamanho | null>(null);
   const [groups, setGroups] = useState<Array<IPizzaGrupo[]>>([]);
   const [nextInactive, setNextInactive] = useState<boolean>(false);
-  const { getBordaGratis } = usePromo();
+  const { getBordaGratis, getGFRefri } = usePromo();
 
   const [showModal, setShowModal] = useState<boolean>(false);
 
@@ -151,7 +152,32 @@ const Sabores: NextPage<{ tamanhoId: string }> = ({ tamanhoId }) => {
         id: uuidv4(),
       };
 
-      addItem(novaPizza);
+      const bordaAtv = getBordaGratis(size);
+
+      console.log("BORDA ATV", getGFRefri());
+
+      if (getGFRefri() && getBordaGratis(size)) {
+        const comboId = uuidv4();
+        const novaBebida: IOutro = {
+          id: "672a99e5ae893a18026b6052",
+          nome: "COCA COLA 600ml",
+          disponivel: false,
+          imagemUrl:
+            "https://tucunarenachapa.com.br/wp-content/uploads/2022/11/coc-600ml.png",
+          valor: 5,
+          observacao: "",
+          tipo: "BEBIDA",
+          vendidos: 10,
+          visivel: false,
+          comboId,
+        };
+        addItem([
+          { ...novaPizza, valor: novaPizza.valor - 5, comboId },
+          novaBebida,
+        ]);
+      } else {
+        addItem(novaPizza);
+      }
       router.push("/pedido");
     } catch (e) {
       switch ((e as Error).message) {

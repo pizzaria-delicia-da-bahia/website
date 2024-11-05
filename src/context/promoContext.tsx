@@ -87,11 +87,11 @@ const PromoProvider: FC<{ children: ReactNode }> = ({ children }) => {
   };
 
   const getBordaGratis = (tamanho: IPizzaTamanho) => {
-    if (getDuasRefri60()) return false;
+    // if (getDuasRefri60()) return false;
     const promo = promos.find((x) => x.nome.includes("borda-gratis"));
     if (!promo || !promo.ativa) return false;
     if (!getEhDia(promo)) return false;
-    const CONDICAO = tamanho.valorMin >= 27 && tamanho.fatias >= 6;
+    const CONDICAO = tamanho.valorMin >= 36 && tamanho.fatias >= 8;
     return CONDICAO;
   };
 
@@ -107,6 +107,7 @@ const PromoProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
   const getGFRefri = () => {
     const promo = promos.find((x) => x.nome.includes("gf-refri"));
+    console.log(promo, "aaaaaaaaaaaaaaaaaaaaa");
     if (!promo || !promo.ativa) return false;
     const ehDia = getEhDia(promo);
     if (!ehDia) return false;
@@ -118,7 +119,6 @@ const PromoProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const getKids = () => {
     const promo = promos.find((x) => x.nome.includes("kids"));
 
-    console.log(promo);
     if (!promo || !promo.ativa) return false;
 
     const CONDICAO = true;
