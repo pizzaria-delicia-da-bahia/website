@@ -29,7 +29,7 @@ interface IData {
 
 const InformacoesAdicionais: NextPage = () => {
   const { setInfo, myOrder } = useMyOrder();
-  const { getTaxaGratis } = usePromo();
+  const { getTaxaGratis, getTaxaGratis36 } = usePromo();
   const [data, setData] = useState<IData | null>(null);
   const router = useRouter();
   const [nextInactive, setNextInactive] = useState<boolean>(false);
@@ -136,6 +136,8 @@ const InformacoesAdicionais: NextPage = () => {
         customer,
         data.tipo,
         getTaxaGratis(myOrder.itens)
+          ? 0
+          : getTaxaGratis36(myOrder.itens)
           ? 0
           : taxaGratisAteTalHoras(myOrder)
           ? 0

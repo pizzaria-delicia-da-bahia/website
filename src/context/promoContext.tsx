@@ -15,6 +15,7 @@ import moment from "moment";
 
 const PromoContext = createContext<{
   getTaxaGratis: (itens: IItem[]) => boolean;
+  getTaxaGratis36: (itens: IItem[]) => boolean;
   getBordaGratis: (tamanho: IPizzaTamanho) => boolean;
   getDuasRefri60: () => boolean;
   getGFRefri: () => boolean;
@@ -85,6 +86,18 @@ const PromoProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
     return CONDICAO;
   };
+  const getTaxaGratis36 = (itens: IItem[]) => {
+    const promo = promos.find((x) => x.nome.includes("taxa-gratis-36"));
+    if (!promo || !promo.ativa) return false;
+    if (!getEhDia(promo)) return false;
+
+    const pizzas = itens.filter((x) => x.tipo === "PIZZA") as IPizza[];
+    const CONDICAO =
+      pizzas.length > 0 &&
+      pizzas.some((x) => x.tamanho.valorMin >= 36 && x.tamanho.fatias >= 8);
+
+    return CONDICAO;
+  };
 
   const getBordaGratis = (tamanho: IPizzaTamanho) => {
     // if (getDuasRefri60()) return false;
@@ -139,6 +152,7 @@ const PromoProvider: FC<{ children: ReactNode }> = ({ children }) => {
         getDuasRefri60,
         getGFRefri,
         getKids,
+        getTaxaGratis36,
         promosCarregadas,
       }}
     >

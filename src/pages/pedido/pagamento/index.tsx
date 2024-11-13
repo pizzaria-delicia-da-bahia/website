@@ -17,7 +17,7 @@ import { taxaGratisAteTalHoras } from "@util/promo";
 
 const Pagamento: NextPage = () => {
   const { myOrder, addPayment, removeAllPayments, setFee } = useMyOrder();
-  const { getTaxaGratis } = usePromo();
+  const { getTaxaGratis, getTaxaGratis36 } = usePromo();
 
   const router = useRouter();
   const [nextInactive, setNextInactive] = useState<boolean>(false);
@@ -31,7 +31,9 @@ const Pagamento: NextPage = () => {
     valor:
       myOrder && myOrder.itens?.length
         ? myOrder.itens.reduce((acc, item) => acc + item.valor, 0) +
-          (getTaxaGratis(myOrder.itens) ? 0 : myOrder.taxaEntrega)
+          (getTaxaGratis(myOrder.itens) || getTaxaGratis36(myOrder.itens)
+            ? 0
+            : myOrder.taxaEntrega)
         : 0,
     trocoPara: 0,
     tipo: null,
@@ -125,7 +127,9 @@ const Pagamento: NextPage = () => {
         subtitle={`VALOR TOTAL ${formatCurrency(data.valor)}`}
         description={
           myOrder?.tipo === "entrega"
-            ? getTaxaGratis(myOrder.itens) || taxaGratisAteTalHoras(myOrder)
+            ? getTaxaGratis(myOrder.itens) ||
+              getTaxaGratis36(myOrder.itens) ||
+              taxaGratisAteTalHoras(myOrder)
               ? ` (Você ganhou entrega GRÁTIS!)`
               : myOrder?.taxaEntrega > 0
               ? ` (ITENS + ENTREGA)`

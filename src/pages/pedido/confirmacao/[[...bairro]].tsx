@@ -7,7 +7,7 @@ import {
 import { useMyOrder } from "@context/myOrderContext";
 import { ButtonPrimary, ButtonSecondary } from "@styles/components/buttons";
 import { useRouter } from "next/router";
-import { ICliente } from "@models/order";
+import { ICliente, IPedido } from "@models/order";
 import { IPizza } from "@models/item";
 import { IOutro } from "@models/outro";
 import Link from "next/link";
@@ -31,12 +31,14 @@ const Confirmacao: NextPage<{ api_url: string; bairroNome: string }> = ({
   bairroNome,
 }) => {
   const { myOrder, setId, newOrder } = useMyOrder();
-  const { getTaxaGratis } = usePromo();
+  const { getTaxaGratis, getTaxaGratis36 } = usePromo();
   const router = useRouter();
 
   const valorItens = myOrder.itens.reduce((acc, item) => acc + item.valor, 0);
   const entregaGratis =
-    getTaxaGratis(myOrder.itens) || taxaGratisAteTalHoras(myOrder);
+    getTaxaGratis(myOrder.itens) ||
+    getTaxaGratis36(myOrder.itens) ||
+    taxaGratisAteTalHoras(myOrder);
   const valorEntrega = myOrder.taxaEntrega ?? 0;
   const ehEntrega = myOrder.tipo === "entrega";
 
@@ -132,7 +134,9 @@ ${item.observacao}`
           : ""
         : ""
     }${`
-  VALOR TOTAL: ${formatCurrency(valorItens + valorEntrega)}`}${
+  VALOR TOTAL: ${formatCurrency(
+    entregaGratis ? valorItens : valorItens + valorEntrega
+  )}`}${
       ehEntrega && !entregaGratis && !valorEntrega
         ? `
     (FALTA INCLUIR A TAXA DE ENTREGA)`
@@ -172,17 +176,14 @@ NÃO INFORMADO.
         (x) => x.tipo === "PIZZA"
       ) as IPizza[];
 
-      const pizzas = _pizzas.map((x) => ({
+      const pizzas = _pizzas.map((x, i) => ({
         ...x,
         tamanho: x.tamanho.nome,
         observacao:
           entregaGratis && ehEntrega
             ? `PROMOCIONAL${x.observacao ? ` ${x.observacao}` : ""}`
             : x.observacao,
-        valor:
-          entregaGratis && ehEntrega
-            ? x.valor - Number((3 / _pizzas.length).toFixed())
-            : x.valor,
+        valor: entregaGratis && ehEntrega && i === 0 ? x.valor - 3 : x.valor,
       }));
 
       const outros = myOrder.itens
@@ -194,6 +195,7 @@ NÃO INFORMADO.
 
       const order = {
         ...myOrder,
+        taxaEntrega: entregaGratis ? 3 : myOrder.taxaEntrega,
         itens: [...pizzas, ...outros],
         endereco: ehEntrega
           ? {
@@ -202,6 +204,7 @@ NÃO INFORMADO.
               local: myOrder.cliente?.endereco?.localDeEntrega,
               referencia: myOrder.cliente?.endereco?.pontoDeReferencia,
               bairro: bairroNome,
+              taxa: entregaGratis ? 3 : myOrder.taxaEntrega,
             }
           : null,
         historico: [{ tipo: "enviado", data: new Date() }],
