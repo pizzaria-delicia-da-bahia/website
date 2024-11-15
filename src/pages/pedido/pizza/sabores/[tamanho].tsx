@@ -158,22 +158,22 @@ const Sabores: NextPage<{ tamanhoId: string }> = ({ tamanhoId }) => {
 
       if (getGFRefri() && getBordaGratis(size)) {
         const comboId = uuidv4();
-        const novaBebida: IOutro = {
-          id: "672a99e5ae893a18026b6052",
-          nome: "COCA COLA 600ml",
-          disponivel: false,
-          imagemUrl:
-            "https://tucunarenachapa.com.br/wp-content/uploads/2022/11/coc-600ml.png",
-          valor: 5,
-          observacao: "",
-          tipo: "BEBIDA",
-          vendidos: 10,
-          visivel: false,
-          comboId,
-        };
+        // const novaBebida: IOutro = {
+        //   id: "672a99e5ae893a18026b6052",
+        //   nome: "COCA COLA 600ml",
+        //   disponivel: false,
+        //   imagemUrl:
+        //     "https://tucunarenachapa.com.br/wp-content/uploads/2022/11/coc-600ml.png",
+        //   valor: 5,
+        //   observacao: "",
+        //   tipo: "BEBIDA",
+        //   vendidos: 10,
+        //   visivel: false,
+        //   comboId,
+        // };
         addItem([
           { ...novaPizza, valor: novaPizza.valor - 5, comboId },
-          novaBebida,
+          // novaBebida,
         ]);
       } else {
         addItem(novaPizza);
