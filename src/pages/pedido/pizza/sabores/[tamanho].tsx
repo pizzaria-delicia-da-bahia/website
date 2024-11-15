@@ -172,7 +172,8 @@ const Sabores: NextPage<{ tamanhoId: string }> = ({ tamanhoId }) => {
         //   comboId,
         // };
         addItem([
-          { ...novaPizza, valor: novaPizza.valor - 5, comboId },
+          { ...novaPizza, valor: novaPizza.valor, comboId },
+          // { ...novaPizza, valor: novaPizza.valor - 5, comboId },
           // novaBebida,
         ]);
       } else {
