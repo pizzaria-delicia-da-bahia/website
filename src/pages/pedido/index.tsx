@@ -60,6 +60,13 @@ const Pedido: NextPage = () => {
     if (promosCarregadas) {
       setItems(getItems());
     }
+
+    console.log(
+      "getDuasRefri60()",
+      getDuasRefri60(),
+      "getGrande29()",
+      getGrande29()
+    );
   }, [promosCarregadas]);
 
   const { myOrder } = useMyOrder();
@@ -102,89 +109,97 @@ const Pedido: NextPage = () => {
     );
 
   return (
-    <PedidoStyle
-      onContextMenu={(e) => {
-        e.preventDefault();
-      }}
-    >
-      <TextContainer title="MONTE SEU PEDIDO" subtitle="ADICIONE UM ITEM" />
+    promosCarregadas && (
+      <PedidoStyle
+        onContextMenu={(e) => {
+          e.preventDefault();
+        }}
+      >
+        <TextContainer title="MONTE SEU PEDIDO" subtitle="ADICIONE UM ITEM" />
 
-      <div className="menu">
-        <Carousel
-          length={items.length}
-          defaultSelectedIndex={getDuasRefri60() ? 2 : undefined}
-        >
-          {items.map((item, index) => (
-            <CarouselItem
-              key={item.route}
-              image={{ src: item.image, w: 100 }}
-              title={item.name}
-              route={item.route}
-              index={index}
-            />
-          ))}
-        </Carousel>
-      </div>
-      <Dots items={items} />
-      <BottomControls
-        secondaryButton={{
-          click: () => router.push("/pedido/itens"),
-          disabled: (myOrder?.itens?.length ?? 0) < 1,
-          text: "MEUS ITENS",
-          badge: myOrder?.itens?.length,
-        }}
-        primaryButton={{
-          click: () => {
-            console.log(myOrder?.itens);
-            if (
-              myOrder?.itens.some((x) =>
-                [
-                  "CERVEJA",
-                  "SUCO",
-                  "REFRIGERANTE",
-                  "REFRI",
-                  "COCA",
-                  "AGUA",
-                  "SUKITA",
-                  "PEPSI",
-                  "ANTÁRCTICA",
-                  "ÁGUA",
-                ].some((y) => (x as IOutro)?.nome?.toUpperCase().includes(y))
-              )
-            ) {
-              router.push("/pedido/informacoes-adicionais");
-            } else {
-              askIfCustomerWantsDrink();
+        <div className="menu">
+          <Carousel
+            length={items.length}
+            defaultSelectedIndex={
+              promosCarregadas
+                ? getDuasRefri60() || getGrande29()
+                  ? 2
+                  : undefined
+                : undefined
             }
-          },
-          disabled: (myOrder?.itens?.length ?? 0) < 1,
-        }}
-      />
-      {showModal && (
-        <Modal label="Adicionar bebida? 🍹🍻" type={"custom"}>
-          <Cards
-            items={[
-              {
-                id: "n",
-                label: "Sem bebida",
-                image: "/images/card-sem-bebida.png",
-                click: () => {
-                  router.push("/pedido/informacoes-adicionais");
+          >
+            {items.map((item, index) => (
+              <CarouselItem
+                key={item.route}
+                image={{ src: item.image, w: 100 }}
+                title={item.name}
+                route={item.route}
+                index={index}
+              />
+            ))}
+          </Carousel>
+        </div>
+        <Dots items={items} />
+        <BottomControls
+          secondaryButton={{
+            click: () => router.push("/pedido/itens"),
+            disabled: (myOrder?.itens?.length ?? 0) < 1,
+            text: "MEUS ITENS",
+            badge: myOrder?.itens?.length,
+          }}
+          primaryButton={{
+            click: () => {
+              console.log(myOrder?.itens);
+              if (
+                myOrder?.itens.some((x) =>
+                  [
+                    "CERVEJA",
+                    "SUCO",
+                    "REFRIGERANTE",
+                    "REFRI",
+                    "COCA",
+                    "AGUA",
+                    "SUKITA",
+                    "PEPSI",
+                    "ANTÁRCTICA",
+                    "ÁGUA",
+                  ].some((y) => (x as IOutro)?.nome?.toUpperCase().includes(y))
+                )
+              ) {
+                router.push("/pedido/informacoes-adicionais");
+              } else {
+                askIfCustomerWantsDrink();
+              }
+            },
+            disabled: (myOrder?.itens?.length ?? 0) < 1,
+          }}
+        />
+        {showModal && (
+          <Modal label="Adicionar bebida? 🍹🍻" type={"custom"}>
+            <Cards
+              items={[
+                {
+                  id: "n",
+                  label: "Sem bebida",
+                  image: "/images/card-sem-bebida.png",
+                  click: () => {
+                    router.push("/pedido/informacoes-adicionais");
+                  },
                 },
-              },
-              {
-                id: "a",
-                label: "Quero bebida",
-                image: "/images/card-com-bebida.png",
-                click: () => {
-                  router.push("/pedido/bebida");
+                {
+                  id: "a",
+                  label: "Quero bebida",
+                  image: "/images/card-com-bebida.png",
+                  click: () => {
+                    router.push("/pedido/bebida");
+                  },
                 },
-              },
-            ]}
-          />
-        </Modal>
-      )}
-    </PedidoStyle>
+              ]}
+            />
+          </Modal>
+        )}
+      </PedidoStyle>
+    )
   );
 };
 
