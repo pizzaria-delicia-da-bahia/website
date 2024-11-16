@@ -17,7 +17,7 @@ import { usePromo } from "@context/promoContext";
 import { Cards } from "@components/modalCards";
 
 const Pedido: NextPage = () => {
-  const { getKids, getDuasRefri60, promosCarregadas } = usePromo();
+  const { getKids, getDuasRefri60, getGrande29, promosCarregadas } = usePromo();
 
   const getItems = () => {
     return [
@@ -35,6 +35,11 @@ const Pedido: NextPage = () => {
         name: "",
         route: "pedido/promocao-dia-das-criancas",
         image: "/images/kids.png",
+      },
+      getGrande29() && {
+        name: "",
+        route: "pedido/promocao-grande-2999",
+        image: "/images/promocao-grande-2999.png",
       },
       getDuasRefri60() && {
         name: "",
