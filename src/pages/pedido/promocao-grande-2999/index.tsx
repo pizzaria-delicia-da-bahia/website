@@ -48,7 +48,7 @@ const Sabores: NextPage = () => {
   const comCoca = false; //getDuasRefri60();
   const comGoob = comCoca ? false : false; //getDuasRefri60();
 
-  const valorSaborFixo = comCoca ? 26.5 : comGoob ? 29.99 : 29.99;
+  const valorSaborFixo = comCoca ? 26.5 : comGoob ? 30 : 30;
 
   const [search, setSearch] = useState<string>("");
   const inputRef = createRef<HTMLInputElement>();
