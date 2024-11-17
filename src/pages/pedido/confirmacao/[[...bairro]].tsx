@@ -230,8 +230,10 @@ NÃO INFORMADO.
     };
 
     const whatsAppLink = encodeURI(
-      `https://api.whatsapp.com/send?${
-        env.whatsapp ? `phone=${env.whatsapp}&` : ""
+      // `https://api.whatsapp.com/send?${
+      `https://wa.me/${
+        env.whatsapp ? `${env.whatsapp}?` : ""
+        // env.whatsapp ? `phone=${env.whatsapp}&` : ""
       }text=${`${customer.replace(/;/g, "*")}`}${
         address.replace(" ", "").length
           ? `

@@ -1,5 +1,5 @@
 import { GetServerSideProps, NextPage } from "next";
-import React, { useEffect, useState } from "react";
+import React, { createRef, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import {
   IPizzaSabor,
@@ -8,7 +8,7 @@ import {
   IPizzaTamanho,
 } from "@models/pizza";
 import { IPizza } from "@models/item";
-import { formatCurrency, getValueString } from "@util/format";
+import { formatCurrency, getValueString, removeAccents } from "@util/format";
 import { Sabor } from "@components/cardapio/sabor";
 import { SaboresStyle } from "@styles/pages/pedido/pizza/sabores/styles";
 import { useMyOrder } from "@context/myOrderContext";
@@ -26,6 +26,7 @@ import Modal from "@components/modal";
 import { toast } from "react-toastify";
 import { usePromo } from "@context/promoContext";
 import { IOutro } from "@models/outro";
+import { Searchbar } from "@styles/components/Searchbar";
 
 const Sabores: NextPage<{ tamanhoId: string }> = ({ tamanhoId }) => {
   const router = useRouter();
@@ -89,32 +90,52 @@ const Sabores: NextPage<{ tamanhoId: string }> = ({ tamanhoId }) => {
     );
   };
 
-  const getGroups = (g: IPizzaGrupo) => (
-    <div className="group" key={g.nome}>
-      <h2 className="group-name">{g.nome}</h2>
-      <div className="group-flavours">
-        {g.sabores.map((s) => (
-          <Sabor
-            key={s.id}
-            nome={s.nome}
-            ingredientes={s.ingredientes}
-            valuesString={getAllValues(s.valores)}
-            showCheckBox={true}
-            active={s.disponivel}
-            checked={!!checkedList.find((x) => x.nome === s.nome)}
-            setChecked={(value) => {
-              value
-                ? size.maxSabores > checkedList.length &&
-                  setCheckedList((prev) => [...prev, s])
-                : setCheckedList((prev) => {
-                    return prev.filter((x) => x.nome !== s.nome);
-                  });
-            }}
-          />
-        ))}
+  const [search, setSearch] = useState<string>("");
+  const inputRef = createRef<HTMLInputElement>();
+  const [userClicked, setUserClicked] = useState(false);
+
+  const getGroups = (g: IPizzaGrupo) => {
+    const sabores = g.sabores.filter((x) =>
+      search.length
+        ? removeAccents(`${x.nome} ${x.ingredientes.join(" ")}`)
+            .toLowerCase()
+            .includes(removeAccents(search).toLowerCase())
+        : true
+    );
+    return !sabores.length ? (
+      <></>
+    ) : (
+      <div className="group" key={g.nome}>
+        <h2 className="group-name">{g.nome}</h2>
+        <div className="group-flavours">
+          {sabores.map((s) => (
+            <Sabor
+              key={s.id}
+              nome={s.nome}
+              ingredientes={s.ingredientes}
+              valuesString={getAllValues(s.valores)}
+              showCheckBox={true}
+              active={s.disponivel}
+              checked={!!checkedList.find((x) => x.nome === s.nome)}
+              setChecked={(value) => {
+                value
+                  ? size.maxSabores > checkedList.length &&
+                    setCheckedList((prev) => [...prev, s])
+                  : setCheckedList((prev) => {
+                      return prev.filter((x) => x.nome !== s.nome);
+                    });
+
+                if (userClicked) {
+                  setSearch("");
+                  inputRef?.current?.focus();
+                }
+              }}
+            />
+          ))}
+        </div>
       </div>
-    </div>
-  );
+    );
+  };
   const getSaborValor = (s) => {
     const value = s.valores.find((v) => v.tamanhoId === size.id).valor;
     return value;
@@ -201,6 +222,14 @@ const Sabores: NextPage<{ tamanhoId: string }> = ({ tamanhoId }) => {
           <TextContainer
             title="SABORES"
             subtitle={size && `SELECIONE ATÉ ${size.maxSabores}`}
+          />
+          <Searchbar
+            value={search}
+            setValue={setSearch}
+            placeholder="Procure por um sabor ou ingrediente..."
+            ref={inputRef}
+            userClicked={userClicked}
+            setUserClicked={setUserClicked}
           />
           <div className="groups">
             <aside className="groups-left">

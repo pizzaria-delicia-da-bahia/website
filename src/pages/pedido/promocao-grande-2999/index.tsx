@@ -1,5 +1,5 @@
 import { GetServerSideProps, NextPage } from "next";
-import { useEffect, useState } from "react";
+import { createRef, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import {
   IPizzaSabor,
@@ -7,7 +7,7 @@ import {
   IPizzaSaborValor,
   IPizzaTamanho,
 } from "@models/pizza";
-import { formatCurrency, getValueString } from "@util/format";
+import { formatCurrency, getValueString, removeAccents } from "@util/format";
 import { IItem, IPizza } from "@models/item";
 import { IOutro } from "@models/outro";
 import { Sabor } from "@components/cardapio/sabor";
@@ -26,6 +26,7 @@ import BottomControls from "@components/pedido/bottomControls";
 import { toast } from "react-toastify";
 import Modal from "@components/modal";
 import { usePromo } from "@context/promoContext";
+import { Searchbar } from "@styles/components/Searchbar";
 
 const tamanhoId = "656a0b4781f555282573eb4a";
 
@@ -48,6 +49,10 @@ const Sabores: NextPage = () => {
   const comGoob = comCoca ? false : false; //getDuasRefri60();
 
   const valorSaborFixo = comCoca ? 26.5 : comGoob ? 29.99 : 29.99;
+
+  const [search, setSearch] = useState<string>("");
+  const inputRef = createRef<HTMLInputElement>();
+  const [userClicked, setUserClicked] = useState(false);
 
   useEffect(() => {
     if (promosCarregadas) {
@@ -145,31 +150,48 @@ const Sabores: NextPage = () => {
     loadAll();
   }, []);
 
-  const getGroups = (g: IPizzaGrupo) => (
-    <div className="group" key={g.nome}>
-      <h2 className="group-name">{g.nome}</h2>
-      <div className="group-flavours">
-        {g.sabores.map((s) => (
-          <Sabor
-            key={s.id}
-            nome={s.nome}
-            ingredientes={s.ingredientes}
-            showCheckBox={true}
-            active={s.disponivel}
-            checked={!!checkedList.find((x) => x.nome === s.nome)}
-            setChecked={(value) => {
-              value
-                ? 2 > checkedList.length &&
-                  setCheckedList((prev) => [...prev, s])
-                : setCheckedList((prev) => {
-                    return prev.filter((x) => x.nome !== s.nome);
-                  });
-            }}
-          />
-        ))}
+  const getGroups = (g: IPizzaGrupo) => {
+    const sabores = g.sabores.filter((x) =>
+      search.length
+        ? removeAccents(`${x.nome} ${x.ingredientes.join(" ")}`)
+            .toLowerCase()
+            .includes(removeAccents(search).toLowerCase())
+        : true
+    );
+
+    return !sabores.length ? (
+      <></>
+    ) : (
+      <div className="group" key={g.nome}>
+        <h2 className="group-name">{g.nome}</h2>
+        <div className="group-flavours">
+          {sabores.map((s) => (
+            <Sabor
+              key={s.id}
+              nome={s.nome}
+              ingredientes={s.ingredientes}
+              showCheckBox={true}
+              active={s.disponivel}
+              checked={!!checkedList.find((x) => x.nome === s.nome)}
+              setChecked={(value) => {
+                value
+                  ? 2 > checkedList.length &&
+                    setCheckedList((prev) => [...prev, s])
+                  : setCheckedList((prev) => {
+                      return prev.filter((x) => x.nome !== s.nome);
+                    });
+
+                if (userClicked) {
+                  setSearch("");
+                  inputRef?.current?.focus();
+                }
+              }}
+            />
+          ))}
+        </div>
       </div>
-    </div>
-  );
+    );
+  };
   const getSaborValor = (s) => {
     return valorSaborFixo;
   };
@@ -221,6 +243,14 @@ const Sabores: NextPage = () => {
       {groups.length && size ? (
         <>
           <TextContainer title="SABORES" subtitle={size && `SELECIONE ATÉ 2`} />
+          <Searchbar
+            value={search}
+            setValue={setSearch}
+            placeholder="Procure por um sabor ou ingrediente..."
+            ref={inputRef}
+            userClicked={userClicked}
+            setUserClicked={setUserClicked}
+          />
           <div className="groups">
             <aside className="groups-left">
               {groups[0].map((g) => getGroups(g))}
