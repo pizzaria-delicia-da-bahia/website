@@ -15,6 +15,8 @@ import { ButtonPrimary, ButtonSecondary } from "@styles/components/buttons";
 import Loading from "@components/loading";
 import { usePromo } from "@context/promoContext";
 import { Cards } from "@components/modalCards";
+import { useNavigation } from "@context/navigationContext";
+import Text from "@components/text";
 
 const Pedido: NextPage = () => {
   const { getKids, getDuasRefri60, getGrande29, promosCarregadas } = usePromo();
@@ -94,6 +96,9 @@ const Pedido: NextPage = () => {
       router.push("/pedido/confirmacao");
     }
   }, [myOrder]);
+
+  const { somenteOndina, showModalSomenteOndina, setShowModalSomenteOndina } =
+    useNavigation();
 
   if (!isLoaded) return <Loading />;
 
@@ -196,6 +201,26 @@ const Pedido: NextPage = () => {
                 },
               ]}
             />
+          </Modal>
+        )}
+
+        {somenteOndina && showModalSomenteOndina && (
+          <Modal
+            label="Área de entrega reduzida!"
+            description={`No momento só estamos entregando nos locais abaixo:`}
+            type={"custom"}
+          >
+            <Text type="description">
+              Ondina, Rio Vermelho, Barra, Av. Vasco da Gama, Av. Garibaldi, Av.
+              Ogunjá, Av. Cardeal da Silva
+            </Text>
+            <ButtonSecondary
+              onClick={() => {
+                setShowModalSomenteOndina(false);
+              }}
+            >
+              Ok, entendi!
+            </ButtonSecondary>
           </Modal>
         )}
       </PedidoStyle>

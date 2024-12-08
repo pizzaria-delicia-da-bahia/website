@@ -16,6 +16,9 @@ import { useRouter } from "next/router";
 const NavigationContext = createContext<{
   menuOpen: Boolean;
   setMenuOpen: Dispatch<SetStateAction<Boolean>>;
+  somenteOndina: Boolean;
+  showModalSomenteOndina: Boolean;
+  setShowModalSomenteOndina: Dispatch<SetStateAction<Boolean>>;
   modalPromo: ReactNode;
   setModalPromo: Dispatch<SetStateAction<ReactNode>>;
 }>(null);
@@ -45,9 +48,21 @@ const NavigationProvider: FC<{ children: ReactNode }> = ({ children }) => {
     );
   }, [promosCarregadas]);
 
+  const somenteOndina = true;
+
+  const [showModalSomenteOndina, setShowModalSomenteOndina] = useState(true);
+
   return (
     <NavigationContext.Provider
-      value={{ menuOpen, setMenuOpen, modalPromo, setModalPromo }}
+      value={{
+        menuOpen,
+        setMenuOpen,
+        modalPromo,
+        setModalPromo,
+        somenteOndina,
+        showModalSomenteOndina,
+        setShowModalSomenteOndina,
+      }}
     >
       {children}
     </NavigationContext.Provider>
