@@ -212,7 +212,7 @@ const Pedido: NextPage = () => {
           >
             <Text type="description">
               Ondina, Rio Vermelho, Barra, Av. Vasco da Gama, Av. Garibaldi, Av.
-              Ogunjá, Av. Cardeal da Silva
+              Ogunjá, Av. Cardeal da Silva e
             </Text>
             <ButtonSecondary
               onClick={() => {
