@@ -19,7 +19,7 @@ const PromoContext = createContext<{
   getBordaGratis: (tamanho: IPizzaTamanho) => boolean;
   getDuasRefri60: () => boolean;
   getGrande29: () => boolean;
-  getGFRefri: () => boolean;
+  getGFRefri: (tamanho: IPizzaTamanho) => boolean;
   getKids: () => boolean;
   promosCarregadas: boolean;
 }>(null);
@@ -128,14 +128,14 @@ const PromoProvider: FC<{ children: ReactNode }> = ({ children }) => {
     return CONDICAO;
   };
 
-  const getGFRefri = () => {
+  const getGFRefri = (tamanho: IPizzaTamanho) => {
     const promo = promos.find((x) => x.nome.includes("gf-refri"));
     console.log(promo, "aaaaaaaaaaaaaaaaaaaaa");
     if (!promo || !promo.ativa) return false;
     const ehDia = getEhDia(promo);
     if (!ehDia) return false;
 
-    const CONDICAO = true;
+    const CONDICAO = tamanho.valorMin >= 36 && tamanho.fatias >= 8;
     return CONDICAO;
   };
 
@@ -162,7 +162,8 @@ const PromoProvider: FC<{ children: ReactNode }> = ({ children }) => {
         getDuasRefri60,
         getGFRefri,
         getKids,
-        getTaxaGratis36,getGrande29,
+        getTaxaGratis36,
+        getGrande29,
         promosCarregadas,
       }}
     >

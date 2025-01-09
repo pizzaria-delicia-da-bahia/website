@@ -7,7 +7,7 @@ import {
   IPizzaSaborValor,
   IPizzaTamanho,
 } from "@models/pizza";
-import { IPizza } from "@models/item";
+import { IItem, IPizza } from "@models/item";
 import { formatCurrency, getValueString, removeAccents } from "@util/format";
 import { Sabor } from "@components/cardapio/sabor";
 import { SaboresStyle } from "@styles/pages/pedido/pizza/sabores/styles";
@@ -27,6 +27,7 @@ import { toast } from "react-toastify";
 import { usePromo } from "@context/promoContext";
 import { IOutro } from "@models/outro";
 import { Searchbar } from "@styles/components/Searchbar";
+import BebidaModal from "@components/bebidaModal";
 
 const Sabores: NextPage<{ tamanhoId: string }> = ({ tamanhoId }) => {
   const router = useRouter();
@@ -38,6 +39,7 @@ const Sabores: NextPage<{ tamanhoId: string }> = ({ tamanhoId }) => {
   const { getBordaGratis, getGFRefri } = usePromo();
 
   const [showModal, setShowModal] = useState<boolean>(false);
+  const [showModalBebida, setShowModalBebida] = useState<boolean>(false);
 
   const [observacao, setObservacao] = useState<string>("");
 
@@ -148,7 +150,7 @@ const Sabores: NextPage<{ tamanhoId: string }> = ({ tamanhoId }) => {
     saborBorda = "Selecione o sabor da borda!",
   }
 
-  const next = () => {
+  const next = (bebida?: IOutro | undefined) => {
     try {
       setNextInactive(true);
       if (getBordaGratis(size) && borda === undefined)
@@ -175,10 +177,17 @@ const Sabores: NextPage<{ tamanhoId: string }> = ({ tamanhoId }) => {
 
       const bordaAtv = getBordaGratis(size);
 
-      console.log("BORDA ATV", getGFRefri());
-
-      if (getGFRefri() && getBordaGratis(size)) {
+      console.log("BORDA ATV", getGFRefri(size));
+      // && getBordaGratis(size)
+      if (getGFRefri(size)) {
         const comboId = uuidv4();
+        const novaBebida = bebida
+          ? {
+              ...bebida,
+              comboId,
+            }
+          : undefined;
+
         // const novaBebida: IOutro = {
         //   id: "672a99e5ae893a18026b6052",
         //   nome: "COCA COLA 600ml",
@@ -192,11 +201,20 @@ const Sabores: NextPage<{ tamanhoId: string }> = ({ tamanhoId }) => {
         //   visivel: false,
         //   comboId,
         // };
-        addItem([
-          { ...novaPizza, valor: novaPizza.valor, comboId },
-          // { ...novaPizza, valor: novaPizza.valor - 5, comboId },
-          // novaBebida,
-        ]);
+        const itens: IItem[] = [
+          {
+            ...novaPizza,
+            valor: novaPizza.valor - (novaBebida?.valor ?? 0),
+            comboId,
+          },
+        ];
+        if (novaBebida) itens.push(novaBebida);
+        addItem(itens);
+        // addItem([
+        //   // { ...novaPizza, valor: novaPizza.valor, comboId },
+        //   { ...novaPizza, valor: (novaPizza.valor - (novaBebida?.valor ?? 0)), comboId },
+        //   novaBebida,
+        // ]);
       } else {
         addItem(novaPizza);
       }
@@ -275,7 +293,11 @@ const Sabores: NextPage<{ tamanhoId: string }> = ({ tamanhoId }) => {
             <>
               <ButtonPrimary
                 onClick={() => {
-                  next();
+                  if (getGFRefri(size)) {
+                    setShowModalBebida(true);
+                  } else {
+                    next();
+                  }
                 }}
               >
                 Pronto!
@@ -331,6 +353,8 @@ const Sabores: NextPage<{ tamanhoId: string }> = ({ tamanhoId }) => {
           )}
         </Modal>
       )}
+
+      {showModalBebida && <BebidaModal next={next} />}
     </SaboresStyle>
   );
 };
