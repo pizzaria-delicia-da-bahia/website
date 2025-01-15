@@ -144,7 +144,9 @@ const Sabores: NextPage<{ tamanhoId: string }> = ({ tamanhoId }) => {
   };
 
   const getValorFormatted = (v: number) =>
-    formatCurrency(Number(Number(v / checkedList.length).toFixed(1)));
+    formatCurrency(
+      Math.ceil(Number(Number(v / checkedList.length).toFixed(1)))
+    );
 
   enum Erros {
     saborBorda = "Selecione o sabor da borda!",
@@ -271,7 +273,7 @@ const Sabores: NextPage<{ tamanhoId: string }> = ({ tamanhoId }) => {
             disabled={nextInactive}
             onClick={() => setShowModal(true)}
           >
-            <p>Pronto! {">>"}</p>
+            <p>Continuar {">>"}</p>
             <b>
               {getValorFormatted(
                 checkedList.reduce((max, curr) => getSaborValor(curr) + max, 0)

@@ -22,6 +22,8 @@ import { usePromo } from "@context/promoContext";
 import { Cards } from "@components/modalCards";
 import { ButtonPrimary, ButtonSecondary } from "@styles/components/buttons";
 import { taxaGratisAteTalHoras } from "@util/promo";
+import Text from "@components/text";
+import axios from "axios";
 interface IData {
   cliente: ICliente;
   tipo: "retirada" | "entrega" | null;
@@ -155,11 +157,11 @@ const InformacoesAdicionais: NextPage = () => {
     }
   };
 
-  const searchCEP = async () => {
+  const searchCEP = async (_cep?: string) => {
     try {
       const enderecos = (await (
         await fetch(
-          `${env.apiURL}/enderecos?cep=${data.cliente.endereco.cep}`,
+          `${env.apiURL}/enderecos?cep=${_cep ?? data.cliente.endereco.cep}`,
           {
             headers: { "Content-Type": "application/json" },
           }
@@ -199,11 +201,44 @@ const InformacoesAdicionais: NextPage = () => {
     }
   }, [showModal, showModalCEP, isDataLoaded]);
 
+  const [loc, setLoc] = useState<
+    { latitude: number; longitude: number } | undefined
+  >();
+  const [locErr, setLocErr] = useState("");
+  const [locLoad, setLocLoad] = useState(false);
+
+  useEffect(() => {
+    if (loc?.latitude) {
+      (async () => {
+        setLocLoad(true);
+        const r = await axios.get(
+          `https://nominatim.openstreetmap.org/reverse?lat=${loc.latitude}&lon=${loc.longitude}&format=json`
+        );
+        const _cep = r?.data?.address?.postcode;
+        if (_cep) {
+          setData((prev) => ({
+            ...prev,
+            cliente: {
+              ...prev.cliente,
+              endereco: {
+                ...prev.cliente.endereco,
+                cep: _cep as string,
+              },
+            },
+          }));
+          await searchCEP(_cep);
+
+          setLocLoad(false);
+        }
+      })();
+    }
+  }, [loc]);
+
   return (
     <>
       {isDataLoaded && isFormUnlocked && (
         <InformacoesAdicionaisStyle>
-          {!neighbourhoods.length ? (
+          {!neighbourhoods.length || locLoad ? (
             <Loading />
           ) : (
             <>
@@ -313,7 +348,7 @@ const InformacoesAdicionais: NextPage = () => {
                               ""
                             ).length !== 8
                           }
-                          onClick={searchCEP}
+                          onClick={async () => await searchCEP()}
                         >
                           🔎
                         </button>
@@ -456,24 +491,6 @@ const InformacoesAdicionais: NextPage = () => {
                     </div>
                   </section>
                 </section>
-                {/* {"geolocation" in navigator && (
-                <button
-                  type="button"
-                  onClick={() => {
-                    navigator.geolocation.getCurrentPosition(function (
-                      position
-                    ) {
-                      console.log("asdasdasdasd", position);
-                      //  toast(
-                      //    `${position.coords.latitude} ${position.coords.longitude}`,
-                      //    { type: "success" }
-                      //  );
-                    });
-                  }}
-                >
-                  Obter localização automaticamente
-                </button>
-              )} */}
               </form>
 
               <BottomControls
@@ -541,6 +558,35 @@ const InformacoesAdicionais: NextPage = () => {
             <>
               <ButtonSecondary
                 onClick={() => {
+                  if (navigator.geolocation) {
+                    setLocLoad(true);
+                    navigator.geolocation.getCurrentPosition(
+                      (x) => {
+                        setLoc({
+                          latitude: x.coords.latitude,
+                          longitude: x.coords.longitude,
+                        });
+                      },
+                      (error) => {
+                        switch (error.code) {
+                          case error.PERMISSION_DENIED:
+                            setLocErr("Permissão negada pelo usuário");
+                            break;
+                          case error.POSITION_UNAVAILABLE:
+                            setLocErr("Localização indisponível");
+                            break;
+                          case error.TIMEOUT:
+                            setLocErr("Tempo para obter localização esgotado!");
+                            break;
+                          default:
+                            setLocErr("Erro desconhecido!");
+                        }
+                      }
+                    );
+                    setLocLoad(false);
+                  } else {
+                    setLocErr("Geolocalização não é suportada pelo navegador!");
+                  }
                   setShowModalCEP(false);
                   setIsFormUnlocked(true);
                 }}
@@ -554,8 +600,8 @@ const InformacoesAdicionais: NextPage = () => {
                   (data?.cliente?.endereco?.cep ?? "").replace(/[^0-9]/g, "")
                     .length !== 8
                 }
-                onClick={() => {
-                  searchCEP();
+                onClick={async () => {
+                  await searchCEP();
                   setShowModalCEP(false);
                   setIsFormUnlocked(true);
                 }}
@@ -591,6 +637,19 @@ const InformacoesAdicionais: NextPage = () => {
               }
             }}
           />
+          {!!locErr && (
+            <Text type={"description"} color="red">
+              {locErr}
+            </Text>
+          )}
+          {/* {!!loc?.latitude && (
+            <MyInput
+              name="sdasad"
+              type="text"
+              value={`lat: ${loc.latitude}, long: ${loc.longitude}`}
+              setValue={() => {}}
+            />
+          )} */}
         </Modal>
       )}
       {/* {showModalWhatsapp && (

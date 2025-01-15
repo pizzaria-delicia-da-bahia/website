@@ -165,7 +165,7 @@ const Sabores: NextPage = () => {
   };
 
   const getValorFormatted = (v: number) =>
-    formatCurrency(v / checkedList.length);
+    formatCurrency(Math.ceil(v / checkedList.length));
 
   const next = () => {
     try {

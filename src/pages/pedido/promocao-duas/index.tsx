@@ -40,6 +40,7 @@ const Sabores: NextPage = () => {
   const { getDuasRefri60, promosCarregadas } = usePromo();
 
   const [showModal, setShowModal] = useState<boolean>(false);
+  const [showModalTuto, setShowModalTuto] = useState<boolean>(true);
 
   const [observacao, setObservacao] = useState<string>("");
   const [comboId] = useState<string>(uuidv4());
@@ -82,6 +83,7 @@ const Sabores: NextPage = () => {
 
       setCheckedList([]);
       setNextInactive(false);
+      setShowModalTuto(true);
     } else if (itensEscolhidos.length === 2) {
       const novaBebida: IOutro | undefined = comCoca
         ? {
@@ -281,12 +283,12 @@ const Sabores: NextPage = () => {
             disabled={nextInactive}
             onClick={() => setShowModal(true)}
           >
-            <p>Pronto! {">>"}</p>
-            <b>
+            <p>Conitinuar {">>"}</p>
+            {/* <b>
               {getValorFormatted(
                 checkedList.reduce((max, curr) => getSaborValor(curr) + max, 0)
               )}
-            </b>
+            </b> */}
           </FloatButton>
         </>
       ) : (
@@ -323,6 +325,28 @@ const Sabores: NextPage = () => {
             }}
           />
         </Modal>
+      )}
+
+      {showModalTuto && (
+        <Modal
+          className="tuto-modal"
+          label={
+            itensEscolhidos.length === 0 ? `PRIMEIRA pizza` : "SEGUNDA pizza"
+          }
+          description={`Selecione até 2 sabores e depois, clique em "Pronto!"`}
+          type={"custom"}
+          buttons={
+            <>
+              <ButtonPrimary
+                onClick={() => {
+                  setShowModalTuto(false);
+                }}
+              >
+                Ok
+              </ButtonPrimary>
+            </>
+          }
+        />
       )}
     </SaboresStyle>
   );

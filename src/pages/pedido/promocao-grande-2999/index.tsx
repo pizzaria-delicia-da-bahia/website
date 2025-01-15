@@ -274,11 +274,11 @@ const Sabores: NextPage = () => {
             onClick={() => setShowModal(true)}
           >
             <p>Pronto! {">>"}</p>
-            <b>
+            {/* <b>
               {getValorFormatted(
                 checkedList.reduce((max, curr) => getSaborValor(curr) + max, 0)
               )}
-            </b>
+            </b> */}
           </FloatButton>
         </>
       ) : (
