@@ -52,13 +52,16 @@ const InformacoesAdicionais: NextPage = () => {
      * new Date("2024-05-14 00:00:00")
      */
 
-    const _ltex = localStorage.getItem("lastExclusion");
-    const lastExclusion = _ltex ? new Date(_ltex) : null;
-    const customer =
-      !lastExclusion || lastExclusion < new Date("2024-05-14 00:00:00")
-        ? null
-        : (JSON.parse(localStorage.getItem("customer")) as ICliente) ?? null;
-
+    let customer = null;
+    const isDev = localStorage.getItem("dev");
+    if (!isDev) {
+      const _ltex = localStorage.getItem("lastExclusion");
+      const lastExclusion = _ltex ? new Date(_ltex) : null;
+      customer =
+        !lastExclusion || lastExclusion < new Date("2024-05-14 00:00:00")
+          ? null
+          : (JSON.parse(localStorage.getItem("customer")) as ICliente) ?? null;
+    }
     setData({
       cliente: {
         nome: customer?.nome ?? "",
@@ -74,6 +77,7 @@ const InformacoesAdicionais: NextPage = () => {
       },
       tipo: null,
     });
+
     setIsDataLoaded(true);
   };
 
@@ -99,6 +103,7 @@ const InformacoesAdicionais: NextPage = () => {
 
   useEffect(() => {
     getNeighbourhoods();
+
     getCustomerFromLocalStorage();
   }, []);
 
