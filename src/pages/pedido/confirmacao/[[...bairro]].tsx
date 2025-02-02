@@ -263,7 +263,8 @@ NÃO INFORMADO.
       setTries((prev) => prev + 1);
       await sendOrder();
       // window.open(whatsAppLink, "_blank");
-      window.open(whatsAppLink, "_self");
+      const isDev = localStorage.getItem("dev");
+      if (!isDev) window.open(whatsAppLink, "_self");
       setLoading(false);
     } catch (err: unknown) {
       if (tries < 3) {
