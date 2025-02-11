@@ -17,8 +17,11 @@ const NavigationContext = createContext<{
   menuOpen: Boolean;
   setMenuOpen: Dispatch<SetStateAction<Boolean>>;
   somenteOndina: Boolean;
+  promoRefriKitkat: Boolean;
   showModalSomenteOndina: Boolean;
   setShowModalSomenteOndina: Dispatch<SetStateAction<Boolean>>;
+  showModalPromoRefriKitkat: Boolean;
+  setShowModalPromoRefriKitkat: Dispatch<SetStateAction<Boolean>>;
   modalPromo: ReactNode;
   setModalPromo: Dispatch<SetStateAction<ReactNode>>;
 }>(null);
@@ -49,8 +52,11 @@ const NavigationProvider: FC<{ children: ReactNode }> = ({ children }) => {
   }, [promosCarregadas]);
 
   const somenteOndina = false;
+  const promoRefriKitkat = true;
 
   const [showModalSomenteOndina, setShowModalSomenteOndina] = useState(true);
+  const [showModalPromoRefriKitkat, setShowModalPromoRefriKitkat] =
+    useState(true);
 
   return (
     <NavigationContext.Provider
@@ -62,6 +68,10 @@ const NavigationProvider: FC<{ children: ReactNode }> = ({ children }) => {
         somenteOndina,
         showModalSomenteOndina,
         setShowModalSomenteOndina,
+
+        promoRefriKitkat,
+        showModalPromoRefriKitkat,
+        setShowModalPromoRefriKitkat,
       }}
     >
       {children}
