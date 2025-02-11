@@ -48,7 +48,7 @@ const NavigationProvider: FC<{ children: ReactNode }> = ({ children }) => {
     );
   }, [promosCarregadas]);
 
-  const somenteOndina = true;
+  const somenteOndina = false;
 
   const [showModalSomenteOndina, setShowModalSomenteOndina] = useState(true);
 
