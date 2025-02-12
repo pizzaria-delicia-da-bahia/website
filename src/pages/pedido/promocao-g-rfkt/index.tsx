@@ -242,7 +242,9 @@ const Sabores: NextPage = () => {
         valor: valorSaborFixo,
         sabores: checkedList,
         tamanho: size,
-        observacao: [(observacao ?? "").trim()].filter(Boolean).join(", "),
+        observacao: [(observacao ?? "").trim(), "PROMOCIONAL"]
+          .filter(Boolean)
+          .join(", "),
         id: uuidv4(),
       };
 

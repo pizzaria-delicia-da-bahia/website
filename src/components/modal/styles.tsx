@@ -35,6 +35,7 @@ export const ModalStyle = styled.div`
     position: relative;
     transition: all 0.5s ease-out;
     animation: ${animations.showDown} 0.8s ease-in-out;
+    min-height: 50svh;
 
     footer {
       position: relative;

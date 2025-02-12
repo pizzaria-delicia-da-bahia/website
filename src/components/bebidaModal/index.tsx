@@ -2,7 +2,7 @@ import { NextPage } from "next";
 import { useEffect, useState } from "react";
 import { BebidaStyle } from "./styles";
 import { useMyOrder } from "@context/myOrderContext";
-import { ButtonSecondary } from "@styles/components/buttons";
+import { ButtonPrimary, ButtonSecondary } from "@styles/components/buttons";
 import { IOutro } from "@models/outro";
 import ItemQuantityModal from "@components/itemQuantityModal";
 import { formatCurrency } from "@util/format";
@@ -76,78 +76,110 @@ const BebidaModal = ({
   const replaceType = (name: string) => {
     return name.replace(/(REFRIGERANTE|CERVEJA) /g, "");
   };
+
+  const [modalTemCtz, setModalTemCtz] = useState(false);
+
   return (
-    <Modal
-      className="bebida-modal"
-      label="Você ganhou uma bebida grátis!"
-      description={`Selecione uma das opções abaixo`}
-      type={"custom"}
-      buttons={
-        <>
-          {/* <ButtonPrimary
+    <>
+      <Modal
+        className="bebida-modal"
+        label="Você ganhou uma bebida grátis!"
+        description={`Selecione uma das opções abaixo`}
+        type={"custom"}
+        buttons={
+          <>
+            {/* <ButtonPrimary
                 onClick={() => {
                   next();
                 }}
-              >
+                >
                 Pronto!
               </ButtonPrimary> */}
-          <ButtonSecondary
-            onClick={() => {
-              next(undefined);
-            }}
-          >
-            ❌ Não quero bebida grátis
-          </ButtonSecondary>
-        </>
-      }
-    >
-      <BebidaStyle>
-        {bebidas.length ? (
-          <>
-            <div className="menu">
-              <ul>
-                {bebidas
-                  .filter((x) => x.visivel)
-                  .map((bebida) => (
-                    <li
-                      key={bebida.nome}
-                      className={`${
-                        !bebida.disponivel ? "disabled" : undefined
-                      }`}
-                      onClick={() => selectItem(bebida)}
-                    >
-                      <div className="left">
-                        <Image
-                          loader={() => bebida.imagemUrl}
-                          src={bebida.imagemUrl}
-                          layout="fill"
-                        />
-                      </div>
+            <ButtonSecondary
+              onClick={() => {
+                setModalTemCtz(true);
+              }}
+            >
+              ❌ Não quero bebida grátis
+            </ButtonSecondary>
+          </>
+        }
+      >
+        <BebidaStyle>
+          {bebidas.length ? (
+            <>
+              <div className="menu">
+                <ul className="bebidas">
+                  {bebidas
+                    .filter((x) => x.visivel)
+                    .map((bebida) => (
+                      <li
+                        key={bebida.nome}
+                        className={`${
+                          !bebida.disponivel ? "disabled" : undefined
+                        }`}
+                        onClick={() => selectItem(bebida)}
+                      >
+                        <div className="left">
+                          <Image
+                            loader={() => bebida.imagemUrl}
+                            src={bebida.imagemUrl}
+                            layout="fill"
+                          />
+                        </div>
 
-                      <div className="right">
-                        <h5 className="title">
-                          {replaceType(bebida.nome.toUpperCase())}
-                        </h5>
-                        {/* <p className="value">{formatCurrency(bebida.valor)}</p> */}
-                      </div>
-                    </li>
-                  ))}
-              </ul>
-              {/* <ItemQuantityModal
+                        <div className="right">
+                          <h5 className="title">
+                            {replaceType(bebida.nome.toUpperCase())}
+                          </h5>
+                          {/* <p className="value">{formatCurrency(bebida.valor)}</p> */}
+                        </div>
+                      </li>
+                    ))}
+                </ul>
+                {/* <ItemQuantityModal
               item={selectedItem}
               value={quantity}
               setValue={setQuantity}
               showModal={showQuantityModal}
               confirm={() => confirmQuantity(selectedItem)}
               cancel={cancelQuantity}
-            /> */}
-            </div>
-          </>
-        ) : (
-          <Loading />
-        )}
-      </BebidaStyle>
-    </Modal>
+              /> */}
+              </div>
+            </>
+          ) : (
+            <Loading />
+          )}
+        </BebidaStyle>
+      </Modal>
+      {modalTemCtz && (
+        <Modal
+          className="tem-ctz-modal"
+          label="Tem certeza que não quer bebida?"
+          description={`O valor continuará o mesmo`}
+          type={"custom"}
+          buttons={
+            <>
+              <ButtonPrimary
+                onClick={() => {
+                  setModalTemCtz(false);
+                }}
+              >
+                ❇️ Quero a bebida grátis
+              </ButtonPrimary>
+              <ButtonSecondary
+                onClick={() => {
+                  setModalTemCtz(false);
+                  next(undefined);
+                }}
+              >
+                ❌ Não quero bebida grátis
+              </ButtonSecondary>
+            </>
+          }
+        />
+      )}
+    </>
   );
 };
 

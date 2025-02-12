@@ -4,8 +4,8 @@ import { breakpointsMQ, hover } from "@styles/mediaQueries";
 import { sizes } from "@styles/sizes";
 
 export const BebidaStyle = styled.main`
-  height: 50svh;
-  width: 75svw;
+  min-height: 50svh;
+  min-width: 75svw;
   /* display: flex;
   flex-direction: column; */
   /* padding: 2rem 0.3rem 10rem 0.3rem; */
@@ -23,6 +23,9 @@ export const BebidaStyle = styled.main`
   position: relative;
   color: #000;
   text-align: left;
+  flex-shrink: 0;
+  min-height: 50svh;
+  flex-grow: 1;
 
   > .menu {
     flex-grow: 1;
@@ -30,20 +33,20 @@ export const BebidaStyle = styled.main`
     width: 100%;
     /* margin-bottom: 50px; */
     position: relative;
-
     ul {
       list-style: none;
       display: flex;
       flex-direction: column;
       grid-template-columns: 1fr 1fr;
       grid-auto-rows: max-content;
-      position: absolute;
+      /* position: absolute; */
       padding: 0.2rem;
       height: 100%;
       width: 100%;
       overflow: auto;
       gap: 10px;
       padding: 10px;
+
       li {
         padding: 0.5rem;
         background-color: ${colors.elements};
