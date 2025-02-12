@@ -157,11 +157,13 @@ const Sabores: NextPage<{ tamanhoId: string }> = ({ tamanhoId }) => {
       setNextInactive(true);
       if (getBordaGratis(size) && borda === undefined)
         throw new Error(Erros.saborBorda);
-      const midValue = Number(
+      const midValue = Math.ceil(
         Number(
-          checkedList.reduce((max, curr) => getSaborValor(curr) + max, 0) /
-            checkedList.length
-        ).toFixed(1)
+          Number(
+            checkedList.reduce((max, curr) => getSaborValor(curr) + max, 0) /
+              checkedList.length
+          ).toFixed(1)
+        )
       );
       const novaPizza: IPizza = {
         tipo: "PIZZA",
